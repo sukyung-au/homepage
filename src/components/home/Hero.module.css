@@ -1,25 +1,30 @@
-.hero{position:relative;min-height:940px;background:var(--ex-bg);overflow:hidden}
-.visual{position:absolute;top:0;right:0;bottom:0;width:64%}
-.photo{position:absolute;left:0;right:0;top:0;height:60%}
-.strata{position:absolute;left:0;right:0;top:60%;bottom:0}
-.seaLevel{position:absolute;left:24px;top:60%;transform:translateY(-50%);background:#fff;border-radius:999px;padding:6px 12px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ex-navy);display:flex;gap:8px;align-items:center;line-height:1.47}
-.seaLevel::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ex-cyan)}
-.ruler{position:absolute;right:36px;top:64%;bottom:6%}
+/* Photo hero. --hero-field is the deep navy the photo fades into (matches the photo's dusk sea). */
+.hero{--hero-field:#0E1830;position:relative;min-height:940px;background:var(--hero-field);overflow:hidden;color:#fff}
+
+/* Photo layer: right side, full height. The left edge is masked into the navy field (the pixels themselves are untouched). */
+.visual{position:absolute;top:0;right:0;bottom:0;width:70%;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 26%);mask-image:linear-gradient(90deg,transparent 0,#000 26%)}
+/* Platform sits at ~35–90% x, ~35–73% y of the portrait photo: keep the derrick and deck in frame */
+.photo{object-fit:cover;object-position:62% 60%}
+
+/* Very soft navy gradient behind the copy only (left side) */
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(14,24,48,0.55) 0%,rgba(14,24,48,0.28) 38%,rgba(14,24,48,0) 60%);pointer-events:none}
+
 .copy{position:relative;z-index:2;padding:200px var(--gutter-page) 120px;max-width:900px}
-.copy .eyebrow{color:var(--ex-muted);font-weight:600}
-.title{font-family:var(--font-editorial);font-size:var(--type-editorial-xl);font-weight:300;line-height:0.92;letter-spacing:-0.025em;text-transform:uppercase;margin:32px 0 0;color:var(--ex-navy)}
-.tagline{font-family:var(--font-editorial);font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-0.01em;margin:36px 0 0;color:var(--ex-navy)}
-.copy .lede{max-width:380px}
+.copy .eyebrow{color:rgba(255,255,255,0.72);font-weight:600}
+.title{font-family:var(--font-editorial);font-size:var(--type-editorial-xl);font-weight:300;line-height:0.92;letter-spacing:-0.025em;text-transform:uppercase;margin:32px 0 0;color:#fff}
+.tagline{font-family:var(--font-editorial);font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-0.01em;margin:36px 0 0;color:#fff}
+.copy .lede{max-width:380px;color:rgba(255,255,255,0.8)}
 .cta{margin-top:44px}
 
-/* Below tablet landscape the copy and the visual can no longer sit side by side: stack them. */
+/* Below tablet landscape: copy first, then the photo underneath, faded in from the navy above. */
 @media (max-width:899px){
   .hero{min-height:0;display:flex;flex-direction:column}
-  .copy{padding:140px var(--gutter-page) 72px}
-  .visual{position:relative;width:auto;height:640px;order:2}
+  .copy{padding:140px var(--gutter-page) 32px}
+  .scrim{display:none}
+  .visual{position:relative;width:auto;height:auto;aspect-ratio:800 / 934;max-height:720px;order:2;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 18%);mask-image:linear-gradient(180deg,transparent 0,#000 18%)}
+  .photo{object-position:62% 62%}
 }
 @media (max-width:640px){
   .title{font-size:44px}
   .tagline{font-size:24px}
-  .visual{height:520px}
 }
