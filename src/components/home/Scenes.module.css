@@ -66,9 +66,9 @@
 /* 03 Development — the FDP convergence diagram */
 .aside{flex:0 1 360px;font-family:var(--font-kr);font-size:15px;line-height:1.7;color:var(--ex-muted);margin:0;padding-left:16px;border-left:2px solid var(--ex-blue)}
 .aside span{display:block;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue);margin-bottom:6px}
-.fdp{width:100%;max-width:1360px;margin:88px auto 0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(56px,110px) minmax(0,1fr) minmax(48px,90px) minmax(0,1fr);align-items:stretch}
+.fdp{width:100%;max-width:1360px;margin:40px auto 0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(56px,110px) minmax(0,1fr) minmax(48px,90px) minmax(0,1fr);align-items:stretch}
 .disciplines,.outcomes{list-style:none;padding:0;margin:0;display:flex;flex-direction:column}
-.disciplines li{flex:1;display:grid;grid-template-columns:32px 1fr;column-gap:10px;align-content:center;padding:10px 0;border-top:1px solid var(--ex-line)}
+.disciplines li{flex:1;display:grid;grid-template-columns:32px 1fr;column-gap:10px;align-content:center;padding:6px 0;border-top:1px solid var(--ex-line)}
 .disciplines li:last-child{border-bottom:1px solid var(--ex-line)}
 .discName{font-family:var(--font-editorial);font-size:15px;font-weight:600;color:var(--ex-navy)}
 .discSub{grid-column:2;font-family:var(--font-kr);font-size:13px;color:var(--ex-muted)}

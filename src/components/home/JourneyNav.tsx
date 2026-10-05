@@ -8,8 +8,8 @@ const ANCHOR_GAP = 12;
 
 /**
  * Jump to a stage. By default the scene's top aligns with the viewport top. A scene can mark its key block
- * with [data-nav-anchor] (e.g. the FDP diagram): if that block fits above the rail, the jump lands so the
- * block ends just above the rail — scrolling past the scene top only as far as needed.
+ * with [data-nav-anchor] (e.g. the FDP diagram): the jump then scrolls just far enough for that block to end
+ * above the rail — but never so far that the scene title (h2) leaves the top of the viewport.
  */
 function scrollToStage(i: number) {
   const sec = document.getElementById(sceneId(STAGES[i].id));
@@ -20,6 +20,8 @@ function scrollToStage(i: number) {
   if (anchor && rail) {
     const a = anchor.getBoundingClientRect(), limit = rail.getBoundingClientRect().top - ANCHOR_GAP;
     if (a.height <= limit) top = Math.max(top, a.bottom + window.scrollY - limit);
+    const title = sec.querySelector("h2");
+    if (title) top = Math.min(top, title.getBoundingClientRect().top + window.scrollY - ANCHOR_GAP);
   }
   window.scrollTo({ top, behavior: "smooth" });
 }
