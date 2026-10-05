@@ -1,7 +1,5 @@
 "use client";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowRight } from "lucide-react";
-import b from "./bottomNav.module.css";
+import { useEffect, useRef, type CSSProperties } from "react";
 import s from "./StageNav.module.css";
 
 export interface StageNavItem {
@@ -15,76 +13,45 @@ export interface StageNavProps {
   /** Index of the current stage */
   current?: number;
   onSelect?: (index: number) => void;
-  cta?: string;
-  onCta?: () => void;
-  /** 'fixed' on pages (16px from bottom); 'relative' in previews */
+  /** 'fixed' on pages (floating above the bottom edge); 'relative' in previews */
   position?: "fixed" | "relative";
-  /** Max number of stages shown in the middle window */
-  windowSize?: number;
   style?: CSSProperties;
 }
 
 /**
- * Sticky bottom navigation showing where the reader is in the development journey.
- * Current stage on the left, a sliding stage window in the middle, progress pips + CTA on the right.
+ * Slim floating rail showing every journey stage in one row. The current stage is marked with blue
+ * text and a thin blue indicator line. On narrow screens the rail scrolls horizontally and keeps the
+ * current stage in view.
  */
-export function StageNav({ stages, current = 0, onSelect, cta = "Explore the Journey", onCta, position = "fixed", windowSize = 5, style }: StageNavProps) {
-  const box = useRef<HTMLDivElement>(null);
-  const [ws, setWs] = useState(windowSize);
+export function StageNav({ stages, current = 0, onSelect, position = "fixed", style }: StageNavProps) {
+  const rail = useRef<HTMLDivElement>(null);
 
+  // Keep the current stage visible when the rail is scrollable (mobile) — horizontal only.
   useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    const ro = new ResizeObserver(() => setWs(Math.max(1, Math.min(windowSize, Math.floor(el.clientWidth / 150)))));
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, [windowSize]);
-
-  const cur = stages[current];
-  const n = stages.length;
-  const start = Math.max(0, Math.min(current - (ws > 2 ? 1 : 0), n - ws));
-  const vis = stages.slice(start, start + ws);
+    const el = rail.current;
+    const item = el?.children[current] as HTMLElement | undefined;
+    if (!el || !item || el.scrollWidth <= el.clientWidth) return;
+    el.scrollTo({ left: item.offsetLeft - (el.clientWidth - item.offsetWidth) / 2, behavior: "smooth" });
+  }, [current]);
 
   return (
-    <nav aria-label="Development stages" className={position === "fixed" ? `${b.nav} ${b.fixed}` : b.nav} style={{ position, ...style }}>
-      <div className={b.inner}>
-        <div className={`${b.shell} ${b.bar}`}>
-          <div className={b.current}>
-            <span className={b.badge} />
-            <div className={b.currentText}>
-              <span className={b.kicker}>Current Stage</span>
-              <span className={b.currentLabel} aria-live="polite">
-                <span className={b.num}>{cur?.num}</span>
-                {cur?.label}
-                <ArrowRight size={14} aria-hidden />
-              </span>
-            </div>
-          </div>
-          <span className={b.divider} />
-          <div ref={box} className={b.items} style={{ gridTemplateColumns: `repeat(${vis.length},minmax(0,1fr))` }}>
-            {vis.map((st) => {
-              const i = stages.indexOf(st), on = i === current, past = i < current;
-              const cls = [b.item, on && b.on, past && s.past].filter(Boolean).join(" ");
-              return (
-                <button key={st.id} type="button" className={cls} onClick={() => onSelect?.(i)} aria-current={on ? "step" : undefined}>
-                  <span className={b.itemNum}>{st.num}</span>
-                  <span className={b.itemLabel}>{st.label}</span>
-                </button>
-              );
-            })}
-          </div>
-          <div className={b.end}>
-            <div className={s.pips} aria-hidden>
-              {stages.map((st, i) => (
-                <span key={st.id} className={[s.pip, i < current && s.pipDone, i === current && s.pipOn].filter(Boolean).join(" ")} />
-              ))}
-            </div>
-            <button type="button" className={b.textAction} onClick={onCta}>
-              {cta}
-              <ArrowRight size={14} aria-hidden />
+    <nav aria-label="Development stages" className={position === "fixed" ? `${s.nav} ${s.fixed}` : s.nav} style={style}>
+      <div ref={rail} className={s.rail} data-journey-nav>
+        {stages.map((st, i) => {
+          const on = i === current;
+          return (
+            <button
+              key={st.id}
+              type="button"
+              className={on ? `${s.item} ${s.on}` : s.item}
+              onClick={() => onSelect?.(i)}
+              aria-current={on ? "step" : undefined}
+            >
+              <span className={s.num}>{st.num}</span>
+              <span className={s.label}>{st.label}</span>
             </button>
-          </div>
-        </div>
+          );
+        })}
       </div>
     </nav>
   );

@@ -1,6 +1,32 @@
-.past{border-top-color:rgba(10,92,219,0.35)}
-.pips{display:flex;gap:6px;align-items:center}
-.pip{width:6px;height:6px;border-radius:3px;background:var(--ex-line-strong)}
-.pipDone{background:var(--ex-blue);opacity:0.45}
-.pipOn{width:18px;background:var(--ex-blue)}
-@media (max-width:734px){.pips{display:none}}
+/* Slim floating Journey rail — same white, blurred, rounded chrome as the other floating navs */
+.nav{left:0;right:0;z-index:30;padding:0 var(--gutter-page);display:flex;justify-content:center;pointer-events:none}
+.fixed{position:fixed;bottom:var(--stage-nav-offset)}
+
+.rail{pointer-events:auto;height:var(--journey-nav-h);max-width:100%;display:flex;align-items:stretch;gap:4px;padding:0 8px;background:rgba(255,255,255,0.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--ex-line);border-radius:16px;box-shadow:var(--shadow-float);font-family:var(--font-editorial);line-height:1.2;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+.rail::-webkit-scrollbar{display:none}
+
+.item{all:unset;cursor:pointer;position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:0 16px;white-space:nowrap;color:var(--ex-navy);scroll-snap-align:center;transition:color 160ms}
+.item::after{content:"";position:absolute;left:16px;right:16px;bottom:8px;height:2px;border-radius:1px;background:transparent;transition:background-color 160ms}
+.item:hover{color:var(--ex-blue)}
+.item:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-4px;border-radius:10px}
+.num{font-size:11px;font-variant-numeric:tabular-nums;color:var(--ex-faint)}
+.label{font-size:13px;font-weight:400}
+
+.on,.on .num{color:var(--ex-blue)}
+.on .label{font-weight:600}
+.on::after{background:var(--ex-blue)}
+
+@media (prefers-reduced-motion:reduce){.item,.item::after{transition:none}}
+
+/* Tablet: tighter items so all five still fit without scrolling */
+@media (max-width:900px){.item{padding:0 12px}.item::after{left:12px;right:12px}}
+
+/* Narrow screens: full-width rail that scrolls horizontally; numbers drop to save room */
+@media (max-width:734px){
+  .rail{width:100%;padding:0 4px;border-radius:14px}
+  .item{padding:0 12px;gap:6px}
+  .item::after{left:12px;right:12px;bottom:6px}
+}
+@media (max-width:420px){
+  .num{display:none}
+}

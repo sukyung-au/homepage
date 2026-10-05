@@ -26,14 +26,5 @@ export function JourneyNav() {
     return () => io.disconnect();
   }, []);
 
-  const last = STAGES.length - 1;
-  return (
-    <StageNav
-      stages={STAGES}
-      current={cur}
-      onSelect={scrollToStage}
-      onCta={() => scrollToStage(Math.min(cur + 1, last))}
-      cta={cur < last ? "Next stage" : "Explore the Journey"}
-    />
-  );
+  return <StageNav stages={STAGES} current={cur} onSelect={scrollToStage} />;
 }

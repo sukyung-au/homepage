@@ -1,4 +1,4 @@
-/* Shared chrome for the sticky bottom navigations (StageNav, TechNav) */
+/* Chrome for the sticky bottom TechNav (StageNav has its own slim rail styles) */
 .nav{left:0;right:0;z-index:30;padding:0 var(--gutter-page);pointer-events:none}
 .fixed{position:fixed;bottom:var(--stage-nav-offset)}
 .inner{position:relative;max-width:1360px;margin:0 auto;pointer-events:auto}
