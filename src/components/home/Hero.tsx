@@ -14,7 +14,7 @@ export function Hero() {
       <SiteHeader links={SITE_LINKS} active="journey" />
       <div className={s.visual}>
         <div className={s.photo}>
-          <ImageSlot id="hero-surface" placeholder="Hero photo — offshore platform, open sea, bright sky" priority sizes="64vw" />
+          <ImageSlot id="hero-surface" src="/images/hero-surface.webp" alt="푸른 바다 위의 해양 석유 플랫폼을 표현한 AI 생성 이미지" placeholder="Offshore platform" priority sizes="(max-width: 899px) 100vw, 54vw" objectPosition="65% 50%" />
         </div>
         <div className={s.strata}><TechViz kind="strata" seed={11} label="Geological cross-section below the sea floor" /></div>
         <div className={s.seaLevel}>Sea level · ±0 m</div>
