@@ -1,0 +1,6 @@
+.past{border-top-color:rgba(10,92,219,0.35)}
+.pips{display:flex;gap:6px;align-items:center}
+.pip{width:6px;height:6px;border-radius:3px;background:var(--ex-line-strong)}
+.pipDone{background:var(--ex-blue);opacity:0.45}
+.pipOn{width:18px;background:var(--ex-blue)}
+@media (max-width:734px){.pips{display:none}}

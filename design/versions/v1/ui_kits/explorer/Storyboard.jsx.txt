@@ -1,0 +1,32 @@
+const { TechViz, StageNav, SiteHeader, ArrowCTA, DepthRuler, TextLink, Button, SearchInput } = window.OilGasDevelopmentDesignSystem_dcb6ae;
+const ST=window.OGD_STAGES;
+const DEPTH=[0,0,0.45,0.7,0.8,1,0.75,0.55,0.05,0];
+function Thumb({s}){const m={surface:<image-slot id="sb-surface" shape="rect" placeholder="Coastline / offshore photo"></image-slot>,petroleum:<TechViz kind="strata" seed={5} resolution={0.6}/>,subsurface:<TechViz kind="structure" seed={21}/>,well:<TechViz kind="log" seed={8}/>,seismic:<TechViz kind="seismic" seed={4} resolution={0.7}/>,reservoir:<div style={{background:'#13263D',height:'100%',padding:12}}><TechViz kind="reservoir" seed={3}/></div>,engineering:<div style={{background:'#fff',height:'100%',padding:'8px 4px'}}><TechViz kind="decline" seed={2}/></div>,production:<image-slot id="sb-production" shape="rect" placeholder="FPSO photo"></image-slot>,field:<image-slot id="sb-field" shape="rect" placeholder="Wide field photo"></image-slot>};return <div style={{position:'relative',height:'100%',borderRadius:4,overflow:'hidden',background:s.bg}}>{m[s.id]}</div>;}
+function DepthProfile(){const W=1000,H=120,n=ST.length+1,pts=DEPTH.map((d,i)=>[(i+0.5)*W/n,12+d*(H-24)]);return <div>
+ <div style={{display:'grid',gridTemplateColumns:'repeat('+n+',minmax(0,1fr))',fontFamily:'var(--font-editorial)',fontSize:11,color:'var(--ex-faint)',marginBottom:8}}>{['00 Hero',...ST.map(s=>s.num+' '+s.label)].map(l=><span key={l} style={{padding:'0 4px',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{l}</span>)}</div>
+ <div style={{position:'relative',height:H}}><div style={{position:'absolute',inset:0,display:'grid',gridTemplateColumns:'repeat('+n+',minmax(0,1fr))'}}>{['#F6F8FB',...ST.map(s=>s.bg)].map((b,i)=><span key={i} style={{background:b,borderRight:'1px solid rgba(11,26,44,0.06)'}}></span>)}</div>
+  <svg viewBox={'0 0 '+W+' '+H} preserveAspectRatio="none" style={{position:'absolute',inset:0,width:'100%',height:'100%'}}><polyline points={pts.map(p=>p.join(',')).join(' ')} fill="none" stroke="#0A5CDB" strokeWidth="2" vectorEffect="non-scaling-stroke"/></svg>
+  {pts.map((p,i)=><span key={i} style={{position:'absolute',left:(p[0]/W*100)+'%',top:p[1],width:9,height:9,marginLeft:-4.5,marginTop:-4.5,borderRadius:'50%',background:'#fff',border:'2px solid #0A5CDB'}}></span>)}</div>
+ <div style={{display:'flex',justifyContent:'space-between',fontFamily:'var(--font-kr)',fontSize:12,color:'var(--ex-muted)',marginTop:10}}><span>지표 (0 m) — 밝은 배경</span><span>가장 깊은 지점 — Seismic · Reservoir (navy)</span><span>상승 — 생산 · 개발 (밝은 배경)</span></div></div>;}
+function Row({s}){const lab={fontFamily:'var(--font-editorial)',fontSize:11,fontWeight:600,letterSpacing:'0.12em',textTransform:'uppercase',color:'var(--ex-blue)',marginBottom:6};const txt={fontFamily:'var(--font-kr)',fontSize:14,lineHeight:1.65,color:'var(--ex-navy)',margin:0};
+ return <div style={{display:'grid',gridTemplateColumns:'minmax(180px,1fr) minmax(280px,1.6fr) minmax(320px,2.4fr)',gap:40,padding:'40px 0',borderTop:'1px solid var(--ex-line)',alignItems:'start'}}>
+  <div><div style={{fontFamily:'var(--font-editorial)',fontSize:13,color:'var(--ex-faint)'}}>/ {s.num}</div><div style={{fontFamily:'var(--font-editorial)',fontSize:22,fontWeight:600,margin:'8px 0 6px',color:'var(--ex-navy)'}}>{s.label}</div><div style={{fontFamily:'var(--font-editorial)',fontSize:14,color:'var(--ex-muted)',lineHeight:1.4}}>{s.title}</div><div style={{marginTop:16,fontFamily:'var(--font-editorial)',fontSize:11,color:'var(--ex-faint)'}}>Depth · {s.depth}<br/>Background · {s.bg}</div></div>
+  <div style={{aspectRatio:'16/9'}}><Thumb s={s}/></div>
+  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))',gap:24}}>
+   <div><div style={lab}>In</div><p style={txt}>{s.t.in}</p></div><div><div style={lab}>Hold</div><p style={txt}>{s.t.hold}</p></div><div><div style={lab}>Out → next</div><p style={txt}>{s.t.out}</p></div>
+   <div style={{gridColumn:'1/-1',display:'flex',gap:10,alignItems:'center',fontFamily:'var(--font-editorial)',fontSize:12,color:'var(--ex-muted)'}}><span style={{padding:'4px 10px',borderRadius:999,background:'var(--ex-tint)',color:'var(--ex-blue)',fontWeight:600}}>Persistent</span>{s.t.persist}</div></div>
+ </div>;}
+function StoryboardApp(){return <div style={{background:'var(--ex-bg)'}}>
+ <SiteHeader links={window.OGD_LINKS} active="storyboard" onNavigate={window.OGD_GO} position="relative"/>
+ <section style={{padding:'64px var(--gutter-page) 140px'}}><div style={{maxWidth:1360,margin:'0 auto'}}>
+  <div style={{display:'flex',flexWrap:'wrap',gap:'32px 80px',alignItems:'flex-end',marginBottom:72}}>
+   <div style={{flex:'1 1 480px'}}><div style={{...sceneType.eyebrow,color:'var(--ex-faint)'}}><span style={{fontWeight:600}}>Homepage · Scroll storyboard</span></div><h1 style={{margin:'24px 0 0',fontFamily:'var(--font-editorial)',fontSize:'var(--type-editorial-lg)',fontWeight:300,letterSpacing:'-0.02em',lineHeight:1,color:'var(--ex-navy)'}}>A descent, then an ascent.</h1></div>
+   <p style={{...sceneType.body,flex:'1 1 360px',margin:0,color:'var(--ex-muted)'}}>홈페이지는 지표에서 출발해 가장 깊은 탄성파·저류층 장면까지 내려간 뒤, 생산과 개발로 다시 올라오는 하나의 수직 여정입니다. 아래는 장면별 시각적 관계와 전환 개념이며, 같은 내용이 각 섹션의 data-transition-* 속성에 기록되어 있습니다.</p></div>
+  <DepthProfile/>
+  <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(260px,1fr))',gap:32,margin:'72px 0 24px'}}>{[['StageNav','모든 장면에서 하단 고정. 섹션이 화면 중앙에 오면 현재 단계가 바뀝니다.'],['Depth ruler','히어로 우측의 깊이 게이지. 장면이 바뀔 때 표시 깊이(data-depth)를 따라갑니다.'],['Sea level seam','사진과 지층이 만나는 수평선. 하강의 출발점이자 생산 장면에서 복귀하는 기준선입니다.']].map(([a,b])=><div key={a} style={{borderTop:'2px solid var(--ex-blue)',paddingTop:16}}><div style={{fontFamily:'var(--font-editorial)',fontSize:15,fontWeight:600,color:'var(--ex-navy)'}}>{a}</div><p style={{fontFamily:'var(--font-kr)',fontSize:14,lineHeight:1.65,color:'var(--ex-muted)',margin:'8px 0 0'}}>{b}</p></div>)}</div>
+  {ST.map(s=><Row key={s.id} s={s}/>)}
+ </div></section>
+ <SiteFooter/>
+ <StageNav stages={ST} current={0} onSelect={i=>location.href='index.html#scene-'+ST[i].id} cta="Open homepage" onCta={()=>location.href='index.html'}/>
+</div>;}
+{const __el=document.getElementById('root');if(__el&&__el.dataset.app==='storyboard'&&!__el.__mounted&&window.OilGasDevelopmentDesignSystem_dcb6ae&&window.OilGasDevelopmentDesignSystem_dcb6ae.TechViz!==undefined&&(__el.__mounted=true))ReactDOM.createRoot(__el).render(<StoryboardApp/>);}

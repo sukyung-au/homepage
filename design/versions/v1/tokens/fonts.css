@@ -1,0 +1,4 @@
+/* Substitute: Inter (Google Fonts) stands in for SF Pro Display/Text. On Apple platforms system-ui resolves first. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+/* Korean: Pretendard */
+@font-face{font-family:'Pretendard Variable';font-weight:45 920;font-style:normal;font-display:swap;src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/woff2/PretendardVariable.woff2') format('woff2-variations');}

@@ -1,0 +1,9 @@
+.ruler{display:flex;flex-direction:column;align-items:center;height:100%;gap:10px;font-family:var(--font-editorial);color:var(--ex-navy)}
+.dark{color:rgba(255,255,255,0.85)}
+.label{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;writing-mode:vertical-rl}
+.track{position:relative;flex:1;width:24px;display:flex;flex-direction:column;justify-content:space-between;align-items:center}
+.axis{position:absolute;top:0;bottom:0;left:50%;width:1px;background:currentColor;opacity:0.5}
+.mark{position:relative;display:flex;align-items:center;gap:6px}
+.tick{width:9px;height:1px;background:currentColor}
+.value{position:absolute;left:14px;font-size:10px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.end{width:9px;height:9px;border-radius:50%;border:1px solid currentColor}

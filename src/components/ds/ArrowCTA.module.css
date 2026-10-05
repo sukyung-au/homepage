@@ -1,0 +1,9 @@
+.cta{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:16px;font-family:var(--font-editorial);font-size:14px;font-weight:600;color:var(--ex-navy);transition:transform 200ms}
+.cta:active{transform:scale(0.97)}
+.cta:focus-visible{outline:2px solid var(--focus-ring);outline-offset:4px;border-radius:999px}
+.white{color:#fff}
+.disabled{cursor:default}
+.disabled:active{transform:none}
+.disc{width:48px;height:48px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--ex-navy);color:#fff}
+.blue .disc{background:var(--ex-blue)}
+.white .disc{background:#fff;color:var(--ex-navy)}

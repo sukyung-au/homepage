@@ -1,0 +1,37 @@
+/* Scientific Exploration direction — editorial, bright, blue-led */
+:root{
+--ex-blue:#0A5CDB;          /* Primary — Exploration Blue: CTAs, active stage, links */
+--ex-blue-deep:#0846A8;     /* pressed / text-on-light emphasis */
+--ex-cyan:#12A4D9;          /* Secondary — water, surface, secondary data series */
+--ex-amber:#F29A1F;         /* Accent — hydrocarbon highlight in data only; never UI chrome */
+--ex-navy:#0B1A2C;          /* Neutral — ink, headlines, dark scenes */
+--ex-navy-2:#13263D;        /* dark scene surface */
+--ex-bg:#F6F8FB;            /* page background */
+--ex-white:#FFFFFF;
+--ex-line:#DCE3EC;          /* rules, stage dividers */
+--ex-line-strong:#B9C5D3;
+--ex-muted:#5B6B7E;         /* secondary copy */
+--ex-faint:#8A98A8;         /* captions, indices */
+--ex-tint:#E8F0FB;          /* blue tint for selected / image placeholders */
+/* Data visualization ramp — subsurface property colormap (low → high) */
+--viz-1:#0B1F6B;--viz-2:#1F4FD1;--viz-3:#16A3D8;--viz-4:#3CC48C;--viz-5:#E9D43A;--viz-6:#F29A1F;--viz-7:#D6402B;
+/* Seismic polarity ramp */
+--viz-neg:#1C3F9E;--viz-zero:#F4F1EA;--viz-pos:#B8322A;
+/* Type */
+--font-editorial:var(--font-inter),"Inter","Pretendard Variable","Pretendard",system-ui,sans-serif;
+--font-kr:"Pretendard Variable","Pretendard",var(--font-inter),"Inter",system-ui,sans-serif;
+--type-editorial-xl:clamp(56px,8.4vw,128px); /* hero, light 300, uppercase */
+--type-editorial-lg:clamp(44px,5.6vw,84px);  /* scene titles, light 300 */
+--type-editorial-md:clamp(32px,3.4vw,52px);  /* page H1, regular 400 */
+--type-editorial-lh:0.96;
+--type-editorial-ls:-0.02em;
+--type-eyebrow-size:12px;   /* uppercase, 600 */
+--type-eyebrow-ls:0.16em;
+--type-index-size:13px;     /* stage numbers 01–09, tabular */
+/* Shape & elevation */
+--radius-xl:24px;
+--shadow-float:0 10px 40px rgba(11,26,44,0.10),0 1px 0 rgba(11,26,44,0.04);
+--stage-nav-h:76px;
+--scene-min-h:880px;
+--gutter-page:clamp(20px,4.4vw,72px); /* @kind spacing */
+}
