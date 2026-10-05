@@ -23,7 +23,7 @@ function SurfaceScene() {
         </div>
       </div>
       <div className={s.surfacePhoto}>
-        <ImageSlot id="scene-surface" placeholder="Full-bleed photo — coastline / offshore acreage from above (21:9)" />
+        <ImageSlot id="scene-surface" src="/images/scene-surface.webp" alt="해안 절벽과 해양 탐사 구역의 항공 전경을 표현한 AI 생성 이미지" placeholder="Coastal exploration area" />
         <div className={s.rule} style={{ bottom: 0 }} />
       </div>
     </Scene>
@@ -190,8 +190,8 @@ function ProductionScene() {
   return (
     <Scene stage={st}>
       <div className={ss.wrap}>
-        <div className={cx(s.visual, s.bleedLeft)} style={{ height: 640 }}>
-          <ImageSlot id="scene-production" placeholder="Photo — FPSO / production facility at sea" sizes="(max-width: 900px) 100vw, 60vw" />
+        <div className={cx(s.visual, s.bleedLeft, s.productionPhoto)}>
+          <ImageSlot id="scene-production" src="/images/scene-production.webp" alt="해양 부유식 원유 생산·저장 설비를 표현한 AI 생성 이미지" placeholder="Offshore production facility" sizes="(max-width: 1100px) 100vw, 60vw" />
         </div>
         <div className={s.text}>
           <SceneHead stage={st}>
@@ -213,7 +213,7 @@ function FieldScene() {
   return (
     <Scene stage={st} style={{ padding: 0, minHeight: 820, justifyContent: "flex-end" }}>
       <div style={{ position: "absolute", inset: 0 }}>
-        <ImageSlot id="scene-field" placeholder="Wide photo — full field development, vessels and platforms at dusk" />
+        <ImageSlot id="scene-field" src="/images/scene-field.webp" alt="해질녘 해양 플랫폼과 지원 선박을 표현한 AI 생성 이미지" placeholder="Offshore field at dusk" sizes="(max-width: 899px) 1920px, 100vw" objectPosition="72% 50%" />
       </div>
       <div className={s.fieldCard}>
         <SceneHead stage={st}>

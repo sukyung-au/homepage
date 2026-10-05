@@ -21,7 +21,8 @@
 .scaleBox{position:absolute;left:24px;bottom:20px;background:rgba(255,255,255,0.94);border-radius:6px;padding:8px 12px;color:var(--ex-navy)}
 
 /* 01 Surface */
-.surfacePhoto{position:relative;margin:0 calc(-1 * var(--gutter-page));height:620px}
+.surfacePhoto{position:relative;margin:0 calc(-1 * var(--gutter-page));height:clamp(320px,43vw,620px)}
+.productionPhoto{height:640px}
 
 /* 02 Petroleum system */
 .elements{list-style:none;padding:0;margin:40px 0 0;display:flex;flex-direction:column}
@@ -51,3 +52,5 @@
 /* 09 Field development */
 .fieldCard{position:relative;margin:0 var(--gutter-page) 140px;max-width:620px;background:#fff;padding:48px 48px 44px;border-radius:4px}
 @media (max-width:640px){.fieldCard{padding:32px 24px 28px}}
+@media (max-width:899px){.productionPhoto{height:480px;margin-right:calc(-1 * var(--gutter-page))}}
+@media (max-width:640px){.productionPhoto{height:340px}.fieldCard{margin:0 var(--gutter-page) 80px}}
