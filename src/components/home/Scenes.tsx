@@ -9,6 +9,17 @@ import s from "./Scenes.module.css";
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
+/**
+ * Viewport fit for the right/left visual column (desktop): its height is roughly ratio⁻¹ × width + extra,
+ * so capping width at (available height − extra) × ratio keeps the whole visual above the floating nav.
+ */
+const FIT: Record<string, CSSProperties> = {
+  exploration: { "--fit-ratio": "1.239", "--fit-extra": "64px" } as CSSProperties,
+  appraisal: { "--fit-ratio": "1.667", "--fit-extra": "92px" } as CSSProperties,
+  production: { "--fit-ratio": "1.667", "--fit-extra": "262px" } as CSSProperties,
+  decommissioning: { "--fit-ratio": "2.083", "--fit-extra": "0px" } as CSSProperties,
+};
+
 /** Destination of the FDP technical page. Undefined until that page exists → the CTA renders inert. */
 const FDP_HREF: string | undefined = undefined;
 
@@ -77,14 +88,14 @@ function ExplorationScene() {
   const cam: Camera = { x: 0, y: 0, w: 1000, h: 560 };
   return (
     <Scene stage={st}>
-      <div className={ss.wrap}>
+      <div className={cx(ss.wrap, s.rowTop)}>
         <div className={s.text}>
           <SceneHead stage={st}>
             <p className={s.purpose}><span>Purpose</span>유망한 지하 구조를 찾고, 탄화수소가 실제로 있는지 확인합니다.</p>
             <Steps items={EXPLORATION} arrows />
           </SceneHead>
         </div>
-        <div className={s.visual}>
+        <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.exploration}>
           <RegionalMap />
           <svg className={s.zoom} viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden>
             <path d="M60,0 L0,40 M66.7,0 L100,40" />
@@ -139,8 +150,8 @@ function AppraisalScene() {
   }).join(" ");
   return (
     <Scene stage={st}>
-      <div className={ss.wrap}>
-        <div className={s.visual}>
+      <div className={cx(ss.wrap, s.rowTop)}>
+        <div className={cx(s.visual, s.fit, s.fitLeft)} style={FIT.appraisal}>
           <FieldSection
             camera={cam}
             label="Illustrative close-up of the reservoir: an appraisal well penetrates the reservoir while datasets are acquired around it"
@@ -227,7 +238,7 @@ function DevelopmentScene() {
   const st = getStage("development");
   const cam: Camera = { x: 0, y: 10, w: 1000, h: 480 };
   return (
-    <Scene stage={st} style={{ "--scene-pad-y": "160px" } as CSSProperties}>
+    <Scene stage={st}>
       <div className={ss.wrap} style={{ alignItems: "flex-end" }}>
         <div className={s.textWide}><SceneHead stage={st} /></div>
         <p className={s.aside}>
@@ -324,7 +335,7 @@ function ProductionScene() {
   const flow: [number, number, number][] = [[330, 352, 0], [380, 345, 0], [640, 350, 180], [740, 360, 180]];
   return (
     <Scene stage={st}>
-      <div className={ss.wrap}>
+      <div className={cx(ss.wrap, s.rowTop)}>
         <div className={s.text}>
           <SceneHead stage={st}>
             <div className={s.loop}>
@@ -342,7 +353,7 @@ function ProductionScene() {
             </div>
           </SceneHead>
         </div>
-        <div className={s.visual}>
+        <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.production}>
           <FieldSection
             camera={cam}
             label="Illustrative producing field: fluids move toward producers, water is injected, and the fluid contact shifts over time"
@@ -405,13 +416,13 @@ function DecommissioningScene() {
   const wells: [number, number][] = [[430, 338], [470, 330], [590, 332], [690, 356]];
   return (
     <Scene stage={st}>
-      <div className={ss.wrap}>
+      <div className={cx(ss.wrap, s.rowTop)}>
         <div className={s.text}>
           <SceneHead stage={st}>
             <Steps items={DECOM} arrows />
           </SceneHead>
         </div>
-        <div className={s.visual}>
+        <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.decommissioning}>
           <FieldSection
             camera={cam}
             muted

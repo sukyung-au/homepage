@@ -2,6 +2,14 @@
 .text{flex:1 1 380px;max-width:480px}
 .textWide{flex:1 1 520px}
 .visual{flex:2 1 560px;position:relative;min-width:0}
+/* Top-align narrative and visual so the visual starts with the scene instead of being centred against long copy */
+.rowTop{align-items:flex-start}
+/* Desktop: cap the visual's width so its full height fits between the scene's top padding and the floating nav */
+@media (min-width:900px){
+  .fit{max-width:max(440px,calc((100svh - var(--nav-safe-area) - var(--scene-pad-y) - var(--fit-extra) - 32px) * var(--fit-ratio)))}
+  .fitRight{margin-left:auto}
+  .fitLeft{margin-right:auto}
+}
 
 /* Numbered narrative list (V1 element list) */
 .elements{list-style:none;padding:0;margin:40px 0 0;display:flex;flex-direction:column}
