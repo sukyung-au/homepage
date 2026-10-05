@@ -1,7 +1,7 @@
 import { STAGES, sceneId } from "@/lib/stages";
 import s from "./StageIndex.module.css";
 
-/** Row of all nine stages directly under the hero; each jumps to its scene. */
+/** Row of all five stages directly under the hero; each jumps to its scene. */
 export function StageIndex() {
   return (
     <nav className={s.index} aria-label="Journey stages">

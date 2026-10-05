@@ -21,7 +21,7 @@ export function Hero() {
         <div className={s.ruler}><DepthRuler marks={["0 m", "1,000", "2,000", "3,000 m"]} /></div>
       </div>
       <div className={s.copy}>
-        <div className={`${sceneStyles.eyebrow} ${s.eyebrow}`}><span>A scientific exploration in nine stages</span></div>
+        <div className={`${sceneStyles.eyebrow} ${s.eyebrow}`}><span>A scientific journey in five stages</span></div>
         <h1 className={s.title}>Oil &amp; Gas<br />Development</h1>
         <p className={s.tagline}>From Subsurface<br />to Field Development</p>
         <p className={`${sceneStyles.body} ${s.lede}`}>지표에서 저류층까지, 그리고 생산과 개발까지. 석유개발의 전 과정을 하나의 과학적 여정으로 탐색합니다.</p>

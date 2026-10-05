@@ -1,4 +1,7 @@
-/** The nine Journey stages (homepage scenes). Order = scroll order. */
+/**
+ * The five Journey stages (homepage scenes) — how an oil & gas development project progresses.
+ * Order = scroll order. Technology (the knowledge used along the way) lives in technology.ts.
+ */
 export interface StageTransition {
   /** How the scene enters (for future scroll-driven motion) */
   in: string;
@@ -15,112 +18,77 @@ export interface Stage {
   num: string;
   label: string;
   sub: string;
+  /** Depth range the scene's camera covers (qualitative) */
   depth: string;
   bg: string;
   dark: boolean;
+  /** Main question / message — the scene headline */
   title: string;
   kr: string;
+  /** Future motion concept key, exposed as data-motion on the scene */
+  motion: string;
   t: StageTransition;
 }
 
 export const STAGES: Stage[] = [
   {
-    id: "surface", num: "01", label: "Surface", sub: "Remote sensing · Gravity · Magnetics", depth: "0 m", bg: "#F6F8FB", dark: false,
-    title: "The journey begins at the Earth's surface.",
-    kr: "위성 영상, 지표 지질조사, 중력·자력 탐사로 수천 km²의 분지에서 탐사할 가치가 있는 지역을 좁혀 갑니다.",
+    id: "exploration", num: "01", label: "Exploration", sub: "Regional study · Seismic · Exploration well", depth: "Basin → Prospect", bg: "#F6F8FB", dark: false,
+    title: "Where could hydrocarbons exist?",
+    kr: "넓은 퇴적분지에서 출발해 탄화수소가 모일 수 있는 지하 구조를 좁혀 갑니다. 지역 지질 연구로 유망 지역을 고르고, 탄성파 탐사와 해석으로 구조를 그린 뒤, 탐사정을 시추해 탄화수소의 존재를 직접 확인합니다.",
+    motion: "seismic-acquisition-reveal",
     t: {
-      in: "히어로 사진이 확대되어 full-bleed 장면이 됩니다. 수평선(sea level seam)은 같은 높이에 고정.",
-      hold: "사진 위 관측 지점 라벨이 순서대로 나타납니다.",
-      out: "카메라가 해수면 아래로 하강. 사진은 위로 밀려나고 지층 단면이 아래에서 올라옵니다.",
-      persist: "Sea level seam · Depth ruler 0 m",
+      in: "분지 규모의 지역 지도에서 시작해 유망 구조로 줌인합니다.",
+      hold: "탐사선이 탄성파를 취득하고, 반사면이 위에서 아래로 차례로 드러난 뒤 해석 horizon이 그려집니다. 마지막으로 탐사정이 구조 정점까지 내려갑니다.",
+      out: "탐사정이 발견(discovery) 지점에 고정되고 카메라가 저류층 쪽으로 다가갑니다.",
+      persist: "Field section · Exploration well · Depth scale",
     },
   },
   {
-    id: "petroleum", num: "02", label: "Petroleum System", sub: "Source · Migration · Trap", depth: "0 – 4,000 m", bg: "#F6F8FB", dark: false,
-    title: "From source rock to trapped hydrocarbons.",
-    kr: "근원암에서 생성된 탄화수소는 이동하여 저류암에 모이고, 덮개암과 트랩에 의해 보존됩니다. 요소와 타이밍이 모두 맞아야 석유 시스템이 성립합니다.",
+    id: "appraisal", num: "02", label: "Appraisal", sub: "Appraisal well · Data · Reservoir model", depth: "Seabed → Reservoir", bg: "#EEF2F7", dark: false,
+    title: "How much is there — and can it produce?",
+    kr: "발견 이후에는 불확실성을 줄이는 단계입니다. 평가정을 시추해 코어·검층·유체·유동 자료를 얻고, 3D 탄성파와 함께 초기 저류층 모델을 만들어 상업성을 판단합니다.",
+    motion: "well-descent-datasets",
     t: {
-      in: "지층 단면이 아래에서 차오릅니다(wipe up). 배경은 그대로.",
-      hold: "근원암 → 이동 → 저류암 → 덮개암 → 트랩 순으로 라벨과 레이어가 하이라이트.",
-      out: "단면이 뒤로 기울며 위에서 내려다보는 평면(구조도)으로 회전합니다.",
-      persist: "Strata layer colors · Depth ruler",
+      in: "카메라가 저류층으로 다가가고 평가정이 해저면에서 내려옵니다.",
+      hold: "평가정이 저류층을 관통하면서 Core & Wireline → PVT → Well test → 3D seismic → Reservoir model 순으로 자료가 나타납니다.",
+      out: "초기 저류층 모델이 개발 계획(FDP)의 입력이 됩니다.",
+      persist: "Field section · Discovery & appraisal wells",
     },
   },
   {
-    id: "subsurface", num: "03", label: "Subsurface", sub: "Geology · Structure · Characterization", depth: "2,450 m", bg: "#EEF2F7", dark: false,
-    title: "Reading the structure beneath.",
-    kr: "지층의 형태, 단층과 습곡을 해석해 탄화수소가 모일 수 있는 닫힌 구조를 찾습니다. 결과는 깊이 구조도로 정리됩니다.",
+    id: "development", num: "03", label: "Development & Drilling", sub: "FDP · Wells · Facilities", depth: "Surface → Reservoir", bg: "#FFFFFF", dark: false,
+    title: "From discovery to development.",
+    kr: "상업성이 확인되면 개발 계획을 세웁니다. 여러 분야의 자료와 판단이 하나의 필드 개발 계획(FDP)으로 모이고, 개발이 결정되면 생산정과 설비, 그리고 이를 잇는 생산 시스템이 만들어집니다.",
+    motion: "disciplines-converge-fdp-expand",
     t: {
-      in: "단면 → 평면 회전이 끝나며 등고선이 그려집니다.",
-      hold: "스크롤에 따라 등고선 깊이 값이 바뀝니다(depth slicing).",
-      out: "구조 정점(crest)에 시추 위치 핀이 꽂히고, 수직선이 아래로 내려갑니다.",
-      persist: "Well location pin",
+      in: "각 분야의 자료가 선을 따라 FDP로 모입니다(converge).",
+      hold: "FDP가 Development Decision → Wells → Facilities → Production System으로 펼쳐집니다(expand).",
+      out: "필드 단면에 개발정과 설비가 세워진 상태로 생산 단계로 넘어갑니다.",
+      persist: "Field section · Platform · Development wells",
     },
   },
   {
-    id: "well", num: "04", label: "Well & Logging", sub: "Drilling · Petrophysics", depth: "2,400 – 2,700 m", bg: "#E6ECF3", dark: false,
-    title: "Data reveals the story below.",
-    kr: "시추공에서 측정한 감마선·비저항·밀도·중성자 검층이 암상과 유체를 구분합니다. 지하를 직접 확인하는 1차원의 창입니다.",
+    id: "production", num: "04", label: "Production", sub: "Monitoring · Reservoir management · Optimization", depth: "Surface → Reservoir", bg: "#EEF2F7", dark: false,
+    title: "Manage the reservoir. Optimize the field.",
+    kr: "생산이 시작되어도 저류층에 대한 이해는 계속 바뀝니다. 압력·생산량·수분율(WC)·가스유비(GOR)를 모니터링하고, 압력·유량 거동 분석으로 저류층 모델을 갱신하며, 인공채유와 주입, 필요하면 추가 개발로 필드를 최적화합니다.",
+    motion: "fluid-flow-data",
     t: {
-      in: "시추 궤적(수직선)이 넓어지며 검층 트랙으로 펼쳐집니다.",
-      hold: "트랙이 깊이 방향으로 스크롤되고 탄화수소 구간이 하이라이트.",
-      out: "검층 트랙이 옆으로 복제되어 수많은 트레이스가 되며 탄성파 단면으로 이어집니다.",
-      persist: "Wellbore line",
+      in: "생산정으로 유체가 흐르기 시작하고 모니터링 곡선이 시간 축을 따라 그려집니다.",
+      hold: "주입수가 저류층을 밀고, 유체 경계면이 움직이며, 곡선과 단면이 함께 갱신됩니다.",
+      out: "생산 곡선이 끝에 다다르고 설비가 하나씩 정리되기 시작합니다.",
+      persist: "Field section · Wells · Monitoring curves",
     },
   },
   {
-    id: "seismic", num: "05", label: "Seismic", sub: "Acquisition · Processing · Interpretation", depth: "0 – 4.0 s TWT", bg: "#0B1A2C", dark: true,
-    title: "Imaging the invisible.",
-    kr: "지표에서 발생시킨 탄성파가 지층 경계에서 반사되어 돌아옵니다. 수백만 개의 트레이스를 처리해 지하를 3차원 영상으로 재구성합니다.",
+    id: "decommissioning", num: "05", label: "Decommissioning", sub: "P&A · Removal · Restoration", depth: "Seabed", bg: "#F6F8FB", dark: false,
+    title: "End of production is not the end of responsibility.",
+    kr: "경제적인 생산이 끝나면 필드를 안전하게 정리합니다. 시추공을 영구적으로 막고, 설비를 철거하고, 주변 환경을 복원하는 것까지가 개발의 마지막 단계입니다.",
+    motion: "pa-removal-restoration",
     t: {
-      in: "트레이스가 펼쳐지고 배경이 navy로 어두워집니다 — 여정의 가장 깊은 지점.",
-      hold: "단면이 수평으로 패닝되고 해석 horizon 라인이 그려집니다.",
-      out: "해석된 horizon이 저류층 상부면이 되어 3D 속성 모델로 돌출(extrude)됩니다.",
-      persist: "Interpreted horizon line",
-    },
-  },
-  {
-    id: "reservoir", num: "06", label: "Reservoir", sub: "Modeling · Properties", depth: "2,450 m", bg: "#13263D", dark: true,
-    title: "From structure to property.",
-    kr: "검층과 탄성파 자료를 결합해 공극률·투과도·포화도의 3차원 분포를 모델링합니다. 정적 모델은 모든 개발 계획의 기준이 됩니다.",
-    t: {
-      in: "horizon surface가 돌출되어 속성 맵이 됩니다.",
-      hold: "공극률 → 투과도 → 포화도로 속성이 전환됩니다(같은 형태, 다른 색).",
-      out: "맵 위로 유선(streamline)이 흐르고 배경이 다시 밝아지기 시작 — 상승.",
-      persist: "Field outline",
-    },
-  },
-  {
-    id: "engineering", num: "07", label: "Reservoir Engineering", sub: "Simulation · Recovery", depth: "Reservoir", bg: "#F6F8FB", dark: false,
-    title: "Optimizing flow and recovery.",
-    kr: "동적 시뮬레이션으로 압력과 유체의 흐름을 예측하고, 주입·생산 전략을 비교해 회수율을 높입니다.",
-    t: {
-      in: "배경이 밝아지고 곡선이 시간 축을 따라 그려집니다.",
-      hold: "시나리오(자연 생산 / 워터플러딩) 비교 토글.",
-      out: "생산 곡선의 끝점이 생산 설비 사진으로 연결됩니다.",
-      persist: "Oil rate curve (blue)",
-    },
-  },
-  {
-    id: "production", num: "08", label: "Production", sub: "Wells · Facilities · Operations", depth: "0 m", bg: "#FFFFFF", dark: false,
-    title: "Turning resources into energy.",
-    kr: "생산정과 인공채유, 해상 생산설비를 통해 저류층 유체를 지표로 끌어올리고 분리·처리하여 출하합니다.",
-    t: {
-      in: "사진이 아래에서 올라오며 수면 위로 복귀. Depth ruler가 0 m로.",
-      hold: "운영 지표가 순서대로 나타납니다.",
-      out: "설비 사진이 축소되어 필드 전체 레이아웃 안의 한 지점이 됩니다.",
-      persist: "Sea level seam",
-    },
-  },
-  {
-    id: "field", num: "09", label: "Field Development", sub: "Plan · Infrastructure · Production", depth: "0 m", bg: "#F6F8FB", dark: false,
-    title: "Connecting technology, people and the future.",
-    kr: "지질·공학·시설·경제성을 하나의 개발 계획으로 통합합니다. 수십 년의 운영과 감축 목표까지 함께 설계합니다.",
-    t: {
-      in: "와이드 줌아웃으로 필드 전체가 보입니다.",
-      hold: "—",
-      out: "푸터로 이어지고 StageNav가 9/9 완료 상태가 됩니다.",
-      persist: "StageNav",
+      in: "생산이 멈추고 장면이 조용해집니다.",
+      hold: "P&A → Facility removal → Environmental restoration 순으로 진행됩니다.",
+      out: "푸터로 이어지고 StageNav가 5/5 완료 상태가 됩니다.",
+      persist: "Field section (restored) · StageNav",
     },
   },
 ];

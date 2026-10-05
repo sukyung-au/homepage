@@ -33,4 +33,6 @@
 @media (max-width:540px){
   .items{display:none}
   .current{flex:1}
+  .currentText{min-width:0}
+  .currentLabel{white-space:normal;font-size:13px;line-height:1.25}
 }

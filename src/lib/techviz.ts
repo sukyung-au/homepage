@@ -199,7 +199,36 @@ function decline(ctx: Ctx, w: number, h: number, r: Rand) {
   ["0", "5", "10", "15", "20 yr"].forEach((t, i) => ctx.fillText(t, p.l + (W * i) / 4 - (i ? 8 : 0), h - 8));
 }
 
-export type VizKind = "seismic" | "strata" | "reservoir" | "structure" | "log" | "decline";
+/** Illustrative production-monitoring curves (normalized, no values): rate, pressure, water cut, GOR. */
+function monitor(ctx: Ctx, w: number, h: number, r: Rand) {
+  ctx.clearRect(0, 0, w, h);
+  const p = { l: 12, r: 12, t: 12, b: 24 }, W = w - p.l - p.r, H = h - p.t - p.b;
+  ctx.strokeStyle = "#DCE3EC";
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 3; i++) { const y = p.t + (H * i) / 3; ctx.beginPath(); ctx.moveTo(p.l, y); ctx.lineTo(w - p.r, y); ctx.stroke(); }
+  const N = 120, noise = () => (r() - 0.5) * 0.02;
+  const s = (fn: (x: number) => number, col: string, width: number, dash?: number[]) => {
+    ctx.strokeStyle = col;
+    ctx.lineWidth = width;
+    ctx.setLineDash(dash || []);
+    ctx.beginPath();
+    for (let i = 0; i <= N; i++) {
+      const x = i / N, X = p.l + x * W, Y = p.t + H * (1 - fn(x));
+      if (i) ctx.lineTo(X, Y); else ctx.moveTo(X, Y);
+    }
+    ctx.stroke();
+    ctx.setLineDash([]);
+  };
+  s((x) => 0.85 - 0.3 * x - 0.12 * Math.min(1, x * 3) + 0.08 * Math.max(0, Math.min(1, (x - 0.45) * 4)), "#0B1A2C", 1.2, [5, 4]);
+  s((x) => (Math.min(1, x * 10) * 0.8) / (1 + 2.4 * Math.max(0, x - 0.25)) + noise(), "#0A5CDB", 2);
+  s((x) => Math.max(0, x - 0.3) ** 0.8 * 0.9 + 0.02, "#12A4D9", 1.6);
+  s((x) => 0.25 + 0.35 * Math.max(0, x - 0.55) ** 1.4 + noise() * 0.5, "#C77A10", 1.4);
+  ctx.fillStyle = "#8A98A8";
+  ctx.font = "10px Inter, sans-serif";
+  ctx.fillText("Time →", w - p.r - 40, h - 6);
+}
+
+export type VizKind = "seismic" | "strata" | "reservoir" | "structure" | "log" | "decline" | "monitor";
 
 /** Raster kinds render per-pixel into a low-res buffer that is upscaled. */
 export const RASTER: Partial<Record<VizKind, (ctx: Ctx, W: number, H: number, r: Rand, opt: VizOptions) => void>> = {
@@ -207,5 +236,5 @@ export const RASTER: Partial<Record<VizKind, (ctx: Ctx, W: number, H: number, r:
 };
 /** Vector kinds draw directly at device resolution. */
 export const VECTOR: Partial<Record<VizKind, (ctx: Ctx, w: number, h: number, r: Rand) => void>> = {
-  log: wellLog, decline,
+  log: wellLog, decline, monitor,
 };

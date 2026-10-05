@@ -1,0 +1,48 @@
+/* Shared field cross-section: thin technical lines on the V1 strata palette */
+.frame{position:relative;width:100%;overflow:hidden;border-radius:4px;background:var(--ex-white)}
+.svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.svg *{vector-effect:non-scaling-stroke}
+
+.horizon{fill:none;stroke:rgba(11,26,44,0.22);stroke-width:1}
+.fault{fill:none;stroke:var(--ex-navy);stroke-width:1;stroke-dasharray:5 4;opacity:0.55}
+.seaLine{stroke:var(--ex-cyan);stroke-width:1}
+
+.structure{fill:none;stroke:var(--ex-navy);stroke-width:1.2;stroke-linejoin:round}
+.fill{fill:#fff}
+.ghost{stroke-dasharray:4 4;opacity:0.45}
+.vessel{fill:var(--ex-navy)}
+.streamer{stroke:var(--ex-navy);stroke-width:1;stroke-dasharray:2 3}
+.receiver{fill:var(--ex-cyan)}
+.ray{fill:none;stroke:var(--ex-cyan);stroke-width:1;opacity:0.85}
+
+.well{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.injector{stroke:var(--ex-blue)}
+.planned{stroke-dasharray:5 4;opacity:0.7}
+
+/* Generic overlay strokes used by scenes */
+.line{fill:none;stroke:var(--ex-blue);stroke-width:1.4}
+
+/* Depth scale on the right edge — persists across scenes */
+.depth{position:absolute;top:0;bottom:0;right:14px;width:1px;background:rgba(11,26,44,0.35);font-family:var(--font-editorial);font-size:10px;line-height:1.3;color:var(--ex-navy);pointer-events:none}
+.depthTitle{position:absolute;top:14px;right:8px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-muted)}
+.depthMark{position:absolute;right:0;transform:translateY(-50%);display:flex;align-items:center;gap:6px;white-space:nowrap;padding:1px 4px;background:rgba(255,255,255,0.85);border-radius:3px}
+.depthMark::after{content:"";width:9px;height:1px;background:currentColor;margin-right:-4px}
+
+/* Annotation: dot + leader + label, anchored to a world point */
+.tag{position:absolute;display:flex;align-items:center;gap:6px;transform:translate(-4px,-50%);pointer-events:none}
+.left{flex-direction:row-reverse;transform:translate(calc(-100% + 4px),-50%)}
+.dot{width:9px;height:9px;border-radius:50%;background:#fff;border:2px solid var(--ex-navy);flex:none}
+.leader{width:28px;height:1px;background:var(--ex-navy);flex:none}
+.text{background:rgba(255,255,255,0.94);padding:5px 9px;border-radius:6px;font-family:var(--font-editorial);font-size:12px;font-weight:600;color:var(--ex-navy);white-space:nowrap;line-height:1.4}
+.step{color:var(--ex-blue);margin-right:6px;font-variant-numeric:tabular-nums}
+.sub{display:block;font-weight:400;color:var(--ex-muted);font-size:11px}
+
+@media (max-width:640px){
+  /* Numbered tags collapse to their step number; the narrative list carries the names */
+  .minor,.sub,.depthTitle,.label{display:none}
+  .step{margin-right:0}
+  .leader{width:12px}
+  .text{font-size:10px;padding:3px 6px}
+  .dot{width:7px;height:7px}
+  .depthMark{font-size:9px}
+}

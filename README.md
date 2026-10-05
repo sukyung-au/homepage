@@ -26,7 +26,7 @@ npm run dev
 
 | 경로 | 내용 |
 | --- | --- |
-| `/` | Journey 홈페이지: 히어로, 단계 인덱스, 9개 scene, 하단 고정 StageNav (스크롤 위치를 따라감) |
+| `/` | Journey 홈페이지: 히어로, 단계 인덱스, 5개 scene(Exploration · Appraisal · Development & Drilling · Production · Decommissioning), 하단 고정 StageNav (스크롤 위치를 따라감) |
 | `/technology` | 첫 번째 토픽 페이지로 이동 |
 | `/technology/[category]/[topic]` | Technology 토픽 페이지 템플릿과 하단 TechNav. 현재 `petroleum/pt-generation`(1.1)만 있음. `#topics`로 토픽 목록이 열림 |
 
@@ -49,7 +49,9 @@ npm run dev
 
 ## 콘텐츠 수정
 
-- **Journey 단계**: `src/lib/stages.ts`
+- **Journey 단계**: `src/lib/stages.ts` (문구·모션 메모), `src/components/home/Scenes.tsx` (scene 구성)
+- **필드 단면**: 다섯 scene이 공유하는 예시 필드는 `src/components/home/FieldSection.tsx`입니다. 지층·저류층 형태는 한 곳에서 정의되고, scene마다 카메라(`camera`)와 레이어만 다릅니다. 실제 자료가 아닌 설명용 그림입니다.
+- **FDP 페이지 연결**: Development scene의 "Explore the FDP" 버튼은 `Scenes.tsx`의 `FDP_HREF`가 비어 있어 아직 비활성입니다. FDP 기술 페이지가 생기면 경로를 넣으면 됩니다.
 - **Technology 토픽 추가**: `src/lib/technology.ts`에 토픽을 추가합니다. 페이지를 공개하려면 `hasPage: true`로 바꾸고 `src/app/technology/[category]/[topic]/page.tsx`의 `TOPIC_PAGES`에 등록합니다. 카테고리 5개는 고정이고, 토픽이 늘어나도 하단 바 레이아웃은 바뀌지 않습니다.
 - **사진**: 사진 자리는 `<ImageSlot>`이 연한 파란색 자리 표시와 촬영 지시문을 보여 줍니다. 파일을 `public/images/`에 넣고 같은 `id`의 슬롯에 `src="/images/<id>.jpg"`를 지정하면 됩니다.
 - **기술 시각화**: 지층 단면·탄성파·검층 등은 `src/lib/techviz.ts`가 그리는 예시 그림입니다. 실제 자료가 생기면 교체합니다.
@@ -59,7 +61,8 @@ npm run dev
 - 시각적 기준은 Claude Design V1 (`design/`)입니다. `design/ui_kits/explorer/`에 원본 프로토타입, `design/chats/`에 디자인 대화 기록이 있습니다.
 - 스타일은 `src/styles/tokens/`의 CSS 변수와 CSS Modules를 사용합니다. Tailwind는 설치만 되어 있고 사용하지 않습니다.
 - `DESIGN-notion.md`는 이전 디자인 참고 문서입니다.
-- 모션은 아직 구현하지 않았습니다. 각 scene `<section>`에 있는 `data-transition-in` / `-hold` / `-out`, `data-persist` 속성이 이후 스크롤 모션 작업의 기준입니다.
+- 모션은 아직 구현하지 않았습니다. 각 scene `<section>`의 `data-motion`, `data-transition-in` / `-hold` / `-out`, `data-persist` 속성과 시각화 안의 `data-layer`, `data-sequence`, `data-step` 속성이 이후 스크롤 모션 작업의 기준입니다.
+- 이전 9단계 Journey(V1)는 `design/versions/JOURNEY-V1.md`에 정리되어 있습니다.
 
 ## 배포
 

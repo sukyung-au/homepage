@@ -6,7 +6,7 @@ export { s as sceneStyles };
 
 /**
  * One full journey scene. Carries the data-* hooks for future scroll-driven motion:
- * data-stage / data-scene / data-depth / data-transition-in / -hold / -out / data-persist.
+ * data-stage / data-scene / data-depth / data-motion / data-transition-in / -hold / -out / data-persist.
  */
 export function Scene({ stage, children, style }: { stage: Stage; children: ReactNode; style?: CSSProperties }) {
   return (
@@ -15,6 +15,7 @@ export function Scene({ stage, children, style }: { stage: Stage; children: Reac
       data-stage={stage.id}
       data-scene={stage.num}
       data-depth={stage.depth}
+      data-motion={stage.motion}
       data-transition-in={stage.t.in}
       data-transition-hold={stage.t.hold}
       data-transition-out={stage.t.out}
