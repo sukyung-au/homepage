@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { TechViz } from "@/components/ds/TechViz";
 import { Scene, SceneHead, sceneStyles as ss } from "@/components/site/scene";
@@ -226,7 +227,7 @@ function DevelopmentScene() {
   const st = getStage("development");
   const cam: Camera = { x: 0, y: 10, w: 1000, h: 480 };
   return (
-    <Scene stage={st} style={{ paddingTop: 160, paddingBottom: 160 }}>
+    <Scene stage={st} style={{ "--scene-pad-y": "160px" } as CSSProperties}>
       <div className={ss.wrap} style={{ alignItems: "flex-end" }}>
         <div className={s.textWide}><SceneHead stage={st} /></div>
         <p className={s.aside}>

@@ -1,6 +1,6 @@
 /* Shared chrome for the sticky bottom navigations (StageNav, TechNav) */
 .nav{left:0;right:0;z-index:30;padding:0 var(--gutter-page);pointer-events:none}
-.fixed{position:fixed;bottom:16px}
+.fixed{position:fixed;bottom:var(--stage-nav-offset)}
 .inner{position:relative;max-width:1360px;margin:0 auto;pointer-events:auto}
 .shell{background:rgba(255,255,255,0.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--ex-line);border-radius:20px;box-shadow:var(--shadow-float);font-family:var(--font-editorial);color:var(--ex-navy);line-height:1.47}
 .bar{height:var(--stage-nav-h);display:flex;align-items:center;gap:28px;padding:0 24px}

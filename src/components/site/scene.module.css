@@ -12,7 +12,11 @@
 .onDark .title{color:#fff}
 .onDark .body{color:rgba(255,255,255,0.72)}
 
-.scene{position:relative;color:var(--ex-navy);min-height:var(--scene-min-h);padding:140px var(--gutter-page);overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+/* Bottom safe area: the floating StageNav covers --nav-safe-area at the viewport bottom, so the scene
+   reserves it on top of its own editorial padding. Scenes can override --scene-pad-y. */
+.scene{--scene-pad-y:140px;--scene-pad-bottom:calc(var(--scene-pad-y) + var(--nav-safe-area));position:relative;color:var(--ex-navy);min-height:var(--scene-min-h);padding:var(--scene-pad-y) var(--gutter-page) var(--scene-pad-bottom);overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+/* Narrow screens: scenes stack and scroll continuously — clear the nav with a shorter margin */
+@media (max-width:899px){.scene{--scene-pad-bottom:calc(var(--nav-safe-area) + 72px)}}
 .scene.onDark{color:#fff}
 
 .fact{display:flex;flex-direction:column;gap:6px;padding-top:16px;border-top:1px solid var(--ex-line)}
