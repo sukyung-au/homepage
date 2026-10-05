@@ -1,0 +1,17 @@
+<!-- @dsCard group="Components" viewport="700x430" name="Cards & chips" subtitle="UtilityCard grid + OptionChip selection" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>body{margin:0}.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.lbl{font-size:12px;color:#7a7a7a;letter-spacing:-0.12px;width:96px;flex:none}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const { UtilityCard, OptionChip } = window.OilGasDevelopmentDesignSystem_dcb6ae;
+function App(){const [sel,setSel]=React.useState('Oil');return <div style={{background:'var(--color-canvas-parchment)',padding:24,display:'flex',flexDirection:'column',gap:20}}>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:20}}>
+<UtilityCard eyebrow="Permian" title="Delaware Basin" meta="142 kboe/d net" link="Explore" imageLabel="Basin map" ratio="4/3"/>
+<UtilityCard eyebrow="Permian" title="Midland Basin" meta="96 kboe/d net" link="Explore" imageLabel="Basin map" ratio="4/3"/>
+<UtilityCard eyebrow="Report" title="2025 Annual Report" meta="PDF · 8.4 MB" link="Download" imageLabel="Cover" ratio="4/3"/></div>
+<div className="row">{['Oil','Natural gas','NGLs'].map(o=><OptionChip key={o} label={o} detail={{Oil:'62%','Natural gas':'24%',NGLs:'14%'}[o]} selected={sel===o} onClick={()=>setSel(o)}/>)}</div></div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script></body></html>

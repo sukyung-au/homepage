@@ -1,0 +1,16 @@
+.header{top:0;left:0;right:0;z-index:20;height:72px;padding:0 var(--gutter-page);display:flex;align-items:center;justify-content:space-between;gap:24px;font-family:var(--font-editorial);color:var(--ex-navy)}
+.dark{color:#fff}
+.mark{display:flex;gap:6px;align-items:baseline;font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:inherit;white-space:nowrap}
+.mark b{font-weight:700}
+.mark span{font-weight:300}
+.nav{display:flex;gap:32px;align-items:center}
+.link{font-size:13px;color:inherit;white-space:nowrap}
+.inert{cursor:default}
+.active{font-weight:600;color:var(--ex-blue)}
+.dark .active{color:#4DA3FF}
+.tools{display:flex;gap:20px;align-items:center;font-size:12px}
+.lang{letter-spacing:0.06em;white-space:nowrap}
+.lang b{font-weight:600}
+.lang span{opacity:0.5}
+/* Tablet portrait and below: the design system collapses the global nav; no hamburger is designed yet. */
+@media (max-width:833px){.nav{display:none}}

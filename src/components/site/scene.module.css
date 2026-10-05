@@ -1,0 +1,23 @@
+/* Shared editorial scene type — ported from the prototype's sceneType */
+.eyebrow{display:flex;align-items:center;gap:12px;font-family:var(--font-editorial);font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-faint)}
+.eyebrowRule{width:32px;height:1px;background:currentColor}
+.eyebrowNum{font-variant-numeric:tabular-nums}
+.eyebrowLabel{font-weight:600;color:var(--ex-blue)}
+.title{font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:1;letter-spacing:-0.02em;margin:28px 0 0;text-wrap:balance;color:var(--ex-navy)}
+.body{font-family:var(--font-kr);font-size:17px;line-height:1.75;letter-spacing:-0.01em;margin:28px 0 0;max-width:460px;text-wrap:pretty;color:var(--ex-muted)}
+.wrap{width:100%;max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;gap:48px 64px;align-items:center}
+
+.onDark .eyebrow{color:rgba(255,255,255,0.6)}
+.onDark .eyebrowLabel{color:#4DA3FF}
+.onDark .title{color:#fff}
+.onDark .body{color:rgba(255,255,255,0.72)}
+
+.scene{position:relative;color:var(--ex-navy);min-height:var(--scene-min-h);padding:140px var(--gutter-page);overflow:hidden;display:flex;flex-direction:column;justify-content:center}
+.scene.onDark{color:#fff}
+
+.fact{display:flex;flex-direction:column;gap:6px;padding-top:16px;border-top:1px solid var(--ex-line)}
+.factValue{font-family:var(--font-editorial);font-size:36px;font-weight:300;letter-spacing:-0.02em;line-height:1;font-variant-numeric:tabular-nums}
+.factLabel{font-family:var(--font-kr);font-size:13px;color:var(--ex-muted)}
+.fact.onDark{border-top-color:rgba(255,255,255,0.18)}
+.fact.onDark .factLabel{color:rgba(255,255,255,0.6)}
+@media (max-width:640px){.factValue{font-size:28px}}

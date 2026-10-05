@@ -1,0 +1,21 @@
+/* Icons: Lucide (CDN substitute — no brand icon set supplied), rendered as CSS masks so they inherit currentColor. Usage: <i class="icon-search"></i> */
+[class^="icon-"],[class*=" icon-"]{display:inline-block;width:1em;height:1em;vertical-align:-0.125em;background-color:currentColor;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;-webkit-mask-size:contain;mask-size:contain;font-style:normal;flex:none}
+.icon-search{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/search.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/search.svg')}
+.icon-globe{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/globe.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/globe.svg')}
+.icon-arrow-right{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-right.svg')}
+.icon-arrow-left{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-left.svg')}
+.icon-arrow-down{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-down.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-down.svg')}
+.icon-arrow-up-right{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-up-right.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/arrow-up-right.svg')}
+.icon-chevron-right{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-right.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-right.svg')}
+.icon-chevron-left{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-left.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-left.svg')}
+.icon-x{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/x.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/x.svg')}
+.icon-play{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/play.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/play.svg')}
+.icon-download{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/download.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/download.svg')}
+.icon-map-pin{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/map-pin.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/map-pin.svg')}
+.icon-droplet{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/droplet.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/droplet.svg')}
+.icon-flame{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/flame.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/flame.svg')}
+.icon-factory{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/factory.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/factory.svg')}
+.icon-leaf{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/leaf.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/leaf.svg')}
+.icon-chevron-up{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-up.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-up.svg')}
+.icon-chevron-down{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/chevron-down.svg')}
+.icon-layout-grid{-webkit-mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/layout-grid.svg');mask-image:url('https://unpkg.com/lucide-static@0.460.0/icons/layout-grid.svg')}

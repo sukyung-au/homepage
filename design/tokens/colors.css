@@ -1,0 +1,45 @@
+:root{
+/* Brand & accent — the only interactive color */
+--color-primary:#0A5CDB;
+--color-primary-focus:#2F7BF0;
+--color-primary-on-dark:#4DA3FF;
+--color-on-primary:#ffffff;
+/* Surfaces */
+--color-canvas:#ffffff;
+--color-canvas-parchment:#F4F7FA;
+--color-surface-pearl:#fafafc;
+--color-surface-tile-1:#272729;
+--color-surface-tile-2:#2a2a2c;
+--color-surface-tile-3:#252527;
+--color-surface-black:#000000;
+--color-surface-chip-translucent:#d2d2d7;
+--color-surface-chip-translucent-a:rgba(210,210,215,0.64);
+--color-surface-frosted:rgba(246,248,251,0.82);
+/* Text */
+--color-ink:#0B1A2C;
+--color-body:#0B1A2C;
+--color-body-on-dark:#ffffff;
+--color-on-dark:#ffffff;
+--color-body-muted:#cccccc;
+--color-ink-muted-80:#2E3D4F;
+--color-ink-muted-48:#6B7A8C;
+/* Hairlines */
+--color-divider-soft:#f0f0f0;
+--color-divider-soft-a:rgba(0,0,0,0.04);
+--color-hairline:#DCE3EC;
+--color-hairline-a:rgba(0,0,0,0.08);
+/* Semantic aliases */
+--text-primary:var(--color-ink);
+--text-on-dark:var(--color-body-on-dark);
+--text-muted-on-dark:var(--color-body-muted);
+--text-secondary:var(--color-ink-muted-80);
+--text-disabled:var(--color-ink-muted-48);
+--link:var(--color-primary);
+--link-on-dark:var(--color-primary-on-dark);
+--surface-page:var(--color-canvas);
+--surface-alt:var(--color-canvas-parchment);
+--surface-dark:var(--color-surface-tile-1);
+--surface-card:var(--color-canvas);
+--border-card:var(--color-hairline);
+--focus-ring:var(--color-primary-focus);
+}

@@ -1,0 +1,7 @@
+:root{
+--space-xxs:4px;--space-xs:8px;--space-sm:12px;--space-md:17px;--space-lg:24px;--space-xl:32px;--space-xxl:48px;--space-section:80px;
+--container-text:980px;--container-grid:1440px;
+--gutter-grid:20px;
+--nav-global-h:44px;--nav-sub-h:52px;--sticky-bar-h:64px;
+--touch-min:44px;
+}

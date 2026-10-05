@@ -1,0 +1,6 @@
+.index{background:#fff;padding:40px var(--gutter-page) 48px}
+.grid{max-width:1360px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:28px 20px}
+.item{display:flex;flex-direction:column;gap:8px;padding-top:14px;border-top:1px solid var(--ex-line);font-family:var(--font-editorial);line-height:1.47}
+.num{font-size:13px;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.label{font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ex-navy)}
+.sub{font-size:11px;line-height:1.45;color:var(--ex-faint)}

@@ -1,0 +1,39 @@
+.shell{background:rgba(255,255,255,0.94)}
+.current{min-width:230px}
+.viewing{border-top-color:var(--ex-navy)}
+.viewing .itemLabel{font-weight:600}
+.count{margin-left:4px}
+
+.circle{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;border:1px solid var(--ex-line);color:var(--ex-navy);box-sizing:border-box}
+.circle:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.circleOff{cursor:default;color:var(--ex-line-strong)}
+.circleNext{background:var(--ex-navy);border-color:var(--ex-navy);color:#fff}
+.end{gap:10px}
+.allTopics{margin-left:10px}
+
+/* Topic tray — floats above the bar */
+.tray{position:absolute;left:0;right:0;bottom:calc(100% + 10px);padding:28px 32px 24px}
+.trayRelative{position:relative;margin-bottom:10px}
+.trayHead{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--ex-line)}
+.trayTitle{display:flex;flex-direction:column;gap:8px;min-width:0}
+.trayKicker{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-faint)}
+.trayLabel{font-size:28px;font-weight:300;letter-spacing:-0.02em;line-height:1.05}
+.trayKr{font-family:var(--font-kr);font-size:14px;color:var(--ex-muted);line-height:1.6}
+.trayMeta{display:flex;align-items:center;gap:16px}
+.trayCount{font-size:13px;color:var(--ex-muted);font-variant-numeric:tabular-nums}
+.list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));column-gap:32px;max-height:42vh;overflow-y:auto}
+.list li{border-bottom:1px solid var(--ex-line)}
+.topic{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:baseline;padding:16px 0;color:inherit;text-decoration:none}
+.topicSoon{cursor:default}
+.topicNum{font-size:12px;font-variant-numeric:tabular-nums;color:var(--ex-faint)}
+.topicTitle{font-size:15px;font-weight:400;line-height:1.35;color:var(--ex-navy)}
+.topicRead{font-size:12px;color:var(--ex-faint);white-space:nowrap}
+.reading .topicNum,.reading .topicTitle{color:var(--ex-blue)}
+.reading .topicTitle{font-weight:600}
+.pill{font-size:11px;font-weight:600;color:var(--ex-blue);background:var(--ex-tint);border-radius:999px;padding:3px 9px;white-space:nowrap}
+
+@media (max-width:734px){
+  .tray{padding:20px 20px 16px}
+  .allTopics{margin-left:0}
+}
+@media (max-width:540px){.current{min-width:0}}

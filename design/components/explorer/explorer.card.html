@@ -1,0 +1,16 @@
+<!-- @dsCard group="Components" viewport="700x560" name="Exploration components" subtitle="StageNav, ArrowCTA, DepthRuler, SiteHeader, TechViz" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script><style>body{margin:0;background:#F6F8FB}</style></head><body><div id="root"></div>
+<script type="text/babel">
+const { StageNav, ArrowCTA, DepthRuler, SiteHeader, TechViz } = window.OilGasDevelopmentDesignSystem_dcb6ae;
+const st=['Surface','Petroleum System','Subsurface','Well & Logging','Seismic','Reservoir','Reservoir Engineering','Production','Field Development'].map((l,i)=>({id:'s'+i,num:'0'+(i+1),label:l}));
+ReactDOM.createRoot(document.getElementById('root')).render(<div>
+<SiteHeader position="relative" links={[{id:'j',label:'Journey'},{id:'t',label:'Technology'},{id:'r',label:'Resources'}]} active="t" style={{'--gutter-page':'24px'}}/>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,padding:'0 24px',height:150}}><TechViz kind="seismic" seed={4}/><TechViz kind="strata" seed={5}/><div style={{background:'#13263D',padding:6}}><TechViz kind="reservoir" seed={3}/></div></div>
+<div style={{display:'flex',gap:32,alignItems:'center',padding:'24px'}}><ArrowCTA>Explore the Journey</ArrowCTA><ArrowCTA tone="blue">Continue</ArrowCTA><div style={{height:110}}><DepthRuler marks={['0 m','1,500','3,000 m']}/></div></div>
+<div style={{padding:'8px 0 24px'}}><StageNav stages={st} current={2} position="relative" style={{'--gutter-page':'16px'}}/></div>
+</div>);
+</script></body></html>

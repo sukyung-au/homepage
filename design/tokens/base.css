@@ -1,0 +1,4 @@
+html,body{margin:0;background:var(--color-canvas);color:var(--color-ink);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);letter-spacing:var(--type-body-ls);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+*{box-sizing:border-box}

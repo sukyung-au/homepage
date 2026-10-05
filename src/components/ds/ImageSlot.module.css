@@ -1,0 +1,5 @@
+.slot{position:absolute;inset:0;overflow:hidden;background:var(--ex-tint)}
+.empty{display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:var(--font-editorial);font-size:13px;line-height:1.5;color:var(--ex-muted)}
+.empty::after{content:"";position:absolute;inset:0;border:1.5px dashed var(--ex-line-strong);pointer-events:none}
+.caption{position:relative;max-width:360px}
+.img{object-fit:cover}

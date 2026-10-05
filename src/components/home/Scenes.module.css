@@ -1,0 +1,53 @@
+/* Column roles inside a scene .wrap */
+.text{flex:1 1 380px;max-width:480px}
+.textWide{flex:1 1 520px}
+.visual{flex:2 1 560px;position:relative}
+.bleedRight{margin-right:calc(-1 * var(--gutter-page))}
+.bleedLeft{margin-left:calc(-1 * var(--gutter-page))}
+.facts{display:grid;gap:24px;margin-top:40px}
+.facts2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.facts3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.rule{position:absolute;left:0;right:0;height:1px;background:var(--ex-cyan)}
+
+/* Legend chips */
+.legend{display:flex;flex-wrap:wrap;gap:10px 20px;font-family:var(--font-editorial);font-size:12px}
+.legend span{display:flex;gap:8px;align-items:center}
+.swatch{width:12px;height:12px;border-radius:2px}
+.lineKey{width:20px;height:0;border-top-width:2px}
+
+/* Colour-ramp scale bar overlaid on a visual */
+.scale{display:flex;gap:12px;align-items:center;font-family:var(--font-editorial);font-size:11px;line-height:1.47}
+.scaleBar{height:8px;border-radius:2px}
+.scaleBox{position:absolute;left:24px;bottom:20px;background:rgba(255,255,255,0.94);border-radius:6px;padding:8px 12px;color:var(--ex-navy)}
+
+/* 01 Surface */
+.surfacePhoto{position:relative;margin:0 calc(-1 * var(--gutter-page));height:620px}
+
+/* 02 Petroleum system */
+.elements{list-style:none;padding:0;margin:40px 0 0;display:flex;flex-direction:column}
+.elements li{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--ex-line)}
+.elNum{font-family:var(--font-editorial);font-size:12px;color:var(--ex-blue);padding-top:2px}
+.elTitle{font-family:var(--font-editorial);font-size:15px;font-weight:600}
+.elBody{font-family:var(--font-kr);font-size:14px;line-height:1.6;color:var(--ex-muted);margin-top:2px}
+
+/* 04 Well & logging */
+.logPanel{flex:2 1 560px;display:flex;flex-direction:column;background:#fff;border-radius:4px}
+.tracks{display:grid;grid-template-columns:12fr 22fr 22fr 22fr 22fr;border-bottom:1px solid var(--ex-line)}
+.track{padding:12px 10px;font-family:var(--font-editorial);font-size:11px;border-top:2px solid;line-height:1.47}
+.trackName{font-weight:600;color:var(--ex-navy)}
+.trackUnit{color:var(--ex-faint)}
+
+/* 05 Seismic */
+.sectionTag{position:absolute;left:var(--gutter-page);top:16px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-navy);background:rgba(255,255,255,0.9);padding:6px 10px;border-radius:4px;line-height:1.47}
+
+/* 06 Reservoir */
+.chips{display:flex;gap:8px;margin-top:36px;flex-wrap:wrap}
+.chip{all:unset;cursor:pointer;padding:9px 16px;border-radius:999px;font-family:var(--font-editorial);font-size:13px;line-height:1.47;border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.7);background:transparent}
+.chip:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.chipOn{border-color:#4DA3FF;color:#fff;background:rgba(77,163,255,0.16)}
+.propScale{position:absolute;right:0;bottom:0;color:rgba(255,255,255,0.8)}
+.propName{margin-left:8px;color:#fff;font-weight:600}
+
+/* 09 Field development */
+.fieldCard{position:relative;margin:0 var(--gutter-page) 140px;max-width:620px;background:#fff;padding:48px 48px 44px;border-radius:4px}
+@media (max-width:640px){.fieldCard{padding:32px 24px 28px}}
