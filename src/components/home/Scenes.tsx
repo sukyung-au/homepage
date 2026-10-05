@@ -247,7 +247,7 @@ function DevelopmentScene() {
         </p>
       </div>
 
-      <div className={s.fdp} data-layer="fdp-diagram">
+      <div className={s.fdp} data-layer="fdp-diagram" data-nav-anchor>
         <ul className={s.disciplines} aria-label="Disciplines integrated into the FDP">
           {DISCIPLINES.map(([a, b], i) => (
             <li key={a} data-discipline={i + 1}>
