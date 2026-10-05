@@ -6,11 +6,11 @@
 .photo{object-fit:cover;object-position:100% 0%}
 
 /* Faint pale wash behind the left-hand copy only; transparent well before the platform */
-.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,248,251,0.86) 0%,rgba(246,248,251,0.62) 30%,rgba(246,248,251,0) 56%);pointer-events:none}
+.scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(246,248,251,0.66) 0%,rgba(246,248,251,0.42) 28%,rgba(246,248,251,0) 46%);pointer-events:none}
 
 .copy{position:relative;z-index:2;padding:200px var(--gutter-page) 120px;max-width:900px}
 .copy .eyebrow{color:var(--ex-muted);font-weight:600}
-.title{font-family:var(--font-editorial);font-size:var(--type-editorial-xl);font-weight:300;line-height:0.92;letter-spacing:-0.025em;text-transform:uppercase;margin:32px 0 0;color:var(--ex-navy)}
+.title{font-family:var(--font-editorial);font-size:calc(var(--type-editorial-xl) * 0.88);font-weight:300;line-height:0.92;letter-spacing:-0.025em;text-transform:uppercase;margin:32px 0 0;color:var(--ex-navy)}
 .tagline{font-family:var(--font-editorial);font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-0.01em;margin:36px 0 0;color:var(--ex-navy)}
 .copy .lede{max-width:380px}
 .cta{margin-top:44px}
