@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { StageNav } from "@/components/ds/StageNav";
+import { heroSettledTop } from "@/lib/heroTransition";
 import { STAGES, sceneId } from "@/lib/stages";
 
 /** Gap kept between an anchored block and the top of the floating rail */
@@ -10,10 +11,16 @@ const ANCHOR_GAP = 12;
  * Jump to a stage. By default the scene's top aligns with the viewport top. A scene can mark its key block
  * with [data-nav-anchor] (e.g. the FDP diagram): the jump then scrolls just far enough for that block to end
  * above the rail — but never so far that the scene title (h2) leaves the top of the viewport.
+ * A scene inside the Hero → Exploration transition lands where that transition settles.
  */
 function scrollToStage(i: number) {
   const sec = document.getElementById(sceneId(STAGES[i].id));
   if (!sec) return;
+  const settled = sec.closest("[data-hero-transition]") ? heroSettledTop() : null;
+  if (settled !== null) {
+    window.scrollTo({ top: settled, behavior: "smooth" });
+    return;
+  }
   let top = sec.getBoundingClientRect().top + window.scrollY;
   const anchor = sec.querySelector<HTMLElement>("[data-nav-anchor]");
   const rail = document.querySelector<HTMLElement>("[data-journey-nav]");

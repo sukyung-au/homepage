@@ -75,7 +75,7 @@ function RegionalMap() {
         ))}
         {[[170, 62], [250, 46], [455, 70]].map(([x, y]) => <ellipse key={x} cx={x} cy={y} rx={16} ry={8} className={s.lead} />)}
         <ellipse cx={380} cy={58} rx={16} ry={8} className={s.prospect} />
-        <rect x={360} y={44} width={40} height={28} className={s.zoomBox} />
+        <rect x={360} y={44} width={40} height={28} className={s.zoomBox} data-layer="zoom-box" />
       </svg>
       <span className={s.mapTag}><b>01</b> Regional basin view</span>
       <span className={s.mapNote}>Leads · Prospect</span>
@@ -83,13 +83,14 @@ function RegionalMap() {
   );
 }
 
-function ExplorationScene() {
+/** Rendered by HeroToExploration (the Hero → Exploration scroll transition), not by JourneyScenes. */
+export function ExplorationScene() {
   const st = getStage("exploration");
   const cam: Camera = { x: 0, y: 0, w: 1000, h: 560 };
   return (
     <Scene stage={st}>
       <div className={cx(ss.wrap, s.rowTop)}>
-        <div className={s.text}>
+        <div className={s.text} data-layer="narrative">
           <SceneHead stage={st}>
             <p className={s.purpose}><span>Purpose</span>유망한 지하 구조를 찾고, 탄화수소가 실제로 있는지 확인합니다.</p>
             <Steps items={EXPLORATION} arrows />
@@ -97,7 +98,7 @@ function ExplorationScene() {
         </div>
         <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.exploration}>
           <RegionalMap />
-          <svg className={s.zoom} viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden>
+          <svg className={s.zoom} data-layer="zoom-lines" viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden>
             <path d="M60,0 L0,40 M66.7,0 L100,40" />
           </svg>
           <FieldSection
@@ -448,10 +449,10 @@ function DecommissioningScene() {
 }
 
 /** The five journey scenes, in scroll order. */
+/** Scenes 02–05. 01 Exploration opens inside HeroToExploration, directly after the Hero. */
 export function JourneyScenes() {
   return (
     <>
-      <ExplorationScene />
       <AppraisalScene />
       <DevelopmentScene />
       <ProductionScene />

@@ -1,0 +1,60 @@
+/* V2.4 prototype — Hero → Exploration scroll transition.
+   Default (mobile, short viewports, reduced motion): plain V2.3 document flow, Hero → StageIndex → Exploration.
+   Motion query (keep in sync with HERO_MOTION_QUERY in src/lib/heroTransition.ts): the Hero and Exploration
+   share one sticky stage pinned for --hx-runway of scroll. Progress variables are written by HeroToExploration;
+   every fallback below equals progress 0, so the first paint is the V2.3 Hero. */
+.root{position:relative}
+.tint,.tail,.runway{display:none}
+
+@media (min-width:900px) and (min-height:700px) and (prefers-reduced-motion:no-preference){
+  .root{--hx-runway:140vh;--hx-tail:45svh}
+  .runway{display:block;height:var(--hx-runway)}
+
+  /* Sticky stage: Exploration in flow defines its height (taller than the viewport is fine — the pin holds its
+     top; once the runway ends it scrolls on normally). StageIndex follows Exploration here; DOM order unchanged. */
+  .stage{position:sticky;top:0;display:flex;flex-direction:column;background:var(--ex-bg)}
+  .subsurface{order:1}
+  .index{order:2}
+
+  /* ── Surface: the V2.3 Hero, laid over the first viewport of the stage ── */
+  .surface{position:absolute;top:0;left:0;right:0;height:100svh;z-index:3;transform:translate3d(0,calc(var(--dive,0) * (-100svh - var(--hx-tail))),0);will-change:transform}
+  .surface > section{min-height:0;height:100%}
+  .surface [data-layer="copy"]{padding-top:clamp(132px,calc(100svh - 700px),200px)}
+
+  /* Camera push: a slight dolly toward the open sea, lower left. Uniform scale only — the platform is never moved on its own. */
+  .surface [data-layer="photo"]{transform-origin:28% 100%;transform:scale(calc(1 + var(--cam,0) * 0.12));will-change:transform}
+  .surface [data-layer="scrim"]{opacity:calc(1 - var(--copy,0))}
+  .surface header{opacity:calc(1 - var(--copy,0))}
+
+  /* Copy departs in reading order: a short rise and fade, each starting a beat after the previous */
+  .surface [data-layer="copy"] > [data-sequence]{--k:clamp(0,(var(--copy,0) - var(--d,0)) / 0.6,1);opacity:calc(1 - var(--k));transform:translate3d(0,calc(var(--k) * -16px),0)}
+  .surface [data-layer="copy"] > [data-sequence="2"]{--d:0.1}
+  .surface [data-layer="copy"] > [data-sequence="3"]{--d:0.2}
+  .surface [data-layer="copy"] > [data-sequence="4"]{--d:0.3}
+  .surface [data-layer="copy"] > [data-sequence="5"]{--d:0.4}
+  .root[data-copy-gone] .surface header,.root[data-copy-gone] .surface [data-layer="copy"]{visibility:hidden}
+  .root[data-surface-gone] .surface{visibility:hidden}
+
+  /* Sea-level handoff: the photo's ocean pales into the FieldSection sea tone (#CFE5F1); below the photo the
+     water column fades into the page, and the waterline passes up through the frame as the camera descends. */
+  .tint{display:block;position:absolute;left:0;right:0;bottom:0;height:60%;background:linear-gradient(to bottom,rgba(207,229,241,0),#CFE5F1 92%);opacity:var(--tint,0);pointer-events:none;z-index:1}
+  .tail{display:block;position:absolute;left:0;right:0;top:100%;height:var(--hx-tail);background:linear-gradient(to bottom,#CFE5F1,rgba(207,229,241,0));border-top:1px solid var(--ex-cyan);pointer-events:none}
+  .seaLevel{position:absolute;left:var(--gutter-page);top:12px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-navy);opacity:var(--tint,0)}
+
+  /* ── Subsurface: the V2.3 Exploration scene, revealed through its own structure ── */
+  .subsurface [data-layer="regional-map"]{opacity:var(--map,0)}
+  .subsurface [data-layer="zoom-lines"]{opacity:var(--zoom,0)}
+  /* Field section grows out of the regional map's zoom box (geometry measured once per resize as --fs-*) */
+  .subsurface [data-persist="field-section"]{transform-origin:0 0;transform:translate3d(calc(var(--fs-x,0px) * (1 - var(--focus,0))),calc(var(--fs-y,0px) * (1 - var(--focus,0))),0) scale(calc(var(--fs-s,1) + (1 - var(--fs-s,1)) * var(--focus,0)));opacity:clamp(0,var(--focus,0) * 3,1);will-change:transform}
+  /* Inside the field: survey → interpretation → drilling, then their annotations (existing data-sequence) */
+  .subsurface [data-persist="field-section"] [data-sequence]{opacity:clamp(0,(var(--layers,0) - var(--d,0)) / 0.4,1)}
+  .subsurface [data-persist="field-section"] [data-sequence="2"]{--d:0.2}
+  .subsurface [data-persist="field-section"] [data-sequence="3"]{--d:0.4}
+  .subsurface [data-persist="field-section"] [data-sequence="4"]{--d:0.6}
+  /* Narrative settles in reading order: eyebrow, title, body, purpose, steps */
+  .subsurface [data-layer="narrative"] > div > *{--k:clamp(0,(var(--text,0) - var(--d,0)) / 0.5,1);opacity:var(--k);transform:translate3d(0,calc((1 - var(--k)) * 14px),0)}
+  .subsurface [data-layer="narrative"] > div > :nth-child(2){--d:0.1}
+  .subsurface [data-layer="narrative"] > div > :nth-child(3){--d:0.2}
+  .subsurface [data-layer="narrative"] > div > :nth-child(4){--d:0.3}
+  .subsurface [data-layer="narrative"] > div > :nth-child(5){--d:0.4}
+}
