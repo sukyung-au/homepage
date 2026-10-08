@@ -1,0 +1,115 @@
+/* 15 s intro reel. Every timed rule only runs under .playing; --d = start (s), --dur = duration (s). */
+.reel{position:fixed;inset:0;z-index:100;background:#000;overflow:hidden;color:#fff;font-family:var(--font-editorial);cursor:pointer;user-select:none}
+.playing{cursor:none;animation:reelOut .8s 14.2s ease both}
+
+/* Scroll lock while the reel owns the screen */
+:global(html[data-reel="waiting"]),:global(html[data-reel="playing"]){overflow:hidden}
+
+/* ── Camera ─────────────────────────────────────────── */
+.world{position:absolute;left:0;top:0;width:100%;height:400vh;opacity:0;will-change:transform}
+.playing .world{animation:world 15s linear both}
+/* 0–1.8 dark · 2.2 surface · 3.4 dive · 5.0 strata top · 9.0 slow drift · 12.0 hold · 13.1 back at the surface */
+@keyframes world{
+  0%{opacity:0;transform:translateY(0)}
+  12%{opacity:0;transform:translateY(0)}
+  14.7%{opacity:1;transform:translateY(0)}
+  22.7%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.55,0,.25,1)}
+  33.3%{transform:translateY(-200vh);animation-timing-function:cubic-bezier(.3,0,.6,1)}
+  60%{transform:translateY(-232vh);animation-timing-function:ease-out}
+  80%{transform:translateY(-240vh);animation-timing-function:cubic-bezier(.7,0,.9,.5)}
+  87.3%{opacity:1;transform:translateY(0)}
+  100%{opacity:1;transform:translateY(0)}
+}
+
+.sky{position:relative;height:100vh;overflow:hidden}
+.sky::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(14,90,134,.55) 85%,#0E5A86 100%)}
+.photo{position:absolute;inset:0;background:url(/hero-surface.webp) 100% 0%/cover no-repeat;transform:scale(1.18)}
+.playing .photo{animation:photoPush 3.4s 1.8s cubic-bezier(.2,.6,.3,1) both}
+@keyframes photoPush{from{transform:scale(1.18)}to{transform:scale(1)}}
+
+.water{position:relative;height:100vh;background:linear-gradient(180deg,#0E5A86 0%,#0B3A5E 45%,#0B1F36 100%);overflow:hidden}
+.rays{position:absolute;inset:-20% 0 30%;background:repeating-linear-gradient(100deg,rgba(255,255,255,.07) 0 3%,transparent 3% 9%);mask-image:linear-gradient(180deg,#000,transparent)}
+
+.strata{position:relative;height:200vh;background:#0B1F36}
+.svg{position:absolute;inset:0;width:100%;height:100%}
+.horizon{fill:none;stroke:rgba(255,255,255,.08);stroke-width:1}
+.seabed{fill:none;stroke:rgba(18,164,217,.6);stroke-width:1.5}
+
+.wave{fill:none;stroke:rgba(18,164,217,.7);stroke-width:1.5;transform-origin:800px 0;transform:scale(0);opacity:0}
+.playing .wave{animation:wave 1.4s var(--d) ease-out both}
+@keyframes wave{0%{transform:scale(0);opacity:.9}100%{transform:scale(1);opacity:0}}
+
+.reflect{fill:none;stroke:var(--ex-cyan);stroke-width:2.5;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 6px rgba(18,164,217,.9))}
+.playing .reflect{animation:draw .7s var(--d) cubic-bezier(.3,0,.2,1) both,settle 1.2s calc(var(--d) + .7s) ease-out both}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes settle{to{stroke:rgba(18,164,217,.45);stroke-width:1.5;filter:none}}
+
+.well{fill:none;stroke:#fff;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1}
+.playing .well{animation:draw .9s var(--d) cubic-bezier(.5,0,.8,.6) both}
+.devWell{stroke:rgba(255,255,255,.75);stroke-width:1.5}
+.playing .devWell{animation-duration:.6s}
+
+.accum{fill:var(--ex-amber);opacity:0}
+.playing .accum{animation:accum .7s 9.95s ease-out both}
+@keyframes accum{from{opacity:0}to{opacity:.85}}
+
+.flow{fill:none;stroke:#FFD08A;stroke-width:2;stroke-linecap:round;stroke-dasharray:.03 .05;opacity:0}
+.playing .flow{animation:fadeIn .4s 10.5s both,flow 1s 10.5s linear infinite}
+@keyframes flow{to{stroke-dashoffset:-.08}}
+
+.flash{position:absolute;left:50%;width:60vmin;height:60vmin;margin:-30vmin 0 0 -30vmin;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,214,140,.9) 18%,rgba(242,154,31,.35) 42%,transparent 70%);opacity:0;transform:scale(.1)}
+.playing .flash{animation:flash .8s 9.85s cubic-bezier(.2,.8,.3,1) both}
+@keyframes flash{0%{opacity:0;transform:scale(.1)}15%{opacity:1}100%{opacity:0;transform:scale(2.2)}}
+
+/* ── 0–2 s: ping ────────────────────────────────────── */
+.intro{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.rings{width:min(90vmin,900px);height:min(90vmin,900px);overflow:visible}
+.rings circle{fill:none;stroke:var(--ex-cyan);stroke-width:1.5;opacity:0;transform:scale(0)}
+.playing .rings circle{animation:ring 1.8s var(--d) cubic-bezier(.1,.6,.3,1) both}
+.rings .dot{fill:var(--ex-cyan);stroke:none;opacity:1;transform:none;animation:blink 1.6s ease-in-out infinite}
+.playing .rings .dot{animation:fadeOut .4s 1.6s both}
+@keyframes ring{0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:0}}
+@keyframes blink{50%{opacity:.25}}
+
+/* ── Captions ───────────────────────────────────────── */
+.cap{position:absolute;margin:0;opacity:0;pointer-events:none;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.35)}
+.playing .cap{animation:cap var(--dur) var(--d) cubic-bezier(.2,.7,.2,1) both}
+@keyframes cap{0%{opacity:0;transform:translateY(14px)}18%{opacity:1;transform:none}82%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-8px)}}
+.question{left:0;right:0;top:calc(50% + min(24vmin,240px));text-align:center;font-size:clamp(20px,2.2vw,34px);font-weight:300;letter-spacing:.01em;color:rgba(255,255,255,.9)}
+.lead{left:var(--gutter-page);top:42%;font-size:clamp(32px,4.4vw,68px);font-weight:300;letter-spacing:-.02em;color:var(--ex-navy);text-shadow:none}
+.stageCap{left:var(--gutter-page);bottom:calc(14vh + 56px);font-size:clamp(48px,8vw,128px);font-weight:300;line-height:.92;letter-spacing:-.025em;text-transform:uppercase}
+
+/* ── HUD ────────────────────────────────────────────── */
+.hud{position:absolute;left:var(--gutter-page);right:var(--gutter-page);bottom:8vh;margin:0;padding:16px 0 0;list-style:none;display:flex;gap:clamp(12px,3vw,48px);border-top:1px solid rgba(255,255,255,.18);opacity:0;transition:opacity .5s ease}
+.hudOn{opacity:1}
+.hud li{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .3s ease}
+.hud li span{margin-right:8px;font-variant-numeric:tabular-nums}
+.hud .past{color:rgba(255,255,255,.6)}
+.hud .active{color:#fff}
+.hud .active span{color:var(--ex-cyan)}
+@media (max-width:734px){.hud li:not(.active){display:none}}
+
+.curve{position:absolute;right:var(--gutter-page);bottom:calc(8vh + 56px);width:min(280px,40vw);opacity:0;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+.curve svg{display:block;width:100%;height:90px;margin-top:8px;border-left:1px solid rgba(255,255,255,.25);border-bottom:1px solid rgba(255,255,255,.25)}
+.curve path{fill:none;stroke:var(--ex-amber);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1}
+.playing .curve{animation:window 1.9s 10.4s both}
+@keyframes window{0%{opacity:0}15%{opacity:1}85%{opacity:1}100%{opacity:0}}
+.playing .curve path{animation:draw 1.4s 10.6s ease-out both}
+
+/* ── Daylight + presenter card ──────────────────────── */
+.daylight{position:absolute;inset:0;background:var(--ex-bg);opacity:0;pointer-events:none}
+.playing .daylight{animation:fadeIn .7s 12.4s ease-in both}
+.credit{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;color:var(--ex-navy);pointer-events:none;text-align:center}
+.playing .credit{animation:fadeOut .35s 13.95s ease-in both}
+.credit span{opacity:0}
+.playing .credit span{animation:rise .7s var(--d) cubic-bezier(.2,.7,.2,1) both}
+.creditEvent{font-size:var(--type-eyebrow-size);font-weight:600;letter-spacing:var(--type-eyebrow-ls);text-transform:uppercase;color:var(--ex-muted)}
+.creditName{font-family:var(--font-kr);font-size:clamp(44px,6vw,88px);font-weight:300;letter-spacing:-.02em;line-height:1}
+.creditTeam{font-family:var(--font-kr);font-size:clamp(16px,1.6vw,22px);color:var(--ex-muted)}
+
+.hint{position:absolute;left:0;right:0;bottom:6vh;margin:0;text-align:center;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes reelOut{from{opacity:1}to{opacity:0;visibility:hidden}}

@@ -14,6 +14,19 @@
 .tagline{font-family:var(--font-editorial);font-size:30px;font-weight:400;line-height:1.2;letter-spacing:-0.01em;margin:36px 0 0;color:var(--ex-navy)}
 .copy .lede{max-width:380px}
 .cta{margin-top:44px}
+.presenter{margin:56px 0 0;padding-top:16px;border-top:1px solid var(--ex-line-strong);max-width:380px;font-family:var(--font-kr);font-size:15px;color:var(--ex-navy)}
+.presenter span{display:block;margin-bottom:6px;font-family:var(--font-editorial);font-size:var(--type-eyebrow-size);font-weight:600;letter-spacing:var(--type-eyebrow-ls);text-transform:uppercase;color:var(--ex-muted)}
+
+/* Intro reel hand-off (/presentation): copy stays hidden under the reel, then rises in once it fades. */
+:global(html[data-reel="waiting"]) .copy > *,:global(html[data-reel="playing"]) .copy > *{opacity:0}
+:global(html[data-reel="done"]) .copy > *{animation:heroIn .9s cubic-bezier(.2,.7,.2,1) both}
+:global(html[data-reel="done"]) .copy > :nth-child(2){animation-delay:.12s}
+:global(html[data-reel="done"]) .copy > :nth-child(3){animation-delay:.24s}
+:global(html[data-reel="done"]) .copy > :nth-child(4){animation-delay:.36s}
+:global(html[data-reel="done"]) .copy > :nth-child(n+5){animation-delay:.48s}
+:global(html[data-reel="done"]) .photo{animation:heroPhoto 1.6s ease-out both}
+@keyframes heroIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes heroPhoto{from{transform:scale(1.04)}to{transform:none}}
 
 /* Below tablet landscape: copy first on the pale page, then the photo cropped around the platform. */
 @media (max-width:899px){
