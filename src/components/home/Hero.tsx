@@ -13,7 +13,10 @@ import s from "./Hero.module.css";
  * sits in the open sky/sea on the left over a faint pale gradient. Mobile — copy first, then the photo
  * cropped around the platform. The photo itself is shown unfiltered.
  */
-/** `presenter` adds the presentation credit line under the CTA (used on /presentation). */
+/**
+ * `presenter` adds the presentation credit line under the CTA (used on /presentation). Elements marked
+ * [data-reel-target] are where the v2 intro reel lands its particles before handing off to the Hero.
+ */
 export function Hero({ presenter = false }: { presenter?: boolean }) {
   return (
     <section className={s.hero} data-stage="surface" data-scene="00" data-transition-out="Hero photo hands off to the Exploration scene">
@@ -33,14 +36,14 @@ export function Hero({ presenter = false }: { presenter?: boolean }) {
       <div className={s.scrim} aria-hidden />
       <div className={s.copy}>
         <div className={`${sceneStyles.eyebrow} ${s.eyebrow}`}><span>A scientific journey in five stages</span></div>
-        <h1 className={s.title}>Oil &amp; Gas<br />Development</h1>
-        <p className={s.tagline}>From Subsurface<br />to Field Development</p>
+        <h1 className={s.title} data-reel-target>Oil &amp; Gas<br />Development</h1>
+        <p className={s.tagline} data-reel-target>From Subsurface<br />to Field Development</p>
         <p className={`${sceneStyles.body} ${s.lede}`}>지표에서 저류층까지, 그리고 생산과 개발까지. 석유개발의 전 과정을 하나의 과학적 여정으로 탐색합니다.</p>
         <div className={s.cta}><ArrowCTA href={`#${sceneId(STAGES[0].id)}`}>Explore the Journey</ArrowCTA></div>
         {presenter && (
-          <p className={s.presenter}>
-            <span>{PRESENTER.event}</span>
-            {PRESENTER.name} · {PRESENTER.org} {PRESENTER.team}
+          <p className={s.presenter} data-reel-target>
+            <span>{PRESENTER.org} · {PRESENTER.event}</span>
+            {PRESENTER.team} {PRESENTER.name}
           </p>
         )}
       </div>

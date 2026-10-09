@@ -1,0 +1,10 @@
+/* v2 reel layer. The canvas draws everything; from 12.3 s it is transparent and the Hero shows through. */
+.reel{position:fixed;inset:0;z-index:100;cursor:pointer;user-select:none}
+.reel[data-phase="playing"],.reel[data-phase="poster"],.reel[data-phase="handoff"]{cursor:none;pointer-events:none}
+.canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hint{position:absolute;left:0;right:0;bottom:6vh;margin:0;text-align:center;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)}
+
+/* Scroll lock and floating rail hidden until the hand-off */
+:global(html[data-reel="waiting"]),:global(html[data-reel="playing"]),:global(html[data-reel="poster"]){overflow:hidden}
+:global(html[data-reel="waiting"] [data-journey-nav]),:global(html[data-reel="playing"] [data-journey-nav]),:global(html[data-reel="poster"] [data-journey-nav]){opacity:0}
+:global(html[data-reel] [data-journey-nav]){transition:opacity .8s ease .5s}

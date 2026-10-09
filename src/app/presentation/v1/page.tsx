@@ -3,20 +3,20 @@ import { Hero } from "@/components/home/Hero";
 import { JourneyNav } from "@/components/home/JourneyNav";
 import { JourneyScenes } from "@/components/home/Scenes";
 import { StageIndex } from "@/components/home/StageIndex";
-import { ShowReelV2 } from "@/components/intro/ShowReelV2";
+import { ShowReel } from "@/components/intro/ShowReel";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { PRESENTER } from "@/lib/presentation";
 
 export const metadata: Metadata = {
-  title: `Oil & Gas Development — ${PRESENTER.event}`,
+  title: `Oil & Gas Development — ${PRESENTER.event} (v1)`,
   robots: { index: false },
 };
 
-/** Presentation entry: the homepage Journey, opened by the 15 s v2 intro reel (v1: /presentation/v1). */
-export default function Presentation() {
+/** First intro reel (photo + diagram, 15 s), kept for comparison. The main entry is /presentation. */
+export default function PresentationV1() {
   return (
     <main>
-      <ShowReelV2 />
+      <ShowReel />
       <Hero presenter />
       <StageIndex />
       <JourneyScenes />
