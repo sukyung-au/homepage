@@ -25,8 +25,8 @@
 :global(html[data-reel="done"]) .copy > :nth-child(4){animation-delay:.36s}
 :global(html[data-reel="done"]) .copy > :nth-child(n+5){animation-delay:.48s}
 :global(html[data-reel="done"]) .photo{animation:heroPhoto 1.6s ease-out both}
-/* v2 reel hand-off: the canvas turns transparent over the bare Hero (no photo, no copy), the matched text
-   (title, tagline, presenter) fades in under the converging particles, then the photo and the rest arrive. */
+/* v2 reel hand-off: the canvas turns transparent over the bare Hero (no photo, no copy) as the camera surfaces,
+   the matched text (title, tagline, presenter) fades in, then the photo and the rest arrive. */
 :global(html[data-reel="waiting"]) .visual,:global(html[data-reel="playing"]) .visual,:global(html[data-reel="poster"]) .visual,
 :global(html[data-reel="waiting"]) .scrim,:global(html[data-reel="playing"]) .scrim,:global(html[data-reel="poster"]) .scrim,
 :global(html[data-reel="poster"]) .copy > *{opacity:0}

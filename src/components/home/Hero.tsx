@@ -15,7 +15,7 @@ import s from "./Hero.module.css";
  */
 /**
  * `presenter` adds the presentation credit line under the CTA (used on /presentation). Elements marked
- * [data-reel-target] are where the v2 intro reel lands its particles before handing off to the Hero.
+ * [data-reel-target] fade in first when the v2 intro reel surfaces, before the rest of the Hero.
  */
 export function Hero({ presenter = false }: { presenter?: boolean }) {
   return (
