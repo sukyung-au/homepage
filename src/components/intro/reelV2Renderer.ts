@@ -60,6 +60,8 @@ const DROP = 10.0;
 const POSTER = 12.3;
 /** Surface break flash; the camera comes to rest */
 const SURFACE = 12.08, REST = 12.6;
+/** The camera starts to rise (the 4–10 s frame drifts down) */
+const LIFT_FROM = 9.7;
 /** Hero photo (public/hero-surface.webp): fallback size, horizon as a fraction of its height, and its colours
  *  sampled from the image — sky from the top edge to the horizon, sea by depth below the horizon */
 const PHOTO_W = 1536, PHOTO_H = 1024, HZ = 0.422;
@@ -285,7 +287,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     g.addColorStop(0.17, "#0B2A45");
     g.addColorStop(1, "#08182A");
     ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
+    ctx.fillRect(0, -H, W, 2 * H);
 
     // plunge: sea line whips up from below, speed lines
     const pl = seg(t, 4.0, 4.38);
@@ -518,8 +520,9 @@ export function createRenderer(canvas: HTMLCanvasElement) {
   /** Camera rise in screen heights: Hermite keys [t, rise, rise speed /s] — launch, strata, sea, ease to rest */
   const liftAt = (t: number) => {
     const rest = (photoFit().hY - surfY()) / H;
-    const LIFT: [number, number, number][] = [[DROP, 0, 2.0], [11.0, 2.2, 1.9], [12.0, rest - 0.35, 1.6], [REST, rest, 0]];
-    if (t <= DROP) return 0;
+    // the rise starts gently under PRODUCTION's exit, so the drop is already moving when it hits
+    const LIFT: [number, number, number][] = [[LIFT_FROM, 0, 0], [DROP, 0.3, 2.0], [11.0, 2.2, 1.9], [12.0, rest - 0.35, 1.6], [REST, rest, 0]];
+    if (t <= LIFT_FROM) return 0;
     if (t >= REST) return rest;
     let i = 0;
     while (t > LIFT[i + 1][0]) i++;
@@ -637,7 +640,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       ctx.globalAlpha *= top0;
       ctx.fillStyle = g;
       ctx.beginPath();
-      ctx.moveTo(-40, 0); ctx.lineTo(W + 40, 0);
+      ctx.moveTo(-40, -2 * H); ctx.lineTo(W + 40, -2 * H);
       [...X].reverse().forEach((x) => ctx.lineTo(x, seabed(x)));
       ctx.fill();
       band(seabed, (x) => hz(0, x, 1), BANDS[0]);
@@ -647,6 +650,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       ctx.restore();
     }
     topGlyph(t, 1);
+    prodCurve(t);
 
     // reservoir, wells, riser up to the platform's jacket
     const cy = crestY(1);
@@ -698,10 +702,8 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     }
     ctx.restore();
 
-    prodCurve(t);
-
     // speed lines while rocketing through the strata, thinning out in the water
-    const sl = 1 - seg(t, 10.9, 11.6);
+    const sl = seg(t, DROP - 0.02, 10.15) * (1 - seg(t, 10.9, 11.6));
     if (sl > 0) {
       const r = rng(17);
       ctx.strokeStyle = `rgba(255,255,255,${0.4 * sl})`;
@@ -765,12 +767,14 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     const sh = shakeAt(t), r = rng(Math.floor(t * 60));
     ctx.save();
     ctx.translate((r() - 0.5) * 2 * sh, (r() - 0.5) * 2 * sh);
-    const zoom = 1 + 0.05 * (t < DROP ? eInCubic(seg(t, 9.0, 9.9)) : 1 - eInOutCubic(seg(t, DROP, 10.4)));
+    // one smooth swell, peaking at the drop
+    const zoom = 1 + 0.05 * (t < DROP ? eInOutCubic(seg(t, 9.0, DROP)) : 1 - eInOutCubic(seg(t, DROP, 10.4)));
     if (zoom > 1) { ctx.translate(W / 2, H / 2); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2); }
 
     if (t < 1.8) slam(t);
     if (t >= 1.3 && t < 4.0) seismic(t);
-    section(t);
+    if (t >= LIFT_FROM && t < DROP) { ctx.save(); ctx.translate(0, liftAt(t) * H); section(t); ctx.restore(); }
+    else section(t);
     words(t);
     if (t >= 4.4 && t < DROP) bigWords(t);
     wipe(t);
@@ -778,7 +782,8 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     ctx.restore();
 
     // pre-drop breath, drop flash
-    if (t > 9.88 && t < DROP) { ctx.fillStyle = "rgba(0,0,0,0.12)"; ctx.fillRect(0, 0, W, H); }
+    const breath = 0.12 * seg(t, 9.8, 9.92) * (1 - seg(t, 9.97, 10.05));
+    if (breath > 0) { ctx.fillStyle = `rgba(0,0,0,${breath})`; ctx.fillRect(0, 0, W, H); }
     const fl = seg(t, DROP, DROP + 0.12);
     if (t >= DROP && fl < 1) { ctx.fillStyle = `rgba(255,255,255,${0.3 * (1 - fl)})`; ctx.fillRect(0, 0, W, H); }
 
