@@ -25,20 +25,22 @@
 :global(html[data-reel="done"]) .copy > :nth-child(4){animation-delay:.36s}
 :global(html[data-reel="done"]) .copy > :nth-child(n+5){animation-delay:.48s}
 :global(html[data-reel="done"]) .photo{animation:heroPhoto 1.6s ease-out both}
-/* v2 reel hand-off: the canvas turns transparent over the bare Hero (no photo, no copy) as the camera surfaces,
-   the matched text (title, tagline, presenter) fades in, then the photo and the rest arrive. */
-:global(html[data-reel="waiting"]) .visual,:global(html[data-reel="playing"]) .visual,:global(html[data-reel="poster"]) .visual,
-:global(html[data-reel="waiting"]) .scrim,:global(html[data-reel="playing"]) .scrim,:global(html[data-reel="poster"]) .scrim,
+/* v2 reel hand-off: the photo and its scrim fade in under the canvas at `poster` (the reel settles on the photo's
+   horizon and crossfades into it), the matched text (title, tagline, presenter) follows, then the rest arrives.
+   One shared rule for poster + handoff so the fade does not restart at handoff, and no scale-in that would
+   shift the platform off the reel's silhouette. */
+:global(html[data-reel="waiting"]) .visual,:global(html[data-reel="playing"]) .visual,
+:global(html[data-reel="waiting"]) .scrim,:global(html[data-reel="playing"]) .scrim,
 :global(html[data-reel="poster"]) .copy > *{opacity:0}
+:global(html[data-reel="poster"]) .visual,:global(html[data-reel="handoff"]) .visual,
+:global(html[data-reel="poster"]) .scrim,:global(html[data-reel="handoff"]) .scrim{animation:heroFade 1.1s ease-out both}
 :global(html[data-reel="waiting"]) .hero > header,:global(html[data-reel="playing"]) .hero > header,:global(html[data-reel="poster"]) .hero > header{opacity:0}
 :global(html[data-reel="poster"]) .copy > [data-reel-target]{animation:heroMatch .5s .8s ease-out both}
 :global(html[data-reel="handoff"]) .copy > *{animation:heroIn .9s cubic-bezier(.2,.7,.2,1) both}
 :global(html[data-reel="handoff"]) .copy > :nth-child(4){animation-delay:.15s}
 :global(html[data-reel="handoff"]) .copy > :nth-child(5){animation-delay:.3s}
 :global(html[data-reel="handoff"]) .copy > [data-reel-target]{animation:none;opacity:1}
-:global(html[data-reel="handoff"]) .visual{animation:heroFade 1.1s ease-out both}
-:global(html[data-reel="handoff"]) .photo{animation:heroPhoto 1.8s ease-out both}
-:global(html[data-reel="handoff"]) .scrim,:global(html[data-reel="handoff"]) .hero > header{animation:heroFade .9s .3s ease-out both}
+:global(html[data-reel="handoff"]) .hero > header{animation:heroFade .9s .3s ease-out both}
 :global(html[data-reel="done"]) .hero > header{animation:heroFade .9s ease-out both}
 @keyframes heroMatch{from{opacity:0}to{opacity:1}}
 @keyframes heroFade{from{opacity:0}to{opacity:1}}

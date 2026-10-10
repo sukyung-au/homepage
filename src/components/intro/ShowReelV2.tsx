@@ -8,9 +8,9 @@ import s from "./ShowReelV2.module.css";
  * v2 intro reel: 15 s of 2D motion graphics on one canvas (reelV2Renderer.ts) with a synthesized 120 BPM
  * soundtrack (reelAudioV2.ts). The picture runs on the audio clock so hits stay locked to the beat.
  *
- * Hand-off to the homepage: the camera surfaces through the sea and, from 12.3 s, the canvas background is
- * transparent over the Hero (photo and copy hidden); the Hero title / tagline / presenter fade in over the
- * settling ripples (`poster`), and at 14.2 s the photo and the rest of the Hero come in (`handoff`). The last frame of
+ * Hand-off to the homepage: the camera surfaces and comes to rest on the Hero photo's horizon; from 12.3 s
+ * (`poster`) the photo fades in under the canvas, which crossfades into it by 13.5 s while the Hero title /
+ * tagline / presenter fade in, and at 14.2 s the rest of the Hero comes in (`handoff`). The last frame of
  * the reel is the homepage itself.
  *
  * Space / Enter / click starts (the browser allows sound only after a gesture). Esc skips, R replays,

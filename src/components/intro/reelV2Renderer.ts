@@ -7,15 +7,17 @@
  *           EXPLORATION → APPRAISAL
  *  7–10     Laser drill → amber impact → reservoir fills; platform, development wells, flow, production curve;
  *           DEVELOPMENT → PRODUCTION; build-up
- *  10–12.3  Drop → surfacing: the camera rockets up from the reservoir through the strata (10–11), past the
- *           seabed into the sea, which brightens toward the surface while bubbles rise (11–12), and breaks the
- *           surface with a short white flash (~12.16) as the background turns daylight
- *  12.3–14  The canvas is transparent over the Hero; only ripples settle along the bottom of the frame
+ *  10–12.6  Drop → surfacing: the camera rockets up from the reservoir through the strata (10–11), past the
+ *           seabed into the sea, which brightens toward the surface while bubbles rise (11–12), breaks the
+ *           surface with a short white flash (~12.08) and eases to rest with the waterline on the Hero photo's
+ *           horizon; sky, sea and a navy platform silhouette settle onto the photo
+ *  12.7–13.5  The canvas crossfades into the Hero photo (shown under it from 12.3), silhouette into platform
  *
+ * The rest position and the platform are measured from the live Hero photo marked [data-reel-photo].
  * Canvas type uses the font family of the Hero text marked [data-reel-target].
  */
 
-const NAVY = [11, 26, 44], BG = [246, 248, 251];
+const NAVY = [11, 26, 44], BG = [246, 248, 251], CYAN_RGB = [18, 164, 217];
 const CYAN = "#12A4D9", AMBER = "#F29A1F", WHITE = "#FFFFFF";
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
@@ -27,7 +29,16 @@ const eInCubic = (x: number) => x * x * x;
 const eInOutCubic = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - (-2 * x + 2) ** 3 / 2);
 const eOutBack = (x: number) => 1 + 2.70158 * (x - 1) ** 3 + 1.70158 * (x - 1) ** 2;
 const gauss = (x: number) => Math.exp(-x * x);
-const mix = (a: number[], b: number[], k: number) => `rgb(${a.map((v, i) => Math.round(lerp(v, b[i], k))).join(",")})`;
+const blend = (a: number[], b: number[], k: number) => a.map((v, i) => lerp(v, b[i], k));
+const rgb = (c: number[]) => `rgb(${c.map(Math.round).join(",")})`;
+const mix = (a: number[], b: number[], k: number) => rgb(blend(a, b, k));
+/** Piecewise-linear colour ramp over [position, rgb] stops */
+const ramp = (stops: [number, number[]][], p: number) => {
+  let i = 0;
+  while (i < stops.length - 2 && p > stops[i + 1][0]) i++;
+  const [p0, c0] = stops[i], [p1, c1] = stops[i + 1];
+  return blend(c0, c1, clamp((p - p0) / (p1 - p0)));
+};
 
 function rng(seed: number) {
   return () => {
@@ -46,16 +57,26 @@ const DEV_WELLS: [number, number][] = [[-0.2, 7.75], [0.17, 8.0], [-0.09, 8.25]]
 const DROP = 10.0;
 /** Canvas background is gone from here (ShowReelV2 POSTER_AT) */
 const POSTER = 12.3;
+/** Surface break flash; the camera comes to rest */
+const SURFACE = 12.08, REST = 12.6;
+/** Hero photo (public/hero-surface.webp): fallback size, horizon as a fraction of its height, and its colours
+ *  sampled from the image — sky from the top edge to the horizon, sea by depth below the horizon */
+const PHOTO_W = 1536, PHOTO_H = 1024, HZ = 0.422;
+const SKY_PHOTO: [number, number[]][] = [[0, [102, 164, 229]], [0.3, [121, 179, 237]], [0.6, [153, 199, 239]], [0.85, [190, 214, 237]], [1, [198, 216, 236]]];
+const SEA_PHOTO: [number, number[]][] = [[0, [92, 145, 201]], [0.14, [85, 137, 193]], [0.27, [80, 130, 185]], [0.39, [68, 120, 174]], [0.52, [40, 98, 151]]];
 const BIG: [string, number, number][] = [["EXPLORATION", 4.45, 5.65], ["APPRAISAL", 5.75, 6.95], ["DEVELOPMENT", 7.45, 8.62], ["PRODUCTION", 8.72, 9.9]];
 /** Short shakes: [time, strength px] */
-const SHAKES: [number, number][] = [[0.05, 16], [1.5, 4], [2.0, 4], [2.5, 5], [3.0, 5], ...SLAM.map((s) => [s + 0.2, 4] as [number, number]), [IMPACT, 14], [DROP, 18], [12.16, 6]];
+const SHAKES: [number, number][] = [[0.05, 16], [1.5, 4], [2.0, 4], [2.5, 5], [3.0, 5], ...SLAM.map((s) => [s + 0.2, 4] as [number, number]), [IMPACT, 14], [DROP, 18], [SURFACE, 6]];
 /** Horizontal slice glitches: [start, strength] */
 const SLICES: [number, number][] = [[1.5, 0.6], [2.0, 0.6], [2.5, 0.8], [3.0, 1], [8.6, 1.4], [DROP, 1.2]];
+
+interface PhotoFit { x: number; w: number; h: number; hY: number }
 
 export function createRenderer(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d")!;
   let W = 0, H = 0, dpr = 1;
   let traceSeeds: number[] = [];
+  let fit: PhotoFit | null = null;
 
   const font = () => {
     const el = document.querySelector<HTMLElement>("[data-reel-target]");
@@ -70,6 +91,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     canvas.width = Math.round(W * dpr);
     canvas.height = Math.round(H * dpr);
     family = font();
+    fit = null;
     const r = rng(7);
     traceSeeds = Array.from({ length: 64 }, () => r());
   }
@@ -443,7 +465,8 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     }
   }
 
-  /* ── 10–12.3 s: surfacing — the camera rises from the reservoir through the strata, the sea, and out ── */
+  /* ── 10–13.5 s: surfacing — the camera rises from the reservoir through the strata and the sea, breaks the
+     surface and settles on the Hero photo's horizon, then crossfades into the photo ── */
   // World above the 4–10 s section (y in px of that frame): N_OVER extra overburden bands, the seabed, then
   // DEPTH of water up to the sea surface. liftAt(t) is how far the camera has risen (the world shifts down).
   const N_OVER = 5, BAND_H = 0.28, DEPTH = 2.8;
@@ -454,19 +477,40 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     j === 0 ? hz(0, x, 1)
       : j === N_OVER ? bedY() + 0.004 * H * Math.sin(x / (0.05 * W))
         : H * (BASES[0] - j * BAND_H) - (1 - j / N_OVER) * H * AMPS[0] * gauss((x - cx()) / (0.27 * W)) + 0.008 * H * Math.sin(x / (0.09 * W) + j * 2.3);
-  const wave = (x: number, t: number) => surfY() + 0.006 * H * Math.sin(x / (0.05 * W) + t * 5) + 0.004 * H * Math.sin(x / (0.021 * W) - t * 7);
-  /** Camera rise in screen heights: Hermite keys [t, rise, rise speed /s] — launch, strata, sea, burst through */
-  const LIFT: [number, number, number][] = [[DROP, 0, 0], [11.0, 2.2, 1.9], [12.15, 4.4, 3.0], [12.3, 5.3, 5.5]];
+  /** Sea surface; `a` calms the swell to the photo's flat horizon */
+  const wave = (x: number, t: number, a = 1) => surfY() + a * (0.006 * H * Math.sin(x / (0.05 * W) + t * 5) + 0.004 * H * Math.sin(x / (0.021 * W) - t * 7));
+
+  /** Where the Hero photo (object-fit: cover) is drawn; the camera comes to rest on its horizon. */
+  function photoFit(): PhotoFit {
+    if (fit) return fit;
+    const img = document.querySelector<HTMLImageElement>("[data-reel-photo]");
+    const nw = img?.naturalWidth || PHOTO_W, nh = img?.naturalHeight || PHOTO_H;
+    let box = { left: 0, top: 0, width: W, height: H }, px = 1, py = 0;
+    const r = img?.getBoundingClientRect();
+    // Desktop: the photo is the full-bleed backdrop. Otherwise (mobile layout) assume it covers the viewport.
+    if (img && r && r.width >= 0.9 * W && r.height >= 0.9 * H && Math.abs(r.top) < 2) {
+      box = r;
+      const [ox, oy] = getComputedStyle(img).objectPosition.split(" ").map((v) => parseFloat(v) / 100);
+      if (Number.isFinite(ox)) px = ox;
+      if (Number.isFinite(oy)) py = oy;
+    }
+    const s = Math.max(box.width / nw, box.height / nh), w = nw * s, h = nh * s, x = box.left + (box.width - w) * px, y = box.top + (box.height - h) * py;
+    const f = { x, w, h, hY: y + HZ * h };
+    if (!img || img.complete) fit = f;
+    return f;
+  }
+
+  /** Camera rise in screen heights: Hermite keys [t, rise, rise speed /s] — launch, strata, sea, ease to rest */
   const liftAt = (t: number) => {
-    if (t <= LIFT[0][0]) return 0;
-    const last = LIFT[LIFT.length - 1];
-    if (t >= last[0]) return last[1] + last[2] * (t - last[0]);
+    const rest = (photoFit().hY - surfY()) / H;
+    const LIFT: [number, number, number][] = [[DROP, 0, 0], [11.0, 2.2, 1.9], [12.0, rest - 0.35, 1.6], [REST, rest, 0]];
+    if (t <= DROP) return 0;
+    if (t >= REST) return rest;
     let i = 0;
     while (t > LIFT[i + 1][0]) i++;
     const [t0, p0, m0] = LIFT[i], [t1, p1, m1] = LIFT[i + 1], d = t1 - t0, s = (t - t0) / d;
     return (2 * s ** 3 - 3 * s * s + 1) * p0 + (s ** 3 - 2 * s * s + s) * d * m0 + (-2 * s ** 3 + 3 * s * s) * p1 + (s ** 3 - s * s) * d * m1;
   };
-  const SURFACE = 12.16;
 
   function band(top: (x: number) => number, bottom: (x: number) => number, fill: string) {
     const X = xs();
@@ -482,55 +526,94 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     ctx.stroke();
   }
 
+  /** Navy silhouette of the photo's platform, traced in photo fractions; P maps them into the world. */
+  function platform(P: (fx: number, fy: number) => [number, number], w: number) {
+    const poly = (pts: [number, number][]) => {
+      ctx.beginPath();
+      pts.forEach(([fx, fy], i) => { const [x, y] = P(fx, fy); if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
+      ctx.closePath();
+      ctx.fill();
+    };
+    const rect = (x0: number, y0: number, x1: number, y1: number) => poly([[x0, y0], [x1, y0], [x1, y1], [x0, y1]]);
+    const line = (x0: number, y0: number, x1: number, y1: number, lw: number) => {
+      ctx.lineWidth = lw * w;
+      ctx.beginPath(); ctx.moveTo(...P(x0, y0)); ctx.lineTo(...P(x1, y1)); ctx.stroke();
+    };
+    ctx.fillStyle = ctx.strokeStyle = "rgb(11,26,44)";
+    poly([[0.792, 0.051], [0.803, 0.051], [0.836, 0.405], [0.772, 0.405]]); // derrick
+    rect(0.789, 0.046, 0.806, 0.057);
+    line(0.612, 0.228, 0.695, 0.405, 0.006); // cranes
+    line(0.918, 0.244, 0.866, 0.405, 0.006);
+    rect(0.712, 0.34, 0.854, 0.425); // modules
+    rect(0.648, 0.375, 0.7, 0.425);
+    rect(0.53, 0.42, 0.89, 0.45); // decks
+    rect(0.555, 0.45, 0.9, 0.575);
+    const legs = [0.615, 0.66, 0.72, 0.76, 0.8, 0.865]; // jacket
+    legs.forEach((lx) => line(lx, 0.575, lx, 0.72, 0.008));
+    line(0.615, 0.625, 0.865, 0.625, 0.003);
+    line(0.615, 0.665, 0.865, 0.665, 0.003);
+    legs.slice(1).forEach((lx, i) => { line(legs[i], 0.575, lx, 0.665, 0.002); line(lx, 0.575, legs[i], 0.665, 0.002); });
+  }
+
   function surfacing(t: number) {
-    if (t < DROP || t >= POSTER) return;
-    const off = liftAt(t) * H, x0 = cx(), sY = surfY(), bY = bedY(), visible = (a: number, b: number) => b + off > 0 && a + off < H;
+    const fade = 1 - seg(t, 12.7, 13.5);
+    if (t < DROP || fade <= 0) return;
+    const pf = photoFit(), off = liftAt(t) * H, x0 = cx(), sY = surfY(), bY = bedY(), visible = (a: number, b: number) => b + off > 0 && a + off < H;
+    // m: colours, swell and underwater detail ease into the photo as the camera comes to rest
+    const m = eInOutCubic(seg(t, 11.8, REST)), calm = 1 - m;
+    const P = (fx: number, fy: number): [number, number] => [pf.x + fx * pf.w, sY + (fy - HZ) * pf.h];
+    ctx.save();
+    ctx.globalAlpha = fade;
     ctx.save();
     ctx.translate(0, off);
 
-    // daylight sky above the surface, hazier toward the horizon
+    // sky above the surface: pale daylight → the photo's sky
     if (sY + off > 0) {
-      const g = ctx.createLinearGradient(0, sY - 0.35 * H, 0, sY);
-      g.addColorStop(0, "rgb(246,248,251)");
-      g.addColorStop(1, mix(BG, [18, 164, 217], 0.12));
+      const top = sY - HZ * pf.h, g = ctx.createLinearGradient(0, top, 0, sY);
+      [0, 0.3, 0.6, 0.75, 0.85, 0.93, 1].forEach((p) => {
+        const haze = clamp(1 - ((1 - p) * HZ * pf.h) / (0.35 * H));
+        g.addColorStop(p, rgb(blend(blend(BG, CYAN_RGB, 0.12 * haze), ramp(SKY_PHOTO, p), m)));
+      });
       ctx.fillStyle = g;
       ctx.fillRect(0, -off, W, sY + off + 0.02 * H);
     }
 
-    // sea: brighter toward the surface
+    // sea: brighter toward the surface, settling on the photo's sea near the surface
     if (visible(sY - 0.02 * H, bY)) {
-      const X = xs(), g = ctx.createLinearGradient(0, sY, 0, bY);
-      g.addColorStop(0, mix([18, 164, 217], [255, 255, 255], 0.35));
-      g.addColorStop(0.12, mix([18, 164, 217], NAVY, 0.1));
-      g.addColorStop(0.5, mix([18, 164, 217], NAVY, 0.55));
-      g.addColorStop(1, "#0B2A45");
+      const X = xs(), D = bY - sY, g = ctx.createLinearGradient(0, sY, 0, bY);
+      const deep: [number, number[]][] = [[0, blend(CYAN_RGB, [255, 255, 255], 0.35)], [0.12, blend(CYAN_RGB, NAVY, 0.1)], [0.5, blend(CYAN_RGB, NAVY, 0.55)], [1, [11, 42, 69]]];
+      const near = SEA_PHOTO.map(([d, c]): [number, number[]] => [Math.min(1, (d * pf.h) / D), c]), last = near[near.length - 1][0];
+      near.forEach(([p, c]) => g.addColorStop(p, rgb(blend(ramp(deep, p), c, m))));
+      deep.filter(([p]) => p > last).forEach(([p, c]) => g.addColorStop(p, rgb(c)));
       ctx.beginPath();
-      X.forEach((x, j) => (j ? ctx.lineTo(x, wave(x, t)) : ctx.moveTo(x, wave(x, t))));
+      X.forEach((x, j) => (j ? ctx.lineTo(x, wave(x, t, calm)) : ctx.moveTo(x, wave(x, t, calm))));
       ctx.lineTo(W + 40, bY + 0.1 * H); ctx.lineTo(-40, bY + 0.1 * H);
       ctx.closePath();
       ctx.fillStyle = g;
       ctx.fill();
       // light shafts from the surface
-      ctx.save();
-      ctx.clip();
-      const rg = ctx.createLinearGradient(0, sY, 0, sY + 1.6 * H);
-      rg.addColorStop(0, "rgba(255,255,255,0.16)");
-      rg.addColorStop(1, "rgba(255,255,255,0)");
-      ctx.fillStyle = rg;
-      for (let i = 0; i < 7; i++) {
-        const x = (i / 6) * W * 1.1 - 0.05 * W + 0.03 * W * Math.sin(t * 1.3 + i * 2), w = (0.03 + 0.03 * (i % 3)) * W;
-        ctx.beginPath();
-        ctx.moveTo(x, sY); ctx.lineTo(x + w, sY); ctx.lineTo(x + w - 0.5 * W, sY + 1.6 * H); ctx.lineTo(x - 0.5 * W - w, sY + 1.6 * H);
-        ctx.fill();
+      if (calm > 0) {
+        ctx.save();
+        ctx.clip();
+        const rg = ctx.createLinearGradient(0, sY, 0, sY + 1.6 * H);
+        rg.addColorStop(0, `rgba(255,255,255,${0.16 * calm})`);
+        rg.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = rg;
+        for (let i = 0; i < 7; i++) {
+          const x = (i / 6) * W * 1.1 - 0.05 * W + 0.03 * W * Math.sin(t * 1.3 + i * 2), w = (0.03 + 0.03 * (i % 3)) * W;
+          ctx.beginPath();
+          ctx.moveTo(x, sY); ctx.lineTo(x + w, sY); ctx.lineTo(x + w - 0.5 * W, sY + 1.6 * H); ctx.lineTo(x - 0.5 * W - w, sY + 1.6 * H);
+          ctx.fill();
+        }
+        ctx.restore();
       }
-      ctx.restore();
     }
 
     // overburden, then the frozen section below it (the last band runs on past the bottom of the frame)
     for (let j = N_OVER; j >= 1; j--) if (visible(over(j, 0) - 0.05 * H, over(j - 1, 0) + 0.15 * H)) band((x) => over(j, x), (x) => over(j - 1, x), BANDS[(j * 3) % 7]);
     for (let i = 1; i < 7; i++) if (visible(H * BASES[i - 1] - 0.15 * H, i === 6 ? 6 * H : H * BASES[i] + 0.05 * H)) band((x) => boundary(i, x, 1), (x) => (i === 6 ? 6 * H : boundary(i + 1, x, 1)), BANDS[i]);
 
-    // reservoir, wells, riser
+    // reservoir, wells, riser up to the platform's jacket
     const cy = crestY(1);
     if (cy + off < H + 0.4 * H) {
       ctx.save();
@@ -554,36 +637,29 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     ctx.strokeStyle = WHITE;
     ctx.lineWidth = 2;
     ctx.beginPath(); ctx.moveTo(x0, cy); ctx.lineTo(x0, bY); ctx.stroke();
-    ctx.strokeStyle = "rgba(255,255,255,0.55)";
-    ctx.beginPath(); ctx.moveTo(x0, bY); ctx.lineTo(x0, sY); ctx.stroke();
+    if (calm > 0) {
+      ctx.strokeStyle = `rgba(255,255,255,${0.55 * calm})`;
+      ctx.beginPath(); ctx.moveTo(x0, bY); ctx.lineTo(...P(0.72, 0.72)); ctx.stroke();
+    }
 
-    // sea surface: shimmer just below, the waterline, the platform standing on it
-    if (visible(sY - 0.3 * H, sY + 0.1 * H)) {
+    // sea surface: shimmer just below, the waterline, the platform on the photo's horizon
+    if (visible(sY - HZ * pf.h, sY + 0.4 * pf.h)) {
       const X = xs();
-      ctx.strokeStyle = "rgba(255,255,255,0.35)";
-      ctx.lineWidth = 1;
-      for (let k = 1; k <= 3; k++) {
-        ctx.beginPath();
-        X.forEach((x, j) => { const y = wave(x, t + k * 0.4) + k * 0.018 * H; if (j) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
-        ctx.stroke();
+      if (calm > 0) {
+        ctx.strokeStyle = `rgba(255,255,255,${0.35 * calm})`;
+        ctx.lineWidth = 1;
+        for (let k = 1; k <= 3; k++) {
+          ctx.beginPath();
+          X.forEach((x, j) => { const y = wave(x, t + k * 0.4, calm) + k * 0.018 * H; if (j) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
+          ctx.stroke();
+        }
       }
-      const u = 0.02 * W, py = wave(x0, t);
-      ctx.fillStyle = ctx.strokeStyle = "rgb(11,26,44)";
-      ctx.lineWidth = 0.35 * u;
-      ctx.save();
-      ctx.translate(x0, py);
+      ctx.strokeStyle = `rgba(255,255,255,${1 - 0.8 * m})`;
+      ctx.lineWidth = 2.5 - 1.5 * m;
       ctx.beginPath();
-      [-2, -0.7, 0.7, 2].forEach((lx) => { ctx.moveTo(lx * u, -1.6 * u); ctx.lineTo(lx * u * 1.12, 0.6 * u); });
+      X.forEach((x, j) => (j ? ctx.lineTo(x, wave(x, t, calm)) : ctx.moveTo(x, wave(x, t, calm))));
       ctx.stroke();
-      ctx.fillRect(-2.8 * u, -2.1 * u, 5.6 * u, 0.55 * u);
-      ctx.fillRect(-2.2 * u, -2.9 * u, 2.4 * u, 0.8 * u);
-      ctx.beginPath(); ctx.moveTo(0.6 * u, -2.1 * u); ctx.lineTo(1.3 * u, -5.4 * u); ctx.lineTo(2.0 * u, -2.1 * u); ctx.fill();
-      ctx.restore();
-      ctx.strokeStyle = WHITE;
-      ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      X.forEach((x, j) => (j ? ctx.lineTo(x, wave(x, t)) : ctx.moveTo(x, wave(x, t))));
-      ctx.stroke();
+      platform(P, pf.w);
     }
     ctx.restore();
 
@@ -600,7 +676,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     }
 
     // bubbles rising in the water
-    const top = Math.max(0, sY + off), bottom = Math.min(H, bY + off), ba = 0.6 * seg(t, 10.85, 11.25);
+    const top = Math.max(0, sY + off), bottom = Math.min(H, bY + off), ba = 0.6 * seg(t, 10.85, 11.25) * calm;
     if (ba > 0 && bottom > top) {
       ctx.save();
       ctx.beginPath(); ctx.rect(0, top, W, bottom - top); ctx.clip();
@@ -614,6 +690,17 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       }
       ctx.restore();
     }
+
+    // the Hero's pale scrim behind the copy (Hero.module.css .scrim, desktop only), so the crossfade is seamless
+    if (m > 0 && W >= 900) {
+      const g = ctx.createLinearGradient(0, 0, W, 0);
+      g.addColorStop(0, `rgba(246,248,251,${0.66 * m})`);
+      g.addColorStop(0.28, `rgba(246,248,251,${0.42 * m})`);
+      g.addColorStop(0.46, "rgba(246,248,251,0)");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, W, H);
+    }
+    ctx.restore();
   }
 
   /** Breaking the surface: a short white flash. */
@@ -622,21 +709,6 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     if (a < 0.01) return;
     ctx.fillStyle = `rgba(255,255,255,${a})`;
     ctx.fillRect(0, 0, W, H);
-  }
-
-  /** Ripples settling along the bottom of the frame once the canvas is transparent over the Hero. */
-  function ripples(t: number) {
-    const a = seg(t, 12.28, 12.5) * (1 - seg(t, 13.2, 13.9));
-    if (a <= 0) return;
-    const X = xs(), tau = t - 12.28;
-    ctx.lineWidth = 1.2;
-    for (let j = 0; j < 4; j++) {
-      const y0 = H * (0.88 + 0.035 * j) + tau * 0.02 * H * (j + 1), amp = 0.006 * H * Math.exp(-tau * 1.5) + 0.0015 * H;
-      ctx.strokeStyle = `rgba(18,164,217,${0.5 * a * (1 - j * 0.2)})`;
-      ctx.beginPath();
-      X.forEach((x, k) => { const y = y0 + amp * Math.sin(x / (0.04 * W) + t * 4 + j * 1.3); if (k) ctx.lineTo(x, y); else ctx.moveTo(x, y); });
-      ctx.stroke();
-    }
   }
 
   /* ── Frame ── */
@@ -674,7 +746,6 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     if (t >= DROP && fl < 1) { ctx.fillStyle = `rgba(255,255,255,${0.75 * (1 - fl)})`; ctx.fillRect(0, 0, W, H); }
 
     surfaceFlash(t);
-    ripples(t);
 
     // horizontal slice glitch
     const sa = sliceAt(t);

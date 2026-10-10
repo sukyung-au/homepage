@@ -15,7 +15,8 @@ import s from "./Hero.module.css";
  */
 /**
  * `presenter` adds the presentation credit line under the CTA (used on /presentation). Elements marked
- * [data-reel-target] fade in first when the v2 intro reel surfaces, before the rest of the Hero.
+ * [data-reel-target] fade in first when the v2 intro reel surfaces, before the rest of the Hero; the reel
+ * measures [data-reel-photo] to settle on the photo's horizon and trace its platform.
  */
 export function Hero({ presenter = false }: { presenter?: boolean }) {
   return (
@@ -31,6 +32,7 @@ export function Hero({ presenter = false }: { presenter?: boolean }) {
           fetchPriority="high"
           sizes="100vw"
           className={s.photo}
+          data-reel-photo
         />
       </div>
       <div className={s.scrim} aria-hidden />
