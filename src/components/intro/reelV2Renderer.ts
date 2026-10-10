@@ -7,7 +7,8 @@
  *           EXPLORATION → APPRAISAL
  *  7–10     Laser drill → amber impact → reservoir fills; platform, development wells, flow, production curve;
  *           DEVELOPMENT → PRODUCTION; build-up
- *  10–12.6  Drop → surfacing: the camera rockets up from the reservoir through the strata (10–11), past the
+ *  10–12.6  Drop → surfacing (no hard cut: a light flash, the zoom eases back, the sea and platform glyph of the
+ *           4–10 s frame dissolve into the overburden): the camera rockets up from the reservoir through the strata (10–11), past the
  *           seabed into the sea, which brightens toward the surface while bubbles rise (11–12), breaks the
  *           surface with a short white flash (~12.08) and eases to rest with the waterline on the Hero photo's
  *           horizon; sky, sea and a navy platform silhouette settle onto the photo
@@ -66,9 +67,9 @@ const SKY_PHOTO: [number, number[]][] = [[0, [102, 164, 229]], [0.3, [121, 179, 
 const SEA_PHOTO: [number, number[]][] = [[0, [92, 145, 201]], [0.14, [85, 137, 193]], [0.27, [80, 130, 185]], [0.39, [68, 120, 174]], [0.52, [40, 98, 151]]];
 const BIG: [string, number, number][] = [["EXPLORATION", 4.45, 5.65], ["APPRAISAL", 5.75, 6.95], ["DEVELOPMENT", 7.45, 8.62], ["PRODUCTION", 8.72, 9.9]];
 /** Short shakes: [time, strength px] */
-const SHAKES: [number, number][] = [[0.05, 16], [1.5, 4], [2.0, 4], [2.5, 5], [3.0, 5], ...SLAM.map((s) => [s + 0.2, 4] as [number, number]), [IMPACT, 14], [DROP, 18], [SURFACE, 6]];
+const SHAKES: [number, number][] = [[0.05, 16], [1.5, 4], [2.0, 4], [2.5, 5], [3.0, 5], ...SLAM.map((s) => [s + 0.2, 4] as [number, number]), [IMPACT, 14], [DROP, 6], [SURFACE, 6]];
 /** Horizontal slice glitches: [start, strength] */
-const SLICES: [number, number][] = [[1.5, 0.6], [2.0, 0.6], [2.5, 0.8], [3.0, 1], [8.6, 1.4], [DROP, 1.2]];
+const SLICES: [number, number][] = [[1.5, 0.6], [2.0, 0.6], [2.5, 0.8], [3.0, 1], [8.6, 1.4], [DROP, 0.4]];
 
 interface PhotoFit { x: number; w: number; h: number; hY: number }
 
@@ -398,21 +399,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       ctx.stroke();
     });
     // platform glyph
-    const pk = eOutBack(seg(t, 7.55, 7.8));
-    if (pk > 0) {
-      ctx.save();
-      ctx.translate(x0, y0);
-      ctx.scale(pk, pk);
-      const u = 0.012 * W;
-      ctx.fillStyle = WHITE;
-      ctx.fillRect(-2.6 * u, -1.6 * u, 5.2 * u, 0.45 * u);
-      ctx.strokeStyle = WHITE; ctx.lineWidth = 2;
-      ctx.beginPath();
-      [-2, -0.7, 0.7, 2].forEach((lx) => { ctx.moveTo(lx * u, -1.15 * u); ctx.lineTo(lx * u * 1.15, 0); });
-      ctx.moveTo(-0.8 * u, -1.6 * u); ctx.lineTo(0, -4.2 * u); ctx.lineTo(0.8 * u, -1.6 * u);
-      ctx.stroke();
-      ctx.restore();
-    }
+    topGlyph(t, eOutBack(seg(t, 7.55, 7.8)));
     // impact
     const ik = seg(t, IMPACT, IMPACT + 0.55);
     if (ik > 0 && ik < 1) {
@@ -423,9 +410,36 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, W, H);
     }
-    // production curve across the frame
-    const pc = eInOutCubic(seg(t, 8.5, 9.75));
-    if (pc > 0) {
+    prodCurve(t);
+  }
+
+  /** Into the drop the platform glyph and the production curve fade out (they finish in surfacing()). */
+  const dropOut = (t: number) => 1 - seg(t, 9.8, 10.1);
+
+  function topGlyph(t: number, pk: number) {
+    const a = dropOut(t);
+    if (pk <= 0 || a <= 0) return;
+    ctx.save();
+    ctx.globalAlpha *= a;
+    ctx.translate(cx(), seaY());
+    ctx.scale(pk, pk);
+    const u = 0.012 * W;
+    ctx.fillStyle = WHITE;
+    ctx.fillRect(-2.6 * u, -1.6 * u, 5.2 * u, 0.45 * u);
+    ctx.strokeStyle = WHITE; ctx.lineWidth = 2;
+    ctx.beginPath();
+    [-2, -0.7, 0.7, 2].forEach((lx) => { ctx.moveTo(lx * u, -1.15 * u); ctx.lineTo(lx * u * 1.15, 0); });
+    ctx.moveTo(-0.8 * u, -1.6 * u); ctx.lineTo(0, -4.2 * u); ctx.lineTo(0.8 * u, -1.6 * u);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  /** Production curve across the frame */
+  function prodCurve(t: number) {
+    const pc = eInOutCubic(seg(t, 8.5, 9.75)), a = dropOut(t);
+    if (pc > 0 && a > 0) {
+      ctx.save();
+      ctx.globalAlpha *= a;
       const xA = 0.06 * W, xB = 0.94 * W, yLow = 0.42 * H, top = 0.08 * H;
       ctx.strokeStyle = "rgba(255,255,255,0.18)";
       ctx.lineWidth = 1;
@@ -439,6 +453,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
         if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y);
       }
       ctx.stroke();
+      ctx.restore();
       ctx.restore();
     }
   }
@@ -503,7 +518,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
   /** Camera rise in screen heights: Hermite keys [t, rise, rise speed /s] — launch, strata, sea, ease to rest */
   const liftAt = (t: number) => {
     const rest = (photoFit().hY - surfY()) / H;
-    const LIFT: [number, number, number][] = [[DROP, 0, 0], [11.0, 2.2, 1.9], [12.0, rest - 0.35, 1.6], [REST, rest, 0]];
+    const LIFT: [number, number, number][] = [[DROP, 0, 2.0], [11.0, 2.2, 1.9], [12.0, rest - 0.35, 1.6], [REST, rest, 0]];
     if (t <= DROP) return 0;
     if (t >= REST) return rest;
     let i = 0;
@@ -613,6 +628,26 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     for (let j = N_OVER; j >= 1; j--) if (visible(over(j, 0) - 0.05 * H, over(j - 1, 0) + 0.15 * H)) band((x) => over(j, x), (x) => over(j - 1, x), BANDS[(j * 3) % 7]);
     for (let i = 1; i < 7; i++) if (visible(H * BASES[i - 1] - 0.15 * H, i === 6 ? 6 * H : H * BASES[i] + 0.05 * H)) band((x) => boundary(i, x, 1), (x) => (i === 6 ? 6 * H : boundary(i + 1, x, 1)), BANDS[i]);
 
+    // the 4–10 s frame's sea and first band dissolve into the overburden as the camera launches
+    const top0 = 1 - seg(t, DROP, 10.25);
+    if (top0 > 0) {
+      const X = xs(), g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, "#081422"); g.addColorStop(0.16, "#0A1A2C"); g.addColorStop(0.17, "#0B2A45"); g.addColorStop(1, "#08182A");
+      ctx.save();
+      ctx.globalAlpha *= top0;
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.moveTo(-40, 0); ctx.lineTo(W + 40, 0);
+      [...X].reverse().forEach((x) => ctx.lineTo(x, seabed(x)));
+      ctx.fill();
+      band(seabed, (x) => hz(0, x, 1), BANDS[0]);
+      ctx.strokeStyle = WHITE; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(0, seaY()); ctx.lineTo(W, seaY()); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x0, seaY()); ctx.lineTo(x0, bY); ctx.stroke();
+      ctx.restore();
+    }
+    topGlyph(t, 1);
+
     // reservoir, wells, riser up to the platform's jacket
     const cy = crestY(1);
     if (cy + off < H + 0.4 * H) {
@@ -622,7 +657,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       ctx.fill();
       ctx.restore();
       const g = ctx.createRadialGradient(x0, cy, 0, x0, cy, 0.3 * W);
-      g.addColorStop(0, "rgba(242,154,31,0.35)");
+      g.addColorStop(0, `rgba(242,154,31,${0.35 * seg(t, DROP, 10.3)})`);
       g.addColorStop(1, "rgba(242,154,31,0)");
       ctx.fillStyle = g;
       ctx.fillRect(x0 - 0.3 * W, cy - 0.3 * W, 0.6 * W, 0.6 * W);
@@ -662,6 +697,8 @@ export function createRenderer(canvas: HTMLCanvasElement) {
       platform(P, pf.w);
     }
     ctx.restore();
+
+    prodCurve(t);
 
     // speed lines while rocketing through the strata, thinning out in the water
     const sl = 1 - seg(t, 10.9, 11.6);
@@ -728,7 +765,7 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     const sh = shakeAt(t), r = rng(Math.floor(t * 60));
     ctx.save();
     ctx.translate((r() - 0.5) * 2 * sh, (r() - 0.5) * 2 * sh);
-    const zoom = 1 + 0.05 * eInCubic(seg(t, 9.0, 9.9)) * (t < DROP ? 1 : 0);
+    const zoom = 1 + 0.05 * (t < DROP ? eInCubic(seg(t, 9.0, 9.9)) : 1 - eInOutCubic(seg(t, DROP, 10.4)));
     if (zoom > 1) { ctx.translate(W / 2, H / 2); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2); }
 
     if (t < 1.8) slam(t);
@@ -741,9 +778,9 @@ export function createRenderer(canvas: HTMLCanvasElement) {
     ctx.restore();
 
     // pre-drop breath, drop flash
-    if (t > 9.88 && t < DROP) { ctx.fillStyle = "rgba(0,0,0,0.55)"; ctx.fillRect(0, 0, W, H); }
-    const fl = seg(t, DROP, DROP + 0.3);
-    if (t >= DROP && fl < 1) { ctx.fillStyle = `rgba(255,255,255,${0.75 * (1 - fl)})`; ctx.fillRect(0, 0, W, H); }
+    if (t > 9.88 && t < DROP) { ctx.fillStyle = "rgba(0,0,0,0.12)"; ctx.fillRect(0, 0, W, H); }
+    const fl = seg(t, DROP, DROP + 0.12);
+    if (t >= DROP && fl < 1) { ctx.fillStyle = `rgba(255,255,255,${0.3 * (1 - fl)})`; ctx.fillRect(0, 0, W, H); }
 
     surfaceFlash(t);
 
