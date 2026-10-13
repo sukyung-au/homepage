@@ -39,7 +39,7 @@ export default async function TopicPage({ params }: PageProps<"/technology/[cate
       <SiteHeader links={SITE_LINKS} active="technology" position="relative" />
       <Body topic={topic} prev={prev} next={next} />
       <SiteFooter />
-      <TechNav categories={TECH} topic={topic.id} />
+      <TechNav categories={TECH} category={topic.category.id} topic={topic.id} />
     </main>
   );
 }

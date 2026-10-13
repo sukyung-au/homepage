@@ -34,5 +34,6 @@
   .items{display:none}
   .current{flex:1}
   .currentText{min-width:0}
+  .kicker{overflow:hidden;text-overflow:ellipsis}
   .currentLabel{white-space:normal;font-size:13px;line-height:1.25}
 }

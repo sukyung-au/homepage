@@ -2,14 +2,16 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, X } from "lucide-react";
-import { FLAT_TOPICS, topicLink, type TechCategory } from "@/lib/technology";
+import { FLAT_TOPICS, TECH_STOPS, categoryHref, stopTitle, topicLink, type TechCategory } from "@/lib/technology";
 import b from "./bottomNav.module.css";
 import s from "./TechNav.module.css";
 
 export interface TechNavProps {
   categories: TechCategory[];
-  /** id of the topic currently being read — determines the current category */
-  topic: string;
+  /** id of the current category */
+  category: string;
+  /** id of the topic currently being read; omit on a category overview page */
+  topic?: string;
   position?: "fixed" | "relative";
   /** Start with the topic tray open. The tray also opens whenever the URL hash is #topics. */
   defaultOpen?: boolean;
@@ -20,17 +22,17 @@ export interface TechNavProps {
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
 /**
- * Sticky bottom navigation for the Technology section: 5 fixed categories, current category + topic position,
- * previous/next topic (continues across categories), and an expandable "All topics" tray.
- * Topic collections grow without changing the bar layout.
+ * Sticky bottom navigation for the Technology section: the categories from lib/technology.ts (count is data-driven),
+ * current category + topic position, previous/next (each category overview, then its published topics, continuing
+ * across categories), and an expandable "All topics" tray. Topic collections grow without changing the bar layout.
  */
-export function TechNav({ categories, topic, position = "fixed", defaultOpen = false, label = "Technology", style }: TechNavProps) {
-  const fi = Math.max(0, FLAT_TOPICS.findIndex((t) => t.id === topic));
-  const curT = FLAT_TOPICS[fi];
-  const current = Math.max(0, categories.findIndex((c) => c.id === curT.category.id));
+export function TechNav({ categories, category, topic, position = "fixed", defaultOpen = false, label = "Technology", style }: TechNavProps) {
+  const curT = topic ? FLAT_TOPICS.find((t) => t.id === topic) : undefined;
+  const current = Math.max(0, categories.findIndex((c) => c.id === (curT?.category.id ?? category)));
   const cat = categories[current];
-  const prev = FLAT_TOPICS[fi - 1], next = FLAT_TOPICS[fi + 1];
-  const prevHref = topicLink(prev), nextHref = topicLink(next);
+  const si = TECH_STOPS.findIndex((st) => (curT ? st.kind === "topic" && st.topic.id === curT.id : st.kind === "category" && st.category.id === cat.id));
+  const prev = si > 0 ? TECH_STOPS[si - 1] : undefined, next = si >= 0 ? TECH_STOPS[si + 1] : undefined;
+  const total = String(categories.length).padStart(2, "0");
 
   const [open, setOpen] = useState(defaultOpen);
   const [view, setView] = useState(current);
@@ -61,15 +63,18 @@ export function TechNav({ categories, topic, position = "fixed", defaultOpen = f
           <div id="tech-topic-tray" className={cx(b.shell, s.shell, s.tray, !fixed && s.trayRelative)}>
             <div className={s.trayHead}>
               <div className={s.trayTitle}>
-                <span className={s.trayKicker}>{label} · {vc.num} / {String(categories.length).padStart(2, "0")}</span>
+                <span className={s.trayKicker}>{label} · {vc.num} / {total}</span>
                 <span className={s.trayLabel}>{vc.label}</span>
+                {vc.full && <span className={s.trayKr}>{vc.full}</span>}
                 {vc.kr && <span className={s.trayKr}>{vc.kr}</span>}
               </div>
               <div className={s.trayMeta}>
-                <span className={s.trayCount}>{vc.topics.length} topics</span>
+                <span className={s.trayCount}>{vc.topics.length} {vc.topics.length === 1 ? "topic" : "topics"}</span>
+                <Link href={categoryHref(vc)} className={b.textAction} aria-current={!curT && vc.id === cat.id ? "page" : undefined} onClick={() => setOpen(false)}>Overview</Link>
                 <button type="button" aria-label="Close" onClick={() => setOpen(false)} className={s.circle}><X size={15} /></button>
               </div>
             </div>
+            {vc.topics.length === 0 && <p className={s.trayEmpty}>Topics coming soon · 세부 토픽은 준비 중입니다.</p>}
             <ol className={s.list}>
               {vc.topics.map((t) => {
                 const on = t.id === topic;
@@ -98,7 +103,7 @@ export function TechNav({ categories, topic, position = "fixed", defaultOpen = f
           <div className={cx(b.current, s.current)}>
             <span className={b.badge} />
             <div className={b.currentText}>
-              <span className={b.kicker}>{label} · Topic {curT.num} of {cat.topics.length}</span>
+              <span className={b.kicker}>{label} · {curT ? `Topic ${curT.num} of ${cat.topics.length}` : `Overview · ${cat.num} of ${total}`}</span>
               <span className={b.currentLabel}><span className={b.num}>{cat.num}</span>{cat.label}</span>
             </div>
           </div>
@@ -108,17 +113,17 @@ export function TechNav({ categories, topic, position = "fixed", defaultOpen = f
               const on = i === current, viewing = open && i === view && !on;
               return (
                 <button key={c.id} type="button" onClick={() => toggle(i)} aria-current={on ? "page" : undefined} aria-expanded={open && i === view} aria-controls="tech-topic-tray" className={cx(b.item, on && b.on, viewing && s.viewing)}>
-                  <span className={b.itemNum}>{c.num} <span className={s.count}>{c.topics.length} topics</span></span>
+                  <span className={b.itemNum}>{c.num} <span className={s.count}>{c.topics.length} {c.topics.length === 1 ? "topic" : "topics"}</span></span>
                   <span className={b.itemLabel}>{c.label}</span>
                 </button>
               );
             })}
           </div>
           <div className={cx(b.end, s.end)}>
-            <NavCircle href={prevHref} label={prev ? `Previous topic: ${prev.title}` : "No previous topic"} title={prev && `${prev.num} ${prev.title}`} exists={!!prev}>
+            <NavCircle href={prev?.href} label={prev ? `Previous: ${stopTitle(prev)}` : "No previous page"} title={prev && stopTitle(prev)} exists={!!prev}>
               <ArrowLeft size={15} />
             </NavCircle>
-            <NavCircle href={nextHref} label={next ? `Next topic: ${next.title}` : "No next topic"} title={next && `${next.num} ${next.title}`} exists={!!next} primary>
+            <NavCircle href={next?.href} label={next ? `Next: ${stopTitle(next)}` : "No next page"} title={next && stopTitle(next)} exists={!!next} primary>
               <ArrowRight size={15} />
             </NavCircle>
             <button type="button" onClick={() => toggle(current)} aria-expanded={open} aria-controls="tech-topic-tray" className={cx(b.textAction, s.allTopics)}>
@@ -133,8 +138,7 @@ export function TechNav({ categories, topic, position = "fixed", defaultOpen = f
 }
 
 /**
- * Prev/next circle. Enabled styling follows whether a neighbouring topic exists (as in the design);
- * it only navigates once that topic has a page.
+ * Prev/next circle: navigates to the neighbouring page in the reading sequence, or renders disabled at either end.
  */
 function NavCircle({ href, label, title, exists, primary, children }: { href?: string; label: string; title?: string; exists: boolean; primary?: boolean; children: ReactNode }) {
   const cls = cx(s.circle, !exists && s.circleOff, exists && primary && s.circleNext);

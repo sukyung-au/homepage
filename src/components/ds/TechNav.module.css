@@ -37,3 +37,4 @@
   .allTopics{margin-left:0}
 }
 @media (max-width:540px){.current{min-width:0}}
+.trayEmpty{margin:20px 0 4px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
