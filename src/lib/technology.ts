@@ -1,10 +1,11 @@
 /**
  * Technology information architecture — the knowledge used along the Journey (NOT the Journey stages).
  *
- * Data-driven: edit TECH_DATA only. Category numbers (01, 02 …), topic numbers (1.1, 1.2 …), counts and the
- * TechNav rail all follow from it. Topics are added one at a time from the real course material; a topic is
- * only navigable once it has a page (`hasPage: true` plus an entry in app/technology/[category]/[topic]/page.tsx).
- * The previous 5-category IA is kept in lib/technologyLegacy.ts.
+ * Categories follow the KNOC technical team's disciplines. Data-driven: edit TECH_DATA only. Category numbers
+ * (01, 02 …), topic numbers (1.1, 1.2 …), counts and the TechNav rail all follow from it. Topics are added one at
+ * a time from the real course material; a topic is listed as "Coming soon" until it has a page (`hasPage: true`
+ * plus an entry in app/technology/[category]/[topic]/page.tsx).
+ * The previous 5-category IA and its published topic are kept in lib/technologyLegacy.ts.
  */
 export interface TechTopic {
   id: string;
@@ -18,8 +19,8 @@ export interface TechCategory {
   id: string;
   num: string;
   label: string;
-  /** Spelled-out name, e.g. "Geology & Geophysics" for G&G */
-  full?: string;
+  /** Korean name, shown under the English label */
+  ko?: string;
   kr?: string;
   topics: TechTopic[];
 }
@@ -29,13 +30,25 @@ type CategoryInput = Omit<TechCategory, "num" | "topics"> & { topics: TopicInput
 
 const TECH_DATA: CategoryInput[] = [
   {
-    id: "gg", label: "G&G", full: "Geology & Geophysics",
+    id: "geophysics", label: "Geophysics", ko: "지구물리",
+    topics: [{ id: "gp-fdp-role", title: "FDP에서 지구물리의 역할" }],
+  },
+  {
+    id: "geology", label: "Geology", ko: "지질",
+    topics: [{ id: "ge-fdp-role", title: "FDP에서 지질의 역할" }],
+  },
+  {
+    id: "engineering", label: "Reservoir Engineering", ko: "저류공학",
     topics: [
-      { id: "pt-generation", title: "How Hydrocarbons Are Generated, Migrated and Trapped", read: "12 min", hasPage: true },
+      { id: "re-fdp-role", title: "FDP에서 저류공학의 역할" },
+      { id: "re-fundamentals", title: "저류공학의 기초" },
     ],
   },
-  { id: "engineering", label: "Reservoir Engineering", topics: [] },
-  { id: "evaluation", label: "Reservoir Evaluation", topics: [] },
+  {
+    id: "evaluation", label: "Reservoir Evaluation", ko: "저류층 평가",
+    // Further evaluation methods are added as the course material arrives
+    topics: [{ id: "ev-mdt-rci", title: "MDT / RCI" }],
+  },
 ];
 
 export const TECH: TechCategory[] = TECH_DATA.map((c, i) => ({

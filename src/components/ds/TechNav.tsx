@@ -65,7 +65,7 @@ export function TechNav({ categories, category, topic, position = "fixed", defau
               <div className={s.trayTitle}>
                 <span className={s.trayKicker}>{label} · {vc.num} / {total}</span>
                 <span className={s.trayLabel}>{vc.label}</span>
-                {vc.full && <span className={s.trayKr}>{vc.full}</span>}
+                {vc.ko && <span className={s.trayKr}>{vc.ko}</span>}
                 {vc.kr && <span className={s.trayKr}>{vc.kr}</span>}
               </div>
               <div className={s.trayMeta}>
@@ -83,7 +83,7 @@ export function TechNav({ categories, category, topic, position = "fixed", defau
                   <>
                     <span className={s.topicNum}>{t.num}</span>
                     <span className={s.topicTitle}>{t.title}</span>
-                    {on ? <span className={s.pill}>Reading</span> : <span className={s.topicRead}>{t.read}</span>}
+                    {on ? <span className={s.pill}>Reading</span> : <span className={s.topicRead}>{href ? t.read : "Coming soon"}</span>}
                   </>
                 );
                 return (

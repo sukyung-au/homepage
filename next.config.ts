@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The Petroleum System topic moved under G&G when Technology went from 5 to 3 categories
+  // Earlier Technology IAs (5 categories, then G&G): their URLs land on the Technology entry
   async redirects() {
-    return [{ source: "/technology/petroleum/pt-generation", destination: "/technology/gg/pt-generation", permanent: false }];
+    return [
+      { source: "/technology/petroleum/:path*", destination: "/technology", permanent: false },
+      { source: "/technology/gg/:path*", destination: "/technology", permanent: false },
+      { source: "/technology/gg", destination: "/technology", permanent: false },
+    ];
   },
 };
 

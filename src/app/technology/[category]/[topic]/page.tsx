@@ -8,7 +8,11 @@ import { PetroleumGenerationTopic } from "@/components/technology/PetroleumGener
 import { SITE_LINKS } from "@/lib/site";
 import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
 
-/** Topic id → page body. Add an entry (and set `hasPage` in lib/technology.ts) to publish a topic. */
+/**
+ * Topic id → page body. Add an entry (and set `hasPage` in lib/technology.ts) to publish a topic.
+ * pt-generation is the preserved legacy topic (see lib/technologyLegacy.ts); it is built only while a live
+ * category lists it.
+ */
 const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }>> = {
   "pt-generation": PetroleumGenerationTopic,
 };

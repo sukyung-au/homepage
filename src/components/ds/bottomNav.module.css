@@ -16,7 +16,7 @@
 .item{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:4px;padding-top:10px;border-top:2px solid var(--ex-line);min-width:0}
 .item:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 .itemNum{font-size:11px;font-variant-numeric:tabular-nums;color:var(--ex-faint);white-space:nowrap}
-.itemLabel{font-size:13px;font-weight:400;color:var(--ex-navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.itemLabel{font-size:13px;font-weight:400;line-height:1.25;color:var(--ex-navy);overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}
 .on{border-top-color:var(--ex-blue)}
 .on .itemNum,.on .itemLabel{color:var(--ex-blue)}
 .on .itemLabel{font-weight:600}
@@ -24,15 +24,23 @@
 .textAction{all:unset;cursor:pointer;font-size:13px;font-weight:600;color:var(--ex-navy);white-space:nowrap;display:flex;align-items:center;gap:6px}
 .textAction:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 
-/* Narrow screens: the middle window already shrinks to fit; drop the secondary chrome so labels never clip. */
+/* Narrow screens: the middle window already shrinks to fit; drop the secondary chrome so labels never clip.
+   Below 1200px long labels (e.g. Reservoir Engineering) take two lines instead of an ellipsis; below 1024px the
+   category window no longer fits and the bar keeps the current category, prev/next and All topics. */
+@media (max-width:1199px){
+  .current{min-width:0;max-width:210px}
+  .currentLabel{white-space:normal;line-height:1.2;align-items:flex-start}
+}
+@media (max-width:1023px){
+  .items,.divider{display:none}
+  .current{flex:1;max-width:none}
+}
 @media (max-width:734px){
   .bar{gap:16px;padding:0 16px}
   .current{min-width:0}
   .divider{display:none}
 }
 @media (max-width:540px){
-  .items{display:none}
-  .current{flex:1}
   .currentText{min-width:0}
   .kicker{overflow:hidden;text-overflow:ellipsis}
   .currentLabel{white-space:normal;font-size:13px;line-height:1.25}

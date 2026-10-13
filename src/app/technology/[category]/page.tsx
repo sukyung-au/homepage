@@ -39,7 +39,7 @@ export default async function CategoryPage({ params }: PageProps<"/technology/[c
             num={cat.num}
             label="Technology"
             title={cat.label}
-            sub={cat.full}
+            sub={cat.ko}
             meta={<><span>Category {cat.num} of {String(TECH.length).padStart(2, "0")}</span><span>{n} {n === 1 ? "topic" : "topics"}</span></>}
           />
           {n > 0 ? (

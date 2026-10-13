@@ -1,7 +1,9 @@
 /**
  * LEGACY — the original 5-category Technology IA (Petroleum System, Subsurface, Reservoir, Reservoir Engineering,
  * Field Development), kept for reference and possible reuse. Not imported by any page; the live IA is lib/technology.ts.
- * The one published topic (pt-generation) now lives under G&G.
+ * Its one published topic, pt-generation, keeps its page component (components/technology/PetroleumGenerationTopic.tsx)
+ * and its entry in app/technology/[category]/[topic]/page.tsx: list it in a live category with `hasPage: true` to
+ * publish it again.
  */
 import type { TechCategory } from "./technology";
 

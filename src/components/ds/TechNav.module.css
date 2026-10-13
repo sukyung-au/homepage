@@ -36,5 +36,5 @@
   .tray{padding:20px 20px 16px}
   .allTopics{margin-left:0}
 }
-@media (max-width:540px){.current{min-width:0}}
+@media (max-width:1199px){.current{min-width:0}.count{display:none}}
 .trayEmpty{margin:20px 0 4px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
