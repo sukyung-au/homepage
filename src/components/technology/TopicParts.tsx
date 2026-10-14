@@ -3,18 +3,18 @@ import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { sceneStyles as ss } from "@/components/site/scene";
-import { topicLink, type FlatTopic } from "@/lib/technology";
+import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
 import s from "./Topic.module.css";
 
 export { s as topicStyles };
 
-/** Technology / 01 Category / Topic 1.1 */
+/** Technology / 01 Category (its overview) / Topic 1.1 */
 export function Crumb({ topic }: { topic: FlatTopic }) {
   return (
     <nav className={s.crumb} aria-label="Breadcrumb">
       <Link href="/technology">Technology</Link>
       <span aria-hidden>/</span>
-      <a href="#topics">{topic.category.num} {topic.category.label}</a>
+      <Link href={categoryHref(topic.category)}>{topic.category.num} {topic.category.label}</Link>
       <span aria-hidden>/</span>
       <span className={s.crumbCurrent} aria-current="page">Topic {topic.num}</span>
     </nav>
@@ -32,7 +32,7 @@ export function SectionHeading({ num, children }: { num: string; children: React
 }
 
 /**
- * End-of-topic navigation. Left: previous topic, or the category's topic list when this is the first topic.
+ * End-of-topic navigation. Left: previous topic, or the category overview when this is the first topic.
  * Right: the next topic — labelled "Next category" when it crosses into the next category.
  */
 export function TopicNext({ topic, prev, next }: { topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }) {
@@ -49,7 +49,7 @@ export function TopicNext({ topic, prev, next }: { topic: FlatTopic; prev?: Flat
             <span className={s.back}><ArrowLeft size={14} aria-hidden /> {prev.num} {prev.title}</span>
           )
         ) : (
-          <a href="#topics" className={s.back}><ArrowLeft size={14} aria-hidden /> {topic.category.num} {topic.category.label} · All topics</a>
+          <Link href={categoryHref(topic.category)} className={s.back}><ArrowLeft size={14} aria-hidden /> {topic.category.num} {topic.category.label} · Overview</Link>
         )}
         {next && (
           <div className={s.nextBlock}>

@@ -5,12 +5,18 @@ import { SiteHeader } from "@/components/ds/SiteHeader";
 import { TechNav } from "@/components/ds/TechNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { PetroleumGenerationTopic } from "@/components/technology/PetroleumGenerationTopic";
+import { RoleOfReservoirEngineeringTopic } from "@/components/technology/RoleOfReservoirEngineeringTopic";
 import { SITE_LINKS } from "@/lib/site";
 import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
 
-/** Topic id → page body. Add an entry (and set `hasPage` in lib/technology.ts) to publish a topic. */
+/**
+ * Topic id → page body. Add an entry (and set `hasPage` in lib/technology.ts) to publish a topic.
+ * pt-generation is the preserved legacy topic (see lib/technologyLegacy.ts); it is built only while a live
+ * category lists it.
+ */
 const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }>> = {
   "pt-generation": PetroleumGenerationTopic,
+  "re-role": RoleOfReservoirEngineeringTopic,
 };
 
 export const dynamicParams = false;
@@ -39,7 +45,7 @@ export default async function TopicPage({ params }: PageProps<"/technology/[cate
       <SiteHeader links={SITE_LINKS} active="technology" position="relative" />
       <Body topic={topic} prev={prev} next={next} />
       <SiteFooter />
-      <TechNav categories={TECH} topic={topic.id} />
+      <TechNav categories={TECH} category={topic.category.id} topic={topic.id} />
     </main>
   );
 }

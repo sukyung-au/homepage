@@ -31,8 +31,8 @@
 /* Shape & elevation */
 --radius-xl:24px;
 --shadow-float:0 10px 40px rgba(11,26,44,0.10),0 1px 0 rgba(11,26,44,0.04);
---stage-nav-h:76px;          /* TechNav bar */
---journey-nav-h:52px;        /* slim floating Journey rail (StageNav) */
+--stage-nav-h:76px;          /* former TechNav bar height (TechNav now uses --journey-nav-h) */
+--journey-nav-h:52px;        /* slim floating rails: Journey StageNav and Technology TechNav */
 --stage-nav-offset:16px;      /* floating nav distance from the viewport bottom */
 /* Viewport band the floating nav occupies — content must clear it */
 --nav-safe-area:calc(var(--journey-nav-h) + var(--stage-nav-offset) + env(safe-area-inset-bottom, 0px));

@@ -1,146 +1,125 @@
 "use client";
-import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, ChevronDown, ChevronUp, X } from "lucide-react";
-import { FLAT_TOPICS, topicLink, type TechCategory } from "@/lib/technology";
-import b from "./bottomNav.module.css";
+import { ArrowRight } from "lucide-react";
+import { FLAT_TOPICS, categoryHref, topicLink, type TechCategory } from "@/lib/technology";
 import s from "./TechNav.module.css";
 
 export interface TechNavProps {
   categories: TechCategory[];
-  /** id of the topic currently being read — determines the current category */
-  topic: string;
+  /** id of the current category */
+  category: string;
+  /** id of the topic currently being read; omit on a category overview page */
+  topic?: string;
   position?: "fixed" | "relative";
-  /** Start with the topic tray open. The tray also opens whenever the URL hash is #topics. */
-  defaultOpen?: boolean;
-  label?: string;
   style?: CSSProperties;
 }
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
 /**
- * Sticky bottom navigation for the Technology section: 5 fixed categories, current category + topic position,
- * previous/next topic (continues across categories), and an expandable "All topics" tray.
- * Topic collections grow without changing the bar layout.
+ * Slim floating rail for the Technology section, in the Journey StageNav look: every category (from
+ * lib/technology.ts) in one row, the current one in blue with a thin indicator. Clicking a category opens a
+ * small menu above it with that category's topics (published ones link to their page) and its overview.
+ * On narrow screens the row scrolls and keeps the current category in view; the menu spans the rail.
  */
-export function TechNav({ categories, topic, position = "fixed", defaultOpen = false, label = "Technology", style }: TechNavProps) {
-  const fi = Math.max(0, FLAT_TOPICS.findIndex((t) => t.id === topic));
-  const curT = FLAT_TOPICS[fi];
-  const current = Math.max(0, categories.findIndex((c) => c.id === curT.category.id));
-  const cat = categories[current];
-  const prev = FLAT_TOPICS[fi - 1], next = FLAT_TOPICS[fi + 1];
-  const prevHref = topicLink(prev), nextHref = topicLink(next);
+export function TechNav({ categories, category, topic, position = "fixed", style }: TechNavProps) {
+  const curT = topic ? FLAT_TOPICS.find((t) => t.id === topic) : undefined;
+  const current = Math.max(0, categories.findIndex((c) => c.id === (curT?.category.id ?? category)));
+  const [open, setOpen] = useState<number | null>(null);
+  const [left, setLeft] = useState(0);
+  const wrap = useRef<HTMLDivElement>(null);
+  const rail = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(defaultOpen);
-  const [view, setView] = useState(current);
-  const vc = categories[view] ?? cat;
-
+  // Keep the current category visible when the rail scrolls (narrow screens) — horizontal only.
   useEffect(() => {
-    const sync = () => {
-      if (window.location.hash === "#topics") {
-        setView(current);
-        setOpen(true);
-      }
-    };
-    sync();
-    window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
+    const el = rail.current, item = el?.children[current] as HTMLElement | undefined;
+    if (!el || !item || el.scrollWidth <= el.clientWidth) return;
+    el.scrollLeft = item.offsetLeft - (el.clientWidth - item.offsetWidth) / 2;
   }, [current]);
 
-  const toggle = (i: number) => {
-    setView(i);
-    setOpen((o) => !(o && view === i));
-  };
+  // Anchor the menu over the clicked category
+  useLayoutEffect(() => {
+    if (open === null) return;
+    const w = wrap.current, item = rail.current?.children[open] as HTMLElement | undefined;
+    if (w && item) {
+      const a = w.getBoundingClientRect(), b = item.getBoundingClientRect();
+      setLeft(b.left + b.width / 2 - a.left);
+    }
+  }, [open]);
 
-  const fixed = position === "fixed";
+  // Close on outside click or Escape
+  useEffect(() => {
+    if (open === null) return;
+    const down = (e: PointerEvent) => { if (!wrap.current?.contains(e.target as Node)) setOpen(null); };
+    const key = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(null); };
+    document.addEventListener("pointerdown", down);
+    document.addEventListener("keydown", key);
+    return () => {
+      document.removeEventListener("pointerdown", down);
+      document.removeEventListener("keydown", key);
+    };
+  }, [open]);
+
+  const menu = open === null ? undefined : categories[open];
   return (
-    <nav aria-label="Technology categories" className={cx(b.nav, fixed && b.fixed)} style={{ position, ...style }}>
-      <div className={b.inner}>
-        {open && (
-          <div id="tech-topic-tray" className={cx(b.shell, s.shell, s.tray, !fixed && s.trayRelative)}>
-            <div className={s.trayHead}>
-              <div className={s.trayTitle}>
-                <span className={s.trayKicker}>{label} · {vc.num} / {String(categories.length).padStart(2, "0")}</span>
-                <span className={s.trayLabel}>{vc.label}</span>
-                {vc.kr && <span className={s.trayKr}>{vc.kr}</span>}
-              </div>
-              <div className={s.trayMeta}>
-                <span className={s.trayCount}>{vc.topics.length} topics</span>
-                <button type="button" aria-label="Close" onClick={() => setOpen(false)} className={s.circle}><X size={15} /></button>
-              </div>
+    <nav aria-label="Technology categories" className={cx(s.nav, position === "fixed" && s.fixed)} style={style}>
+      <div ref={wrap} className={s.wrap}>
+        {menu && (
+          <div id="tech-category-menu" className={s.menu} style={{ "--menu-x": `${left}px` } as CSSProperties} role="dialog" aria-label={`${menu.label} topics`}>
+            <div className={s.menuHead}>
+              <span className={s.menuKicker}>{menu.num} · {menu.topics.length} {menu.topics.length === 1 ? "topic" : "topics"}</span>
+              <span className={s.menuTitle}>{menu.label}</span>
+              {menu.ko && <span className={s.menuKo}>{menu.ko}</span>}
             </div>
-            <ol className={s.list}>
-              {vc.topics.map((t) => {
+            {menu.topics.length === 0 && <p className={s.menuEmpty}>세부 토픽은 준비 중입니다.</p>}
+            <ol className={s.menuList}>
+              {menu.topics.map((t) => {
                 const on = t.id === topic;
                 const href = topicLink(FLAT_TOPICS.find((f) => f.id === t.id));
                 const body = (
                   <>
                     <span className={s.topicNum}>{t.num}</span>
                     <span className={s.topicTitle}>{t.title}</span>
-                    {on ? <span className={s.pill}>Reading</span> : <span className={s.topicRead}>{t.read}</span>}
+                    {on ? <span className={s.pill}>Reading</span> : !href && <span className={s.soon}>Coming soon</span>}
                   </>
                 );
                 return (
-                  <li key={t.id} className={on ? s.reading : undefined}>
+                  <li key={t.id}>
                     {href ? (
-                      <Link href={href} className={s.topic} aria-current={on ? "page" : undefined} onClick={() => setOpen(false)}>{body}</Link>
+                      <Link href={href} className={cx(s.topic, on && s.reading)} aria-current={on ? "page" : undefined} onClick={() => setOpen(null)}>{body}</Link>
                     ) : (
-                      <span className={cx(s.topic, s.topicSoon)} title="Coming soon">{body}</span>
+                      <span className={cx(s.topic, s.topicOff)} aria-disabled>{body}</span>
                     )}
                   </li>
                 );
               })}
             </ol>
+            <Link href={categoryHref(menu)} className={s.overview} aria-current={!curT && open === current ? "page" : undefined} onClick={() => setOpen(null)}>
+              Category overview <ArrowRight size={13} aria-hidden />
+            </Link>
           </div>
         )}
-        <div className={cx(b.shell, s.shell, b.bar)}>
-          <div className={cx(b.current, s.current)}>
-            <span className={b.badge} />
-            <div className={b.currentText}>
-              <span className={b.kicker}>{label} · Topic {curT.num} of {cat.topics.length}</span>
-              <span className={b.currentLabel}><span className={b.num}>{cat.num}</span>{cat.label}</span>
-            </div>
-          </div>
-          <span className={b.divider} />
-          <div className={b.items} style={{ gridTemplateColumns: `repeat(${categories.length},minmax(0,1fr))` }}>
-            {categories.map((c, i) => {
-              const on = i === current, viewing = open && i === view && !on;
-              return (
-                <button key={c.id} type="button" onClick={() => toggle(i)} aria-current={on ? "page" : undefined} aria-expanded={open && i === view} aria-controls="tech-topic-tray" className={cx(b.item, on && b.on, viewing && s.viewing)}>
-                  <span className={b.itemNum}>{c.num} <span className={s.count}>{c.topics.length} topics</span></span>
-                  <span className={b.itemLabel}>{c.label}</span>
-                </button>
-              );
-            })}
-          </div>
-          <div className={cx(b.end, s.end)}>
-            <NavCircle href={prevHref} label={prev ? `Previous topic: ${prev.title}` : "No previous topic"} title={prev && `${prev.num} ${prev.title}`} exists={!!prev}>
-              <ArrowLeft size={15} />
-            </NavCircle>
-            <NavCircle href={nextHref} label={next ? `Next topic: ${next.title}` : "No next topic"} title={next && `${next.num} ${next.title}`} exists={!!next} primary>
-              <ArrowRight size={15} />
-            </NavCircle>
-            <button type="button" onClick={() => toggle(current)} aria-expanded={open} aria-controls="tech-topic-tray" className={cx(b.textAction, s.allTopics)}>
-              All topics
-              {open ? <ChevronDown size={14} aria-hidden /> : <ChevronUp size={14} aria-hidden />}
-            </button>
-          </div>
+        <div ref={rail} className={s.rail}>
+          {categories.map((c, i) => {
+            const on = i === current;
+            return (
+              <button
+                key={c.id}
+                type="button"
+                className={cx(s.item, on && s.on, open === i && s.opened)}
+                onClick={() => setOpen(open === i ? null : i)}
+                aria-current={on ? (curT ? "true" : "page") : undefined}
+                aria-expanded={open === i}
+                aria-controls="tech-category-menu"
+              >
+                <span className={s.num}>{c.num}</span>
+                <span className={s.label}>{c.label}</span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </nav>
-  );
-}
-
-/**
- * Prev/next circle. Enabled styling follows whether a neighbouring topic exists (as in the design);
- * it only navigates once that topic has a page.
- */
-function NavCircle({ href, label, title, exists, primary, children }: { href?: string; label: string; title?: string; exists: boolean; primary?: boolean; children: ReactNode }) {
-  const cls = cx(s.circle, !exists && s.circleOff, exists && primary && s.circleNext);
-  return href ? (
-    <Link href={href} aria-label={label} title={title} className={cls}>{children}</Link>
-  ) : (
-    <button type="button" aria-label={label} title={title} className={cls} aria-disabled>{children}</button>
   );
 }
