@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/ds/SiteHeader";
 import { TechNav } from "@/components/ds/TechNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { PetroleumGenerationTopic } from "@/components/technology/PetroleumGenerationTopic";
+import { RoleOfReservoirEngineeringTopic } from "@/components/technology/RoleOfReservoirEngineeringTopic";
 import { SITE_LINKS } from "@/lib/site";
 import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
 
@@ -15,6 +16,7 @@ import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
  */
 const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }>> = {
   "pt-generation": PetroleumGenerationTopic,
+  "re-role": RoleOfReservoirEngineeringTopic,
 };
 
 export const dynamicParams = false;

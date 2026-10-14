@@ -3,18 +3,18 @@ import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { sceneStyles as ss } from "@/components/site/scene";
-import { topicLink, type FlatTopic } from "@/lib/technology";
+import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
 import s from "./Topic.module.css";
 
 export { s as topicStyles };
 
-/** Technology / 01 Category / Topic 1.1 */
+/** Technology / 01 Category (its overview) / Topic 1.1 */
 export function Crumb({ topic }: { topic: FlatTopic }) {
   return (
     <nav className={s.crumb} aria-label="Breadcrumb">
       <Link href="/technology">Technology</Link>
       <span aria-hidden>/</span>
-      <a href="#topics">{topic.category.num} {topic.category.label}</a>
+      <Link href={categoryHref(topic.category)}>{topic.category.num} {topic.category.label}</Link>
       <span aria-hidden>/</span>
       <span className={s.crumbCurrent} aria-current="page">Topic {topic.num}</span>
     </nav>

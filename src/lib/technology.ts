@@ -11,6 +11,10 @@ export interface TechTopic {
   id: string;
   num: string;
   title: string;
+  /** Subtitle (topic page and the "next topic" link) */
+  sub?: string;
+  /** Korean working title from the course outline */
+  ko?: string;
   read?: string;
   hasPage?: boolean;
 }
@@ -40,8 +44,8 @@ const TECH_DATA: CategoryInput[] = [
   {
     id: "engineering", label: "Reservoir Engineering", ko: "저류공학",
     topics: [
-      { id: "re-fdp-role", title: "FDP에서 저류공학의 역할" },
-      { id: "re-fundamentals", title: "저류공학의 기초" },
+      { id: "re-role", title: "Role of Reservoir Engineering", sub: "From Reservoir Understanding to Development Decisions", ko: "FDP에서 저류공학의 역할", hasPage: true },
+      { id: "re-fundamentals", title: "Reservoir Engineering Fundamentals", sub: "Understanding the properties and flow behavior of reservoir fluids.", ko: "저류공학의 기초" },
     ],
   },
   {
