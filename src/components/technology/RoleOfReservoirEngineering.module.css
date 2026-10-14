@@ -141,3 +141,126 @@
   .delNum{font-size:22px}
   .nextSub{margin-left:0}
 }
+
+/* ─────────────────────────── Scroll motion ───────────────────────────
+   Each [data-reveal] element plays a short entrance once, when RevealScope marks it [data-in]. Entrance
+   states only apply while <html data-rm> is set (boot script / RevealScope): without JS, or with reduced
+   motion, the page renders exactly as designed. Only opacity, transform and clip-path animate (no layout
+   shift); revealed states are identical to the static design. */
+.motion{--ease:cubic-bezier(.2,.7,.2,1);--unit:1s}
+
+/* Generic fade-up: headings, text blocks, rows */
+.motion [data-reveal="up"],.motion [data-reveal="row"]{transition:opacity .7s var(--ease),transform .7s var(--ease);transition-delay:calc(var(--i,0) * .1s + var(--d,0) * var(--unit))}
+:global(html[data-rm]) .motion [data-reveal="up"]:not([data-in]),:global(html[data-rm]) .motion [data-reveal="row"]:not([data-in]){opacity:0;transform:translateY(16px)}
+
+/* 01 Opening — the wells drill in (producers, then the injector), their labels follow in order,
+   then the flow chevrons pulse a few times in the direction of flow, toward the producers. */
+.openFigure [data-layer^="well-"]{transition:clip-path .9s var(--ease) .35s}
+.openFigure [data-layer="well-injector"]{transition-delay:.7s}
+:global(html[data-rm]) .motion .openFigure [data-layer^="well-"]{clip-path:inset(-6px)}
+:global(html[data-rm]) .motion .openFigure:not([data-in]) [data-layer^="well-"]{clip-path:inset(-6px -6px 100% -6px)}
+.openFigure div[data-sequence]{transition:opacity .6s var(--ease) 1s}
+.openFigure div[data-sequence="2"]{transition-delay:1.3s}
+.openFigure div[data-sequence="3"]{transition-delay:1.6s}
+.openFigure div[data-sequence="4"]{transition-delay:1.8s}
+:global(html[data-rm]) .motion .openFigure:not([data-in]) div[data-sequence]{opacity:0}
+@keyframes flowPulse{0%,100%{opacity:1}45%{opacity:.2}}
+:global(html[data-rm]) .motion .openFigure[data-in] .flow path{animation:flowPulse 1.8s ease-in-out calc(2s + var(--i,0) * .35s) 2 both}
+
+/* Scroll cue — fixed above the Technology rail, fades out once the reader scrolls on */
+.hint{position:fixed;left:var(--gutter-page);bottom:calc(var(--nav-safe-area) + 14px);z-index:20;margin:0;display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,0.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(11,26,44,0.04),0 4px 16px rgba(11,26,44,0.06);font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-faint);pointer-events:none;opacity:0;transition:opacity .6s var(--ease)}
+.hint[data-state="on"]{opacity:1}
+.hint span{display:inline-block;color:var(--ex-blue);letter-spacing:0}
+@keyframes hintNudge{0%,100%{transform:none}50%{transform:translateY(3px)}}
+.hint[data-state="on"] span{animation:hintNudge 2.4s ease-in-out .4s 2}
+@media (max-width:734px){.hint{left:50%;transform:translateX(-50%);bottom:calc(var(--nav-safe-area) + 10px);white-space:nowrap}}
+
+/* 02 Lifecycle — each stage's rule draws in from the left, the node lands, then its text; stages follow
+   one another. The feedback arc then draws from Development & Production back to FDP Preparation. */
+.stage{--step:.15s}
+.motion .stage::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--ex-line-strong);transform-origin:left;transition:transform .6s var(--ease) calc(var(--i,0) * var(--step))}
+.motion .stageKey::before{top:-2px;height:2px;background:var(--ex-blue)}
+:global(html[data-rm]) .motion .stage{border-top-color:transparent}
+:global(html[data-rm]) .motion .stage:not([data-in])::before{transform:scaleX(0)}
+.motion .stage .node{transition:transform .45s var(--ease) calc(var(--i,0) * var(--step) + .3s)}
+:global(html[data-rm]) .motion .stage:not([data-in]) .node{transform:scale(0)}
+.motion .stage > :not(.node){transition:opacity .6s var(--ease),transform .6s var(--ease);transition-delay:calc(var(--i,0) * var(--step) + .35s)}
+:global(html[data-rm]) .motion .stage:not([data-in]) > :not(.node){opacity:0;transform:translateY(10px)}
+.motion .feedbackArc{transition:clip-path .9s var(--ease) .75s}
+:global(html[data-rm]) .motion .feedbackArc{clip-path:inset(-12px)}
+:global(html[data-rm]) .motion .feedback:not([data-in]) .feedbackArc{clip-path:inset(-12px -12px -12px 100%)}
+.motion .feedbackLabel{transition:opacity .5s var(--ease) 1.45s}
+/* Continuous Model Update closes the sequence, after the arc (desktop) */
+.update{--unit:1s}
+:global(html[data-rm]) .motion .feedback:not([data-in]) .feedbackLabel{opacity:0}
+
+/* 03 Dynamic model — data in, a link draws to the model, the model warms, history matching plots the
+   observed points, then the model before and after calibration, the calibration loop returns, and the
+   development scenarios branch out. `--d` is the step (s); stacked layouts collapse it to 0. */
+.motion .link svg path{transition:clip-path .55s var(--ease) calc(var(--d,0) * var(--unit))}
+.motion .link .linkHead{transition-delay:calc(var(--d,0) * var(--unit) + .4s)}
+.motion .link .loopLine{transition-duration:.8s;transition-delay:calc(var(--d,0) * var(--unit) + 1.4s)}
+.motion .link .loopHead{transition-delay:calc(var(--d,0) * var(--unit) + 2s)}
+:global(html[data-rm]) .motion .link svg path{clip-path:inset(-6px)}
+:global(html[data-rm]) .motion .link:not([data-in]) .linkLine{clip-path:inset(-6px 100% -6px -6px)}
+:global(html[data-rm]) .motion .link:not([data-in]) .loopLine{clip-path:inset(-6px -6px -6px 100%)}
+@keyframes coreGlow{0%,100%{fill:var(--ex-tint)}50%{fill:#CFE0F8}}
+:global(html[data-rm]) .motion .core[data-in] .gridFill{animation:coreGlow 1.4s ease-in-out calc(var(--d,0) * var(--unit) + .5s) 1}
+.motion .match .obs{transform-box:fill-box;transform-origin:center;transition:opacity .4s var(--ease),transform .4s var(--ease);transition-delay:calc(var(--d,0) * var(--unit) + .25s + var(--i,0) * .06s)}
+:global(html[data-rm]) .motion .match:not([data-in]) .obs{opacity:0;transform:scale(.4)}
+.motion .match .before,.motion .match .after{transition:clip-path .9s var(--ease) calc(var(--d,0) * var(--unit) + .55s)}
+.motion .match .after{transition-delay:calc(var(--d,0) * var(--unit) + .95s)}
+:global(html[data-rm]) .motion .match .before,:global(html[data-rm]) .motion .match .after{clip-path:inset(-4px)}
+:global(html[data-rm]) .motion .match:not([data-in]) .before,:global(html[data-rm]) .motion .match:not([data-in]) .after{clip-path:inset(-4px 100% -4px -4px)}
+.motion .match .legend{transition:opacity .5s var(--ease) calc(var(--d,0) * var(--unit) + 1.5s)}
+.motion .match .loopNote{transition:opacity .5s var(--ease) calc(var(--d,0) * var(--unit) + 1.7s)}
+:global(html[data-rm]) .motion .match:not([data-in]) .legend,:global(html[data-rm]) .motion .match:not([data-in]) .loopNote{opacity:0}
+.motion .scen .glyph path{transition:clip-path .7s var(--ease) calc(var(--d,0) * var(--unit) + .2s)}
+.motion .scen .glyph circle{transition:opacity .4s var(--ease) calc(var(--d,0) * var(--unit) + .7s)}
+:global(html[data-rm]) .motion .scen .glyph path{clip-path:inset(-4px)}
+:global(html[data-rm]) .motion .scen:not([data-in]) .glyph path{clip-path:inset(-4px 100% -4px -4px)}
+:global(html[data-rm]) .motion .scen:not([data-in]) .glyph circle{opacity:0}
+
+/* 04 Deliverables — rows rise in as they reach the viewport (two at a time on desktop); each rule draws in */
+.motion .deliverables li{position:relative}
+.motion .deliverables li::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ex-line);transform-origin:left;transition:transform .8s var(--ease) calc(var(--i,0) * .1s + .15s)}
+:global(html[data-rm]) .motion .deliverables li{border-bottom-color:transparent}
+:global(html[data-rm]) .motion .deliverables li:not([data-in])::after{transform:scaleX(0)}
+.motion .delNum{transition:transform .6s var(--ease) calc(var(--i,0) * .1s + .1s)}
+:global(html[data-rm]) .motion .deliverables li:not([data-in]) .delNum{transform:translateX(-8px)}
+
+/* 05 Decision — the four steps draw in one after another, each arrow appears as its step lands, and the
+   last step settles into blue: the field development decision. */
+.motion .chain li::before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:var(--ex-navy);transform-origin:left;transition:transform .6s var(--ease) calc(var(--i,0) * .22s)}
+.motion .chain .chainLast::before{top:-2px;height:2px;background:var(--ex-blue)}
+:global(html[data-rm]) .motion .chain li{border-top-color:transparent !important}
+:global(html[data-rm]) .motion .chain:not([data-in]) li::before{transform:scaleX(0)}
+.motion .chain li > span{transition:opacity .6s var(--ease),transform .6s var(--ease),color .8s ease;transition-delay:calc(var(--i,0) * .22s + .15s),calc(var(--i,0) * .22s + .15s),calc(var(--i,0) * .22s + .9s)}
+:global(html[data-rm]) .motion .chain:not([data-in]) li > span{opacity:0;transform:translateY(10px)}
+:global(html[data-rm]) .motion .chain:not([data-in]) .chainLast > span{color:var(--ex-navy)}
+.motion .chain li:not(:last-child)::after{transition:opacity .4s var(--ease) calc(var(--i,0) * .22s + .45s)}
+:global(html[data-rm]) .motion .chain:not([data-in]) li:not(:last-child)::after{opacity:0}
+.motion .decide .disc li{transition:opacity .5s var(--ease),transform .5s var(--ease);transition-delay:calc(var(--i,0) * .06s + .3s)}
+:global(html[data-rm]) .motion .decide:not([data-in]) .disc li{opacity:0;transform:translateY(6px)}
+
+/* Stacked layouts: no cross-block sequencing (each block plays as it arrives); rules draw downward */
+@media (max-width:1099px){
+  .model{--unit:0s}
+  .motion .link{transition:transform .5s var(--ease)}
+  :global(html[data-rm]) .motion .link:not([data-in]){transform:scaleY(0);transform-origin:top}
+}
+@media (max-width:899px){
+  .stage{--step:0s}
+  .update{--unit:0s}
+  .motion .stage::before{left:-1px;right:auto;top:0;bottom:0;width:1px;height:auto;transform-origin:top}
+  .motion .stageKey::before{left:-2px;width:2px}
+  :global(html[data-rm]) .motion .stage{border-left-color:transparent}
+  :global(html[data-rm]) .motion .stage:not([data-in])::before{transform:scaleY(0)}
+  .motion .chain li::before{left:-1px;right:auto;top:0;bottom:0;width:1px;height:auto;transform-origin:top}
+  .motion .chain .chainLast::before{left:-2px;width:2px}
+  :global(html[data-rm]) .motion .chain li{border-left-color:transparent !important}
+  :global(html[data-rm]) .motion .chain:not([data-in]) li::before{transform:scaleY(0)}
+}
+@media (prefers-reduced-motion:reduce){
+  .motion *,.motion *::before,.motion *::after{transition:none !important;animation:none !important}
+}
