@@ -82,16 +82,3 @@ export function findTopic(topicId: string) {
 }
 
 export const findCategory = (id: string) => TECH.find((c) => c.id === id);
-
-/**
- * Reading sequence for the TechNav prev/next buttons: each category's overview page, then its published
- * topics. Categories without topics yet are still reachable.
- */
-export type TechStop = { kind: "category"; category: TechCategory; href: string } | { kind: "topic"; topic: FlatTopic; category: TechCategory; href: string };
-
-export const TECH_STOPS: TechStop[] = TECH.flatMap((c) => [
-  { kind: "category" as const, category: c, href: categoryHref(c) },
-  ...FLAT_TOPICS.filter((t) => t.category.id === c.id && t.hasPage).map((t) => ({ kind: "topic" as const, topic: t, category: c, href: topicHref(t) })),
-]);
-
-export const stopTitle = (s: TechStop) => (s.kind === "topic" ? `${s.topic.num} ${s.topic.title}` : `${s.category.num} ${s.category.label} · Overview`);
