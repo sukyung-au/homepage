@@ -167,13 +167,18 @@
 @keyframes flowPulse{0%,100%{opacity:1}45%{opacity:.2}}
 :global(html[data-rm]) .motion .openFigure[data-in] .flow path{animation:flowPulse 1.8s ease-in-out calc(2s + var(--i,0) * .35s) 2 both}
 
-/* Scroll cue — fixed above the Technology rail, fades out once the reader scrolls on */
-.hint{position:fixed;left:var(--gutter-page);bottom:calc(var(--nav-safe-area) + 14px);z-index:20;margin:0;display:flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,0.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(11,26,44,0.04),0 4px 16px rgba(11,26,44,0.06);font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-faint);pointer-events:none;opacity:0;transition:opacity .6s var(--ease)}
+/* Scroll cue — beside the Technology rail (level with it) or just above it, left or right, wherever it
+   covers no text (ScrollHint measures and picks); fades out once the reader scrolls on */
+.hint{position:fixed;z-index:20;margin:0;display:flex;align-items:center;gap:8px;height:30px;box-sizing:border-box;padding:0 14px;border-radius:999px;background:rgba(255,255,255,0.88);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(11,26,44,0.04),0 4px 16px rgba(11,26,44,0.06);font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;white-space:nowrap;color:var(--ex-faint);pointer-events:none;opacity:0;transition:opacity .6s var(--ease)}
+.hint[data-side="left"]{left:var(--gutter-page)}
+.hint[data-side="right"]{right:var(--gutter-page)}
+.hint[data-side="center"]{left:50%;transform:translateX(-50%)}
+.hint[data-level="rail"]{bottom:calc(var(--stage-nav-offset) + (var(--journey-nav-h) - 30px) / 2 + env(safe-area-inset-bottom, 0px))}
+.hint[data-level="above"]{bottom:calc(var(--nav-safe-area) + 6px)}
 .hint[data-state="on"]{opacity:1}
 .hint span{display:inline-block;color:var(--ex-blue);letter-spacing:0}
 @keyframes hintNudge{0%,100%{transform:none}50%{transform:translateY(3px)}}
 .hint[data-state="on"] span{animation:hintNudge 2.4s ease-in-out .4s 2}
-@media (max-width:734px){.hint{left:50%;transform:translateX(-50%);bottom:calc(var(--nav-safe-area) + 10px);white-space:nowrap}}
 
 /* 02 Lifecycle — each stage's rule draws in from the left, the node lands, then its text; stages follow
    one another. The feedback arc then draws from Development & Production back to FDP Preparation. */
