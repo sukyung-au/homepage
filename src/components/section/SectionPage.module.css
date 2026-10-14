@@ -1,7 +1,7 @@
 /* Shared shell for index pages (Technology category overview, Case Studies, Beyond the Field):
    bright page, navy editorial type, blue only for the active / numbered accents. */
 .page{padding:24px var(--gutter-page) 120px}
-.clearNav{padding-bottom:calc(120px + var(--stage-nav-h) + var(--stage-nav-offset))}
+.clearNav{padding-bottom:calc(120px + var(--nav-safe-area))}
 .inner{max-width:1360px;margin:0 auto}
 .crumb{display:flex;flex-wrap:wrap;gap:10px;font-family:var(--font-editorial);font-size:12px;color:var(--ex-faint);letter-spacing:0.04em}
 .crumb a{color:var(--ex-faint)}

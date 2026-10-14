@@ -1,19 +1,36 @@
-.shell{background:rgba(255,255,255,0.94)}
-.current{min-width:230px}
-.viewing{border-top-color:var(--ex-navy)}
-.viewing .itemLabel{font-weight:600}
-.count{margin-left:4px}
+/* Slim floating Technology rail — same white, blurred, rounded chrome and item style as the Journey StageNav */
+.nav{left:0;right:0;z-index:30;padding:0 var(--gutter-page);display:flex;flex-direction:column;align-items:center;pointer-events:none;font-family:var(--font-editorial);color:var(--ex-navy)}
+.fixed{position:fixed;bottom:var(--stage-nav-offset)}
 
-.circle{all:unset;cursor:pointer;width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;border:1px solid var(--ex-line);color:var(--ex-navy);box-sizing:border-box}
-.circle:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.rail,.tray{pointer-events:auto;background:rgba(255,255,255,0.92);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border:1px solid var(--ex-line);box-shadow:var(--shadow-float)}
+.rail{height:var(--journey-nav-h);max-width:100%;display:flex;align-items:stretch;padding:0 8px;border-radius:16px;line-height:1.2}
+
+/* Categories — StageNav items */
+.cats{display:flex;align-items:stretch;gap:4px;min-width:0;overflow-x:auto;scrollbar-width:none;scroll-snap-type:x proximity}
+.cats::-webkit-scrollbar{display:none}
+.item{position:relative;flex:none;display:flex;align-items:center;gap:8px;padding:0 16px;white-space:nowrap;color:var(--ex-navy);text-decoration:none;scroll-snap-align:center;transition:color 160ms}
+.item::after{content:"";position:absolute;left:16px;right:16px;bottom:8px;height:2px;border-radius:1px;background:transparent;transition:background-color 160ms}
+.item:hover{color:var(--ex-blue)}
+.item:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-4px;border-radius:10px}
+.num{font-size:11px;font-variant-numeric:tabular-nums;color:var(--ex-faint)}
+.label{font-size:13px;font-weight:400}
+.on,.on .num{color:var(--ex-blue)}
+.on .label{font-weight:600}
+.on::after{background:var(--ex-blue)}
+
+/* Prev / next / All topics */
+.sep{width:1px;align-self:center;height:24px;background:var(--ex-line);margin:0 8px;flex:none}
+.end{display:flex;align-items:center;gap:6px;flex:none;padding-right:4px}
+.circle{all:unset;cursor:pointer;width:30px;height:30px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:none;border:1px solid var(--ex-line);color:var(--ex-navy);box-sizing:border-box}
+.circle:focus-visible,.allTopics:focus-visible,.textAction:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 .circleOff{cursor:default;color:var(--ex-line-strong)}
 .circleNext{background:var(--ex-navy);border-color:var(--ex-navy);color:#fff}
-.end{gap:10px}
-.allTopics{margin-left:10px}
+.allTopics{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;margin-left:8px;font-size:13px;font-weight:600;white-space:nowrap;color:var(--ex-navy)}
+.allIcon{display:none}
+.textAction{font-size:13px;font-weight:600;color:var(--ex-navy);white-space:nowrap;text-decoration:none}
 
-/* Topic tray — floats above the bar */
-.tray{position:absolute;left:0;right:0;bottom:calc(100% + 10px);padding:28px 32px 24px}
-.trayRelative{position:relative;margin-bottom:10px}
+/* Topic tray — floats above the rail */
+.tray{width:min(1100px,100%);margin-bottom:10px;padding:28px 32px 24px;border-radius:20px;line-height:1.47}
 .trayHead{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--ex-line)}
 .trayTitle{display:flex;flex-direction:column;gap:8px;min-width:0}
 .trayKicker{font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-faint)}
@@ -21,6 +38,7 @@
 .trayKr{font-family:var(--font-kr);font-size:14px;color:var(--ex-muted);line-height:1.6}
 .trayMeta{display:flex;align-items:center;gap:16px}
 .trayCount{font-size:13px;color:var(--ex-muted);font-variant-numeric:tabular-nums}
+.trayEmpty{margin:20px 0 4px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
 .list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));column-gap:32px;max-height:42vh;overflow-y:auto}
 .list li{border-bottom:1px solid var(--ex-line)}
 .topic{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:baseline;padding:16px 0;color:inherit;text-decoration:none}
@@ -32,9 +50,19 @@
 .reading .topicTitle{font-weight:600}
 .pill{font-size:11px;font-weight:600;color:var(--ex-blue);background:var(--ex-tint);border-radius:999px;padding:3px 9px;white-space:nowrap}
 
+@media (prefers-reduced-motion:reduce){.item,.item::after{transition:none}}
+
+/* Tablet: tighter items, as in StageNav */
+@media (max-width:1100px){.item{padding:0 12px}.item::after{left:12px;right:12px}}
+/* Narrow screens: full-width rail; the category row scrolls, the controls stay; All topics becomes an icon */
 @media (max-width:734px){
+  .rail{width:100%;padding:0 4px;border-radius:14px}
+  .item{gap:6px}
+  .item::after{bottom:6px}
+  .sep{margin:0 6px}
+  .allText{display:none}
+  .allIcon{display:block}
+  .allTopics{margin-left:4px}
   .tray{padding:20px 20px 16px}
-  .allTopics{margin-left:0}
 }
-@media (max-width:1199px){.current{min-width:0}.count{display:none}}
-.trayEmpty{margin:20px 0 4px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
+@media (max-width:420px){.num{display:none}}
