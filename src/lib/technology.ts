@@ -35,11 +35,11 @@ type CategoryInput = Omit<TechCategory, "num" | "topics"> & { topics: TopicInput
 const TECH_DATA: CategoryInput[] = [
   {
     id: "geophysics", label: "Geophysics", ko: "지구물리",
-    topics: [{ id: "gp-fdp-role", title: "FDP에서 지구물리의 역할" }],
+    topics: [{ id: "gp-fdp-role", title: "Role of Reservoir Geophysics", ko: "FDP에서 지구물리의 역할" }],
   },
   {
     id: "geology", label: "Geology", ko: "지질",
-    topics: [{ id: "ge-fdp-role", title: "FDP에서 지질의 역할" }],
+    topics: [{ id: "ge-fdp-role", title: "Role of Geology", ko: "FDP에서 지질의 역할" }],
   },
   {
     id: "engineering", label: "Reservoir Engineering", ko: "저류공학",
