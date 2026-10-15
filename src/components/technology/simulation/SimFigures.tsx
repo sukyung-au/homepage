@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { IsoGrid, conceptFront, conceptPattern, rampColor, type Ramp } from "./IsoGrid";
+import { IsoGrid, conceptPattern, rampColor, type Ramp } from "./IsoGrid";
 import s from "./Simulation.module.css";
 
 /**
@@ -104,37 +104,6 @@ export function FluidCurves() {
           </Axes>
           <span className={s.trioName}>Rock Compressibility</span>
         </div>
-      </div>
-    </Figure>
-  );
-}
-
-/** 03 Run: initialization → well schedule → time steps (conceptual water front from the injector) */
-export function RunSteps() {
-  const inj: [number, number][] = [[9.5, 0.5]];
-  const rows: [string, number, number, string][] = [["Producer", 6, 100, s.barNavy], ["Producer", 22, 100, s.barNavy], ["Injector", 34, 100, s.barBlue]];
-  return (
-    <Figure note="Time slider · in preparation">
-      <div className={s.run}>
-        <div className={s.schedule} aria-label="Conceptual well schedule">
-          <span className={s.runLabel}>Well schedule</span>
-          {rows.map(([name, a, b, cls], n) => (
-            <div key={n} className={s.schedRow}>
-              <span>{name}</span>
-              <span className={s.track}><span className={cls} style={{ left: `${a}%`, width: `${b - a}%` }} /></span>
-            </div>
-          ))}
-          <div className={s.schedAxis}><span>Start</span><span>Time →</span></div>
-        </div>
-        <div className={s.frames}>
-          {[["Initialization", 0], ["Time step", 3], ["Later time step", 6]].map(([name, r]) => (
-            <div key={name} className={s.frame}>
-              <IsoGrid nx={NX} ny={NY} nz={2} cell={11} layer={6} compact field={conceptFront(NX, NY, inj, r as number)} ramp="saturation" wells={SIM_WELLS} label={`${name}: conceptual water saturation`} />
-              <span className={s.frameName}>{name}</span>
-            </div>
-          ))}
-        </div>
-        <RampKey ramp="saturation" label="Water saturation" />
       </div>
     </Figure>
   );

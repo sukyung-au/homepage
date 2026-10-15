@@ -14,6 +14,8 @@ export interface IsoWell {
   j: number;
   kind: "producer" | "injector";
   label?: string;
+  /** Not on yet (drawn faded) */
+  inactive?: boolean;
 }
 export interface IsoGridProps {
   nx?: number;
@@ -72,7 +74,7 @@ export function IsoGrid({ nx = 10, ny = 6, nz = 3, cell = 24, layer = 14, field,
           const [x, y] = P(wl.i + 0.5, wl.j + 0.5);
           const head = y - (compact ? 10 : 46);
           return (
-            <g key={`${wl.i}-${wl.j}`} className={wl.kind === "injector" ? s.injector : s.producer} data-well={wl.kind}>
+            <g key={`${wl.i}-${wl.j}`} className={[wl.kind === "injector" ? s.injector : s.producer, wl.inactive && s.wellOff].filter(Boolean).join(" ")} data-well={wl.kind}>
               <line x1={x} y1={head} x2={x} y2={y} className={s.wellLine} />
               <line x1={x} y1={y} x2={x} y2={y + nz * layer} className={s.wellInside} />
               <circle cx={x} cy={y} r={compact ? 1.8 : 2.6} className={s.wellPoint} />
@@ -83,16 +85,6 @@ export function IsoGrid({ nx = 10, ny = 6, nz = 3, cell = 24, layer = 14, field,
         })}
       </g>
     </svg>
-  );
-}
-
-/** Conceptual water-saturation pattern spreading from the injector(s) — illustration only, not a calculation. */
-export function conceptFront(nx: number, ny: number, from: [number, number][], radius: number): number[][] {
-  return Array.from({ length: ny }, (_, j) =>
-    Array.from({ length: nx }, (_, i) => {
-      const d = Math.min(...from.map(([a, b]) => Math.hypot(i + 0.5 - a, (j + 0.5 - b) * 1.2)));
-      return Math.max(0, Math.min(1, (radius - d) / 1.6));
-    }),
   );
 }
 

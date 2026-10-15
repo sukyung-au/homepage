@@ -1,14 +1,16 @@
 import type { ReactNode } from "react";
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
-import { ForecastCases, FluidCurves, HeroModel, HistoryCases, RunSteps, StaticLayers } from "./simulation/SimFigures";
+import { RunSimulator } from "./simulation/RunSimulator";
+import { ForecastCases, FluidCurves, HeroModel, HistoryCases, StaticLayers } from "./simulation/SimFigures";
 import s from "./simulation/Simulation.module.css";
 import { Crumb, SectionHeading, TopicNext, topicStyles as t } from "./TopicParts";
 
 /**
  * Topic 3.2 — Reservoir Simulation. Page structure and layout only: five steps, each with a short explanation
- * and a conceptual figure (simulation/SimFigures.tsx). The figures are separate components so the hero grid and
- * the run step can later become interactive (pressure / water saturation through time). No physics is computed.
+ * and a conceptual figure (simulation/SimFigures.tsx). Step 03 is interactive (simulation/RunSimulator.tsx:
+ * time slider, play / pause / reset, pressure ↔ water saturation) on a conceptual model (conceptModel.ts) —
+ * simplified relationships, not a simulator. The hero grid can reuse it later.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -58,7 +60,7 @@ const STEPS: Step[] = [
       ["Well Schedule", "유정별 생산·주입 시점과 운영 조건 입력"],
       ["Pressure & Saturation", "시간에 따른 압력 및 포화도 변화 계산"],
     ],
-    figure: <RunSteps />,
+    figure: <RunSimulator />,
   },
   {
     id: "history-matching",
