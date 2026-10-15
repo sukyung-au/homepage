@@ -121,8 +121,34 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
         </div>
       </section>
 
-      {/* 01–05 — the workflow */}
-      {STEPS.map((st, i) => (
+      {/* 01–05 — the workflow (03 is the interactive dashboard: heading, collapsible notes, then the viewer) */}
+      {STEPS.map((st, i) => st.id === "run" ? (
+        <section key={st.id} id={st.id} className={cx(t.section, i % 2 === 0 && t.white, s.stepSection, s.dashSection)} data-section={st.id} data-step={pad(i)}>
+          <div className={t.inner}>
+            <div className={s.dashHead}>
+              <div className={s.dashTitle}>
+                <SectionHeading num={pad(i)}>{st.title}</SectionHeading>
+                <p className={s.dashLabel}>{st.label}</p>
+              </div>
+              <div>
+                <p className={`${ss.body} ${s.dashBody}`}>{st.body}</p>
+                <details className={s.notes}>
+                  <summary>Technical notes · {st.terms.map(([en]) => en).join(" · ")}</summary>
+                  <dl className={s.notesList}>
+                    {st.terms.map(([en, ko]) => (
+                      <div key={en}>
+                        <dt>{en}</dt>
+                        <dd>{ko}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </details>
+              </div>
+            </div>
+            {st.figure}
+          </div>
+        </section>
+      ) : (
         <section key={st.id} id={st.id} className={cx(t.section, i % 2 === 0 && t.white, s.stepSection)} data-section={st.id} data-step={pad(i)}>
           <div className={cx(t.inner, s.step)}>
             <div className={s.stepText}>

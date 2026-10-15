@@ -16,6 +16,8 @@ export interface IsoWell {
   label?: string;
   /** Not on yet (drawn faded) */
   inactive?: boolean;
+  /** Put the label beside the wellhead instead of above it (keeps neighbouring labels apart) */
+  labelSide?: "left" | "right";
 }
 export interface IsoGridProps {
   nx?: number;
@@ -30,6 +32,8 @@ export interface IsoGridProps {
   wells?: IsoWell[];
   /** Hide well labels (small multiples) */
   compact?: boolean;
+  /** Space above the grid for wellheads and labels (SVG units) */
+  top?: number;
   label: string;
   className?: string;
 }
@@ -37,7 +41,7 @@ export interface IsoGridProps {
 const COS = Math.cos(Math.PI / 6), SIN = 0.5;
 /** Two-stop colour ramps (low → high), from the design palette */
 const RAMPS: Record<Ramp, [number[], number[]]> = {
-  pressure: [[232, 240, 251], [10, 92, 219]],
+  pressure: [[232, 240, 251], [74, 132, 224]],
   saturation: [[232, 240, 251], [18, 164, 217]],
   porosity: [[246, 239, 222], [242, 154, 31]],
   permeability: [[232, 240, 251], [11, 26, 44]],
@@ -47,9 +51,9 @@ export const rampColor = (ramp: Ramp, v: number) => {
   return `rgb(${a.map((x, n) => Math.round(x + (b[n] - x) * k)).join(",")})`;
 };
 
-export function IsoGrid({ nx = 10, ny = 6, nz = 3, cell = 24, layer = 14, field, ramp = "saturation", wells = [], compact, label, className }: IsoGridProps) {
+export function IsoGrid({ nx = 10, ny = 6, nz = 3, cell = 24, layer = 14, field, ramp = "saturation", wells = [], compact, top: topPad, label, className }: IsoGridProps) {
   const cx = cell * COS, cy = cell * SIN;
-  const top = compact ? 8 : 64;
+  const top = topPad ?? (compact ? 8 : 64);
   const ox = ny * cx + 4;
   const P = (i: number, j: number, k = 0): [number, number] => [ox + (i - j) * cx, top + (i + j) * cy + k * layer];
   const pts = (...p: [number, number][]) => p.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
@@ -79,7 +83,9 @@ export function IsoGrid({ nx = 10, ny = 6, nz = 3, cell = 24, layer = 14, field,
               <line x1={x} y1={y} x2={x} y2={y + nz * layer} className={s.wellInside} />
               <circle cx={x} cy={y} r={compact ? 1.8 : 2.6} className={s.wellPoint} />
               {!compact && <circle cx={x} cy={head} r={3.2} className={s.wellHead} />}
-              {!compact && wl.label && <text x={x} y={head - 9} textAnchor="middle" className={s.wellLabel}>{wl.label}</text>}
+              {!compact && wl.label && (wl.labelSide
+                ? <text x={x + (wl.labelSide === "left" ? -8 : 8)} y={head + 4} textAnchor={wl.labelSide === "left" ? "end" : "start"} className={s.wellLabel}>{wl.label}</text>
+                : <text x={x} y={head - 9} textAnchor="middle" className={s.wellLabel}>{wl.label}</text>)}
             </g>
           );
         })}
