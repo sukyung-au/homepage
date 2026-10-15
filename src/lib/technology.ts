@@ -35,16 +35,17 @@ type CategoryInput = Omit<TechCategory, "num" | "topics"> & { topics: TopicInput
 const TECH_DATA: CategoryInput[] = [
   {
     id: "geophysics", label: "Geophysics", ko: "지구물리",
-    topics: [{ id: "gp-fdp-role", title: "FDP에서 지구물리의 역할" }],
+    topics: [{ id: "gp-fdp-role", title: "Role of Reservoir Geophysics", ko: "FDP에서 지구물리의 역할" }],
   },
   {
     id: "geology", label: "Geology", ko: "지질",
-    topics: [{ id: "ge-fdp-role", title: "FDP에서 지질의 역할" }],
+    topics: [{ id: "ge-fdp-role", title: "Role of Geology", ko: "FDP에서 지질의 역할" }],
   },
   {
     id: "engineering", label: "Reservoir Engineering", ko: "저류공학",
     topics: [
       { id: "re-role", title: "Role of Reservoir Engineering", sub: "From Reservoir Understanding to Development Decisions", ko: "FDP에서 저류공학의 역할", hasPage: true },
+      { id: "re-simulation", title: "Reservoir Simulation", sub: "Understanding Reservoir Behavior Through Time", ko: "저류층 시뮬레이션", hasPage: true },
       { id: "re-fundamentals", title: "Reservoir Engineering Fundamentals", sub: "Understanding the properties and flow behavior of reservoir fluids.", ko: "저류공학의 기초" },
     ],
   },
