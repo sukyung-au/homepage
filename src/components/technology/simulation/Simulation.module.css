@@ -1,0 +1,109 @@
+/* Topic 3.2 — Reservoir Simulation. Same editorial system as 3.1: bright page, navy type, blue as the point colour. */
+
+/* Hero */
+.hero{max-width:1360px;margin:40px auto 0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px 72px;align-items:center}
+.heroText{display:flex;flex-direction:column;padding-top:24px}
+.h1{margin:28px 0 0;font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:0.98;letter-spacing:-0.02em;color:var(--ex-navy);text-wrap:balance}
+.sub{margin:24px 0 0;font-family:var(--font-editorial);font-size:clamp(18px,1.6vw,22px);font-weight:400;line-height:1.35;letter-spacing:-0.01em;color:var(--ex-blue)}
+.lede{max-width:500px}
+.steps{list-style:none;margin:32px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--font-editorial);font-size:13px}
+.steps a{display:inline-flex;gap:6px;color:var(--ex-navy);text-decoration:none}
+.steps a:hover{color:var(--ex-blue)}
+.steps span{font-variant-numeric:tabular-nums;color:var(--ex-faint)}
+.heroIso{width:100%;height:auto}
+
+/* Steps — text left, figure right */
+.stepSection{scroll-margin-top:16px}
+.step{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px 72px;align-items:center}
+.stepLabel{margin:-28px 0 0;font-family:var(--font-editorial);font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-blue)}
+.stepBody{margin:20px 0 0;max-width:500px}
+.terms{margin:32px 0 0;border-top:1px solid var(--ex-navy)}
+.terms > div{display:grid;grid-template-columns:minmax(0,190px) 1fr;gap:6px 20px;padding:14px 0;border-bottom:1px solid var(--ex-line)}
+.terms dt{font-family:var(--font-editorial);font-size:15px;font-weight:600;color:var(--ex-navy)}
+.terms dd{margin:0;font-family:var(--font-kr);font-size:14px;line-height:1.65;color:var(--ex-muted)}
+.stepVisual{min-width:0}
+
+/* Figure shell */
+.figure{margin:0}
+.caption{margin-top:12px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.04em;color:var(--ex-faint)}
+.soon{font-size:10px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--ex-blue);border:1px solid var(--ex-line);border-radius:999px;padding:3px 9px;background:#fff}
+.key{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-editorial);font-size:11px;color:var(--ex-muted)}
+.keyBar{display:inline-block;width:48px;height:6px;border-radius:3px}
+
+/* Isometric grid */
+.iso{display:block;width:100%;height:auto;overflow:visible}
+.iso *{vector-effect:non-scaling-stroke}
+.cellTop{fill:var(--ex-tint);stroke:rgba(11,26,44,0.28);stroke-width:0.8}
+.cellLeft{fill:#9DAFC2;stroke:rgba(11,26,44,0.3);stroke-width:0.8}
+.cellRight{fill:#7E8C9C;stroke:rgba(11,26,44,0.3);stroke-width:0.8}
+.wellLine{stroke-width:2}
+.wellInside{stroke-width:1.2;stroke-dasharray:3 3;opacity:0.7}
+.producer line,.producer circle{stroke:var(--ex-navy)}
+.injector line,.injector circle{stroke:var(--ex-blue)}
+.wellPoint{fill:#fff;stroke-width:1.5}
+.wellHead{fill:#fff;stroke-width:1.5}
+.producer .wellPoint{fill:var(--ex-navy)}
+.injector .wellPoint{fill:var(--ex-blue)}
+.wellLabel{font-family:var(--font-editorial);font-size:11px;font-weight:600;fill:var(--ex-navy)}
+.injector .wellLabel{fill:var(--ex-blue)}
+
+/* 01 property layers */
+.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.layer{display:flex;flex-direction:column;gap:8px}
+.layerName{font-family:var(--font-editorial);font-size:15px;font-weight:600;color:var(--ex-navy)}
+
+/* Small conceptual charts */
+.chart{display:block;width:100%;height:auto}
+.chartWide{max-width:560px}
+.chartWide .axisLabel,.chartWide .tag{font-size:7px}
+.chart *{vector-effect:non-scaling-stroke}
+.axis{stroke:var(--ex-navy);stroke-width:1}
+.axisLabel{font-family:var(--font-editorial);font-size:9px;fill:var(--ex-faint)}
+.lineNavy,.lineBlue,.lineCyan,.caseA,.caseB,.caseBase{fill:none;stroke-width:1.8}
+.lineNavy{stroke:var(--ex-navy)}
+.lineBlue{stroke:var(--ex-blue)}
+.lineCyan{stroke:var(--ex-cyan)}
+.caseA{stroke:var(--ex-faint);stroke-dasharray:5 4}
+.caseB{stroke:var(--ex-line-strong);stroke-dasharray:2 3}
+.caseBase{stroke:var(--ex-navy);stroke-dasharray:5 4}
+.guide{stroke:var(--ex-line-strong);stroke-width:1;stroke-dasharray:3 3}
+.tag{font-family:var(--font-editorial);font-size:9px;fill:var(--ex-navy)}
+.tagBlue{font-family:var(--font-editorial);font-size:9px;fill:var(--ex-blue)}
+.obs{fill:#fff;stroke:var(--ex-navy);stroke-width:1.2}
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.trioName{display:block;margin-top:6px;font-family:var(--font-editorial);font-size:14px;font-weight:600;color:var(--ex-navy)}
+.legend{max-width:560px;display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:8px;font-family:var(--font-editorial);font-size:11px;color:var(--ex-muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block}
+.lgObs{width:7px;height:7px;border-radius:50%;border:1.2px solid var(--ex-navy)}
+.lgCaseA{width:16px;border-top:1.6px dashed var(--ex-faint)}
+.lgCaseB{width:16px;border-top:1.6px dotted var(--ex-line-strong)}
+.lgMatch{width:16px;border-top:1.8px solid var(--ex-blue)}
+.lgHist{width:16px;border-top:1.8px solid var(--ex-navy)}
+.lgBase{width:16px;border-top:1.6px dashed var(--ex-navy)}
+.lgCyan{width:16px;border-top:1.8px solid var(--ex-cyan)}
+
+/* 03 run: well schedule + time-step frames */
+.run{display:flex;flex-direction:column;gap:24px}
+.runLabel{font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.schedule{display:flex;flex-direction:column;gap:8px}
+.schedRow{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;font-family:var(--font-editorial);font-size:12px;color:var(--ex-navy)}
+.track{position:relative;height:8px;border-radius:4px;background:var(--ex-line)}
+.barNavy,.barBlue{position:absolute;top:0;bottom:0;border-radius:4px}
+.barNavy{background:var(--ex-navy)}
+.barBlue{background:var(--ex-blue)}
+.schedAxis{display:flex;justify-content:space-between;margin-left:84px;font-family:var(--font-editorial);font-size:10px;color:var(--ex-faint)}
+.frames{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.frame{display:flex;flex-direction:column;gap:6px}
+.frameName{font-family:var(--font-editorial);font-size:12px;color:var(--ex-navy)}
+
+/* Tablet and below: the figure drops under the text */
+@media (max-width:1099px){
+  .hero,.step{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .layers,.trio,.frames{grid-template-columns:1fr}
+  .layers,.trio{max-width:320px}
+  .frames{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+  .terms > div{grid-template-columns:1fr;gap:4px}
+}

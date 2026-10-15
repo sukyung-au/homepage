@@ -57,7 +57,7 @@ export function TopicNext({ topic, prev, next }: { topic: FlatTopic; prev?: Flat
               {sameCat ? `Next topic · ${next.num}` : `Next category · ${next.category.num} ${next.category.label}`}
             </div>
             <div className={s.nextTitle}>{next.title}</div>
-            <ArrowCTA tone="blue" href={nextHref} title={nextHref ? undefined : "Coming soon"}>Continue reading</ArrowCTA>
+            <ArrowCTA tone="blue" href={nextHref} title={nextHref ? undefined : "Coming soon"}>{nextHref ? "Continue reading" : "Coming soon"}</ArrowCTA>
           </div>
         )}
       </div>
