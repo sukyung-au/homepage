@@ -4,10 +4,10 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import s from "./Prologue.module.css";
 
 /**
- * Presenter-driven self-introduction shown before the v2 intro reel on /presentation.
+ * Presenter-driven self-introduction shown after the v2 intro reel on /presentation, before the Hero.
  * Step 0 shows the title and presenter; each Space / → reveals the next card (← steps back). After the third
- * card the "Why I built this" message and BEGIN PRESENTATION appear — the intro starts only from that button,
- * never from another key press. Rendered inside ShowReelV2's waiting phase (page scroll is already locked).
+ * card the "Why I built this" message and BEGIN PRESENTATION appear — the Hero opens only from that button,
+ * never from another key press. Rendered as ShowReelV2's "prologue" phase (page scroll stays locked).
  */
 
 const STAGES = [
@@ -71,8 +71,9 @@ function MiniSite() {
 
 const VISUALS = [<Strata key="a" />, <Disciplines key="b" />, <MiniSite key="c" />];
 
-export function Prologue({ onBegin, soundOn }: { onBegin: () => void; soundOn: boolean }) {
+export function Prologue({ onBegin }: { onBegin: () => void }) {
   const [step, setStep] = useState(0);
+  const [leaving, setLeaving] = useState(false);
   const next = useCallback(() => setStep((n) => Math.min(LAST, n + 1)), []);
   const back = useCallback(() => setStep((n) => Math.max(0, n - 1)), []);
 
@@ -96,8 +97,15 @@ export function Prologue({ onBegin, soundOn }: { onBegin: () => void; soundOn: b
   }, [next, back]);
 
   const done = step >= LAST;
+  // fade out, then hand over to the Hero (immediately with reduced motion)
+  const begin = () => {
+    if (leaving) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return onBegin();
+    setLeaving(true);
+    window.setTimeout(onBegin, 500);
+  };
   return (
-    <section className={s.prologue} aria-label="Self-introduction" data-step={step}>
+    <section className={s.prologue} aria-label="Self-introduction" data-step={step} data-leaving={leaving || undefined}>
       <div className={s.inner}>
         <header className={s.head}>
           <span className={s.kicker}>KNOC <span>/</span> Internship Final Presentation</span>
@@ -138,7 +146,7 @@ export function Prologue({ onBegin, soundOn }: { onBegin: () => void; soundOn: b
           </div>
           <div className={s.actions}>
             {done ? (
-              <button type="button" className={s.begin} onClick={onBegin}>
+              <button type="button" className={s.begin} onClick={begin}>
                 Begin Presentation <ArrowRight size={16} aria-hidden />
               </button>
             ) : (
@@ -151,7 +159,7 @@ export function Prologue({ onBegin, soundOn }: { onBegin: () => void; soundOn: b
               </span>
               <button type="button" className={s.stepBtn} onClick={(e) => { next(); e.currentTarget.blur(); }} disabled={done} aria-label="Next step"><ArrowRight size={14} aria-hidden /></button>
             </div>
-            <span className={s.keys}>Space / → next · ← back · M sound {soundOn ? "on" : "off"}</span>
+            <span className={s.keys}>Space / → next · ← back</span>
           </div>
         </footer>
       </div>

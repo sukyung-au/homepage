@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-/** Presentation entry: a self-introduction prologue, then the 15 s v2 intro reel opening the homepage Journey (v1: /presentation/v1). */
+/** Presentation entry: the 15 s v2 intro reel, a self-introduction, then the homepage Journey (v1: /presentation/v1). */
 export default function Presentation() {
   return (
     <main>

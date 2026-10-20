@@ -1,6 +1,8 @@
 /* Presentation prologue — the homepage's editorial language on one 16:9 screen. Sizes follow the viewport
    height so 1366×768 and 1920×1080 both fit without scrolling; small screens scroll inside the layer. */
-.prologue{position:absolute;inset:0;z-index:2;overflow-y:auto;cursor:default;user-select:text;background:radial-gradient(120% 90% at 85% 0%,#EAF1FB 0%,rgba(234,241,251,0) 55%),var(--ex-bg);color:var(--ex-navy);font-family:var(--font-editorial);--ease:cubic-bezier(.2,.7,.2,1)}
+.prologue{position:absolute;inset:0;z-index:2;overflow-y:auto;cursor:default;user-select:text;background:radial-gradient(120% 90% at 85% 0%,#EAF1FB 0%,rgba(234,241,251,0) 55%),var(--ex-bg);color:var(--ex-navy);font-family:var(--font-editorial);--ease:cubic-bezier(.2,.7,.2,1);animation:prologueIn .8s ease-out both;transition:opacity .5s ease}
+.prologue[data-leaving]{opacity:0;pointer-events:none}
+@keyframes prologueIn{from{opacity:0}to{opacity:1}}
 .inner{min-height:100%;max-width:1480px;margin:0 auto;padding:clamp(24px,5vh,64px) var(--gutter-page) clamp(20px,3.6vh,44px);display:flex;flex-direction:column;gap:clamp(18px,3.4vh,40px);box-sizing:border-box}
 
 /* Head */
@@ -86,5 +88,5 @@
   .keys{white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){
-  .stage,.link,.why,.begin{transition:none;animation:none}
+  .prologue,.stage,.link,.why,.begin{transition:none;animation:none}
 }
