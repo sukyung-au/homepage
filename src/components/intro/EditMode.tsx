@@ -3,11 +3,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import s from "./EditMode.module.css";
 
 /**
- * Presenter edit mode for /presentation. Press E to toggle; click any text to retype it, and use the toolbar to
+ * Presenter edit mode for /presentation. Press E to turn it on (only the Close button turns it off, so a
+ * stray E — or ㄷ while typing Korean — can't drop out of it); click any text to retype it, and use the toolbar to
  * resize it, drag the ✥ handle to move it (CSS `translate`, so it composes with the page's own transform
  * animations), or widen the selection to the enclosing box. Changes are kept in this browser only (localStorage) and re-applied on reload; "Copy changes"
  * puts them on the clipboard so they can be written into the code. Canvas text in the intro reel is not editable.
- * While a text is being edited, its key presses don't reach the page (Space won't advance the prologue).
+ * While on, key presses don't reach the page (no R replay, M sound or Esc skip) except Space / arrows / Page
+ * keys outside an edited text, so the prologue can still be stepped. Toolbar clicks keep the text focused.
  */
 
 interface Override { html?: string; size?: number; x?: number; y?: number; original: string }
@@ -39,6 +41,9 @@ function textTarget(from: EventTarget | null): HTMLElement | null {
   }
   return null;
 }
+
+/** Keys that still reach the page in edit mode (step the prologue, scroll) */
+const NAV_KEYS = new Set(["Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Tab"]);
 
 const isEditable = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
 
@@ -117,7 +122,9 @@ export function EditMode() {
     deselect();
   }, [deselect]);
 
-  // E toggles; inside an edited text, keys stay there (Esc leaves the text)
+  // E turns edit mode on; while on, keys stay in the edited text (Esc leaves it) and page shortcuts are blocked
+  const onRef = useRef(false);
+  useEffect(() => { onRef.current = on; }, [on]);
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (isEditable(e.target)) {
@@ -125,12 +132,17 @@ export function EditMode() {
         e.stopPropagation();
         return;
       }
-      if (e.code === "KeyE" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (onRef.current) {
+        if (e.code === "Escape") deselect();
+        if (!NAV_KEYS.has(e.code)) e.stopPropagation();
+        return;
+      }
+      if (e.code === "KeyE" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.isComposing) {
         e.stopPropagation();
-        toggle();
+        toggle(true);
       }
     };
-    const onUp = (e: KeyboardEvent) => { if (isEditable(e.target)) e.stopPropagation(); };
+    const onUp = (e: KeyboardEvent) => { if (isEditable(e.target) || (onRef.current && !NAV_KEYS.has(e.code))) e.stopPropagation(); };
     window.addEventListener("keydown", onKey, true);
     window.addEventListener("keyup", onUp, true);
     return () => { window.removeEventListener("keydown", onKey, true); window.removeEventListener("keyup", onUp, true); };
@@ -227,7 +239,7 @@ export function EditMode() {
     {box && (
       <span className={s.handle} data-edit-ui style={{ left: box.left, top: box.top }} onPointerDown={drag} title="드래그해서 이동" aria-label="Move">✥</span>
     )}
-    <div className={s.bar} data-edit-ui data-top={top || undefined} role="toolbar" aria-label="Edit mode">
+    <div className={s.bar} data-edit-ui data-top={top || undefined} role="toolbar" aria-label="Edit mode" onMouseDown={(e) => e.preventDefault()}>
       <span className={s.badge}>Edit mode</span>
       {hasSel ? (
         <>
@@ -250,7 +262,7 @@ export function EditMode() {
       <button type="button" className={s.btn} onClick={copy} disabled={!count}>Copy changes</button>
       <button type="button" className={s.btn} onClick={resetAll} disabled={!count}>Reset all</button>
       <button type="button" className={s.btn} onClick={() => setTop((v) => !v)} aria-label="Move toolbar">{top ? "↓" : "↑"}</button>
-      <button type="button" className={s.btnMain} onClick={() => toggle(false)}>Close (E)</button>
+      <button type="button" className={s.btnMain} onClick={() => toggle(false)}>Close</button>
       {note && <span className={s.note}>{note}</span>}
     </div>
     </>
