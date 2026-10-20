@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Prologue } from "./Prologue";
 import { playReelAudioV2, type ReelAudio } from "./reelAudioV2";
 import { createRenderer } from "./reelV2Renderer";
 import s from "./ShowReelV2.module.css";
@@ -17,19 +18,22 @@ import s from "./ShowReelV2.module.css";
  * M toggles sound. Phase is mirrored on <html data-reel> for Hero.module.css.
  */
 
-type Phase = "waiting" | "playing" | "poster" | "handoff" | "gone";
+type Phase = "waiting" | "playing" | "poster" | "handoff" | "prologue" | "gone";
 const POSTER_AT = 12.3;
 const HANDOFF_AT = 14.2;
 const END_AT = 15.2;
 
-export function ShowReelV2() {
+/** `prologue`: when the reel ends, hold on the presenter self-introduction; its BEGIN button reveals the Hero. */
+export function ShowReelV2({ prologue = false }: { prologue?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [phase, setPhase] = useState<Phase>("waiting");
   const [muted, setMuted] = useState(false);
   const [run, setRun] = useState(0);
+  const [prologueDone, setPrologueDone] = useState(false);
   const phaseRef = useRef<Phase>("waiting");
   const audio = useRef<ReelAudio | null>(null);
   const startedAt = useRef(0);
+  const finishRef = useRef<() => void>(() => {});
 
   const go = useCallback((p: Phase) => {
     phaseRef.current = p;
@@ -44,16 +48,24 @@ export function ShowReelV2() {
     go("playing");
   }, [muted, go]);
 
+  // After the reel (or Esc): the self-introduction, once per page load; R replays the reel alone
+  const finish = useCallback(() => go(prologue && !prologueDone ? "prologue" : "gone"), [prologue, prologueDone, go]);
+  useEffect(() => { finishRef.current = finish; }, [finish]);
+  const begin = useCallback(() => {
+    setPrologueDone(true);
+    go("gone");
+  }, [go]);
+
   useEffect(() => {
-    document.documentElement.dataset.reel = phase === "gone" ? "handoff" : phase;
-  }, [phase]);
+    document.documentElement.dataset.reel = phase === "gone" ? (prologueDone ? "done" : "handoff") : phase;
+  }, [phase, prologueDone]);
   useEffect(() => () => {
     delete document.documentElement.dataset.reel;
     audio.current?.stop();
   }, []);
 
   // Render loop (one per run). Phase changes are driven by the reel clock.
-  const gone = phase === "gone";
+  const gone = phase === "gone" || phase === "prologue";
   useEffect(() => {
     const el = canvas.current;
     if (gone || !el) return;
@@ -70,7 +82,7 @@ export function ShowReelV2() {
         r.draw(t);
         if (p === "playing" && t >= POSTER_AT) go("poster");
         else if (p === "poster" && t >= HANDOFF_AT) go("handoff");
-        else if (p === "handoff" && t >= END_AT) { go("gone"); return; }
+        else if (p === "handoff" && t >= END_AT) { finishRef.current(); return; }
       }
       raf = requestAnimationFrame(frame);
     };
@@ -86,9 +98,9 @@ export function ShowReelV2() {
       if (phase === "waiting" && (e.code === "Space" || e.code === "Enter")) {
         e.preventDefault();
         start();
-      } else if (e.code === "Escape" && phase !== "gone" && phase !== "waiting") {
+      } else if (e.code === "Escape" && (phase === "playing" || phase === "poster" || phase === "handoff")) {
         audio.current?.stop();
-        go("gone");
+        finish();
       } else if (e.code === "KeyR" && phase === "gone") {
         window.scrollTo(0, 0);
         setRun((n) => n + 1);
@@ -100,12 +112,13 @@ export function ShowReelV2() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [phase, start, go]);
+  }, [phase, start, finish, go]);
 
   if (phase === "gone") return null;
   return (
     <div className={s.reel} data-phase={phase} onClick={phase === "waiting" ? start : undefined} role="presentation" aria-label="Intro reel">
       <canvas ref={canvas} className={s.canvas} />
+      {phase === "prologue" && <Prologue onBegin={begin} />}
       {phase === "waiting" && <p className={s.hint}>Press Space to begin · M sound {muted ? "off" : "on"}</p>}
     </div>
   );
