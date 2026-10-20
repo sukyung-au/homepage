@@ -1,5 +1,6 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Prologue } from "./Prologue";
 import { playReelAudioV2, type ReelAudio } from "./reelAudioV2";
 import { createRenderer } from "./reelV2Renderer";
 import s from "./ShowReelV2.module.css";
@@ -22,11 +23,13 @@ const POSTER_AT = 12.3;
 const HANDOFF_AT = 14.2;
 const END_AT = 15.2;
 
-export function ShowReelV2() {
+/** `prologue`: open on the presenter self-introduction; the reel then starts only from its BEGIN button. */
+export function ShowReelV2({ prologue = false }: { prologue?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [phase, setPhase] = useState<Phase>("waiting");
   const [muted, setMuted] = useState(false);
   const [run, setRun] = useState(0);
+  const [prologueDone, setPrologueDone] = useState(false);
   const phaseRef = useRef<Phase>("waiting");
   const audio = useRef<ReelAudio | null>(null);
   const startedAt = useRef(0);
@@ -43,6 +46,12 @@ export function ShowReelV2() {
     startedAt.current = performance.now();
     go("playing");
   }, [muted, go]);
+
+  const inPrologue = prologue && !prologueDone && phase === "waiting";
+  const begin = useCallback(() => {
+    setPrologueDone(true);
+    start();
+  }, [start]);
 
   useEffect(() => {
     document.documentElement.dataset.reel = phase === "gone" ? "handoff" : phase;
@@ -83,7 +92,7 @@ export function ShowReelV2() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (phase === "waiting" && (e.code === "Space" || e.code === "Enter")) {
+      if (phase === "waiting" && !inPrologue && (e.code === "Space" || e.code === "Enter")) {
         e.preventDefault();
         start();
       } else if (e.code === "Escape" && phase !== "gone" && phase !== "waiting") {
@@ -100,13 +109,14 @@ export function ShowReelV2() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [phase, start, go]);
+  }, [phase, inPrologue, start, go]);
 
   if (phase === "gone") return null;
   return (
-    <div className={s.reel} data-phase={phase} onClick={phase === "waiting" ? start : undefined} role="presentation" aria-label="Intro reel">
+    <div className={s.reel} data-phase={phase} onClick={phase === "waiting" && !inPrologue ? start : undefined} role="presentation" aria-label="Intro reel">
       <canvas ref={canvas} className={s.canvas} />
-      {phase === "waiting" && <p className={s.hint}>Press Space to begin · M sound {muted ? "off" : "on"}</p>}
+      {inPrologue && <Prologue onBegin={begin} soundOn={!muted} />}
+      {phase === "waiting" && !inPrologue && <p className={s.hint}>Press Space to begin · M sound {muted ? "off" : "on"}</p>}
     </div>
   );
 }
