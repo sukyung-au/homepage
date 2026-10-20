@@ -11,6 +11,7 @@
 .btn:focus-visible,.btnMain:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 .bar[data-top]{bottom:auto;top:16px}
 .handle{position:fixed;z-index:1001;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:var(--ex-blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;cursor:move;touch-action:none;box-shadow:0 4px 12px rgba(10,92,219,.4)}
+.corner{position:fixed;z-index:1001;transform:translate(-60%,-60%);width:20px;height:20px;border-radius:5px;background:#fff;border:2px solid var(--ex-blue);color:var(--ex-blue);display:flex;align-items:center;justify-content:center;font-size:10px;cursor:nwse-resize;touch-action:none;box-sizing:border-box}
 .note{position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ex-navy);color:#fff}
 
 :global(html[data-editing] body *:not([data-edit-ui]):not([data-edit-ui] *):hover){outline:1px dashed rgba(10,92,219,.55);outline-offset:2px;cursor:text}

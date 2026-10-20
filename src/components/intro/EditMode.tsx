@@ -6,13 +6,13 @@ import s from "./EditMode.module.css";
  * Presenter edit mode for /presentation. Press E to turn it on (only the Close button turns it off, so a
  * stray E — or ㄷ while typing Korean — can't drop out of it); click any text to retype it, and use the toolbar to
  * resize it, drag the ✥ handle to move it (CSS `translate`, so it composes with the page's own transform
- * animations), or widen the selection to the enclosing box. Changes are kept in this browser only (localStorage) and re-applied on reload; "Copy changes"
+ * animations), drag the ◢ corner to resize its box (width / height), or widen the selection to the enclosing box. Changes are kept in this browser only (localStorage) and re-applied on reload; "Copy changes"
  * puts them on the clipboard so they can be written into the code. Canvas text in the intro reel is not editable.
  * While on, key presses don't reach the page (no R replay, M sound or Esc skip) except Space / arrows / Page
  * keys outside an edited text, so the prologue can still be stepped. Toolbar clicks keep the text focused.
  */
 
-interface Override { html?: string; size?: number; x?: number; y?: number; original: string }
+interface Override { html?: string; size?: number; x?: number; y?: number; w?: number; h?: number; original: string }
 type Overrides = Record<string, Override>;
 const STORE = "presentation-edits-v1";
 
@@ -42,6 +42,15 @@ function textTarget(from: EventTarget | null): HTMLElement | null {
   return null;
 }
 
+/** Fixed box size (border-box); no arguments restores the page's own sizing */
+function sizeBox(el: HTMLElement, w?: number, h?: number) {
+  el.style.boxSizing = w ? "border-box" : "";
+  el.style.width = w ? `${w}px` : "";
+  el.style.maxWidth = w ? "none" : "";
+  el.style.height = h ? `${h}px` : "";
+  el.style.whiteSpace = w ? "normal" : "";
+}
+
 /** Keys that still reach the page in edit mode (step the prologue, scroll) */
 const NAV_KEYS = new Set(["Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Tab"]);
 
@@ -55,7 +64,8 @@ export function EditMode() {
   const [note, setNote] = useState("");
   const [top, setTop] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const [box, setBox] = useState<{ left: number; top: number } | null>(null);
+  const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
+  const [box, setBox] = useState<{ left: number; top: number; right: number; bottom: number } | null>(null);
   const edits = useRef<Overrides>({});
   const sel = useRef<{ el: HTMLElement; path: string; onInput: () => void } | null>(null);
 
@@ -77,6 +87,7 @@ export function EditMode() {
         if (o.size && el.style.fontSize !== `${o.size}px`) el.style.fontSize = `${o.size}px`;
         const tr = o.x || o.y ? `${o.x ?? 0}px ${o.y ?? 0}px` : "";
         if (tr && el.style.translate !== tr) el.style.translate = tr;
+        if (o.w && el.style.width !== `${o.w}px`) sizeBox(el, o.w, o.h);
       }
     };
     raf = requestAnimationFrame(() => { apply(); setCount(Object.keys(edits.current).length); });
@@ -110,6 +121,8 @@ export function EditMode() {
     sel.current = { el, path, onInput };
     setHasSel(true);
     setPos({ x: edits.current[path]?.x ?? 0, y: edits.current[path]?.y ?? 0 });
+    const o = edits.current[path];
+    setDims(o?.w ? { w: o.w, h: o.h ?? 0 } : null);
     setSize(Math.round(parseFloat(getComputedStyle(el).fontSize)));
   }, [deselect, record]);
 
@@ -168,7 +181,7 @@ export function EditMode() {
     let raf = 0;
     const follow = () => {
       const r = sel.current?.el.getBoundingClientRect();
-      setBox((b) => (!r ? null : b && b.left === r.left && b.top === r.top ? b : { left: r.left, top: r.top }));
+      setBox((b) => (!r ? null : b && b.left === r.left && b.top === r.top && b.right === r.right && b.bottom === r.bottom ? b : { left: r.left, top: r.top, right: r.right, bottom: r.bottom }));
       raf = requestAnimationFrame(follow);
     };
     raf = requestAnimationFrame(follow);
@@ -200,6 +213,35 @@ export function EditMode() {
     window.addEventListener("pointerup", onUp);
   };
 
+  // Corner drag: set the box's width and height (border-box px)
+  const resizeBox = (e: React.PointerEvent) => {
+    e.preventDefault();
+    const cur = sel.current;
+    if (!cur) return;
+    const r = cur.el.getBoundingClientRect(), sx = e.clientX, sy = e.clientY;
+    let w = Math.round(r.width), h = Math.round(r.height);
+    const onMove = (m: PointerEvent) => {
+      w = Math.max(20, Math.round(r.width + m.clientX - sx));
+      h = Math.max(10, Math.round(r.height + m.clientY - sy));
+      sizeBox(cur.el, w, h);
+      setDims({ w, h });
+    };
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      record(cur.path, cur.el, { w, h });
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  };
+  const resetBox = () => {
+    const cur = sel.current;
+    if (!cur) return;
+    sizeBox(cur.el);
+    setDims(null);
+    record(cur.path, cur.el, { w: undefined, h: undefined });
+  };
+
   // Widen the selection to the enclosing box (e.g. a whole card) to move it as one
   const selectParent = () => {
     const p = sel.current?.el.parentElement;
@@ -221,6 +263,7 @@ export function EditMode() {
       ...(o.html !== undefined && { text: o.html.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&") }),
       ...(o.size && { fontSizePx: o.size }),
       ...((o.x || o.y) && { movePx: { x: o.x ?? 0, y: o.y ?? 0 } }),
+      ...(o.w && { boxPx: { width: o.w, height: o.h } }),
     }));
     const text = JSON.stringify({ page: location.pathname, viewport: `${innerWidth}×${innerHeight}`, edits: list }, null, 2);
     try { await navigator.clipboard.writeText(text); flash("Copied — paste it to Claude"); }
@@ -239,6 +282,9 @@ export function EditMode() {
     {box && (
       <span className={s.handle} data-edit-ui style={{ left: box.left, top: box.top }} onPointerDown={drag} title="드래그해서 이동" aria-label="Move">✥</span>
     )}
+    {box && (
+      <span className={s.corner} data-edit-ui style={{ left: box.right, top: box.bottom }} onPointerDown={resizeBox} title="드래그해서 상자 크기 변경" aria-label="Resize box">◢</span>
+    )}
     <div className={s.bar} data-edit-ui data-top={top || undefined} role="toolbar" aria-label="Edit mode" onMouseDown={(e) => e.preventDefault()}>
       <span className={s.badge}>Edit mode</span>
       {hasSel ? (
@@ -251,6 +297,10 @@ export function EditMode() {
           <span className={s.label}>Move</span>
           <span className={s.value}>{pos.x}, {pos.y}</span>
           <button type="button" className={s.btn} onClick={() => moveTo(0, 0)} disabled={!pos.x && !pos.y}>위치 초기화</button>
+          <span className={s.sep} />
+          <span className={s.label}>Box</span>
+          <span className={s.value}>{dims ? `${dims.w}×${dims.h}` : "auto"}</span>
+          <button type="button" className={s.btn} onClick={resetBox} disabled={!dims}>크기 초기화</button>
           <button type="button" className={s.btn} onClick={selectParent}>상위 박스 선택</button>
           <button type="button" className={s.btn} onClick={deselect}>Done</button>
         </>
