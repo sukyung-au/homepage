@@ -17,6 +17,8 @@ export interface Stage {
   id: string;
   num: string;
   label: string;
+  /** Korean stage name, shown beside the label in the scene eyebrow */
+  ko: string;
   sub: string;
   /** Depth range the scene's camera covers (qualitative) */
   depth: string;
@@ -32,7 +34,7 @@ export interface Stage {
 
 export const STAGES: Stage[] = [
   {
-    id: "exploration", num: "01", label: "Exploration", sub: "Regional study · Seismic · Exploration well", depth: "Basin → Prospect", bg: "#F6F8FB", dark: false,
+    id: "exploration", num: "01", label: "Exploration", ko: "탐사 단계", sub: "Regional study · Seismic · Exploration well", depth: "Basin → Prospect", bg: "#F6F8FB", dark: false,
     title: "Where could hydrocarbons exist?",
     kr: "넓은 퇴적분지에서 출발해 탄화수소가 모일 수 있는 지하 구조를 좁혀 갑니다. 지역 지질 연구로 유망 지역을 고르고, 탄성파 탐사와 해석으로 구조를 그린 뒤, 탐사정을 시추해 탄화수소의 존재를 직접 확인합니다.",
     motion: "seismic-acquisition-reveal",
@@ -44,8 +46,8 @@ export const STAGES: Stage[] = [
     },
   },
   {
-    id: "appraisal", num: "02", label: "Appraisal", sub: "Appraisal well · Data · Reservoir model", depth: "Seabed → Reservoir", bg: "#EEF2F7", dark: false,
-    title: "How much is there — and can it produce?",
+    id: "appraisal", num: "02", label: "Appraisal", ko: "평가 단계", sub: "Appraisal well · Data · Reservoir model", depth: "Seabed → Reservoir", bg: "#EEF2F7", dark: false,
+    title: "How much is there and can it produce?",
     kr: "발견 이후에는 불확실성을 줄이는 단계입니다. 평가정을 시추해 코어·검층·유체·유동 자료를 얻고, 3D 탄성파와 함께 초기 저류층 모델을 만들어 상업성을 판단합니다.",
     motion: "well-descent-datasets",
     t: {
@@ -56,7 +58,7 @@ export const STAGES: Stage[] = [
     },
   },
   {
-    id: "development", num: "03", label: "Development & Drilling", sub: "FDP · Wells · Facilities", depth: "Surface → Reservoir", bg: "#FFFFFF", dark: false,
+    id: "development", num: "03", label: "Development & Drilling", ko: "개발 및 시추 단계", sub: "FDP · Wells · Facilities", depth: "Surface → Reservoir", bg: "#FFFFFF", dark: false,
     title: "From discovery to development.",
     kr: "상업성이 확인되면 개발 계획을 세웁니다. 여러 분야의 자료와 판단이 하나의 필드 개발 계획(FDP)으로 모이고, 개발이 결정되면 생산정과 설비, 그리고 이를 잇는 생산 시스템이 만들어집니다.",
     motion: "disciplines-converge-fdp-expand",
@@ -68,7 +70,7 @@ export const STAGES: Stage[] = [
     },
   },
   {
-    id: "production", num: "04", label: "Production", sub: "Monitoring · Reservoir management · Optimization", depth: "Surface → Reservoir", bg: "#EEF2F7", dark: false,
+    id: "production", num: "04", label: "Production", ko: "생산 단계", sub: "Monitoring · Reservoir management · Optimization", depth: "Surface → Reservoir", bg: "#EEF2F7", dark: false,
     title: "Manage the reservoir. Optimize the field.",
     kr: "생산이 시작되어도 저류층에 대한 이해는 계속 바뀝니다. 압력·생산량·수분율(WC)·가스유비(GOR)를 모니터링하고, 압력·유량 거동 분석으로 저류층 모델을 갱신하며, 인공채유와 주입, 필요하면 추가 개발로 필드를 최적화합니다.",
     motion: "fluid-flow-data",
@@ -80,7 +82,7 @@ export const STAGES: Stage[] = [
     },
   },
   {
-    id: "decommissioning", num: "05", label: "Decommissioning", sub: "P&A · Removal · Restoration", depth: "Seabed", bg: "#F6F8FB", dark: false,
+    id: "decommissioning", num: "05", label: "Decommissioning", ko: "폐쇄 단계", sub: "P&A · Removal · Restoration", depth: "Seabed", bg: "#F6F8FB", dark: false,
     title: "End of production is not the end of responsibility.",
     kr: "경제적인 생산이 끝나면 필드를 안전하게 정리합니다. 시추공을 영구적으로 막고, 설비를 철거하고, 주변 환경을 복원하는 것까지가 개발의 마지막 단계입니다.",
     motion: "pa-removal-restoration",

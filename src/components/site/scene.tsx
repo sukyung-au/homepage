@@ -41,16 +41,25 @@ export function Eyebrow({ num, label, extra, style }: { num?: string; label?: st
   );
 }
 
-/** Scene heading block: eyebrow, light editorial title, Korean body, then any extra content. */
-export function SceneHead({ stage, children }: { stage: Stage; children?: ReactNode }) {
+/**
+ * Scene heading block: eyebrow, light editorial title, Korean body, then any extra content.
+ * `titleEm` sets the title's line length (in em, so the breaks hold as the type scales); `body={false}`
+ * leaves the Korean body out (render it elsewhere with <SceneBody>).
+ */
+export function SceneHead({ stage, children, titleEm, body = true }: { stage: Stage; children?: ReactNode; titleEm?: number; body?: boolean }) {
   return (
     <div className={stage.dark ? s.onDark : undefined}>
-      <Eyebrow num={stage.num} label={stage.label} />
-      <h2 id={`${sceneId(stage.id)}-title`} className={s.title}>{stage.title}</h2>
-      <p className={s.body}>{stage.kr}</p>
+      <Eyebrow num={stage.num} label={`${stage.label} (${stage.ko})`} />
+      <h2 id={`${sceneId(stage.id)}-title`} className={s.title} style={titleEm ? ({ "--title-w": `${titleEm}em` } as CSSProperties) : undefined}>{stage.title}</h2>
+      {body && <SceneBody stage={stage} />}
       {children}
     </div>
   );
+}
+
+/** The stage's Korean body paragraph */
+export function SceneBody({ stage, className }: { stage: Stage; className?: string }) {
+  return <p className={className ? `${s.body} ${className}` : s.body}>{stage.kr}</p>;
 }
 
 /** Large figure + caption, ruled on top. */

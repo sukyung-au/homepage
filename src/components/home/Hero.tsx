@@ -40,7 +40,7 @@ export function Hero({ presenter = false }: { presenter?: boolean }) {
         <div className={`${sceneStyles.eyebrow} ${s.eyebrow}`}><span>A scientific journey in five stages</span></div>
         <h1 className={s.title} data-reel-target>Oil &amp; Gas<br />Development</h1>
         <p className={s.tagline} data-reel-target>From Subsurface<br />to Field Development</p>
-        <p className={`${sceneStyles.body} ${s.lede}`}>지표에서 저류층까지, 그리고 생산과 개발까지. 석유개발의 전 과정을 하나의 과학적 여정으로 탐색합니다.</p>
+        <p className={`${sceneStyles.body} ${s.lede}`}>지표에서 저류층까지 그리고 생산과 개발까지.</p>
         <div className={s.cta}><ArrowCTA href={`#${sceneId(STAGES[0].id)}`}>Explore the Journey</ArrowCTA></div>
         {presenter && (
           <p className={s.presenter} data-reel-target>

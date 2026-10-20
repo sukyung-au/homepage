@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { TechViz } from "@/components/ds/TechViz";
-import { Scene, SceneHead, sceneStyles as ss } from "@/components/site/scene";
+import { Scene, SceneBody, SceneHead, sceneStyles as ss } from "@/components/site/scene";
 import { getStage } from "@/lib/stages";
 import { DeviatedWell, FieldSection, H, OWC, Platform, Rig, SeismicSurvey, VerticalWell, horizonPath, wellPoint, type Camera } from "./FieldSection";
 import fs from "./FieldSection.module.css";
@@ -57,10 +57,10 @@ function Sequence({ items, label, attr }: { items: string[]; label: string; attr
 /* ───────────── 01 Exploration ───────────── */
 
 const EXPLORATION: [string, string][] = [
-  ["Regional Geological Study", "분지의 형성과 퇴적 환경, 석유 시스템을 검토해 유망 지역을 고릅니다."],
-  ["Seismic Survey", "음원에서 보낸 탄성파가 지층 경계에서 반사되어 돌아오는 신호를 기록합니다."],
-  ["Seismic Interpretation", "반사면(horizon)과 단층을 해석해 트랩이 될 수 있는 구조(prospect)를 정의합니다."],
-  ["Exploration Drilling", "유망 구조에 탐사정을 시추해 탄화수소가 있는지 직접 확인합니다."],
+  ["Regional Geological Study", "퇴적분지의 형성과 지질 구조, 석유시스템의 성립 가능성을 검토해 유망 지역을 선정"],
+  ["Seismic Survey", "인공적으로 발생시킨 탄성파의 반사 신호를 기록해 지하 구조를 파악할 자료를 취득"],
+  ["Seismic Interpretation", "탄성파 자료에서 지층 경계와 단층을 해석하고 탄화수소 집적이 가능한 유망 구조를 도출"],
+  ["Exploration Drilling", "선정된 유망 구조에 탐사정을 시추하여 탄화수소의 실제 부존 여부를 확인"],
 ];
 
 /** Basin-scale plan view: the regional starting point the camera later zooms into. */
@@ -89,10 +89,11 @@ function ExplorationScene() {
   return (
     <Scene stage={st}>
       <div className={cx(ss.wrap, s.rowTop)}>
-        <div className={s.text}>
-          <SceneHead stage={st}>
-            <p className={s.purpose}><span>Purpose</span>유망한 지하 구조를 찾고, 탄화수소가 실제로 있는지 확인합니다.</p>
+        <div className={cx(s.text, s.textExploration)}>
+          <SceneHead stage={st} titleEm={9.2} body={false}>
+            <p className={s.purpose}><span>Purpose</span>지질·지구물리 자료를 바탕으로 유망 구조와 탄화수소 부존 가능성을 평가하고 탐사 시추를 통해 이를 확인합니다.</p>
             <Steps items={EXPLORATION} arrows />
+            <SceneBody stage={st} className={s.bodyAfter} />
           </SceneHead>
         </div>
         <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.exploration}>
@@ -188,8 +189,8 @@ function AppraisalScene() {
           </FieldSection>
           <Sequence label="Appraisal logic" attr="phase" items={["Discovery", "Data Acquisition", "Reservoir Understanding", "Commerciality Assessment"]} />
         </div>
-        <div className={s.text}>
-          <SceneHead stage={st}>
+        <div className={cx(s.text, s.textAppraisal)}>
+          <SceneHead stage={st} titleEm={7.15} body={false}>
             <Steps items={APPRAISAL} />
           </SceneHead>
         </div>
@@ -240,7 +241,7 @@ function DevelopmentScene() {
   return (
     <Scene stage={st}>
       <div className={ss.wrap} style={{ alignItems: "flex-end" }}>
-        <div className={s.textWide}><SceneHead stage={st} /></div>
+        <div className={s.textWide}><SceneHead stage={st} titleEm={7.66} body={false} /></div>
         <p className={s.aside}>
           <span>Field Development Plan</span>
           탐사와 평가에서 얻은 이해를 바탕으로 무엇을, 어떻게, 언제 개발할지를 정하는 통합 계획입니다.
@@ -337,7 +338,7 @@ function ProductionScene() {
     <Scene stage={st}>
       <div className={cx(ss.wrap, s.rowTop)}>
         <div className={s.text}>
-          <SceneHead stage={st}>
+          <SceneHead stage={st} titleEm={8.46} body={false}>
             <div className={s.loop}>
               {LOOP.map((g) => (
                 <div key={g.k} className={s.loopGroup} data-loop={g.k.toLowerCase()}>
@@ -396,6 +397,7 @@ function ProductionScene() {
             </div>
             <div style={{ height: 170 }}><TechViz kind="monitor" seed={6} label="Illustrative monitoring curves: production rate, pressure, water cut and GOR over time" /></div>
           </div>
+          <SceneBody stage={st} className={s.bodyUnder} />
         </div>
       </div>
     </Scene>
@@ -418,7 +420,7 @@ function DecommissioningScene() {
     <Scene stage={st}>
       <div className={cx(ss.wrap, s.rowTop)}>
         <div className={s.text}>
-          <SceneHead stage={st}>
+          <SceneHead stage={st} titleEm={6.3} body={false}>
             <Steps items={DECOM} arrows />
           </SceneHead>
         </div>
@@ -441,6 +443,7 @@ function DecommissioningScene() {
             </g>
             <path d={horizonPath((x) => H.seabed(x) - 1)} className={s.restored} data-layer="restoration" data-sequence="3" />
           </FieldSection>
+          <SceneBody stage={st} className={cx(s.bodyUnder, s.bodyCentered)} />
         </div>
       </div>
     </Scene>
