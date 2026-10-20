@@ -16,8 +16,17 @@ interface Override { html?: string; size?: number; x?: number; y?: number; w?: n
 type Overrides = Record<string, Override>;
 const STORE = "presentation-edits-v1";
 
+/** Saved paths start at <main>: elements injected into <body> (e.g. the Vercel preview toolbar) shift body's
+ *  children, so older "body > main:nth-child(n)" paths are rewritten on load. */
 const load = (): Overrides => {
-  try { return JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { return {}; }
+  let raw: Overrides = {};
+  try { raw = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { /* storage blocked */ }
+  const out: Overrides = {};
+  for (const [p, o] of Object.entries(raw)) {
+    const k = p.replace(/^body > main:nth-child\(\d+\)/, "main");
+    out[k] = { ...out[k], ...o };
+  }
+  return out;
 };
 const save = (o: Overrides) => {
   try { localStorage.setItem(STORE, JSON.stringify(o)); } catch { /* storage blocked */ }
@@ -27,10 +36,11 @@ const save = (o: Overrides) => {
 function pathOf(el: Element): string {
   const parts: string[] = [];
   for (let n: Element | null = el; n && n !== document.body; n = n.parentElement) {
+    if (n.tagName === "MAIN") { parts.unshift("main"); break; }
     const i = n.parentElement ? Array.prototype.indexOf.call(n.parentElement.children, n) + 1 : 1;
     parts.unshift(`${n.tagName.toLowerCase()}:nth-child(${i})`);
   }
-  return "body > " + parts.join(" > ");
+  return parts[0] === "main" ? parts.join(" > ") : "body > " + parts.join(" > ");
 }
 
 /** The nearest element that directly holds visible text */
