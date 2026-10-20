@@ -4,6 +4,7 @@ import { JourneyNav } from "@/components/home/JourneyNav";
 import { JourneyScenes } from "@/components/home/Scenes";
 import { StageIndex } from "@/components/home/StageIndex";
 import { EditMode } from "@/components/intro/EditMode";
+import { PresentationFit } from "@/components/intro/PresentationFit";
 import { ShowReelV2 } from "@/components/intro/ShowReelV2";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { PRESENTER } from "@/lib/presentation";
@@ -24,6 +25,7 @@ export default function Presentation() {
       <SiteFooter />
       <JourneyNav />
       <EditMode />
+      <PresentationFit />
     </main>
   );
 }

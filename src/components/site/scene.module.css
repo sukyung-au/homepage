@@ -6,7 +6,7 @@
 .title{font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:1;letter-spacing:-0.02em;margin:28px 0 0;text-wrap:balance;color:var(--ex-navy)}
 /* Desktop: tighter head; a set line length (--title-w, in em) may run past the text column */
 @media (min-width:900px){
-  .title{margin-top:18px;font-size:clamp(44px,5.4vw,82px);width:var(--title-w,auto);max-width:100%}
+  .title{margin-top:18px;font-size:clamp(44px,calc(5.4 * var(--vw)),82px);width:var(--title-w,auto);max-width:100%}
 }
 .body{font-family:var(--font-kr);font-size:17px;line-height:1.75;letter-spacing:-0.01em;margin:28px 0 0;max-width:460px;text-wrap:pretty;color:var(--ex-muted)}
 .wrap{width:100%;max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;gap:48px 64px;align-items:center}

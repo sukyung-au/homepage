@@ -1,4 +1,6 @@
 /* Presenter edit mode toolbar + selection outlines (only while html[data-editing]) */
+/* Fitted /presentation: the toolbar and handles work in screen pixels */
+:global(html[data-fit] [data-edit-ui]){zoom:calc(1 / var(--pz))}
 .bar{position:fixed;left:50%;bottom:16px;cursor:default;transform:translateX(-50%);z-index:1000;display:flex;align-items:center;gap:8px;max-width:calc(100vw - 32px);flex-wrap:wrap;padding:8px 10px;border-radius:12px;background:var(--ex-navy);color:#fff;font-family:var(--font-editorial);font-size:12px;box-shadow:0 10px 30px rgba(11,26,44,0.3);user-select:none}
 .badge{padding:3px 8px;border-radius:6px;background:var(--ex-blue);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:10px}
 .label{color:rgba(255,255,255,.7);font-family:var(--font-kr)}
