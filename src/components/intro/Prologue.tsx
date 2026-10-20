@@ -6,22 +6,22 @@ import s from "./Prologue.module.css";
 /**
  * Presenter-driven self-introduction shown after the v2 intro reel on /presentation, before the Hero.
  * Step 0 shows the title and presenter; each Space / → reveals the next card (← steps back). After the third
- * card the "Why I built this" message and BEGIN PRESENTATION appear — the Hero opens only from that button,
+ * card the "Why I built this" message and EXPLORE THE WEBSITE appear — the Hero opens only from that button,
  * never from another key press. Rendered as ShowReelV2's "prologue" phase (page scroll stays locked).
  */
 
 const STAGES = [
   {
     num: "01", key: "Background", ko: "전공에서 배운 지식", en: "Earth Resources System Engineering", sub: "세종대학교 지구자원시스템공학 전공",
-    body: "전공 지식이 실제 산업에서 어떻게 활용되는지 경험하고자 한국석유공사에 지원했습니다.",
+    body: "전공 지식이 실제 산업에서 어떻게 활용되는지 경험하고자 한국석유공사에 지원",
   },
   {
     num: "02", key: "Experience", ko: "현장에서 경험한 협업", en: "Multidisciplinary Collaboration", sub: "Geology · Geophysics · Reservoir Engineering",
-    body: "교육과 회의 참석을 통해 석유개발이 다양한 기술 분야의 협업으로 이루어진다는 점을 이해했습니다.",
+    body: "교육과 회의 참석을 통해 석유개발이 다양한 기술 분야의 협업으로 이루어진다는 점을 이해",
   },
   {
     num: "03", key: "Outcome", ko: "배움을 디지털 결과물로", en: "Digital Knowledge Portal", sub: "Oil & Gas Development Website",
-    body: "인턴 기간에 학습한 석유개발 기술을 체계적으로 정리하고, AI를 활용해 홈페이지를 제작했습니다.",
+    body: "인턴 기간에 학습한 석유개발 기술을 체계적으로 정리하고 AI를 활용해 홈페이지를 제작",
   },
 ];
 const LAST = STAGES.length;
@@ -147,7 +147,7 @@ export function Prologue({ onBegin }: { onBegin: () => void }) {
           <div className={s.actions}>
             {done ? (
               <button type="button" className={s.begin} onClick={begin}>
-                Begin Presentation <ArrowRight size={16} aria-hidden />
+                Explore the Website <ArrowRight size={16} aria-hidden />
               </button>
             ) : (
               <span className={s.beginSlot} aria-hidden />

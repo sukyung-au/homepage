@@ -4,6 +4,10 @@
 .eyebrowNum{font-variant-numeric:tabular-nums}
 .eyebrowLabel{font-weight:600;color:var(--ex-blue)}
 .title{font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:1;letter-spacing:-0.02em;margin:28px 0 0;text-wrap:balance;color:var(--ex-navy)}
+/* Desktop: tighter head; a set line length (--title-w, in em) may run past the text column */
+@media (min-width:900px){
+  .title{margin-top:18px;font-size:clamp(44px,5.4vw,82px);width:var(--title-w,auto);max-width:100%}
+}
 .body{font-family:var(--font-kr);font-size:17px;line-height:1.75;letter-spacing:-0.01em;margin:28px 0 0;max-width:460px;text-wrap:pretty;color:var(--ex-muted)}
 .wrap{width:100%;max-width:1360px;margin:0 auto;display:flex;flex-wrap:wrap;gap:48px 64px;align-items:center}
 
@@ -15,9 +19,9 @@
 /* Compact top padding so a scene's content starts high in the viewport when it is reached.
    Bottom safe area: the floating StageNav covers --nav-safe-area at the viewport bottom, so the scene
    reserves it below its own padding. */
-.scene{--scene-pad-y:64px;--scene-pad-bottom:calc(var(--scene-pad-y) + var(--nav-safe-area));position:relative;color:var(--ex-navy);min-height:var(--scene-min-h);padding:var(--scene-pad-y) var(--gutter-page) var(--scene-pad-bottom);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start}
+.scene{--scene-pad-y:64px;--scene-pad-top:33px;--scene-pad-bottom:calc(var(--scene-pad-y) + var(--nav-safe-area));position:relative;color:var(--ex-navy);min-height:var(--scene-min-h);padding:var(--scene-pad-top) var(--gutter-page) var(--scene-pad-bottom);overflow:hidden;display:flex;flex-direction:column;justify-content:flex-start}
 /* Narrow screens: scenes stack and scroll continuously — clear the nav with a shorter margin */
-@media (max-width:899px){.scene{--scene-pad-y:48px;--scene-pad-bottom:calc(var(--nav-safe-area) + 72px)}}
+@media (max-width:899px){.scene{--scene-pad-y:48px;--scene-pad-top:48px;--scene-pad-bottom:calc(var(--nav-safe-area) + 72px)}}
 .scene.onDark{color:#fff}
 
 .fact{display:flex;flex-direction:column;gap:6px;padding-top:16px;border-top:1px solid var(--ex-line)}
