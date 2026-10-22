@@ -68,7 +68,7 @@ export function RelPerm() {
   const [sw, setSw] = useState(0.45);
   const id = useId();
   return (
-    <div className={s.relperm}>
+    <div className={s.mainGrid}>
       <figure className={s.figure}>
         <svg viewBox="0 0 600 280" className={s.graph} role="img" aria-label="Conceptual relative permeability curves: oil relative permeability falls and water relative permeability rises as water saturation increases between connate water saturation and one minus residual oil saturation">
           <path d={`M${GX0},${GY0 - 6} L${GX0},${GY1} L${GX1 + 6},${GY1}`} className={s.gAxis} />
@@ -100,7 +100,9 @@ export function RelPerm() {
         </div>
         <figcaption className={s.caption}>Conceptual Corey-type curves (S<sub>wc</sub> 0.2, S<sub>or</sub> 0.25, water-wet) · illustrative, not measured</figcaption>
       </figure>
-      <div className={s.relControls}>
+      <div className={s.aside}>
+        <h3 className={s.asideTitle}>Relative Permeability</h3>
+        <p className={s.lead}>여러 유체가 함께 흐를 때 각 유체의 유동 능력을 절대투과도에 대한 비율(k<sub>r</sub>)로 나타냅니다. 물 포화도가 높아질수록 k<sub>rw</sub>는 커지고 k<sub>ro</sub>는 줄어듭니다.</p>
         <label className={s.slider} htmlFor={`${id}-sw`}>
           <span className={s.sliderHead}><span>Water saturation S<sub>w</sub></span><b>{sw.toFixed(2)}</b></span>
           <input id={`${id}-sw`} type="range" min={SWC} max={1 - SOR} step={0.01} value={sw} onChange={(e) => setSw(Number(e.target.value))} />
@@ -108,11 +110,15 @@ export function RelPerm() {
         <dl className={s.readout} aria-live="polite">
           <div><dt>k<sub>ro</sub></dt><dd>{kro(sw).toFixed(2)}</dd></div>
           <div><dt>k<sub>rw</sub></dt><dd>{krw(sw).toFixed(2)}</dd></div>
-          <div><dt>Water cut f<sub>w</sub> <small>concept</small></dt><dd>{Math.round(fw(sw) * 100)}%</dd></div>
+          <div><dt>f<sub>w</sub> (fractional flow)</dt><dd>{Math.round(fw(sw) * 100)}%</dd></div>
         </dl>
-        <p className={s.pSmall}>
-          물 포화도가 높아질수록 물의 유동 능력(k<sub>rw</sub>)은 커지고 석유의 유동 능력(k<sub>ro</sub>)은 줄어듭니다. 그 결과 생산 유체 중 물의 비율(water cut)이 증가합니다. f<sub>w</sub>는 수평 유동에서 모세관압·중력을 무시한 분율 유동식(μ<sub>o</sub> 2 cP, μ<sub>w</sub> 0.5 cP 가정)으로 계산한 개념값입니다.
-        </p>
+        <p className={s.p}>k<sub>rw</sub>가 커질수록 생산 유체 중 물의 비율이 늘어나, 생산 단계에서 water cut이 증가하는 원인이 됩니다.</p>
+        <div className={s.assume}>
+          <span className={s.assumeHead}>Assumptions behind f<sub>w</sub></span>
+          <p className={s.pSmall}>
+            f<sub>w</sub> = (k<sub>rw</sub>/μ<sub>w</sub>) / (k<sub>rw</sub>/μ<sub>w</sub> + k<sub>ro</sub>/μ<sub>o</sub>) — 수평 1차원 유동, 물·석유 2상, 모세관압과 중력 무시, μ<sub>o</sub> 2 cP · μ<sub>w</sub> 0.5 cP(예시값), 위의 개념 곡선을 가정한 저류층 조건의 물 분율입니다. 지상에서 측정하는 water cut은 체적계수 등에 따라 달라지므로, 이 값은 개념 비교용입니다.
+          </p>
+        </div>
       </div>
     </div>
   );

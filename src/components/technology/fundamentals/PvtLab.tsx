@@ -1,6 +1,7 @@
 "use client";
 import { useState, type ReactElement } from "react";
 import { Choice } from "./Choice";
+import { Details } from "./Details";
 import s from "./Fundamentals.module.css";
 
 /** 03 — PVT laboratory analyses. Illustrations are schematic: cells, levels and peaks carry no values. */
@@ -94,7 +95,6 @@ function FlashFigure() {
       <Cell x={114} gas={0} liquid={0.58} label="P = Pb" />
       <Cell x={214} gas={0.18} liquid={0.52} label="P < Pb" />
       <Cell x={314} gas={0.36} liquid={0.48} label="P ≪ Pb" />
-      <text x={210} y={14} className={s.gNote} textAnchor="middle">Gas stays in contact with liquid · composition constant</text>
     </svg>
   );
 }
@@ -107,7 +107,6 @@ function DifferentialFigure() {
       <Cell x={104} gas={0.16} liquid={0.54} label="Step 1" out />
       <Cell x={204} gas={0.14} liquid={0.5} label="Step 2" out />
       <Cell x={304} gas={0} liquid={0.44} label="Residual oil" />
-      <text x={210} y={14} className={s.gNote} textAnchor="middle">Liberated gas removed at every step</text>
     </svg>
   );
 }
@@ -181,36 +180,53 @@ const FIGURES: Record<TestId, () => ReactElement> = {
   viscosity: ViscosityFigure,
 };
 
+const COMPARE: Partial<Record<TestId, { other: TestId; label: string }>> = {
+  flash: { other: "differential", label: "Compare with Differential Vaporization" },
+  differential: { other: "flash", label: "Compare with Flash Vaporization" },
+};
+const COMPARE_NOTE: Partial<Record<TestId, string>> = {
+  flash: "발생 가스를 셀 안에 유지 — 전체 조성이 일정한 평형 실험",
+  differential: "단계마다 발생 가스를 제거 — 남은 원유의 조성이 계속 변함",
+};
+
 export function PvtLab() {
   const [id, setId] = useState<TestId>("flash");
+  const [compare, setCompare] = useState(false);
   const t = TESTS.find((x) => x.id === id)!;
   const Fig = FIGURES[id];
+  const cmp = COMPARE[id];
+  const Other = cmp && FIGURES[cmp.other];
   return (
-    <div className={s.figBlock}>
-      <div className={s.labGrid}>
-        <Choice idBase="pvt" label="PVT laboratory test" variant="list" value={id} onChange={setId} options={TESTS.map((x, i) => ({ id: x.id, label: x.label, sub: String(i + 1).padStart(2, "0") }))} />
-        <div id="pvt-panel" role="tabpanel" aria-labelledby={`pvt-tab-${id}`} className={s.labPanel}>
-          <figure className={s.figure}><Fig /></figure>
-          <dl className={s.labDefs}>
-            <div><dt>Purpose</dt><dd>{t.purpose}</dd></div>
-            <div><dt>Principle / Procedure</dt><dd>{t.procedure}</dd></div>
-            <div><dt>Key Measurements</dt><dd><ul className={s.bullets}>{t.measurements.map((m) => <li key={m}>{m}</li>)}</ul></dd></div>
-            <div><dt>Engineering Significance</dt><dd>{t.significance}</dd></div>
-          </dl>
+    <div>
+      <Choice idBase="pvt" label="PVT laboratory test" value={id} onChange={setId} options={TESTS.map((x) => ({ id: x.id, label: x.label }))} />
+      <div id="pvt-panel" role="tabpanel" aria-labelledby={`pvt-tab-${id}`} className={s.labSplit}>
+        <div className={s.labFigures}>
+          <figure className={s.figure}>
+            <Fig />
+            {cmp && <figcaption className={s.figNote}>{compare ? `${t.label} — ` : ""}{COMPARE_NOTE[id]}</figcaption>}
+          </figure>
+          {cmp && Other && compare && (
+            <figure className={s.figure}>
+              <Other />
+              <figcaption className={s.figNote}>{TESTS.find((x) => x.id === cmp.other)!.label} — {COMPARE_NOTE[cmp.other]}</figcaption>
+            </figure>
+          )}
+          {cmp && (
+            <button type="button" className={s.toggle} aria-pressed={compare} onClick={() => setCompare((c) => !c)}>
+              {compare ? "Hide comparison" : cmp.label}
+            </button>
+          )}
         </div>
-      </div>
-
-      {/* Flash vs differential, side by side */}
-      <div className={s.compare} aria-label="Flash versus differential vaporization">
-        <div className={s.compareCol}>
-          <span className={s.compareKey}>Flash · Constant Composition</span>
-          <FlashFigure />
-          <p className={s.pSmall}>발생 가스를 셀 안에 유지 → 전체 조성이 일정한 <b>평형</b> 실험</p>
-        </div>
-        <div className={s.compareCol}>
-          <span className={s.compareKey}>Differential · Liberation</span>
-          <DifferentialFigure />
-          <p className={s.pSmall}>단계마다 발생 가스를 <b>제거</b> → 남은 원유의 조성이 계속 변함</p>
+        <div className={s.labText}>
+          <h3 className={s.asideTitle}>{t.label}</h3>
+          <p className={s.lead}>{t.purpose}</p>
+          <h4 className={s.miniHead}>Key Measurements</h4>
+          <ul className={s.bullets}>{t.measurements.map((m) => <li key={m}>{m}</li>)}</ul>
+          <h4 className={s.miniHead}>Engineering Significance</h4>
+          <p className={s.p}>{t.significance}</p>
+          <Details summary="Principle / Procedure">
+            <p className={s.p}>{t.procedure}</p>
+          </Details>
         </div>
       </div>
     </div>

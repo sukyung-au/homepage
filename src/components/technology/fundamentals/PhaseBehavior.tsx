@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Choice } from "./Choice";
+import { Details } from "./Details";
 import { line, resample, spline, yAtX, type Pt } from "./geom";
 import s from "./Fundamentals.module.css";
 
@@ -132,7 +133,7 @@ export function SingleComponent() {
   const [tab, setTab] = useState<"pv" | "pt">("pv");
   const d = SINGLE[tab];
   return (
-    <div className={s.figBlock}>
+    <div>
       <Choice idBase="single" label="Single-component diagram" value={tab} onChange={setTab} options={[{ id: "pv", label: SINGLE.pv.label }, { id: "pt", label: SINGLE.pt.label }]} />
       <div id="single-panel" role="tabpanel" aria-labelledby={`single-tab-${tab}`} className={s.figGrid}>
         <figure className={s.figure}>
@@ -140,7 +141,7 @@ export function SingleComponent() {
           <figcaption className={s.caption}>Conceptual diagram · not to scale · no measured data</figcaption>
         </figure>
         <div className={s.figText}>
-          <h4 className={s.figTitle}>{d.title}</h4>
+          <h4 className={s.subTitle}>{d.title}</h4>
           <p className={s.p}>{d.body}</p>
           <dl className={s.defs}>
             {d.points.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
@@ -284,9 +285,9 @@ export function FluidTypes() {
   const [id, setId] = useState<FluidId>("black-oil");
   const f = FLUIDS.find((x) => x.id === id)!;
   return (
-    <div className={s.figBlock}>
-      <Choice idBase="fluid" label="Reservoir fluid type" value={id} onChange={setId} options={FLUIDS.map((x, i) => ({ id: x.id, label: x.label, sub: String(i + 1).padStart(2, "0") }))} />
-      <div id="fluid-panel" role="tabpanel" aria-labelledby={`fluid-tab-${id}`} className={s.figGrid}>
+    <div>
+      <Choice idBase="fluid" label="Reservoir fluid type" value={id} onChange={setId} options={FLUIDS.map((x) => ({ id: x.id, label: x.label }))} />
+      <div id="fluid-panel" role="tabpanel" aria-labelledby={`fluid-tab-${id}`} className={s.mainGrid}>
         <figure className={s.figure}>
           <Envelope f={f} />
           <div className={s.legend}>
@@ -298,12 +299,14 @@ export function FluidTypes() {
           </div>
           <figcaption className={s.caption}>Conceptual phase envelope · relative positions only · no measured PVT data</figcaption>
         </figure>
-        <div className={s.figText}>
-          <h4 className={s.figTitle}>{f.label}</h4>
-          <p className={s.p}>{f.summary}</p>
-          <dl className={s.defs}>
-            {f.points.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
-          </dl>
+        <div className={s.aside}>
+          <h3 className={s.asideTitle}>{f.label}</h3>
+          <p className={s.lead}>{f.summary}</p>
+          <Details summary="Key characteristics">
+            <dl className={s.defs}>
+              {f.points.map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
+            </dl>
+          </Details>
         </div>
       </div>
     </div>

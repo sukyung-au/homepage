@@ -119,24 +119,23 @@ function MiscibleFig() {
 const EOR_FIGS: Record<GroupId, () => ReactElement> = { mobility: MobilityFig, chemical: ChemicalFig, thermal: ThermalFig, miscible: MiscibleFig };
 
 export function EorClassification() {
-  const [open, setOpen] = useState<Set<GroupId>>(new Set(["mobility"]));
+  const [open, setOpen] = useState<Set<GroupId>>(new Set());
   const toggle = (id: GroupId) => setOpen((o) => { const n = new Set(o); if (n.has(id)) n.delete(id); else n.add(id); return n; });
   const all = open.size === GROUPS.length;
   return (
     <div className={s.eor}>
       <div className={s.eorHead}>
-        <span className={s.kickerBlue}>EOR Classification</span>
+        <h3 className={s.asideTitle}>EOR Classification</h3>
         <button type="button" className={s.textBtn} onClick={() => setOpen(all ? new Set() : new Set(GROUPS.map((g) => g.id)))}>{all ? "Collapse all" : "Expand all"}</button>
       </div>
       <ul className={s.eorList}>
-        {GROUPS.map((g, i) => {
+        {GROUPS.map((g) => {
           const on = open.has(g.id);
           const Fig = EOR_FIGS[g.id];
           return (
             <li key={g.id} className={s.eorItem} data-open={on || undefined}>
               <h4 className={s.eorTitleRow}>
                 <button type="button" className={s.eorToggle} aria-expanded={on} aria-controls={`eor-${g.id}`} onClick={() => toggle(g.id)}>
-                  <span className={s.eorNum}>{String(i + 1).padStart(2, "0")}</span>
                   <span className={s.eorLabel}>{g.label}</span>
                   <span className={s.eorMethods}>{g.methods.map(([m]) => m).join(" · ")}</span>
                   <ChevronDown size={18} aria-hidden className={s.eorChevron} />

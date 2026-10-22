@@ -48,7 +48,7 @@ export function Permeability() {
 
 /* ───────────── B. Pressure drawdown (pseudo-steady-state radial flow, oilfield units) ───────────── */
 
-const MATHML = `<math display="block" aria-label="P r minus P w f equals 141.2 q B mu over k h, times the quantity natural log of r e over r w minus three quarters plus s"><mrow><msub><mi>P</mi><mi>r</mi></msub><mo>−</mo><msub><mi>P</mi><mi>wf</mi></msub><mo>=</mo><mfrac><mrow><mn>141.2</mn><mo>&#8290;</mo><mi>q</mi><mo>&#8290;</mo><mi>B</mi><mo>&#8290;</mo><mi>μ</mi></mrow><mrow><mi>k</mi><mo>&#8290;</mo><mi>h</mi></mrow></mfrac><mo>&#215;</mo><mrow><mo>[</mo><mi>ln</mi><mo>&#8289;</mo><mfrac><msub><mi>r</mi><mi>e</mi></msub><msub><mi>r</mi><mi>w</mi></msub></mfrac><mo>−</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo>+</mo><mi>s</mi><mo>]</mo></mrow></mrow></math>`;
+const MATHML = `<math display="block" aria-label="P r minus P w f equals 141.2 q B mu over k h, times the quantity natural log of r e over r w minus three quarters plus s"><mrow><msub><mi>P</mi><mi>r</mi></msub><mo>−</mo><msub><mi>P</mi><mi>wf</mi></msub><mo>=</mo><mfrac><mrow><mn>141.2</mn><mo>&#8290;</mo><mi>q</mi><mo>&#8290;</mo><mi>B</mi><mo>&#8290;</mo><mi>μ</mi></mrow><mrow><mi>k</mi><mo>&#8290;</mo><mi mathvariant="normal" style="font-style:italic">h</mi></mrow></mfrac><mo>&#215;</mo><mrow><mo>[</mo><mi>ln</mi><mo>&#8289;</mo><mfrac><msub><mi>r</mi><mi>e</mi></msub><msub><mi>r</mi><mi>w</mi></msub></mfrac><mo>−</mo><mfrac><mn>3</mn><mn>4</mn></mfrac><mo>+</mo><mi>s</mi><mo>]</mo></mrow></mrow></math>`;
 
 export function DrawdownFormula() {
   return <div className={s.math} dangerouslySetInnerHTML={{ __html: MATHML }} />;
@@ -57,16 +57,19 @@ export function DrawdownFormula() {
 
 /* ───────────── C. Skin (plan view around the wellbore) ───────────── */
 
-function SkinView({ kind }: { kind: "positive" | "zero" | "negative" }) {
+type SkinKind = "positive" | "zero" | "negative";
+
+function SkinView({ kind, uid = "" }: { kind: SkinKind; uid?: string }) {
+  const mk = `sk-${kind}${uid}`, hatch = `sk-hatch${uid}`;
   const zone = kind === "zero" ? 0 : 44;
   return (
     <svg viewBox="0 0 200 200" className={s.skinSvg} role="img" aria-label={`Plan view around a well with ${kind} skin`}>
       <defs>
-        <marker id={`sk-${kind}`} viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 Z" className={s.flowHead} /></marker>
-        <pattern id="sk-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" className={s.hatch} /></pattern>
+        <marker id={mk} viewBox="0 0 8 8" refX="6" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L8,4 L0,8 Z" className={s.flowHead} /></marker>
+        <pattern id={hatch} width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" className={s.hatch} /></pattern>
       </defs>
       <circle cx="100" cy="100" r="92" className={s.skinRock} />
-      {kind === "positive" && <circle cx="100" cy="100" r={zone} fill="url(#sk-hatch)" className={s.skinDamaged} />}
+      {kind === "positive" && <circle cx="100" cy="100" r={zone} fill={`url(#${hatch})`} className={s.skinDamaged} />}
       {kind === "negative" && (
         <>
           <circle cx="100" cy="100" r={zone} className={s.skinStim} />
@@ -78,19 +81,22 @@ function SkinView({ kind }: { kind: "positive" | "zero" | "negative" }) {
       )}
       {[20, 80, 140, 200, 260, 320].map((a) => {
         const t = (a * Math.PI) / 180;
-        return <path key={a} d={`M${100 + 86 * Math.cos(t)},${100 + 86 * Math.sin(t)} L${100 + 16 * Math.cos(t)},${100 + 16 * Math.sin(t)}`} className={kind === "positive" ? s.flowThin : s.flowThick} markerEnd={`url(#sk-${kind})`} />;
+        return <path key={a} d={`M${100 + 86 * Math.cos(t)},${100 + 86 * Math.sin(t)} L${100 + 16 * Math.cos(t)},${100 + 16 * Math.sin(t)}`} className={kind === "positive" ? s.flowThin : s.flowThick} markerEnd={`url(#${mk})`} />;
       })}
       <circle cx="100" cy="100" r="8" className={s.wellbore} />
     </svg>
   );
 }
 
-export function Skin() {
-  const items = [
+const SKIN_ITEMS = [
     { kind: "positive" as const, k: "Positive Skin · s > 0", t: "추가 유동 저항", d: "시추·완결 중 손상된 유정 주변 구간(투과도 감소)이 추가 압력강하를 만듭니다." },
     { kind: "zero" as const, k: "Zero Skin · s = 0", t: "이상적인 기준 상태", d: "유정 주변 투과도가 저류층과 같아, 추가 압력강하가 없습니다." },
     { kind: "negative" as const, k: "Negative Skin · s < 0", t: "유동 개선 효과", d: "산처리·수압파쇄 등으로 유정 주변 유동이 개선되어 압력강하가 줄어듭니다." },
-  ];
+];
+
+/** The three skin states side by side (plan views) */
+export function Skin() {
+  const items = SKIN_ITEMS;
   return (
     <ul className={s.skinRow}>
       {items.map((it) => (
@@ -130,13 +136,12 @@ export function DrawdownExplorer() {
   const r = drawdown(kShown, skin);
   const pct = (v: number) => `${Math.max(0, Math.min(100, (v / BAR_MAX) * 100))}%`;
   const changed = logk !== INIT.logk || skin !== INIT.s;
+  const skinKind: SkinKind = skin > 0 ? "positive" : skin < 0 ? "negative" : "zero";
+  const skinItem = SKIN_ITEMS.find((x) => x.kind === skinKind)!;
   return (
     <div className={s.explorer}>
       <div className={s.explorerHead}>
-        <div>
-          <span className={s.kickerBlue}>Interactive</span>
-          <h4 className={s.figTitle}>Pressure Drawdown Explorer</h4>
-        </div>
+        <h3 className={s.asideTitle}>Pressure Drawdown Explorer</h3>
         <button type="button" className={s.reset} onClick={() => { setLogk(INIT.logk); setSkin(INIT.s); }} disabled={!changed}>
           <RotateCcw size={14} aria-hidden /> Reset
         </button>
@@ -154,6 +159,13 @@ export function DrawdownExplorer() {
             <input id={`${id}-s`} type="range" min={S_MIN} max={S_MAX} step={0.5} value={skin} onChange={(e) => setSkin(Number(e.target.value))} aria-valuetext={`skin ${skin}`} />
             <span className={s.sliderScale}><span>−4</span><span>0</span><span>+10</span></span>
           </label>
+          <div className={s.skinNow}>
+            <SkinView kind={skinKind} uid="-now" />
+            <div>
+              <span className={s.miniHead}>{skinItem.k}</span>
+              <p className={s.pSmall}>{skinItem.t} — {skinItem.d}</p>
+            </div>
+          </div>
           <dl className={s.fixed}>
             <div><dt>q</dt><dd>500 STB/day</dd></div>
             <div><dt>B</dt><dd>1.2 RB/STB</dd></div>

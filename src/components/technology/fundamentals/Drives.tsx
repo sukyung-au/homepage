@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Choice } from "./Choice";
+import { Details } from "./Details";
 import { ReservoirSection, type SectionKind } from "./ReservoirSection";
 import s from "./Fundamentals.module.css";
 
@@ -77,23 +78,37 @@ export function Drives() {
   const [id, setId] = useState<DriveId>("solution");
   const d = DRIVES.find((x) => x.id === id)!;
   return (
-    <div className={s.figBlock}>
-      <Choice idBase="drive" label="Drive mechanism" value={id} onChange={setId} options={DRIVES.map((x, i) => ({ id: x.id, label: x.label, sub: String(i + 1).padStart(2, "0") }))} />
-      <div id="drive-panel" role="tabpanel" aria-labelledby={`drive-tab-${id}`} className={s.driveGrid}>
-        <figure className={s.figure}>
+    <div>
+      <Choice idBase="drive" label="Drive mechanism" value={id} onChange={setId} options={DRIVES.map((x) => ({ id: x.id, label: x.label }))} />
+      <div id="drive-panel" role="tabpanel" aria-labelledby={`drive-tab-${id}`}>
+        <figure className={`${s.figure} ${s.wideFigure}`}>
           <ReservoirSection kind={id as SectionKind} label={`Conceptual cross-section: ${d.label}`} />
           <figcaption className={s.caption}>Conceptual cross-section · arrows show the main energy source · not to scale</figcaption>
         </figure>
-        <dl className={s.driveDefs}>
-          <div><dt>Main Energy Source</dt><dd>{d.energy}</dd></div>
-          <div><dt>Working Principle</dt><dd>{d.principle}</dd></div>
-          <div><dt>Typical Pressure Behavior</dt><dd>{d.pressure}</dd></div>
-          <div><dt>Production Characteristics</dt><dd>{d.production}</dd></div>
-        </dl>
-        <figure className={`${s.figure} ${s.trendFig}`}>
-          <PressureTrend id={id} />
-          <figcaption className={s.caption}>Qualitative trend · no values</figcaption>
-        </figure>
+        <div className={s.driveText}>
+          <div>
+            <h4 className={s.miniHead}>Main Energy Source</h4>
+            <p className={s.lead}>{d.energy}</p>
+          </div>
+          <div>
+            <h4 className={s.miniHead}>Working Principle</h4>
+            <p className={s.p}>{d.principle}</p>
+          </div>
+        </div>
+        <div className={s.driveDetails}>
+        <Details summary="Pressure behavior & production characteristics">
+          <div className={s.driveMore}>
+            <dl className={s.defs}>
+              <div><dt>Typical Pressure Behavior</dt><dd>{d.pressure}</dd></div>
+              <div><dt>Production Characteristics</dt><dd>{d.production}</dd></div>
+            </dl>
+            <figure className={`${s.figure} ${s.trendFig}`}>
+              <PressureTrend id={id} />
+              <figcaption className={s.caption}>Qualitative trend · no values</figcaption>
+            </figure>
+          </div>
+        </Details>
+        </div>
       </div>
     </div>
   );

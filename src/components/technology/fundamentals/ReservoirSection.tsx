@@ -49,7 +49,7 @@ export function ReservoirSection({ kind, label }: { kind: SectionKind; label: st
       {/* Fluids inside the reservoir */}
       <g clipPath={`url(#${id}-res)`}>
         <rect width={W} height={H} fill={aquifer ? "#7FA6C9" : `url(#${id}-oil)`} />
-        <rect y={gasCap ? GOC : 0} width={W} height={OWC - (gasCap ? GOC : 0)} fill={`url(#${id}-oil)`} />
+        {aquifer && <rect y={gasCap ? GOC : 0} width={W} height={OWC - (gasCap ? GOC : 0)} fill={`url(#${id}-oil)`} />}
         {gasCap && <rect width={W} height={GOC} fill="#F4E6C4" />}
         {bubbles && [[240, 168], [270, 182], [330, 166], [362, 180], [300, 186], [214, 186], [388, 188]].map(([x, y]) => (
           <circle key={`${x}-${y}`} cx={x} cy={y} r="3" className={s.secBubble} />
