@@ -1,5 +1,7 @@
 /* v2 reel layer. The canvas draws everything; from 12.3 s it is transparent and the Hero shows through. */
 .reel{position:fixed;inset:0;z-index:100;cursor:pointer;user-select:none}
+/* Fitted /presentation: the canvas works in screen pixels, so the reel undoes the page zoom */
+:global(html[data-fit]) .reel{zoom:calc(1 / var(--pz))}
 .reel[data-phase="playing"],.reel[data-phase="poster"],.reel[data-phase="handoff"]{cursor:none;pointer-events:none}
 .canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .hint{position:absolute;left:0;right:0;bottom:6vh;margin:0;text-align:center;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28)}

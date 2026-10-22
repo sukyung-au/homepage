@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import s from "./EditMode.module.css";
+import { fitZoom } from "./presentationFit";
 
 /**
  * Presenter edit mode for /presentation. Press E to turn it on (only the Close button turns it off, so a
@@ -208,10 +209,11 @@ export function EditMode() {
 
   const drag = (e: React.PointerEvent) => {
     e.preventDefault();
-    const sx = e.clientX, sy = e.clientY, base = pos;
+    // pointer moves are screen pixels; the page may be zoomed to fit (/presentation)
+    const sx = e.clientX, sy = e.clientY, base = pos, z = fitZoom();
     let last = base;
     const onMove = (m: PointerEvent) => {
-      last = { x: Math.round(base.x + m.clientX - sx), y: Math.round(base.y + m.clientY - sy) };
+      last = { x: Math.round(base.x + (m.clientX - sx) / z), y: Math.round(base.y + (m.clientY - sy) / z) };
       moveTo(last.x, last.y, false);
     };
     const onUp = () => {
@@ -228,11 +230,11 @@ export function EditMode() {
     e.preventDefault();
     const cur = sel.current;
     if (!cur) return;
-    const r = cur.el.getBoundingClientRect(), sx = e.clientX, sy = e.clientY;
-    let w = Math.round(r.width), h = Math.round(r.height);
+    const r = cur.el.getBoundingClientRect(), sx = e.clientX, sy = e.clientY, z = fitZoom();
+    let w = Math.round(r.width / z), h = Math.round(r.height / z);
     const onMove = (m: PointerEvent) => {
-      w = Math.max(20, Math.round(r.width + m.clientX - sx));
-      h = Math.max(10, Math.round(r.height + m.clientY - sy));
+      w = Math.max(20, Math.round((r.width + m.clientX - sx) / z));
+      h = Math.max(10, Math.round((r.height + m.clientY - sy) / z));
       sizeBox(cur.el, w, h);
       setDims({ w, h });
     };
@@ -275,7 +277,7 @@ export function EditMode() {
       ...((o.x || o.y) && { movePx: { x: o.x ?? 0, y: o.y ?? 0 } }),
       ...(o.w && { boxPx: { width: o.w, height: o.h } }),
     }));
-    const text = JSON.stringify({ page: location.pathname, viewport: `${innerWidth}×${innerHeight}`, edits: list }, null, 2);
+    const text = JSON.stringify({ page: location.pathname, viewport: `${innerWidth}×${innerHeight}`, layout: `${Math.round(innerWidth / fitZoom())}×${Math.round(innerHeight / fitZoom())}`, edits: list }, null, 2);
     try { await navigator.clipboard.writeText(text); flash("Copied — paste it to Claude"); }
     catch { window.prompt("Copy the changes:", text); }
   };

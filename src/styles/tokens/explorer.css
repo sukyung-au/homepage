@@ -1,5 +1,10 @@
 /* Scientific Exploration direction — editorial, bright, blue-led */
 :root{
+/* Viewport units that hold under /presentation's fit-to-screen zoom (--pz, set on <html>; 1 elsewhere) */
+--pz:1;
+--vw:calc(1vw / var(--pz));
+--vh:calc(1vh / var(--pz));
+--svh:calc(1svh / var(--pz));
 --ex-blue:#0A5CDB;          /* Primary — Exploration Blue: CTAs, active stage, links */
 --ex-blue-deep:#0846A8;     /* pressed / text-on-light emphasis */
 --ex-cyan:#12A4D9;          /* Secondary — water, surface, secondary data series */
@@ -20,9 +25,9 @@
 /* Type */
 --font-editorial:var(--font-inter),"Inter","Pretendard Variable","Pretendard",system-ui,sans-serif;
 --font-kr:"Pretendard Variable","Pretendard",var(--font-inter),"Inter",system-ui,sans-serif;
---type-editorial-xl:clamp(56px,8.4vw,128px); /* hero, light 300, uppercase */
---type-editorial-lg:clamp(44px,5.6vw,84px);  /* scene titles, light 300 */
---type-editorial-md:clamp(32px,3.4vw,52px);  /* page H1, regular 400 */
+--type-editorial-xl:clamp(56px,calc(8.4 * var(--vw)),128px); /* hero, light 300, uppercase */
+--type-editorial-lg:clamp(44px,calc(5.6 * var(--vw)),84px);  /* scene titles, light 300 */
+--type-editorial-md:clamp(32px,calc(3.4 * var(--vw)),52px);  /* page H1, regular 400 */
 --type-editorial-lh:0.96;
 --type-editorial-ls:-0.02em;
 --type-eyebrow-size:12px;   /* uppercase, 600 */
@@ -37,6 +42,6 @@
 /* Viewport band the floating nav occupies — content must clear it */
 --nav-safe-area:calc(var(--journey-nav-h) + var(--stage-nav-offset) + env(safe-area-inset-bottom, 0px));
 --scene-min-h:880px;
---gutter-page:clamp(20px,4.4vw,72px); /* @kind spacing */
+--gutter-page:clamp(20px,calc(4.4 * var(--vw)),72px); /* @kind spacing */
 }
 @media (max-width:734px){:root{--journey-nav-h:48px}}
