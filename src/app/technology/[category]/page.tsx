@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { SiteHeader } from "@/components/ds/SiteHeader";
 import { TechNav } from "@/components/ds/TechNav";
 import { IndexList, SectionHead, sectionStyles as s } from "@/components/section/SectionPage";
 import { SiteFooter } from "@/components/site/SiteFooter";
 import { SITE_LINKS } from "@/lib/site";
-import { FLAT_TOPICS, TECH, findCategory, topicLink } from "@/lib/technology";
+import { FLAT_TOPICS, TECH, categoryHref, findCategory, topicLink } from "@/lib/technology";
 
 export const dynamicParams = false;
 
@@ -25,9 +25,14 @@ export async function generateMetadata({ params }: PageProps<"/technology/[categ
   return { title: `${cat.num} ${cat.label} — Technology — Oil & Gas Development` };
 }
 
-/** Category overview: the category's topics from lib/technology.ts (empty until course material is added). */
+/**
+ * Category overview: the category's topics from lib/technology.ts (empty until course material is added).
+ * Categories with a `landing` topic redirect to it instead.
+ */
 export default async function CategoryPage({ params }: PageProps<"/technology/[category]">) {
   const cat = await resolve(params);
+  // A category with a landing topic opens that topic directly (e.g. Geophysics → 1.1)
+  if (cat.landing) redirect(categoryHref(cat));
   const n = cat.topics.length;
   return (
     <main>
