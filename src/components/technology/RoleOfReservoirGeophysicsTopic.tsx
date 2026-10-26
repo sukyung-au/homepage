@@ -41,25 +41,25 @@ const WORKFLOW: Step[] = [
     en: "Seismic Acquisition", ko: "탄성파 자료 취득",
     body: "음원에서 발생한 탄성파가 지층 경계에서 반사되어 돌아오는 신호를 수신기로 기록합니다.",
     items: ["해상: 탐사선이 음원과 스트리머를 예인", "목적에 맞는 2D·3D 탐사 설계"],
-    img: { id: "gp-acquisition", placeholder: "Marine seismic vessel towing streamers at sea, aerial view" },
+    img: { id: "gp-acquisition", placeholder: "Marine seismic vessel towing streamers at sea, aerial view", src: "/images/technology/geophysics/gp-acquisition.webp", alt: "스트리머를 예인하는 해상 탄성파 탐사선을 표현한 AI 생성 이미지" },
   },
   {
     en: "Processing & Imaging", ko: "자료처리와 영상화",
     body: "잡음을 줄이고 신호를 보정한 뒤, 반사 신호를 지하의 올바른 위치로 옮겨 지하 영상을 만듭니다.",
     items: ["잡음 제거와 신호 보정", "속도 분석", "구조보정(Migration)"],
-    img: { id: "gp-seismic-section", placeholder: "Processed seismic section — layered reflections over a folded structure" },
+    img: { id: "gp-seismic-section", placeholder: "Processed seismic section — layered reflections over a folded structure", src: "/images/technology/geophysics/gp-seismic-section.webp", alt: "지층 반사면이 배사 구조로 휘어진 탄성파 단면을 표현한 AI 생성 이미지" },
   },
   {
     en: "Seismic Interpretation", ko: "탄성파 해석",
     body: "반사면(horizon)과 단층을 추적해 지하 구조를 해석하고, 시추공 자료와 연결해 반사면의 지질학적 의미를 확인합니다.",
     items: ["합성 탄성파 기록을 이용한 Well tie", "Horizon·단층 해석", "시간 구조도 작성"],
-    img: { id: "gp-interpretation", placeholder: "Interpreter at a workstation with a 3D seismic volume and picked horizons" },
+    img: { id: "gp-interpretation", placeholder: "Interpreter at a workstation with a 3D seismic volume and picked horizons", src: "/images/technology/geophysics/gp-interpretation.webp", alt: "3D 탄성파 자료와 해석된 반사면을 보며 작업하는 해석 작업 화면을 표현한 AI 생성 이미지" },
   },
   {
     en: "Reservoir Characterization", ko: "저류층 특성화",
     body: "탄성파 속성과 역산 결과로 저류층의 분포와 특성을 추정하고, 시간 영역의 해석 결과를 심도 영역으로 변환합니다.",
     items: ["탄성파 속성 분석", "탄성파 역산(Inversion)", "시간-심도 변환과 심도 구조도"],
-    img: { id: "gp-attribute-map", placeholder: "Map view of a seismic attribute over the reservoir, colour-ramped" },
+    img: { id: "gp-attribute-map", placeholder: "Map view of a seismic attribute over the reservoir, colour-ramped", src: "/images/technology/geophysics/gp-attribute-map.webp", alt: "저류층 위의 탄성파 속성 분포를 색으로 나타낸 평면도를 표현한 AI 생성 이미지" },
   },
 ];
 

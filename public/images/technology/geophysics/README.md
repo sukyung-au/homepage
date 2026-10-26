@@ -1,0 +1,43 @@
+# Geophysics workflow images
+
+- 생성 날짜: 2026-10-26
+- 생성 도구: Codex 내장 image_gen (기본 내장 도구 모드)
+- 설명: 가상의 장면을 표현한 AI 생성 이미지. 실제 회사·현장·조사 자료를 재현한 것이 아닙니다.
+- 출력: 1600×1200, WebP 품질 84 (350KB 초과 시 78까지 낮춤). 원본 PNG는 Codex 생성 이미지 폴더에 보관하며 저장소에 포함하지 않습니다.
+
+| 파일 | 품질 | 크기 (bytes) |
+| --- | --- | --- |
+| gp-acquisition.webp | 84 | 266226 |
+| gp-seismic-section.webp | 82 | 335110 |
+| gp-interpretation.webp | 84 | 159456 |
+| gp-attribute-map.webp | 84 | 245092 |
+
+## 생성 프롬프트 전문
+
+### gp-acquisition
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization, high aerial view of a modern marine seismic survey vessel at sea towing several long parallel streamer cables with small floats behind it, the streamers spreading diagonally toward the lower right, faint white wake lines, calm deep blue open ocean, bright soft daylight, neutral cool blue palette, crisp atmospheric depth. Vessel in the right half, upper-left corner kept as open water. No text, no logos, no flags, no ship name, no markings, no borders, no collage. Fictional scene, not a real survey. Output 4:3 landscape image.
+```
+
+### gp-seismic-section
+
+```text
+Use case: scientific illustration. Asset type: illustrative website figure for oil and gas education.
+4:3 landscape clean scientific visualization of a processed 2D seismic reflection section: many thin, continuous, closely spaced horizontal reflection bands in a blue–white–red polarity color map (deep blue #1C3F9E, off-white #F4F1EA, deep red #B8322A), gently folded into a broad anticline in the center, with two small normal faults offsetting the reflections on the right, deeper reflections slightly weaker and noisier. Flat full-bleed image like a screen capture of seismic data, no axes, no tick marks, no labels, no text, no grid, no borders, no 3D perspective. Fictional illustrative data. Keep upper-left corner free of important subjects. No watermark or collage.
+```
+
+### gp-interpretation
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization, over-the-shoulder view from behind of a geoscientist at a desk with two large monitors showing a 3D seismic data cube with colored interpreted horizon surfaces (blue, cyan, amber) cutting through it, a quiet modern office with soft cool daylight, shallow depth of field. The person is seen from behind and not identifiable. Screens show imagery only: no readable text, no menus, no numbers, no logos, no brand names on the hardware. Neutral cool blue palette. Fictional scene, no watermark, no borders, no collage. Keep upper-left corner free of important subjects.
+```
+
+### gp-attribute-map
+
+```text
+Use case: scientific illustration. Asset type: illustrative website figure for oil and gas education.
+4:3 landscape top-down map visualization of a seismic amplitude attribute over an elongated anticlinal reservoir: a smooth continuous color ramp from deep navy and blue at the edges through cyan and green to yellow and orange at the crest (#0B1F6B, #1F4FD1, #16A3D8, #3CC48C, #E9D43A, #F29A1F), subtle sinuous channel-like patterns, thin dark structural contour lines following the closure. Flat full-bleed map, no text, no labels, no numbers, no legend, no scale bar, no north arrow, no grid, no borders. Fictional illustrative data, no watermark, no collage. Keep upper-left corner free of important subjects.
+```
