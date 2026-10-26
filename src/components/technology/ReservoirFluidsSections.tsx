@@ -19,9 +19,9 @@ const v = (o: Record<string, number>) => o as CSSProperties;
 
 type Img = { id: string; placeholder: string; src?: string; alt?: string };
 const IMAGES: Record<"pvtLab" | "corePlugs" | "coreflood", Img> = {
-  pvtLab: { id: "re-pvt-lab", placeholder: "PVT laboratory — high-pressure visual cell with a reservoir fluid sample" },
-  corePlugs: { id: "re-core-plugs", placeholder: "Cylindrical sandstone core plugs prepared for special core analysis" },
-  coreflood: { id: "re-coreflood", placeholder: "Core-flooding apparatus — core holder, pumps and flow lines in a laboratory" },
+  pvtLab: { id: "re-pvt-lab", placeholder: "PVT laboratory — high-pressure visual cell with a reservoir fluid sample", src: "/images/technology/engineering/re-pvt-lab.webp", alt: "고압 가시 셀로 저류층 유체 시료를 분석하는 PVT 실험실을 표현한 AI 생성 이미지" },
+  corePlugs: { id: "re-core-plugs", placeholder: "Cylindrical sandstone core plugs prepared for special core analysis", src: "/images/technology/engineering/re-core-plugs.webp", alt: "특수 코어 분석을 위해 준비된 원통형 사암 코어 플러그를 표현한 AI 생성 이미지" },
+  coreflood: { id: "re-coreflood", placeholder: "Core-flooding apparatus — core holder, pumps and flow lines in a laboratory", src: "/images/technology/engineering/re-coreflood.webp", alt: "코어 홀더와 펌프, 배관으로 이루어진 코어 유동 실험 장치를 표현한 AI 생성 이미지" },
 };
 
 function Bullets({ items }: { items: string[] }) {
