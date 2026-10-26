@@ -39,7 +39,7 @@ const TECH_DATA: CategoryInput[] = [
   },
   {
     id: "geology", label: "Geology", ko: "지질",
-    topics: [{ id: "ge-fdp-role", title: "Role of Geology", ko: "FDP에서 지질의 역할" }],
+    topics: [{ id: "ge-fdp-role", title: "Role of Geology", sub: "From Rock Evidence to Reservoir Understanding", ko: "FDP에서 지질의 역할", hasPage: true }],
   },
   {
     id: "engineering", label: "Reservoir Engineering", ko: "저류공학",

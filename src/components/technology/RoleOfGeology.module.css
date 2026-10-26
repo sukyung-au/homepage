@@ -1,0 +1,110 @@
+/* Topic 2.1: schematic geology workflow; shared editorial layout lives in RoleOfReservoirEngineering.module.css. */
+/* 03 Workflow: four photo cards, numbered, then the hand-off to the static model */
+.workflow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 28px}
+.card{display:flex;flex-direction:column;gap:6px}
+.photo{position:relative;aspect-ratio:4 / 3;margin-bottom:20px;border-radius:4px;overflow:hidden}
+.photoNum{position:absolute;left:12px;top:12px;padding:4px 8px;border-radius:999px;background:rgba(255,255,255,0.92);font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;font-variant-numeric:tabular-nums;color:var(--ex-navy)}
+.cardTitle{margin:0;font-family:var(--font-editorial);font-size:20px;font-weight:400;letter-spacing:-0.01em;line-height:1.2;color:var(--ex-navy)}
+.cardBody{margin:0 0 12px;font-family:var(--font-kr);font-size:15px;line-height:1.65;color:var(--ex-navy)}
+
+.output{display:grid;grid-template-columns:48px 1fr;gap:20px;align-items:start;margin:56px 0 20px;padding:28px 32px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.outputArrow{font-family:var(--font-editorial);font-size:32px;line-height:1;color:var(--ex-blue)}
+.outputTitle{margin:0 0 8px;font-family:var(--font-editorial);font-size:20px;font-weight:400;color:var(--ex-navy)}
+.outputBody{margin:0;max-width:760px;font-family:var(--font-kr);font-size:15px;line-height:1.65;color:var(--ex-muted)}
+
+@media (max-width:1100px){.workflow{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){
+  .workflow{grid-template-columns:1fr}
+  .output{grid-template-columns:1fr;gap:8px;padding:24px}
+}
+
+.diagram{display:block;width:100%;height:100%;background:#eef3f6}
+.guide{fill:none;stroke:#c0cdd8;stroke-width:1}
+.trace{fill:none;stroke:var(--ex-blue);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.traceAlt{fill:none;stroke:var(--ex-cyan,#12a4d9);stroke-width:2.5;stroke-linecap:round}
+.well{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.sourceNote{max-width:720px;margin:12px 0 24px;font-size:14px;line-height:1.7;color:var(--ex-muted)}
+.sources{display:grid;gap:12px;margin:0;padding-left:20px;font-size:14px;line-height:1.6;color:var(--ex-blue)}
+.sources a{text-underline-offset:4px;overflow-wrap:anywhere}
+.sources a:hover{text-decoration:underline}
+.sources a:focus-visible{outline:2px solid var(--ex-blue);outline-offset:4px}
+
+/* 04 MDT / RCI: pressure-depth figure beside the four measurements */
+.pt{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px 64px;align-items:start}
+.ptFigure{margin:0;padding:24px;border-radius:4px;background:var(--ex-bg);border:1px solid var(--ex-line)}
+.ptSvg{display:block;width:100%;height:auto}
+.ptAxis{fill:none;stroke:var(--ex-navy);stroke-width:1.2}
+.ptLabel{font-family:var(--font-editorial);font-size:11px;letter-spacing:0.04em;fill:var(--ex-muted)}
+.bore{stroke:var(--ex-navy);stroke-width:2}
+.probe{stroke:var(--ex-navy);stroke-width:2}
+.zGas{fill:#E6EEF5}
+.zOil{fill:#F6D9A8}
+.zWater{fill:#BFD7EA}
+.contact{stroke:var(--ex-faint);stroke-width:1;stroke-dasharray:4 4}
+.contactLabel{font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.08em;fill:var(--ex-navy)}
+.gGas,.gOil,.gWater,.extGas,.extOil{fill:none;stroke-width:2.2;stroke-linecap:round}
+.gGas{stroke:#8A98A8}
+.gOil{stroke:var(--ex-amber)}
+.gWater{stroke:var(--ex-blue)}
+.extGas{stroke:#8A98A8;stroke-dasharray:3 4;opacity:.7}
+.extOil{stroke:var(--ex-amber);stroke-dasharray:3 4;opacity:.7}
+.ptGas,.ptOil,.ptWater{stroke:#fff;stroke-width:1.5}
+.ptGas{fill:#8A98A8}
+.ptOil{fill:var(--ex-amber)}
+.ptWater{fill:var(--ex-blue)}
+.sample{fill:#fff;stroke:var(--ex-navy);stroke-width:1.6}
+.ptLegend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:14px;font-family:var(--font-editorial);font-size:12px;color:var(--ex-muted)}
+.ptLegend span{display:inline-flex;align-items:center;gap:8px}
+.ptLegend i{display:inline-block}
+.lgPoint{width:9px;height:9px;border-radius:50%;background:var(--ex-navy)}
+.lgSample{width:8px;height:8px;transform:rotate(45deg);border:1.6px solid var(--ex-navy);background:#fff}
+.lgContact{width:18px;border-top:1px dashed var(--ex-faint)}
+.ptList{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 40px}
+.ptList > li{display:grid;grid-template-columns:48px 1fr;gap:12px;padding-top:24px;border-top:1px solid var(--ex-line)}
+@media (max-width:1100px){
+  .pt{grid-template-columns:1fr}
+  .ptFigure{max-width:560px}
+}
+@media (max-width:640px){
+  .ptList{grid-template-columns:1fr;gap:28px}
+  .ptList > li{grid-template-columns:40px 1fr}
+}
+
+/* 04 Petrophysics */
+.acq{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,3fr);gap:32px 40px;align-items:start;margin-bottom:72px}
+.acqPhoto{position:relative;aspect-ratio:4 / 3;border-radius:4px;overflow:hidden}
+.acqCard{display:flex;flex-direction:column;gap:6px;padding-top:24px;border-top:1px solid var(--ex-line)}
+.subHead{margin:0 0 24px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-muted)}
+.logTableWrap{margin-bottom:72px;border-top:1px solid var(--ex-navy)}
+.logTable{width:100%;border-collapse:collapse;font-family:var(--font-kr);font-size:14px;line-height:1.6;color:var(--ex-navy)}
+.logTable thead th{padding:14px 16px 14px 0;text-align:left;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint);border-bottom:1px solid var(--ex-line)}
+.logTable tbody th,.logTable td{padding:20px 20px 20px 0;vertical-align:top;text-align:left;border-bottom:1px solid var(--ex-line)}
+.logTable tbody th{width:20%;font-weight:400}
+.logTable td:nth-child(2){width:36%}
+.logTable td:nth-child(3){width:16%}
+.logName{display:block;font-family:var(--font-editorial);font-size:16px;color:var(--ex-navy)}
+.logKo{display:block;margin-top:4px;font-size:13px;color:var(--ex-muted)}
+.logMeasure{color:var(--ex-blue)}
+.logTable td:last-child{color:var(--ex-muted)}
+.interp{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 56px;align-items:start}
+.interpFigure{margin:0}
+.interpPhoto{position:relative;aspect-ratio:16 / 10;border-radius:4px;overflow:hidden}
+.interpSteps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:24px}
+.interpSteps > li{display:grid;grid-template-columns:48px 1fr;gap:12px;padding-top:20px;border-top:1px solid var(--ex-line)}
+.interpSteps h4{margin:0}
+@media (max-width:1100px){
+  .acq{grid-template-columns:1fr 1fr}
+  .acqPhoto{grid-column:1 / -1;max-width:640px}
+  .interp{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .acq{grid-template-columns:1fr}
+  /* table → stacked cards */
+  .logTable thead{display:none}
+  .logTable tbody tr{display:block;padding:20px 0;border-bottom:1px solid var(--ex-line)}
+  .logTable tbody th,.logTable td{display:block;width:auto !important;padding:0;border:none}
+  .logTable tbody th{margin-bottom:10px}
+  .logTable td{margin-top:8px}
+  .logTable td::before{content:attr(data-label);display:block;margin-bottom:2px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--ex-faint)}
+  .interpSteps > li{grid-template-columns:40px 1fr}
+}
