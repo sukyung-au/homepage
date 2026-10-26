@@ -6,7 +6,7 @@ import { ImageSlot } from "@/components/ds/ImageSlot";
 import { FieldSection, H, Rig, SeismicSurvey, VerticalWell, horizonPath, type Camera } from "@/components/home/FieldSection";
 import fs from "@/components/home/FieldSection.module.css";
 import { sceneStyles as ss } from "@/components/site/scene";
-import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
+import { categoryHref, topicHref, topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { REVEAL_BOOT } from "./revealBoot";
@@ -272,7 +272,9 @@ export function RoleOfReservoirGeophysicsTopic({ topic, next }: { topic: FlatTop
       <section className={t.next}>
         <div className={t.nextRow} data-reveal="up">
           <div className={s.backLinks}>
-            <Link href={categoryHref(cat)} className={t.back}><ArrowLeft size={14} aria-hidden /> {cat.num} {cat.label} · Overview</Link>
+            {categoryHref(cat) !== topicHref(topic) && (
+              <Link href={categoryHref(cat)} className={t.back}><ArrowLeft size={14} aria-hidden /> {cat.num} {cat.label} · Overview</Link>
+            )}
             <Link href={`/#${sceneId("exploration")}`} className={t.back}><ArrowLeft size={14} aria-hidden /> Journey · 01 Exploration — Seismic</Link>
           </div>
           {next && (

@@ -95,9 +95,12 @@ export function TechNav({ categories, category, topic, position = "fixed", style
                 );
               })}
             </ol>
-            <Link href={categoryHref(menu)} className={s.overview} aria-current={!curT && open === current ? "page" : undefined} onClick={() => setOpen(null)}>
-              Category overview <ArrowRight size={13} aria-hidden />
-            </Link>
+            {/* A category with a landing topic has no separate overview page */}
+            {!menu.landing && (
+              <Link href={categoryHref(menu)} className={s.overview} aria-current={!curT && open === current ? "page" : undefined} onClick={() => setOpen(null)}>
+                Category overview <ArrowRight size={13} aria-hidden />
+              </Link>
+            )}
           </div>
         )}
         <div ref={rail} className={s.rail}>

@@ -26,6 +26,8 @@ export interface TechCategory {
   /** Korean name, shown under the English label */
   ko?: string;
   kr?: string;
+  /** Topic id to open instead of the category overview (the category link and /technology/<id> go straight to it) */
+  landing?: string;
   topics: TechTopic[];
 }
 
@@ -34,7 +36,7 @@ type CategoryInput = Omit<TechCategory, "num" | "topics"> & { topics: TopicInput
 
 const TECH_DATA: CategoryInput[] = [
   {
-    id: "geophysics", label: "Geophysics", ko: "지구물리",
+    id: "geophysics", label: "Geophysics", ko: "지구물리", landing: "gp-fdp-role",
     topics: [{ id: "gp-fdp-role", title: "Role of Reservoir Geophysics", sub: "Imaging the Reservoir Between the Wells", ko: "FDP에서 지구물리의 역할", hasPage: true }],
   },
   {
@@ -69,7 +71,8 @@ export interface FlatTopic extends TechTopic {
 /** All topics in reading order; prev/next continue across categories. */
 export const FLAT_TOPICS: FlatTopic[] = TECH.flatMap((c) => c.topics.map((t) => ({ ...t, category: c })));
 
-export const categoryHref = (c: TechCategory) => `/technology/${c.id}`;
+/** Category link: its landing topic when one is set, otherwise the category overview. */
+export const categoryHref = (c: TechCategory) => (c.landing ? `/technology/${c.id}/${c.landing}` : `/technology/${c.id}`);
 export const topicHref = (t: FlatTopic) => `/technology/${t.category.id}/${t.id}`;
 
 /** Href if the topic has a page yet, otherwise undefined. */
