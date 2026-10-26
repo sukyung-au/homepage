@@ -45,3 +45,34 @@
 ## 이미지
 
 실험실 사진 3장(`re-pvt-lab`, `re-core-plugs`, `re-coreflood`)은 Codex로 생성합니다(`docs/codex/TASK-re-fluids-scal-images.md`). 생성되기 전에는 점선 placeholder로 표시됩니다.
+
+## 추가 — Capillary Pressure & Saturation–Height (2026-10-26)
+
+사용자 요청에 따라 05 SCAL 구간 안에 모세관압 하위 구간을 추가했습니다(상대투과도 다음, "Into the Dynamic Model" 앞).
+
+- **정의와 식:**
+  - Pc = P_nw − P_w = 2σ cos θ / r (계면장력·접촉각·공극목 반경)
+  - h = Pc / (Δρ · g) (자유수면 위 높이)
+
+  두 식 모두 표준적인 관계식이며 수치는 넣지 않았습니다.
+- **배수·흡입 곡선:** 배수는 탄화수소가 들어와 저류층을 채우는 방향이고, 흡입은 물이 오일을 밀어내는 생산 방향입니다.
+- **측정 방법:** 다공판, 원심분리, 수은 주입(MICP)
+- **활용:**
+  - 초기 포화도 분포(포화도-높이 관계)
+  - FWL·OWC·전이대
+  - J 함수를 이용한 암석 유형 정규화
+  - 덮개암 밀봉 능력
+- **개념도:** 배수 곡선과 높이 축을 함께 표시했습니다.
+  - FWL은 Pc = 0, OWC는 진입압 높이에 놓입니다. 그 위로 전이대와 비환원 수포화도 구간이 이어집니다.
+  - 흡입 곡선은 1 − Sor에서 Pc = 0이 됩니다.
+  - 곡선 모양을 그리는 데 쓴 값은 화면에 표시하지 않습니다.
+
+SLB Energy Glossary로 확인한 항목:
+- Capillary pressure curve: https://glossary.slb.com/terms/c/capillary_pressure_curve
+- Drainage: https://glossary.slb.com/terms/d/drainage
+- Imbibition: https://glossary.slb.com/terms/i/imbibition
+- Interfacial tension: https://glossary.slb.com/terms/i/interfacial_tension
+- Contact angle: https://glossary.slb.com/terms/c/contact_angle
+- Oil-water contact: https://glossary.slb.com/terms/o/oil-water_contact
+
+FWL, 진입압, Leverett J 함수, MICP, 덮개암 밀봉 능력은 SLB 용어집에 항목이 없어 일반적인 저류공학·암석물리 개념으로 서술했습니다. PetroWiki(SPE)는 자동 접근이 차단되어 확인하지 못했습니다. 강의자료와 대조해 확인해야 합니다.

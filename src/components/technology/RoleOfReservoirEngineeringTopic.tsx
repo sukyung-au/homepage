@@ -51,7 +51,7 @@ const DELIVERABLES: [string, string][] = [
   ["In-Place Volumes & Reserves", "물질수지 분석과 저류층 시뮬레이션을 통한 초기 부존량 및 회수가능량·매장량 추정"],
   ["Data Acquisition Plan", "모델 신뢰도 향상을 위한 추가 자료 확보 및 후속 분석 계획"],
   ["Production Optimization", "생산 운영 중 발생 가능한 문제에 대한 대응, 모니터링 및 최적화 지침"],
-  ["Fluid & Rock–Fluid Models", "PVT 실험에 맞춘 유체 모델과 SCAL 자료로 정한 상대투과도·모세관압 곡선"],
+  ["Fluid & Rock–Fluid Models", "PVT 실험에 맞춘 유체 모델, SCAL 자료로 정한 상대투과도·모세관압 곡선과 포화도-높이 관계"],
 ];
 
 /* ── 05 From analysis to decision ── */

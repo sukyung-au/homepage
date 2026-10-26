@@ -154,7 +154,7 @@ export function FluidModelSection({ num, white }: { num: string; white?: boolean
 
 const SCAL_MEASURES: [string, string, string][] = [
   ["Relative Permeability", "상대투과도", "두 유체가 함께 흐를 때 각 유체가 흐를 수 있는 정도를 포화도에 따라 나타냅니다. 주입수가 오일을 밀어내는 거동과 회수율을 좌우합니다."],
-  ["Capillary Pressure", "모세관압", "작은 공극에서 두 유체 사이에 생기는 압력 차입니다. 초기 포화도 분포와 유체 경계 위 전이대의 두께를 설명합니다."],
+  ["Capillary Pressure", "모세관압", "작은 공극에서 두 유체 사이에 생기는 압력 차입니다. 초기 포화도 분포와 유체 경계 위 전이대의 두께를 설명합니다. (아래 Capillary Pressure 참고)"],
   ["Wettability", "습윤성", "암석 표면이 물과 오일 중 어느 쪽에 더 잘 젖는지를 나타냅니다. 상대투과도와 잔류 오일의 양에 영향을 줍니다."],
   ["Residual Saturations", "잔류 포화도", "더 이상 밀려나지 않는 물(비환원 수포화도 Swi)과 오일(잔류 오일 포화도 Sor)의 양입니다. 회수할 수 있는 오일의 한계를 정합니다."],
   ["Electrical Properties", "전기적 물성", "검층의 수포화도 계산(Archie 식)에 쓰이는 암석의 전기적 특성을 측정해 검층 해석을 보정합니다."],
@@ -199,6 +199,127 @@ function RelPermChart() {
       </svg>
       <figcaption className={s.caption}>Conceptual relative permeability curves — not measured data.</figcaption>
     </figure>
+  );
+}
+
+/* ── Capillary pressure & saturation–height ── */
+
+const PC_CURVES: [string, string, string][] = [
+  ["Drainage", "배수", "비습윤상(오일·가스)이 물을 밀어내며 들어오는 과정입니다. 탄화수소가 이동해 저류층을 채울 때와 같은 방향이라 초기 포화도 분포를 설명합니다."],
+  ["Imbibition", "흡입", "습윤상(물)이 다시 들어와 오일을 밀어내는 과정입니다. 물 주입이나 수층의 상승으로 생산할 때의 거동을 설명합니다."],
+];
+const PC_METHODS: [string, string][] = [
+  ["Porous Plate", "다공판 위에 코어를 올리고 압력을 단계적으로 높이며 평형 포화도를 측정합니다. 저류층 유체를 쓸 수 있지만 시간이 오래 걸립니다."],
+  ["Centrifuge", "코어를 회전시켜 원심력으로 유체를 빼내며 측정합니다. 다공판보다 빠릅니다."],
+  ["Mercury Injection (MICP)", "수은을 단계적으로 주입해 넓은 압력 범위의 곡선과 공극목 크기 분포를 빠르게 얻습니다. 실제 유체 조건으로 환산해 사용합니다."],
+];
+const PC_USES: [string, string, string][] = [
+  ["Initial Saturation", "초기 포화도 분포", "모세관압을 높이로 바꾼 포화도-높이 관계로 저류층 각 높이의 초기 수포화도를 정하고, 정적·동적 모델을 초기화합니다."],
+  ["FWL, OWC & Transition Zone", "자유수면·유체 경계·전이대", "모세관압이 0인 자유수면(FWL) 위로 진입압만큼 올라간 곳에 OWC가 놓이고, 그 위로 수포화도가 서서히 줄어드는 전이대가 이어집니다. 투과도가 낮은 암석일수록 전이대가 두껍습니다."],
+  ["Rock Typing & J-Function", "암석 유형과 J 함수", "공극률·투과도가 다른 시료의 곡선을 J 함수로 정규화해 암석 유형별로 묶고, 모델 전체에 적용합니다."],
+  ["Seal Capacity", "덮개암 밀봉 능력", "덮개암 시료의 진입압은 덮개암이 지탱할 수 있는 탄화수소 기둥 높이를 가늠하는 근거가 됩니다."],
+];
+
+/**
+ * Conceptual drainage capillary pressure curve with its height equivalent (h = Pc / Δρg): FWL at Pc = 0,
+ * OWC at the entry pressure, the transition zone above it and irreducible water further up; a dashed
+ * imbibition curve reaching Pc = 0 at 1 − Sor. Shapes only, no values.
+ */
+function CapPressureChart() {
+  const X0 = 64, X1 = 352, Y0 = 268, Y1 = 34;
+  const swi = 0.18, sor = 0.26, pd = 0.12, lam = 1.6;
+  const x = (sw: number) => X0 + sw * (X1 - X0);
+  const y = (pc: number) => Y0 - pc * (Y0 - Y1);
+  const drain = (sw: number) => pd * ((1 - swi) / (sw - swi)) ** (1 / lam);
+  const imb = (sw: number) => 0.55 * pd * ((1 - sor - sw) / (1 - sor - swi)) ** 1.4 * ((1 - swi) / (sw - swi)) ** 0.5;
+  const path = (fn: (sw: number) => number, a: number, b: number) =>
+    Array.from({ length: 61 }, (_, i) => a + ((b - a) * i) / 60)
+      .map((sw) => [sw, Math.min(1, fn(sw))] as const)
+      .filter(([, pc], i, arr) => pc < 1 || (i > 0 && arr[i - 1][1] < 1) || (i < arr.length - 1 && arr[i + 1][1] < 1))
+      .map(([sw, pc], i) => `${i ? "L" : "M"}${x(sw).toFixed(1)},${y(pc).toFixed(1)}`).join(" ");
+  // top of the transition zone: where the drainage curve is close to Swi
+  const tzTop = drain(swi + 0.06);
+  return (
+    <figure className={f.chart}>
+      <svg viewBox="0 0 440 310" role="img" aria-label="Conceptual capillary pressure curve with height above the free water level: below the oil-water contact the rock is fully water-saturated, above it water saturation falls through the transition zone toward irreducible water saturation" className={f.svg}>
+        <rect x={X0} y={y(tzTop)} width={X1 - X0} height={y(pd) - y(tzTop)} className={f.tz} />
+        <path d={`M${X0},${Y1 - 10} V${Y0} H${X1 + 8}`} className={f.axis} />
+        <path d={`M${X1 + 8},${Y1 - 10} V${Y0}`} className={f.axis} />
+        <text x={X0 + 4} y={Y1 - 14} className={f.lbl}>Capillary pressure ↑</text>
+        <text x={X1 + 4} y={Y1 - 14} textAnchor="end" className={f.lbl}>Height above FWL ↑</text>
+        <text x={X1 + 8} y={Y0 + 40} textAnchor="end" className={f.lbl}>Water saturation, Sw →</text>
+        <line x1={x(swi)} x2={x(swi)} y1={Y1} y2={Y0} className={f.end} />
+        <text x={x(swi)} y={Y0 + 16} textAnchor="middle" className={f.lblStrong}>Swi</text>
+        <line x1={x(1 - sor)} x2={x(1 - sor)} y1={y(0.3)} y2={Y0} className={f.end} />
+        <text x={x(1 - sor)} y={Y0 + 16} textAnchor="middle" className={f.lblStrong}>1 − Sor</text>
+        <text x={X1} y={Y0 + 16} textAnchor="middle" className={f.lblStrong}>1</text>
+        {/* levels */}
+        <line x1={X0} x2={X1 + 8} y1={y(pd)} y2={y(pd)} className={f.level} />
+        <text x={X1 + 14} y={y(pd) + 4} className={f.lblStrong}>OWC</text>
+        <text x={X1 + 14} y={Y0 + 4} className={f.lblStrong}>FWL</text>
+        <text x={X1 + 14} y={(y(pd) + y(tzTop)) / 2 + 4} className={f.lbl}>Transition</text>
+        <text x={X1 + 14} y={(y(pd) + y(tzTop)) / 2 + 17} className={f.lbl}>zone</text>
+        <text x={X1 - 6} y={(y(pd) + Y0) / 2 + 4} textAnchor="end" className={f.lblMuted}>100% water</text>
+        <text x={x(swi) + 14} y={Y1 + 14} className={f.lblMuted}>Irreducible water</text>
+        {/* curves */}
+        <path d={path(drain, swi + 0.004, 1)} className={f.drain} />
+        <path d={`M${x(1)},${y(pd)} V${Y0}`} className={f.drainStep} />
+        <path d={path(imb, swi + 0.035, 1 - sor)} className={f.imb} />
+        <circle cx={x(1)} cy={y(pd)} r="4" className={f.pdPt} />
+      </svg>
+      <div className={f.legend}>
+        <span><i className={f.lgDrain} />Drainage</span>
+        <span><i className={f.lgImb} />Imbibition</span>
+        <span><i className={f.lgTz} />Transition zone</span>
+        <span><i className={f.lgPd} />Entry pressure</span>
+      </div>
+      <figcaption className={s.caption}>Conceptual curves — not measured data. Height = Pc ÷ (Δρ · g).</figcaption>
+    </figure>
+  );
+}
+
+function CapillaryPressureBlock() {
+  return (
+    <div className={f.pcBlock}>
+      <h3 className={f.subHead} data-reveal="up">Capillary Pressure &amp; Saturation–Height</h3>
+      <div className={f.row}>
+        <div data-reveal="up"><CapPressureChart /></div>
+        <div>
+          <p className={f.lead} data-reveal="up">모세관압은 작은 공극 속에서 맞닿은 두 유체 사이의 압력 차로, 비습윤상의 압력에서 습윤상의 압력을 뺀 값입니다. 계면장력이 크고 공극목이 작을수록 커집니다.</p>
+          <div className={f.formulas} data-reveal="up">
+            <div><span className={f.formula}>Pc = P<sub>nw</sub> − P<sub>w</sub> = 2σ cos θ ⁄ r</span><span className={f.formulaNote}>σ 계면장력 · θ 접촉각 · r 공극목 반경</span></div>
+            <div><span className={f.formula}>h = Pc ⁄ (Δρ · g)</span><span className={f.formulaNote}>자유수면(FWL) 위 높이 · Δρ 두 유체의 밀도 차</span></div>
+          </div>
+          <div className={f.pair}>
+            {PC_CURVES.map(([en, ko, body], i) => (
+              <div key={en} data-reveal="up" style={v({ "--i": i })}>
+                <h4 className={f.title}>{en}</h4>
+                <span className={s.stageKo}>{ko}</span>
+                <p className={f.body}>{body}</p>
+              </div>
+            ))}
+          </div>
+          <h4 className={f.miniHead} data-reveal="up">Measurement</h4>
+          <ul className={f.methodList}>
+            {PC_METHODS.map(([en, body], i) => (
+              <li key={en} data-reveal="up" style={v({ "--i": i })}><b>{en}</b>{body}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <ol className={f.uses}>
+        {PC_USES.map(([en, ko, body], i) => (
+          <li key={en} data-reveal="up" style={v({ "--i": i })}>
+            <span className={s.delNum}>{pad(i)}</span>
+            <div>
+              <h4 className={f.title}>{en}</h4>
+              <span className={s.stageKo}>{ko}</span>
+              <p className={f.body}>{body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
   );
 }
 
@@ -254,6 +375,8 @@ export function RelPermSection({ num, white }: { num: string; white?: boolean })
           </div>
         </div>
 
+        <CapillaryPressureBlock />
+
         <div className={f.output} data-reveal="up">
           <span className={f.outputArrow} aria-hidden>→</span>
           <div>
@@ -281,6 +404,11 @@ const FLUIDS_REFERENCES = [
   { title: "SLB · Routine core analysis", href: "https://glossary.slb.com/terms/r/routine_core_analysis" },
   { title: "SLB · Relative permeability", href: "https://glossary.slb.com/terms/r/relative_permeability" },
   { title: "SLB · Capillary pressure curve", href: "https://glossary.slb.com/terms/c/capillary_pressure_curve" },
+  { title: "SLB · Drainage", href: "https://glossary.slb.com/terms/d/drainage" },
+  { title: "SLB · Imbibition", href: "https://glossary.slb.com/terms/i/imbibition" },
+  { title: "SLB · Interfacial tension", href: "https://glossary.slb.com/terms/i/interfacial_tension" },
+  { title: "SLB · Contact angle", href: "https://glossary.slb.com/terms/c/contact_angle" },
+  { title: "SLB · Oil-water contact", href: "https://glossary.slb.com/terms/o/oil-water_contact" },
   { title: "SLB · Wettability", href: "https://glossary.slb.com/terms/w/wettability" },
   { title: "SLB · Irreducible water", href: "https://glossary.slb.com/terms/i/irreducible_water" },
   { title: "SLB · Residual oil saturation", href: "https://glossary.slb.com/terms/r/residual_oil_saturation" },
