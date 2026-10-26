@@ -56,8 +56,8 @@ const WORKFLOW = [
 /* ── 04 Petrophysics: how logs are acquired, what each log measures, how they are interpreted ── */
 /** Codex-generated illustrations (docs/codex/TASK-geology-petrophysics-images.md). Placeholder until `src` is set. */
 const PETRO_IMAGES = {
-  toolstring: { id: "ge-log-toolstring", placeholder: "Wireline logging tool string lowered on a cable into a borehole through layered rock — cutaway illustration" } as { id: string; placeholder: string; src?: string; alt?: string },
-  interpretation: { id: "ge-log-interpretation", placeholder: "Well log interpretation display — gamma ray, resistivity and density–neutron tracks beside an interpreted lithology and fluid column" } as { id: string; placeholder: string; src?: string; alt?: string },
+  toolstring: { id: "ge-log-toolstring", placeholder: "Wireline logging tool string lowered on a cable into a borehole through layered rock — cutaway illustration", src: "/images/technology/geology/ge-log-toolstring.webp", alt: "지층을 관통한 시추공에 내려진 와이어라인 검층 장비를 표현한 AI 생성 이미지" } as { id: string; placeholder: string; src?: string; alt?: string },
+  interpretation: { id: "ge-log-interpretation", placeholder: "Well log interpretation display — gamma ray, resistivity and density–neutron tracks beside an interpreted lithology and fluid column", src: "/images/technology/geology/ge-log-interpretation.webp", alt: "감마선·비저항·밀도-중성자 곡선과 해석된 암상·유체 구간을 나란히 보여 주는 검층 해석 화면을 표현한 AI 생성 이미지" } as { id: string; placeholder: string; src?: string; alt?: string },
 };
 
 const ACQUISITION: [string, string, string][] = [
