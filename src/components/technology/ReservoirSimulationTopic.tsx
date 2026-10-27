@@ -7,7 +7,7 @@ import s from "./simulation/Simulation.module.css";
 import { Crumb, SectionHeading, TopicNext, topicStyles as t } from "./TopicParts";
 
 /**
- * Topic 3.2 — Reservoir Simulation. Page structure and layout only: five steps, each with a short explanation
+ * Topic 3.3 — Reservoir Simulation. Page structure and layout only: five steps, each with a short explanation
  * and a conceptual figure (simulation/SimFigures.tsx). Step 03 is interactive (simulation/RunSimulator.tsx:
  * time slider, play / pause / reset, pressure ↔ water saturation) on a conceptual model (conceptModel.ts) —
  * simplified relationships, not a simulator. The hero grid can reuse it later.
