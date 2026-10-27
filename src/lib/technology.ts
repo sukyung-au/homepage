@@ -48,6 +48,7 @@ const TECH_DATA: CategoryInput[] = [
     topics: [
       { id: "re-role", title: "Role of Reservoir Engineering", sub: "From Reservoir Understanding to Development Decisions", ko: "FDP에서 저류공학의 역할", hasPage: true },
       { id: "re-fundamentals", title: "Reservoir Engineering Fundamentals", sub: "Understanding the Reservoir, From Fluids to Recovery.", ko: "저류공학의 기초", hasPage: true },
+      { id: "re-well-test", title: "Pressure & Rate Transient Analysis", sub: "Reading the Reservoir From Pressure and Rate Data", ko: "압력·생산 거동 분석 (PTA·RTA)", hasPage: true },
       { id: "re-simulation", title: "Reservoir Simulation", sub: "Understanding Reservoir Behavior Through Time", ko: "저류층 시뮬레이션", hasPage: true },
     ],
   },

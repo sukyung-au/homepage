@@ -1,0 +1,88 @@
+/* Topic 3.3 — Pressure & Rate Transient Analysis. Page skeleton comes from RoleOfReservoirEngineering.module.css,
+   graph text and axes from fundamentals/Fundamentals.module.css; these are the page's own blocks and chart strokes. */
+
+/* Chart strokes */
+.flowBand{fill:rgba(10,92,219,0.05)}
+.band{fill:rgba(242,154,31,0.12)}
+.rate{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.pressure{fill:none;stroke:var(--ex-blue);stroke-width:2.4;stroke-linecap:round}
+.dp{fill:none;stroke:var(--ex-navy);stroke-width:2;stroke-linecap:round}
+.der{fill:none;stroke:var(--ex-blue);stroke-width:2.6;stroke-linecap:round}
+
+.fig{margin:0}
+.caption{margin-top:10px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.04em;color:var(--ex-faint)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-family:var(--font-editorial);font-size:12px;color:var(--ex-muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.lgDp{width:16px;border-top:2px solid var(--ex-navy)}
+.lgDer{width:16px;border-top:2.6px solid var(--ex-blue)}
+.lgBand{width:16px;height:10px;background:rgba(242,154,31,0.25)}
+
+/* 02 PTA vs RTA */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.card{padding:32px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.cardTag{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--ex-blue)}
+.cardTitle{margin:6px 0 4px;font-family:var(--font-editorial);font-size:26px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
+.cardKo{font-family:var(--font-kr);font-size:14px;color:var(--ex-faint)}
+.rows{margin:24px 0 0;display:flex;flex-direction:column}
+.rows > div{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--ex-line)}
+.rows dt{font-family:var(--font-editorial);font-size:13px;font-weight:600;color:var(--ex-navy)}
+.rows dd{margin:0;font-family:var(--font-kr);font-size:14px;line-height:1.65;color:var(--ex-muted)}
+.inverse{display:grid;grid-template-columns:48px 1fr;gap:20px;align-items:start;margin-top:32px;padding:24px 32px;border-radius:4px;background:var(--ex-tint)}
+.inverseMark{font-family:var(--font-editorial);font-size:28px;line-height:1;color:var(--ex-blue)}
+.inverseTitle{margin:0 0 6px;font-family:var(--font-editorial);font-size:18px;font-weight:400;color:var(--ex-navy)}
+.inverseBody{margin:0;font-family:var(--font-kr);font-size:15px;line-height:1.7;color:var(--ex-muted)}
+
+/* 03 Test types */
+.tests{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.test{display:flex;flex-direction:column;gap:8px;padding-top:24px;border-top:1px solid var(--ex-line-strong)}
+.testPic{padding:16px;margin-bottom:12px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.testTitle{margin:0;font-family:var(--font-editorial);font-size:20px;font-weight:400;color:var(--ex-navy)}
+.testBody{margin:0;font-family:var(--font-kr);font-size:15px;line-height:1.7;color:var(--ex-muted)}
+.semilog{margin-top:40px}
+
+/* 04 Diagnostic explorer */
+.explorer{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 64px;align-items:start}
+.regimeText{display:flex;flex-direction:column;gap:12px;padding-top:8px}
+.regimeText h4 + p{margin-bottom:16px}
+
+/* 05 RTA */
+.rta{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,6fr);gap:40px 64px;align-items:start}
+.methods{margin:0;display:flex;flex-direction:column}
+.methods > div{padding:16px 0;border-top:1px solid var(--ex-line)}
+.methods dt{font-family:var(--font-editorial);font-size:16px;color:var(--ex-navy)}
+.methods dd{margin:4px 0 0;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+.note{margin-top:32px}
+
+/* 06 Type curves · 07 FMB */
+.stem{fill:none;stroke:var(--ex-line-strong);stroke-width:1.4}
+.stemOn{fill:none;stroke:var(--ex-blue);stroke-width:2.6;stroke-linecap:round}
+.integral{fill:none;stroke:var(--ex-navy);stroke-width:1.6;stroke-dasharray:7 5}
+.derivative{fill:none;stroke:var(--ex-amber);stroke-width:2;stroke-dasharray:2 4;stroke-linecap:round}
+.dot{fill:#fff;stroke:var(--ex-navy);stroke-width:1.4}
+.dotMuted{fill:#fff;stroke:var(--ex-line-strong);stroke-width:1.4}
+.fit{fill:none;stroke:var(--ex-blue);stroke-width:2.6;stroke-linecap:round}
+.extrap{fill:none;stroke:var(--ex-blue);stroke-width:2;stroke-dasharray:6 5}
+.intercept{fill:var(--ex-amber);stroke:#fff;stroke-width:2}
+.lgStem{width:16px;border-top:1.4px solid var(--ex-line-strong)}
+.lgIntegral{width:16px;border-top:1.6px dashed var(--ex-navy)}
+.lgDerivative{width:16px;border-top:2px dotted var(--ex-amber)}
+.lgDot{width:9px;height:9px;border-radius:50%;background:#fff;border:1.4px solid var(--ex-navy)}
+.matching{margin-top:40px}
+.matchSteps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+
+/* Sources */
+.sourceList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 32px;margin:0;padding-left:18px;font-family:var(--font-editorial);font-size:14px;line-height:1.6;color:var(--ex-blue)}
+.sourceList a{text-underline-offset:4px;overflow-wrap:anywhere}
+.sourceList a:hover{text-decoration:underline}
+.sources{margin-top:56px}
+
+@media (max-width:1000px){
+  .compare,.explorer,.rta{grid-template-columns:1fr}
+  .tests{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .card{padding:24px}
+  .rows > div{grid-template-columns:1fr;gap:4px}
+  .inverse{grid-template-columns:1fr;gap:8px;padding:20px}
+  .sourceList{grid-template-columns:1fr}
+}
