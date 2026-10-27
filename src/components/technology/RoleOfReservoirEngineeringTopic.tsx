@@ -6,7 +6,6 @@ import { DeviatedWell, FieldSection, Platform, wellPoint, type Camera } from "@/
 import { sceneStyles as ss } from "@/components/site/scene";
 import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
-import { FluidModelSection, FluidsReferences, RelPermSection } from "./ReservoirFluidsSections";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { REVEAL_BOOT } from "./revealBoot";
 import { Crumb, SectionHeading, topicStyles as t } from "./TopicParts";
@@ -19,9 +18,6 @@ import s from "./RoleOfReservoirEngineering.module.css";
  * Scroll motion: elements marked [data-reveal] play a short entrance once when they reach the viewport
  * (RevealScope + the motion rules in RoleOfReservoirEngineering.module.css). `--i` orders items inside a group,
  * `--d` sequences the dynamic-model diagram (in steps; collapsed to 0 when the layout stacks).
- *
- * Sections 04 Fluid Model (PVT) and 05 SCAL were added later from public glossary definitions; they live in
- * ReservoirFluidsSections.tsx with their own sources block at the end of the page.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -51,7 +47,6 @@ const DELIVERABLES: [string, string][] = [
   ["In-Place Volumes & Reserves", "물질수지 분석과 저류층 시뮬레이션을 통한 초기 부존량 및 회수가능량·매장량 추정"],
   ["Data Acquisition Plan", "모델 신뢰도 향상을 위한 추가 자료 확보 및 후속 분석 계획"],
   ["Production Optimization", "생산 운영 중 발생 가능한 문제에 대한 대응, 모니터링 및 최적화 지침"],
-  ["Fluid & Rock–Fluid Models", "PVT 실험에 맞춘 유체 모델, SCAL 자료로 정한 상대투과도·모세관압 곡선과 포화도-높이 관계"],
 ];
 
 /* ── 05 From analysis to decision ── */
@@ -264,15 +259,11 @@ export function RoleOfReservoirEngineeringTopic({ topic, next }: { topic: FlatTo
         </div>
       </section>
 
-      {/* 04 — Fluid model (PVT) · 05 — Rock–fluid properties (SCAL) */}
-      <FluidModelSection num="04" white />
-      <RelPermSection num="05" />
-
-      {/* 06 — Key deliverables */}
+      {/* 04 — Key deliverables */}
       <section className={cx(t.section, t.white)} data-section="deliverables">
         <div className={t.inner}>
           <div className={s.head} data-reveal="up">
-            <SectionHeading num="06">What Reservoir Engineering Delivers</SectionHeading>
+            <SectionHeading num="04">What Reservoir Engineering Delivers</SectionHeading>
             <p className={`${ss.body} ${s.headBody}`}>저류공학 분석은 FDP 수립과 개발 의사결정에 필요한 기술적 결과물을 제공합니다.</p>
           </div>
           <ol className={s.deliverables}>
@@ -289,11 +280,11 @@ export function RoleOfReservoirEngineeringTopic({ topic, next }: { topic: FlatTo
         </div>
       </section>
 
-      {/* 07 — From analysis to decision */}
+      {/* 05 — From analysis to decision */}
       <section className={t.section} data-section="decision">
         <div className={t.inner}>
           <div className={s.head} data-reveal="up">
-            <SectionHeading num="07">From Reservoir Understanding to Field Decisions</SectionHeading>
+            <SectionHeading num="05">From Reservoir Understanding to Field Decisions</SectionHeading>
             <p className={`${ss.body} ${s.headBody}`}>저류공학적 분석 결과는 다양한 개발 대안을 비교하고, 생산성과 경제성 및 불확실성을 고려한 개발 전략 수립에 활용됩니다.</p>
           </div>
           <ol className={s.chain} aria-label="From reservoir understanding to field development decisions" data-reveal="chain">
@@ -321,8 +312,6 @@ export function RoleOfReservoirEngineeringTopic({ topic, next }: { topic: FlatTo
           </div>
         </div>
       </section>
-
-      <FluidsReferences white />
 
       {/* Closing — next topic and a way back to the Journey's FDP */}
       <section className={t.next}>

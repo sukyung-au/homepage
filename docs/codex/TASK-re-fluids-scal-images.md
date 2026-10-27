@@ -1,5 +1,7 @@
 # Codex 작업 지시서 — Technology 3.1 Reservoir Engineering · PVT / SCAL 이미지 생성
 
+> **완료 · 이동됨 (2026-10-27):** 이미지 3장은 생성이 끝났습니다. 해당 내용은 3.2 Reservoir Engineering Fundamentals로 옮겼고, 이미지는 `src/components/technology/fundamentals/LabAdditions.tsx`의 `IMAGES`에서 사용합니다.
+
 ## 목표
 
 Technology › 03 Reservoir Engineering › 3.1 **Role of Reservoir Engineering** 페이지

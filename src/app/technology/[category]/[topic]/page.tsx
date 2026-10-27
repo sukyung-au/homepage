@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/ds/SiteHeader";
 import { TechNav } from "@/components/ds/TechNav";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { FundamentalsTopic } from "@/components/technology/fundamentals/FundamentalsTopic";
 import { PetroleumGenerationTopic } from "@/components/technology/PetroleumGenerationTopic";
 import { RoleOfReservoirEngineeringTopic } from "@/components/technology/RoleOfReservoirEngineeringTopic";
 import { RoleOfGeologyTopic } from "@/components/technology/RoleOfGeologyTopic";
@@ -22,6 +23,7 @@ const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatT
   "gp-fdp-role": RoleOfReservoirGeophysicsTopic,
   "ge-fdp-role": RoleOfGeologyTopic,
   "re-role": RoleOfReservoirEngineeringTopic,
+  "re-fundamentals": FundamentalsTopic,
   "re-simulation": ReservoirSimulationTopic,
 };
 

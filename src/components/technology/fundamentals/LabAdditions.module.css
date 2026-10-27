@@ -1,0 +1,49 @@
+/* Topic 3.2 additions (LabAdditions.tsx): lab photos, compact definition lists and the saturation–height chart.
+   Typography, figures, details and graph basics come from Fundamentals.module.css. */
+
+.block{margin-top:96px;padding-top:56px;border-top:1px solid var(--ex-line)}
+.photo{position:relative;width:100%;border-radius:4px;overflow:hidden}
+
+.list{margin:0;display:flex;flex-direction:column;gap:14px}
+.list > div{display:flex;flex-direction:column;gap:2px}
+.list dt{font-family:var(--font-editorial);font-size:16px;color:var(--ex-navy)}
+.list dd{margin:0;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+
+.models{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px}
+.h4{margin:0 0 8px;font-family:var(--font-editorial);font-size:16px;font-weight:600;color:var(--ex-navy)}
+.bullets{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-family:var(--font-kr);font-size:14px;line-height:1.65;color:var(--ex-muted)}
+.bullets li{position:relative;padding-left:14px}
+.bullets li::before{content:"";position:absolute;left:0;top:0.75em;width:6px;height:1px;background:var(--ex-line-strong)}
+
+.formula{margin:0;padding:12px 16px;border-radius:4px;background:#fff;border:1px solid var(--ex-line);font-family:var(--font-editorial);font-size:18px;color:var(--ex-navy)}
+.formula sub{font-size:0.7em}
+.detailsRow{display:grid;grid-template-columns:1fr 1fr;gap:0 80px;margin-top:48px}
+.detailsRow .list{padding-top:4px}
+
+.scalHead{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px 72px;align-items:end;margin-bottom:32px}
+.photos{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:24px 32px;align-items:end}
+
+/* Saturation–height chart */
+.tz{fill:rgba(242,154,31,0.12)}
+.level{stroke:var(--ex-navy);stroke-width:1;stroke-dasharray:4 4}
+.drain,.imb,.drainStep{fill:none;stroke-width:2.4;stroke-linecap:round}
+.drain,.drainStep{stroke:var(--ex-blue)}
+.drainStep{stroke-width:1.6;stroke-dasharray:2 4}
+.imb{stroke:var(--ex-cyan);stroke-dasharray:6 4}
+.pdPt{fill:var(--ex-blue);stroke:#fff;stroke-width:1.5}
+.lgDrain{width:16px;border-top:2.4px solid var(--ex-blue)}
+.lgImb{width:16px;border-top:2.4px dashed var(--ex-cyan)}
+.lgTz{width:16px;height:10px;background:rgba(242,154,31,0.25)}
+.lgPd{width:9px;height:9px;border-radius:50%;background:var(--ex-blue)}
+
+/* Sources */
+.sources{margin-top:72px}
+.sourceList{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 32px;margin:0;padding-left:18px;font-family:var(--font-editorial);font-size:14px;line-height:1.6;color:var(--ex-blue)}
+.sourceList a{text-underline-offset:4px;overflow-wrap:anywhere}
+.sourceList a:hover{text-decoration:underline}
+
+@media (max-width:900px){
+  .models,.detailsRow,.scalHead,.photos{grid-template-columns:1fr}
+  .sourceList{grid-template-columns:1fr 1fr}
+}
+@media (max-width:560px){.sourceList{grid-template-columns:1fr}}
