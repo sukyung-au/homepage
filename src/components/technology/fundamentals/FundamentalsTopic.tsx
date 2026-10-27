@@ -9,6 +9,7 @@ import { Details } from "./Details";
 import { Drives } from "./Drives";
 import { DrawdownExplorer, DrawdownFormula, Permeability, Skin } from "./Flow";
 import { CapillaryTubes, PcFormula, PoreDiagram, RelPerm, SatFormula } from "./Multiphase";
+import { AddedSources, PvtToFluidModel, SaturationHeight, ScalLab } from "./LabAdditions";
 import { FluidTypes, SingleComponent } from "./PhaseBehavior";
 import { PvtLab } from "./PvtLab";
 import { EorClassification } from "./Recovery";
@@ -22,6 +23,7 @@ import s from "./Fundamentals.module.css";
  * One main visual per section; supporting tables, procedures and extra formulas sit in collapsed <Details>,
  * while the definitions needed to read the main visual stay visible. Diagrams are conceptual (no measured data);
  * the drawdown explorer applies the oilfield-unit pseudo-steady-state radial-flow equation exactly.
+ * LabAdditions.tsx adds sampling → fluid model (03), saturation–height and SCAL (05), moved from topic 3.1.
  */
 
 const v = (o: Record<string, number>) => o as CSSProperties;
@@ -116,6 +118,7 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
       <SectionShell id="pvt" num="03" white title="Measuring the Properties of Reservoir Fluids."
         summary="PVT 보고서는 저류층 유체 시료로 수행한 실험 결과를 정리한 자료입니다. 실험을 하나씩 선택해 목적과 측정 항목을 확인하세요.">
         <div data-reveal="up"><PvtLab /></div>
+        <div data-reveal="up"><PvtToFluidModel /></div>
       </SectionShell>
 
       {/* 04 — centred equation, the two concepts it depends on, then the explorer */}
@@ -184,11 +187,13 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
             </Details>
           </div>
         </div>
+        <div data-reveal="up"><SaturationHeight /></div>
+        <div data-reveal="up"><ScalLab /></div>
       </SectionShell>
 
       {/* 06 — wide cross-section */}
       <SectionShell id="drives" num="06" title="What Drives Oil Toward the Well?"
-        summary="저류층의 자연 에너지가 원유를 생산정으로 밀어내는 방식을 구동 메커니즘이라고 합니다. 교육자료의 네 가지 메커니즘을 비교하세요.">
+        summary="저류층의 자연 에너지가 원유를 생산정으로 밀어내는 방식을 구동 메커니즘이라고 합니다. 교육자료의 네 가지 메커니즘에 암석·유체 팽창, 중력 배유, 압밀 구동을 더해 비교하세요.">
         <div data-reveal="up"><Drives /></div>
       </SectionShell>
 
@@ -221,6 +226,10 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
           <p>Reservoir properties define how fluids behave. Reservoir engineering turns that understanding into production decisions.</p>
         </blockquote>
       </SectionShell>
+
+      <section className={t.section} data-section="sources">
+        <div className={t.inner}><AddedSources /></div>
+      </section>
 
       <TopicNext topic={topic} prev={prev} next={next} />
     </RevealScope>

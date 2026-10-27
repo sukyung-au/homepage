@@ -4,6 +4,12 @@
 경로: `/technology/engineering/re-role`
 코드: `src/components/technology/ReservoirFluidsSections.tsx`
 
+> **2026-10-27 이동:** 이 문서의 내용은 3.1 Role of Reservoir Engineering에서 **3.2 Reservoir Engineering Fundamentals**로 옮겼습니다(`src/components/technology/fundamentals/LabAdditions.tsx`). 3.2에는 교육자료 기반의 PVT 실험(03)과 다상 유동(05)이 이미 있었습니다. 그래서 겹치지 않는 부분만 해당 구간에 보강했습니다.
+> - **03 PVT 뒤:** 시료 채취, PVT 보고서 → 유체 모델(블랙오일·조성 모델), 핵심 물성
+> - **05 다상 유동 뒤:** 포화도-높이(FWL·OWC·전이대) 그래프와 활용, SCAL 측정 항목·방법과 실험실 사진
+>
+> 3.2에 이미 있는 내용(실험 5종 상세, 상평형도, 상대투과도 그래프, Young–Laplace 식)은 옮기지 않았습니다. 3.1은 PVT·SCAL 추가 전의 교육자료 기반 구성으로 되돌렸습니다. 아래는 처음 작성할 때의 기록입니다.
+
 ## 배경
 
 3.1 Role of Reservoir Engineering의 기존 본문(01~03, 결과물, 의사결정)은 교육 자료 목차를 따릅니다. 이번 두 구간은 사용자 요청("Fluid Model 내용(PVT 분석)과 Relative Permeability 내용(SCLA)")에 따라 추가했습니다. "SCLA"는 특수 코어 분석(SCAL, Special Core Analysis)으로 보고 작성했습니다.

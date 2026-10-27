@@ -5,9 +5,13 @@ import { Details } from "./Details";
 import { ReservoirSection, type SectionKind } from "./ReservoirSection";
 import s from "./Fundamentals.module.css";
 
-/** 06 — Reservoir drive mechanisms (the four covered by the course material). Pressure trends are qualitative. */
+/**
+ * 06 — Reservoir drive mechanisms: the four from the course material plus rock & fluid expansion, gravity drainage
+ * and compaction (SLB Oilfield Review "Defining Reservoir Drive Mechanisms", SLB glossary, SPE PetroWiki).
+ * Pressure trends are qualitative and drawn only for the four course mechanisms.
+ */
 
-type DriveId = "solution" | "gas-cap" | "water" | "combination";
+type DriveId = "expansion" | "solution" | "gas-cap" | "water" | "gravity" | "compaction" | "combination";
 
 interface Drive {
   id: DriveId;
@@ -19,6 +23,13 @@ interface Drive {
 }
 
 const DRIVES: Drive[] = [
+  {
+    id: "expansion", label: "Rock & Fluid Expansion",
+    energy: "기포점보다 높은 압력(미포화 저류층)에서 일어나는 원유·지층수·암석 입자의 팽창과 공극 부피 감소",
+    principle: "미포화 저류층에서는 압력이 낮아져도 원유에서 가스가 분리되지 않습니다. 대신 원유와 지층수, 암석 입자가 팽창하고 공극 부피가 줄어들며, 그만큼의 원유가 공극에서 밀려나 생산정으로 흐릅니다.",
+    pressure: "원유와 암석의 압축률이 작아 압력이 비교적 빠르게 감소합니다. 압력이 기포점 아래로 내려가면 용해가스 구동이 시작됩니다.",
+    production: "기포점에 도달하기 전에는 가스가 원유에 녹은 채로 생산됩니다. 다른 구동 메커니즘에 비해 회수 효율이 가장 낮은 편입니다.",
+  },
   {
     id: "solution", label: "Solution Gas Drive",
     energy: "원유와, 기포점 아래에서 원유로부터 분리되는 용해가스의 팽창",
@@ -41,6 +52,20 @@ const DRIVES: Drive[] = [
     production: "GOR은 비교적 낮게 유지되고, 시간이 지나며 구조 하부 유정부터 water cut이 증가합니다. 일반적으로 회수율이 높은 편입니다.",
   },
   {
+    id: "gravity", label: "Gravity Drainage",
+    energy: "유체 간 밀도 차이 — 중력에 의해 가스는 위로, 원유는 아래로 분리",
+    principle: "분리된 가스는 구조 상부의 가스캡으로 올라가고, 원유는 아래로 흘러내려 생산정으로 배출됩니다. 그래서 생산정을 원유층의 가능한 낮은 위치에 완결하는 것이 유리합니다.",
+    pressure: "중력은 저류층에 항상 작용하지만 유체가 분리되어 평형을 이룰 시간이 필요합니다. 천천히 생산할수록 최종 회수율이 크게 향상될 수 있습니다.",
+    production: "1차 회수 메커니즘 가운데 가장 드문 편입니다. 두께가 두꺼운 가스 컨덴세이트 저류층, 얕고 투과도가 높으며 경사가 급한 저류층에서 효과가 크고, 수직 투과도·경사·상대투과도·생산량이 효율을 좌우합니다.",
+  },
+  {
+    id: "compaction", label: "Compaction Drive",
+    energy: "유체 생산으로 공극압이 낮아질 때 수축하는 암석 골격 — 공극 부피 감소",
+    principle: "상부 지층의 하중을 함께 지탱하던 공극압이 낮아지면 암석 골격이 압밀되어 공극 부피가 줄어듭니다. 줄어든 공극 부피만큼 유체가 밀려나 생산에 에너지를 보탭니다.",
+    pressure: "공극 압축률이 매우 큰 저류층에서 두드러집니다. 압력이 기포점 아래로 내려가면 용해가스 구동이 함께 작용합니다.",
+    production: "드문 메커니즘이지만, 압밀이 일어나면 그렇지 않은 저류층보다 회수율이 높아집니다. 대개 용해가스·물·가스캡 구동과 함께 나타나며, 과도한 압밀은 생산상의 문제를 일으키기도 합니다.",
+  },
+  {
     id: "combination", label: "Combination Drive",
     energy: "두 가지 이상의 구동 에너지 — 예: 가스캡 팽창 + 대수층 물 유입 + 용해가스 팽창",
     principle: "여러 메커니즘이 동시에 작용합니다. 각 에너지의 상대적 크기와 생산 방식에 따라 저류층 거동이 달라집니다.",
@@ -50,11 +75,13 @@ const DRIVES: Drive[] = [
 ];
 
 /** Qualitative pressure-vs-time trends; the selected mechanism is highlighted */
-const TRENDS: Record<Exclude<DriveId, "combination">, string> = {
+const TRENDS: Partial<Record<DriveId, string>> = {
   solution: "M40,24 C90,80 130,118 200,140 S300,160 340,164",
   "gas-cap": "M40,24 C100,52 170,80 240,98 S320,116 340,120",
   water: "M40,24 C110,34 180,44 250,52 S320,60 340,62",
 };
+
+const HAS_TREND = (id: DriveId) => id in TRENDS || id === "combination";
 
 function PressureTrend({ id }: { id: DriveId }) {
   return (
@@ -75,7 +102,7 @@ function PressureTrend({ id }: { id: DriveId }) {
 }
 
 export function Drives() {
-  const [id, setId] = useState<DriveId>("solution");
+  const [id, setId] = useState<DriveId>("expansion");
   const d = DRIVES.find((x) => x.id === id)!;
   return (
     <div>
@@ -97,15 +124,17 @@ export function Drives() {
         </div>
         <div className={s.driveDetails}>
         <Details summary="Pressure behavior & production characteristics">
-          <div className={s.driveMore}>
+          <div className={HAS_TREND(id) ? s.driveMore : undefined}>
             <dl className={s.defs}>
               <div><dt>Typical Pressure Behavior</dt><dd>{d.pressure}</dd></div>
               <div><dt>Production Characteristics</dt><dd>{d.production}</dd></div>
             </dl>
-            <figure className={`${s.figure} ${s.trendFig}`}>
-              <PressureTrend id={id} />
-              <figcaption className={s.caption}>Qualitative trend · no values</figcaption>
-            </figure>
+            {HAS_TREND(id) && (
+              <figure className={`${s.figure} ${s.trendFig}`}>
+                <PressureTrend id={id} />
+                <figcaption className={s.caption}>Qualitative trend · no values</figcaption>
+              </figure>
+            )}
           </div>
         </Details>
         </div>
