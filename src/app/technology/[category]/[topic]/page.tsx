@@ -10,6 +10,7 @@ import { RoleOfReservoirEngineeringTopic } from "@/components/technology/RoleOfR
 import { RoleOfGeologyTopic } from "@/components/technology/RoleOfGeologyTopic";
 import { RoleOfReservoirGeophysicsTopic } from "@/components/technology/RoleOfReservoirGeophysicsTopic";
 import { ReservoirSimulationTopic } from "@/components/technology/ReservoirSimulationTopic";
+import { WellTestTopic } from "@/components/technology/welltest/WellTestTopic";
 import { SITE_LINKS } from "@/lib/site";
 import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
 
@@ -24,6 +25,7 @@ const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatT
   "ge-fdp-role": RoleOfGeologyTopic,
   "re-role": RoleOfReservoirEngineeringTopic,
   "re-fundamentals": FundamentalsTopic,
+  "re-well-test": WellTestTopic,
   "re-simulation": ReservoirSimulationTopic,
 };
 
