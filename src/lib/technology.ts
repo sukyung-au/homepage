@@ -50,6 +50,7 @@ const TECH_DATA: CategoryInput[] = [
       { id: "re-fundamentals", title: "Reservoir Engineering Fundamentals", sub: "Understanding the Reservoir, From Fluids to Recovery.", ko: "저류공학의 기초", hasPage: true },
       { id: "re-well-test", title: "Pressure & Rate Transient Analysis", sub: "Reading the Reservoir From Pressure and Rate Data", ko: "압력·생산 거동 분석 (PTA·RTA)", hasPage: true },
       { id: "re-simulation", title: "Reservoir Simulation", sub: "Understanding Reservoir Behavior Through Time", ko: "저류층 시뮬레이션", hasPage: true },
+      { id: "re-reserves", title: "Reserves Estimation", sub: "How Much Can Be Recovered, and How Sure We Are", ko: "매장량 평가", hasPage: true },
     ],
   },
   {

@@ -1,0 +1,126 @@
+/* Topic 3.5 — Reserves Estimation. Page skeleton comes from RoleOfReservoirEngineering.module.css, graph text
+   and axes from fundamentals/Fundamentals.module.css; these are the page's own blocks and figure strokes. */
+
+/* Figure strokes */
+.funnel{fill:rgba(10,92,219,0.1);stroke:var(--ex-blue);stroke-width:1}
+.bar{fill:var(--ex-navy)}
+.barKey{fill:var(--ex-blue)}
+.barSoft{fill:var(--ex-line)}
+
+.cellDim{fill:#F6F8FB;stroke:var(--ex-line);stroke-width:1}
+.cellProd{fill:rgba(10,92,219,0.08);stroke:var(--ex-line-strong);stroke-width:1}
+.cellReserve{fill:rgba(10,92,219,0.18);stroke:var(--ex-blue);stroke-width:1.2}
+.cellContingent{fill:rgba(10,92,219,0.07);stroke:var(--ex-line-strong);stroke-width:1}
+.cellProspect{fill:rgba(242,154,31,0.14);stroke:var(--ex-amber);stroke-width:1}
+.arrow{fill:none;stroke:var(--ex-faint);stroke-width:1.2}
+.arrowHead{fill:var(--ex-faint)}
+
+.slabTop{fill:rgba(242,154,31,0.22);stroke:var(--ex-navy);stroke-width:1.2}
+.slabFront{fill:rgba(242,154,31,0.38);stroke:var(--ex-navy);stroke-width:1.2}
+.slabSide{fill:rgba(242,154,31,0.3);stroke:var(--ex-navy);stroke-width:1.2}
+.dim{fill:none;stroke:var(--ex-navy);stroke-width:1.2}
+.lensLine{fill:none;stroke:var(--ex-faint);stroke-width:1;stroke-dasharray:3 4}
+.lens{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.oil{fill:rgba(242,154,31,0.45)}
+.water{fill:rgba(10,92,219,0.45)}
+.grain{fill:#EEF1F5;stroke:var(--ex-line-strong);stroke-width:1}
+
+.tank{fill:#fff;stroke:var(--ex-navy);stroke-width:2}
+.gasCap{fill:rgba(18,164,217,0.12)}
+.oilFill{fill:rgba(242,154,31,0.32)}
+.waterFill{fill:rgba(10,92,219,0.22)}
+.flowOut{fill:none;stroke:var(--ex-blue);stroke-width:2.4}
+.flowIn{fill:none;stroke:var(--ex-navy);stroke-width:2.4}
+.headBlue{fill:var(--ex-blue)}
+.headNavy{fill:var(--ex-navy)}
+.expand{fill:none;stroke:var(--ex-amber);stroke-width:2;stroke-linecap:round}
+
+.fitLine{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.extrap{fill:none;stroke:var(--ex-blue);stroke-width:2;stroke-dasharray:6 5}
+.point{fill:#fff;stroke:var(--ex-navy);stroke-width:1.6}
+.pointAmber{fill:#fff;stroke:var(--ex-amber);stroke-width:1.6}
+.waterDrive{fill:none;stroke:var(--ex-amber);stroke-width:1.4;stroke-dasharray:3 4}
+.amberText{font-family:var(--font-editorial);font-size:11px;font-weight:600;fill:#C46F0C}
+.target{fill:var(--ex-blue);stroke:#fff;stroke-width:2}
+
+.forecastBand{fill:rgba(10,92,219,0.04)}
+.dcaFit{fill:none;stroke:var(--ex-navy);stroke-width:2}
+.dcaExp{fill:none;stroke:var(--ex-navy);stroke-width:2;stroke-dasharray:7 5}
+.dcaHyp{fill:none;stroke:var(--ex-blue);stroke-width:2.6}
+.dcaHar{fill:none;stroke:var(--ex-amber);stroke-width:2;stroke-dasharray:2 4;stroke-linecap:round}
+.limit{fill:none;stroke:var(--ex-amber);stroke-width:1.4}
+
+.cell0{fill:rgba(10,92,219,0.06);stroke:#fff;stroke-width:1}
+.cell1{fill:rgba(10,92,219,0.16);stroke:#fff;stroke-width:1}
+.cell2{fill:rgba(10,92,219,0.3);stroke:#fff;stroke-width:1}
+.cell3{fill:rgba(10,92,219,0.48);stroke:#fff;stroke-width:1}
+.wellLine{stroke:var(--ex-navy);stroke-width:2.4}
+.wellDot{fill:var(--ex-navy)}
+.before{fill:none;stroke:var(--ex-line-strong);stroke-width:2;stroke-dasharray:6 5}
+.after{fill:none;stroke:var(--ex-blue);stroke-width:2.4}
+.fanHigh,.fanLow{fill:none;stroke:var(--ex-navy);stroke-width:1.6;stroke-dasharray:5 4}
+.fanBest{fill:none;stroke:var(--ex-blue);stroke-width:2.4}
+
+/* Layout */
+.fig{margin:0}
+.figNarrow{max-width:880px;margin:0 auto}
+.caption{margin-top:10px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.04em;color:var(--ex-faint)}
+.split{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 64px;align-items:center}
+.splitRev{grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
+.text{display:flex;flex-direction:column;gap:16px}
+
+.categories{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.categories li{display:grid;grid-template-columns:120px 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--ex-line)}
+.catKey{font-family:var(--font-editorial);font-size:15px;color:var(--ex-navy)}
+.catBody{font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+.criteria{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.criteria span{font-family:var(--font-editorial);font-size:13px;font-weight:600;color:var(--ex-blue);padding:4px 12px;border-radius:999px;background:var(--ex-tint)}
+
+.formula{margin:0;padding:22px 26px;border-radius:4px;background:var(--ex-navy);color:#fff;font-family:var(--font-editorial);font-size:20px;line-height:1.5;letter-spacing:0.01em;overflow-x:auto}
+.formula small{display:block;margin-top:6px;font-size:13px;color:rgba(255,255,255,0.7)}
+.inputs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.inputs li{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.sym{font-family:var(--font-editorial);font-size:18px;color:var(--ex-navy)}
+.from{font-family:var(--font-kr);font-size:13px;line-height:1.6;color:var(--ex-muted)}
+.from a{color:var(--ex-blue);text-underline-offset:3px}
+
+.pair{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px 56px;align-items:start}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-family:var(--font-editorial);font-size:12px;color:var(--ex-muted)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.lg{width:22px;height:0;border-top-width:2px}
+.lgExp{border-top:2px dashed var(--ex-navy)}
+.lgHyp{border-top:2.6px solid var(--ex-blue)}
+.lgHar{border-top:2px dotted var(--ex-amber)}
+
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.steps > li{position:relative;display:flex;flex-direction:column;gap:8px;padding:20px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.steps > li:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);font-family:var(--font-editorial);font-size:14px;color:var(--ex-faint)}
+.stepNum{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;color:var(--ex-faint)}
+.stepTitle{margin:0;font-family:var(--font-editorial);font-size:19px;font-weight:400;color:var(--ex-navy)}
+.stepBody{margin:0;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+
+.table{border-top:1px solid var(--ex-navy);overflow-x:auto}
+.tRow{display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(4,minmax(0,2fr));gap:20px;padding:16px 0;border-bottom:1px solid var(--ex-line);font-family:var(--font-kr);font-size:14px;line-height:1.65;color:var(--ex-muted)}
+.tHead{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.tName{font-family:var(--font-editorial);font-size:17px;color:var(--ex-navy)}
+.cross{margin-top:40px;padding:24px 32px;border-radius:4px;background:var(--ex-tint);font-family:var(--font-kr);font-size:15px;line-height:1.7;color:var(--ex-muted)}
+.cross b{font-family:var(--font-editorial);font-weight:600;color:var(--ex-navy)}
+.more{margin-top:40px}
+.sourceList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 32px;margin:0;padding-left:18px;font-family:var(--font-editorial);font-size:14px;line-height:1.6;color:var(--ex-blue)}
+.sourceList a{text-underline-offset:4px;overflow-wrap:anywhere}
+.sourceList a:hover{text-decoration:underline}
+
+@media (max-width:1099px){
+  .split,.splitRev,.pair{grid-template-columns:1fr}
+  .tRow{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tRow > :first-child{grid-column:1 / -1}
+  .tHead{display:none}
+  .tRow [data-k]::before{content:attr(data-k);display:block;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+}
+@media (max-width:640px){
+  .steps,.inputs,.sourceList{grid-template-columns:1fr}
+  .steps > li::after{display:none}
+  .tRow{grid-template-columns:1fr}
+  .categories li{grid-template-columns:1fr;gap:4px}
+  .formula{font-size:16px;padding:18px}
+}
