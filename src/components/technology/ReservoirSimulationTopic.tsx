@@ -3,6 +3,7 @@ import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
 import { RunSimulator } from "./simulation/RunSimulator";
 import { ForecastCases, FluidCurves, HeroModel, HistoryCases, StaticLayers } from "./simulation/SimFigures";
+import { SimulatorSections } from "./simulation/SimulatorSections";
 import s from "./simulation/Simulation.module.css";
 import { Crumb, SectionHeading, TopicNext, topicStyles as t } from "./TopicParts";
 
@@ -11,7 +12,11 @@ import { Crumb, SectionHeading, TopicNext, topicStyles as t } from "./TopicParts
  * and a conceptual figure (simulation/SimFigures.tsx). Step 03 is interactive (simulation/RunSimulator.tsx:
  * time slider, play / pause / reset, pressure ↔ water saturation) on a conceptual model (conceptModel.ts) —
  * simplified relationships, not a simulator. The hero grid can reuse it later.
+ * Sections 06–08 (simulation/SimulatorSections.tsx): principles, commercial simulators, open-source / Python simulators.
  */
+
+/** Hero links to the sections after the five workflow steps */
+const MORE: [string, string][] = [["principles", "Inside the Simulator"], ["commercial", "Commercial Simulators"], ["open-source", "Open Source & Python"]];
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
@@ -111,6 +116,9 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
               {STEPS.map((st, i) => (
                 <li key={st.id}><a href={`#${st.id}`}><span>{pad(i)}</span>{st.title}</a></li>
               ))}
+              {MORE.map(([id, title], i) => (
+                <li key={id}><a href={`#${id}`}><span>{pad(STEPS.length + i)}</span>{title}</a></li>
+              ))}
             </ol>
             <div className={t.meta}>
               <span>Topic {topic.num} of {cat.topics.length}</span>
@@ -168,6 +176,8 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
           </div>
         </section>
       ))}
+
+      <SimulatorSections />
 
       <TopicNext topic={topic} prev={prev} next={next} />
     </>

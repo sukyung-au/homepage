@@ -1,0 +1,81 @@
+/* Topic 3.4 sections 06–08 (SimulatorSections.tsx). Same editorial system as Simulation.module.css. */
+
+.anchor{scroll-margin-top:16px}
+.head{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:0 64px;align-items:end;margin-bottom:56px}
+.label{margin:-28px 0 0;font-family:var(--font-editorial);font-size:13px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-blue)}
+.headBody{margin:0 0 6px;max-width:520px}
+
+.num,.loopNum{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;font-variant-numeric:tabular-nums;color:var(--ex-faint)}
+.cardTitle{margin:8px 0 0;font-family:var(--font-editorial);font-size:20px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
+.ko{font-family:var(--font-kr);font-size:13px;color:var(--ex-faint)}
+.cardBody{margin:10px 0 0;font-family:var(--font-kr);font-size:15px;line-height:1.7;color:var(--ex-muted)}
+.subTitle{margin:0 0 4px;font-family:var(--font-editorial);font-size:22px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
+
+/* 06 principles */
+.pillars{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px}
+.pillars > li{padding-top:20px;border-top:1px solid var(--ex-navy)}
+.duo{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:40px 64px;align-items:center;margin-top:80px}
+.fig{margin:0}
+.svg{display:block;width:100%;height:auto;overflow:visible}
+.cellHigh{fill:rgba(10,92,219,0.16);stroke:var(--ex-navy);stroke-width:1}
+.cellLow{fill:rgba(10,92,219,0.05);stroke:var(--ex-navy);stroke-width:1}
+.flux{fill:none;stroke:var(--ex-blue);stroke-width:3}
+.fluxHead{fill:var(--ex-blue)}
+.well{stroke:var(--ex-navy);stroke-width:2.4}
+.wellDot{fill:var(--ex-navy)}
+.halo{paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.tick{stroke:var(--ex-navy);stroke-width:1}
+.caption{margin-top:10px;font-family:var(--font-editorial);font-size:11px;letter-spacing:0.04em;color:var(--ex-faint)}
+
+.loopBlock{margin-top:80px}
+.loop,.roleList{list-style:none;margin:20px 0 0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.roleList{grid-template-columns:repeat(4,minmax(0,1fr))}
+.loop > li,.roleList > li{position:relative;display:flex;flex-direction:column;gap:6px;padding:18px 18px 20px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.loop > li:not(:last-child)::after{content:"→";position:absolute;right:-12px;top:50%;transform:translate(50%,-50%);font-family:var(--font-editorial);font-size:14px;color:var(--ex-faint)}
+.loop strong,.roleList strong{font-family:var(--font-editorial);font-size:16px;font-weight:600;color:var(--ex-navy)}
+.loop span:last-child,.roleList span:last-child{font-family:var(--font-kr);font-size:13px;line-height:1.6;color:var(--ex-muted)}
+.loop > li.loopKey{border-color:var(--ex-blue);box-shadow:inset 0 3px 0 var(--ex-blue)}
+.loopNote{margin:14px 0 0;font-family:var(--font-kr);font-size:14px;color:var(--ex-blue)}
+.code{margin:28px 0 0;padding:24px 28px;border-radius:4px;background:var(--ex-navy);color:#E6EDF7;overflow-x:auto;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;line-height:1.7}
+
+.models{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:64px;padding-top:32px;border-top:1px solid var(--ex-line)}
+.more{margin-top:48px}
+
+/* 07 commercial */
+.vendors{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.vendor,.open{display:flex;flex-direction:column;padding:28px;border-radius:4px;background:var(--ex-bg, #F6F8FB);border:1px solid var(--ex-line)}
+.vendorName{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.product{margin:6px 0 0;font-family:var(--font-editorial);font-size:26px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
+.tags{margin-top:8px;font-family:var(--font-editorial);font-size:13px;color:var(--ex-blue)}
+.link{margin-top:auto;padding-top:16px;align-self:flex-start;font-family:var(--font-editorial);font-size:13px;color:var(--ex-blue);text-underline-offset:4px}
+.link:hover{text-decoration:underline}
+.disclaimer{margin:28px 0 0;font-family:var(--font-kr);font-size:13px;line-height:1.7;color:var(--ex-faint)}
+
+/* 08 open source */
+.opens{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.open{background:#fff}
+.openTop{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:10px}
+.openTop .product{margin:0}
+.lang{font-family:var(--font-editorial);font-size:12px;font-weight:600;color:var(--ex-blue);padding:3px 10px;border-radius:999px;background:var(--ex-tint)}
+.points{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;font-family:var(--font-kr);font-size:14px;line-height:1.6;color:var(--ex-muted)}
+.points li{position:relative;padding-left:14px}
+.points li::before{content:"";position:absolute;left:0;top:0.75em;width:6px;height:1px;background:var(--ex-line-strong)}
+.install{display:block;margin-top:18px;padding:10px 14px;border-radius:4px;background:var(--ex-navy);color:#E6EDF7;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;overflow-x:auto;white-space:nowrap}
+.roles{margin-top:72px}
+
+.sourceList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 32px;margin:0;padding-left:18px;font-family:var(--font-editorial);font-size:14px;line-height:1.6;color:var(--ex-blue)}
+.sourceList a{text-underline-offset:4px;overflow-wrap:anywhere}
+.sourceList a:hover{text-decoration:underline}
+
+@media (max-width:1099px){
+  .head,.duo{grid-template-columns:1fr}
+  .headBody{margin-top:20px}
+  .vendors,.opens{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .loop{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .loop > li::after{display:none}
+  .roleList{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .pillars,.models,.vendors,.opens,.loop,.roleList,.sourceList{grid-template-columns:1fr}
+  .code{padding:18px;font-size:12px}
+}
