@@ -10,7 +10,8 @@ import g from "./GenerativeAi.module.css";
 /**
  * AI Technology topic 01 — generative AI during the internship. The definition follows the sources in SOURCES;
  * tools and cases are only what this project's own records show (repository history, docs/codex task files,
- * public/images README files). Add other tools or cases only when the user supplies them.
+ * public/images README files), plus the literature-research tools the user reported using outside this project
+ * (NotebookLM, Perplexity). Add other tools or cases only when the user supplies them.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -28,13 +29,21 @@ const LOOP: [string, string][] = [
 ];
 
 /* ── 02 Tools ── */
-const TOOLS: { name: string; maker: string; kind: string; uses: string[] }[] = [
-  { name: "Claude Code", maker: "Anthropic", kind: "AI 코딩 도구 (언어 모델)", uses: ["웹사이트 코드 작성 · 수정", "공개 기술 자료 검색과 출처 확인", "이미지 작업 지시서 작성", "Notion에 발표 구성안 정리"] },
-  { name: "Codex", maker: "OpenAI", kind: "AI 코딩 도구 · 내장 이미지 생성", uses: ["작업 지시서를 받아 설명용 이미지 생성", "생성한 이미지를 웹용 크기·형식으로 변환해 페이지에 연결"] },
+const TOOLS: { name: string; maker: string; scope: string; kind: string; uses: string[] }[] = [
+  { name: "Claude Code", maker: "Anthropic", scope: "This website", kind: "AI 코딩 도구 (언어 모델)", uses: ["웹사이트 코드 작성 · 수정", "공개 기술 자료 검색과 출처 확인", "이미지 작업 지시서 작성", "Notion에 발표 구성안 정리"] },
+  { name: "Codex", maker: "OpenAI", scope: "This website", kind: "AI 코딩 도구 · 내장 이미지 생성", uses: ["작업 지시서를 받아 설명용 이미지 생성", "생성한 이미지를 웹용 크기·형식으로 변환해 페이지에 연결"] },
+  { name: "Perplexity", maker: "Perplexity AI", scope: "Literature research", kind: "AI 검색 엔진", uses: ["해외 논문과 기술 자료 검색", "답변마다 붙는 출처 링크로 원문 찾아가기"] },
+  { name: "NotebookLM", maker: "Google", scope: "Literature research", kind: "자료 기반 AI 리서치 노트", uses: ["찾은 논문 PDF를 올려 핵심 내용 요약", "올린 자료 안에서 질문하고, 답의 근거가 된 부분 확인"] },
+];
+const RESEARCH: [string, string, string][] = [
+  ["Search", "Perplexity", "주제를 질문해 관련 해외 논문과 자료를 찾음"],
+  ["Summarize", "NotebookLM", "논문 PDF를 올려 요약하고 궁금한 점을 질문"],
+  ["Verify", "Original paper", "요약에서 인용된 부분을 원문에서 직접 확인"],
 ];
 
 /* ── 03 Use cases ── */
 const CASES: { title: string; body: string; href?: string; link?: string }[] = [
+  { title: "Literature Search & Summary", body: "Perplexity로 해외 논문과 기술 자료를 찾고, NotebookLM에 논문 PDF를 올려 핵심을 요약·정리했습니다. 두 도구 모두 답에 출처를 달아 주어 원문을 바로 확인할 수 있었습니다." },
   { title: "Researching Technical Material", body: "매장량 분류(PRMS), 감퇴곡선, 유형곡선처럼 공개된 기술 자료를 찾아 핵심을 한국어로 정리하고, 각 페이지 끝에 출처 목록을 남겼습니다.", href: "/technology/reserves/rs-estimation", link: "04 Reserves Estimation" },
   { title: "Conceptual Diagrams", body: "그래프와 모식도를 코드(SVG)로 그렸습니다. 특정 유전의 값처럼 보이지 않도록 축의 수치를 넣지 않은 개념도로 만들었습니다.", href: "/technology/engineering/re-well-test", link: "3.3 PTA · RTA" },
   { title: "Explanatory Images", body: "실험실 장비, 탄성파 탐사, 물리검층처럼 사진이 필요한 곳에는 가상의 장면을 AI로 생성했습니다. 이 사이트의 AI 생성 이미지는 9장입니다.", href: "/technology/geophysics/gp-fdp-role", link: "1.1 Geophysics" },
@@ -58,6 +67,8 @@ const LIMITS = ["이미지에 글자처럼 보이는 무늬나 물리적으로 �
 const HUMAN = ["기술 내용과 수치가 맞는지", "출처가 실제로 그 내용을 말하는지", "공개 사이트에 올려도 되는 자료인지"];
 
 const SOURCES: [string, string][] = [
+  ["Google — NotebookLM Help", "https://support.google.com/notebooklm/answer/16164461"],
+  ["Perplexity Help Center — How does Perplexity work?", "https://www.perplexity.ai/help-center/en/articles/10352895-how-does-perplexity-work"],
   ["Wikipedia — Generative artificial intelligence", "https://en.wikipedia.org/wiki/Generative_artificial_intelligence"],
   ["IBM — What is generative AI?", "https://www.ibm.com/think/topics/generative-ai"],
   ["Anthropic — Claude Code overview", "https://docs.claude.com/en/docs/claude-code/overview"],
@@ -105,12 +116,12 @@ export function GenerativeAi() {
       <section id="tools" className={cx(t.section, g.anchor)} data-section="tools">
         <div className={t.inner}>
           <Head num="02" title="Tools Used During the Internship">
-            이 사이트를 만드는 동안 두 가지 AI 도구를 역할을 나눠 사용했습니다. 코드와 글은 언어 모델 기반 코딩 도구가, 설명용 이미지는 이미지 생성 기능이 맡았습니다.
+            이 사이트를 만드는 데는 AI 코딩 도구와 이미지 생성 기능을, 사이트 밖에서는 해외 논문을 찾고 정리하는 데 AI 검색·리서치 도구를 사용했습니다.
           </Head>
           <ul className={g.tools}>
             {TOOLS.map((tool) => (
               <li key={tool.name} className={g.tool}>
-                <span className={g.maker}>{tool.maker}</span>
+                <span className={g.maker}>{tool.maker} · {tool.scope}</span>
                 <h3 className={g.toolName}>{tool.name}</h3>
                 <span className={g.kindTag}>{tool.kind}</span>
                 <ul className={g.points}>{tool.uses.map((u) => <li key={u}>{u}</li>)}</ul>
@@ -119,7 +130,15 @@ export function GenerativeAi() {
           </ul>
           <div className={g.handoff}>
             <span className={g.tag}>Hand-off</span>
-            <p className={g.body}>두 도구는 <b>작업 지시서</b>로 이어졌습니다. Claude Code가 필요한 이미지의 내용·비율·금지 사항(글자, 숫자, 로고, 실제 회사 재현 금지)을 문서로 정리하면, Codex가 그 문서를 읽고 이미지를 생성해 페이지에 연결했습니다. 생성 날짜, 사용 도구, 프롬프트 전문은 이미지 폴더의 기록 파일에 남겼습니다.</p>
+            <p className={g.body}>Claude Code와 Codex는 <b>작업 지시서</b>로 이어졌습니다. Claude Code가 필요한 이미지의 내용·비율·금지 사항(글자, 숫자, 로고, 실제 회사 재현 금지)을 문서로 정리하면, Codex가 그 문서를 읽고 이미지를 생성해 페이지에 연결했습니다. 생성 날짜, 사용 도구, 프롬프트 전문은 이미지 폴더의 기록 파일에 남겼습니다.</p>
+          </div>
+          <div className={g.research}>
+            <span className={g.tag}>Literature Research Flow</span>
+            <ol className={g.flow}>
+              {RESEARCH.map(([en, tool, body], i) => (
+                <li key={en}><span className={g.num}>{String(i + 1).padStart(2, "0")} · {tool}</span><strong>{en}</strong><span className={g.body}>{body}</span></li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
@@ -127,7 +146,7 @@ export function GenerativeAi() {
       <section id="use-cases" className={cx(t.section, t.white, g.anchor)} data-section="use-cases">
         <div className={t.inner}>
           <Head num="03" title="Use Cases">
-            인턴십 결과물인 이 사이트에서 생성형 AI가 맡은 일은 크게 네 가지입니다.
+            인턴십 동안 생성형 AI가 맡은 일은 크게 다섯 가지입니다. 논문 조사는 사이트 밖의 업무에서, 나머지는 이 사이트를 만들며 활용했습니다.
           </Head>
           <ol className={g.cases}>
             {CASES.map((c, i) => (
