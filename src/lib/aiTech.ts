@@ -1,8 +1,9 @@
 /**
  * AI Technology — four topics, told as one story: the tools → what was built with them → a work task they
- * automated → the rules for using them. Structure only for now: each section says what it will cover
- * (`intent`) and lists the planned items (`plan`). Replace a section's `plan` with real content as it is written,
- * and add only facts and figures that can be checked (no invented numbers).
+ * automated → the rules for using them. A draft topic's sections say what they will cover (`intent`) and list the
+ * planned items (`plan`); once a topic is written, its body lives in a component (TOPIC_BODIES in
+ * app/ai-technology/[topic]/page.tsx) and its sections here only feed the outline. Add only facts and figures
+ * that can be checked (no invented numbers).
  */
 export interface AiSection {
   id: string;

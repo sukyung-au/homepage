@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import type { ComponentType } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { VibeCoding } from "@/components/ai/VibeCoding";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { SiteHeader } from "@/components/ds/SiteHeader";
 import { SectionHead, sectionStyles as s } from "@/components/section/SectionPage";
@@ -13,9 +15,11 @@ import { SITE_LINKS } from "@/lib/site";
 import a from "./AiTopic.module.css";
 
 /**
- * One AI Technology topic. Structure only for now: each section shows its draft summary and planned items
- * (lib/aiTech.ts) until the content is written.
+ * One AI Technology topic. A topic with a written body (TOPIC_BODIES) renders it; the rest are still drafts and
+ * show each section's summary and planned items (lib/aiTech.ts) until the content is written.
  */
+
+const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "vibe-coding": VibeCoding };
 
 export const dynamicParams = false;
 
@@ -39,6 +43,7 @@ export async function generateMetadata({ params }: PageProps<"/ai-technology/[to
 
 export default async function AiTopicPage({ params }: PageProps<"/ai-technology/[topic]">) {
   const { i, topic, prev, next } = await resolve(params);
+  const Body = TOPIC_BODIES[topic.id];
   return (
     <main>
       <SiteHeader links={SITE_LINKS} active="ai" position="relative" />
@@ -47,7 +52,7 @@ export default async function AiTopicPage({ params }: PageProps<"/ai-technology/
           <SectionHead
             crumbs={[{ label: "AI Technology", href: "/ai-technology" }, { label: `Topic ${pad(i)}` }]}
             num={pad(i)} label={topic.ko} title={topic.title} sub={topic.sub}
-            meta={<><span>Topic {pad(i)} of {String(AI_TOPICS.length).padStart(2, "0")}</span><span className={a.draftTag}>Draft · structure only</span></>}
+            meta={<><span>Topic {pad(i)} of {String(AI_TOPICS.length).padStart(2, "0")}</span>{!Body && <span className={a.draftTag}>Draft · structure only</span>}</>}
           />
           <p className={`${ss.body} ${a.lede}`}>{topic.summary}</p>
           <ol className={a.toc} aria-label="Topic outline">
@@ -56,7 +61,7 @@ export default async function AiTopicPage({ params }: PageProps<"/ai-technology/
         </div>
       </section>
 
-      {topic.sections.map((sec, j) => (
+      {Body ? <Body /> : topic.sections.map((sec, j) => (
         <section key={sec.id} id={sec.id} className={`${t.section} ${j % 2 === 0 ? t.white : ""} ${a.anchor}`} data-section={sec.id}>
           <div className={`${t.inner} ${a.grid}`}>
             <div>
