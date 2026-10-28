@@ -10,6 +10,7 @@ import { RoleOfReservoirEngineeringTopic } from "@/components/technology/RoleOfR
 import { RoleOfGeologyTopic } from "@/components/technology/RoleOfGeologyTopic";
 import { RoleOfReservoirGeophysicsTopic } from "@/components/technology/RoleOfReservoirGeophysicsTopic";
 import { ReservoirSimulationTopic } from "@/components/technology/ReservoirSimulationTopic";
+import { NodalLiftTopic } from "@/components/technology/nodal/NodalLiftTopic";
 import { ReservesTopic } from "@/components/technology/reserves/ReservesTopic";
 import { WellTestTopic } from "@/components/technology/welltest/WellTestTopic";
 import { SITE_LINKS } from "@/lib/site";
@@ -28,6 +29,7 @@ const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatT
   "re-fundamentals": FundamentalsTopic,
   "re-well-test": WellTestTopic,
   "re-simulation": ReservoirSimulationTopic,
+  "re-nodal-lift": NodalLiftTopic,
   "rs-estimation": ReservesTopic,
 };
 
