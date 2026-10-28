@@ -13,7 +13,7 @@ import { DCA_LEGEND, DeclinePlot, MethodTimeline, PrmsFramework, PzPlot, SimFore
 import x from "./Reserves.module.css";
 
 /**
- * Topic 3.5 — Reserves Estimation: the PRMS classification, then four estimation methods (volumetric, material
+ * Topic 4.1 — Reserves Estimation (category 04, formerly Reservoir Engineering 3.5): the PRMS classification, then four estimation methods (volumetric, material
  * balance, decline curve analysis, reservoir simulation) and how they compare. Opening and motion follow topic
  * 3.1; numbered sections reuse topic 3.2's SectionShell and Details. Text is qualitative and follows the sources
  * in SOURCES; figures are conceptual (no values).
