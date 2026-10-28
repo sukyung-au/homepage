@@ -12,7 +12,7 @@ export { s as topicStyles };
 export function Crumb({ topic }: { topic: FlatTopic }) {
   return (
     <nav className={s.crumb} aria-label="Breadcrumb">
-      <Link href="/technology">Technology</Link>
+      <Link href="/technology">Petroleum Technology</Link>
       <span aria-hidden>/</span>
       <Link href={categoryHref(topic.category)}>{topic.category.num} {topic.category.label}</Link>
       <span aria-hidden>/</span>
