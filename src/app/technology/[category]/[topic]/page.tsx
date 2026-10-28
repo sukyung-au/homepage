@@ -28,7 +28,7 @@ const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatT
   "re-fundamentals": FundamentalsTopic,
   "re-well-test": WellTestTopic,
   "re-simulation": ReservoirSimulationTopic,
-  "re-reserves": ReservesTopic,
+  "rs-estimation": ReservesTopic,
 };
 
 export const dynamicParams = false;

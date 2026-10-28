@@ -2,7 +2,7 @@ import f from "../fundamentals/Fundamentals.module.css";
 import x from "./Reserves.module.css";
 
 /**
- * Topic 3.5 figures. Conceptual shapes only: no axis values, no field data. Curve shapes follow the
+ * Topic 4.1 figures. Conceptual shapes only: no axis values, no field data. Curve shapes follow the
  * relations they illustrate (Arps decline, straight-line p/z) so the pictures read correctly.
  */
 
