@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { GenerativeAi } from "@/components/ai/GenerativeAi";
+import { ResponsibleAi } from "@/components/ai/ResponsibleAi";
 import { VibeCoding } from "@/components/ai/VibeCoding";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { SiteHeader } from "@/components/ds/SiteHeader";
@@ -20,7 +21,7 @@ import a from "./AiTopic.module.css";
  * show each section's summary and planned items (lib/aiTech.ts) until the content is written.
  */
 
-const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "vibe-coding": VibeCoding };
+const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "vibe-coding": VibeCoding, "responsible-ai": ResponsibleAi };
 
 export const dynamicParams = false;
 
