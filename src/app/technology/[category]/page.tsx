@@ -22,7 +22,7 @@ async function resolve(params: PageProps<"/technology/[category]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/technology/[category]">): Promise<Metadata> {
   const cat = await resolve(params);
-  return { title: `${cat.num} ${cat.label} — Technology — Oil & Gas Development` };
+  return { title: `${cat.num} ${cat.label} — Petroleum Technology — Oil & Gas Development` };
 }
 
 /**
@@ -40,9 +40,9 @@ export default async function CategoryPage({ params }: PageProps<"/technology/[c
       <section className={`${s.page} ${s.clearNav}`} data-category={cat.id}>
         <div className={s.inner}>
           <SectionHead
-            crumbs={[{ label: "Technology", href: "/technology" }, { label: `${cat.num} ${cat.label}` }]}
+            crumbs={[{ label: "Petroleum Technology", href: "/technology" }, { label: `${cat.num} ${cat.label}` }]}
             num={cat.num}
-            label="Technology"
+            label="Petroleum Technology"
             title={cat.label}
             sub={cat.ko}
             meta={<><span>Category {cat.num} of {String(TECH.length).padStart(2, "0")}</span><span>{n} {n === 1 ? "topic" : "topics"}</span></>}

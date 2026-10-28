@@ -7,7 +7,7 @@ export interface SiteLink {
 
 export const SITE_LINKS: SiteLink[] = [
   { id: "journey", label: "Journey", href: "/" },
-  { id: "technology", label: "Technology", href: "/technology" },
-  { id: "cases", label: "Case Studies", href: "/case-studies" },
+  { id: "technology", label: "Petroleum Technology", href: "/technology" },
+  { id: "ai", label: "AI Technology", href: "/ai-technology" },
   { id: "beyond", label: "Beyond the Field", href: "/beyond-the-field" },
 ];
