@@ -29,6 +29,13 @@
 
 /* 02 */
 .tools{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.research{margin-top:48px}
+.flow{list-style:none;margin:16px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.flow > li{position:relative;display:flex;flex-direction:column;gap:6px;padding:20px 22px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
+.flow > li:not(:last-child)::after{content:"→";position:absolute;right:-8px;top:50%;transform:translate(50%,-50%);font-family:var(--font-editorial);font-size:14px;color:var(--ex-faint)}
+.flow > li:last-child{border-color:var(--ex-blue);box-shadow:inset 0 3px 0 var(--ex-blue)}
+.flow strong{font-family:var(--font-editorial);font-size:19px;font-weight:400;color:var(--ex-navy)}
+.flow .body{font-size:14px}
 .tool{display:flex;flex-direction:column;padding:32px;border-radius:4px;background:#fff;border:1px solid var(--ex-line)}
 .maker{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
 .toolName{margin:6px 0 0;font-family:var(--font-editorial);font-size:30px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
@@ -43,7 +50,7 @@
 .checks li{font-family:var(--font-kr);font-size:15px;color:var(--ex-navy);padding:6px 14px;border-radius:999px;background:#fff}
 
 /* 03 */
-.cases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.cases{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:28px}
 .cases > li{display:flex;flex-direction:column;gap:6px;padding-top:20px;border-top:1px solid var(--ex-navy)}
 .cases .body{font-size:14px}
 .caseLink{margin-top:auto;padding-top:10px;font-family:var(--font-editorial);font-size:13px}
@@ -70,10 +77,10 @@
   .head,.prompt{grid-template-columns:1fr}
   .headBody{margin-top:20px}
   .loop,.cases{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .loop > li::after{display:none}
+  .loop > li::after,.flow > li::after{display:none}
 }
 @media (max-width:640px){
-  .kinds,.tools,.loop,.cases,.gallery,.fit,.sourceList{grid-template-columns:1fr}
+  .kinds,.tools,.loop,.cases,.gallery,.fit,.flow,.sourceList{grid-template-columns:1fr}
   .kind,.tool{padding:24px}
   .handoff{padding:20px}
 }
