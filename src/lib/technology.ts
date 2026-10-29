@@ -37,7 +37,10 @@ type CategoryInput = Omit<TechCategory, "num" | "topics"> & { topics: TopicInput
 const TECH_DATA: CategoryInput[] = [
   {
     id: "geophysics", label: "Geophysics", ko: "지구물리", landing: "gp-fdp-role",
-    topics: [{ id: "gp-fdp-role", title: "Role of Reservoir Geophysics", sub: "Imaging the Reservoir Between the Wells", ko: "FDP에서 지구물리의 역할", hasPage: true }],
+    topics: [
+      { id: "gp-fdp-role", title: "Role of Reservoir Geophysics", sub: "Imaging the Reservoir Between the Wells", ko: "FDP에서 지구물리의 역할", hasPage: true },
+      { id: "gp-fundamentals", title: "Fundamentals of Geophysics", sub: "How Waves Reveal the Subsurface", ko: "지구물리의 기초", hasPage: true },
+    ],
   },
   {
     id: "geology", label: "Geology", ko: "지질",
