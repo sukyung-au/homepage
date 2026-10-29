@@ -26,10 +26,10 @@ const v = (o: Record<string, number>) => o as CSSProperties;
 
 type Img = { id: string; placeholder: string; src?: string; alt?: string };
 const IMAGES: Record<"survey" | "receiver" | "lwd" | "overlay", Img> = {
-  survey: { id: "gp-csem-survey", placeholder: "Survey vessel at sea towing an electromagnetic source cable, aerial view" },
-  receiver: { id: "gp-csem-receiver", placeholder: "Electromagnetic receiver resting on the deep seafloor, with sensor arms and an anchor frame" },
-  lwd: { id: "gp-lwd-resistivity", placeholder: "Cutaway of a drill string with a resistivity tool in the bottomhole assembly inside layered rock" },
-  overlay: { id: "gp-csem-seismic", placeholder: "Resistivity model overlaid on a seismic section, warm colours highlighting a resistive body" },
+  survey: { id: "gp-csem-survey", placeholder: "Survey vessel at sea towing an electromagnetic source cable, aerial view", src: "/images/technology/geophysics/gp-csem-survey.webp", alt: "전자기 송신원 케이블을 예인하는 해양 탐사선을 표현한 AI 생성 이미지" },
+  receiver: { id: "gp-csem-receiver", placeholder: "Electromagnetic receiver resting on the deep seafloor, with sensor arms and an anchor frame", src: "/images/technology/geophysics/gp-csem-receiver.webp", alt: "심해 해저에 놓인 전자기 수신기를 표현한 AI 생성 이미지" },
+  lwd: { id: "gp-lwd-resistivity", placeholder: "Cutaway of a drill string with a resistivity tool in the bottomhole assembly inside layered rock", src: "/images/technology/geophysics/gp-lwd-resistivity.webp", alt: "지층을 뚫는 시추 구조 끝의 시추 중 비저항 검층 도구를 단면으로 표현한 AI 생성 이미지" },
+  overlay: { id: "gp-csem-seismic", placeholder: "Resistivity model overlaid on a seismic section, warm colours highlighting a resistive body", src: "/images/technology/geophysics/gp-csem-seismic.webp", alt: "탄성파 단면 위에 비저항이 높은 영역을 색으로 겹쳐 나타낸 해석 화면을 표현한 AI 생성 이미지" },
 };
 
 /* ── 02 Two scales ── */
