@@ -11,6 +11,7 @@ import { RoleOfGeologyTopic } from "@/components/technology/RoleOfGeologyTopic";
 import { RoleOfReservoirGeophysicsTopic } from "@/components/technology/RoleOfReservoirGeophysicsTopic";
 import { ReservoirSimulationTopic } from "@/components/technology/ReservoirSimulationTopic";
 import { GpFundamentalsTopic } from "@/components/technology/gpfund/GpFundamentalsTopic";
+import { ResistivityTopic } from "@/components/technology/gpres/ResistivityTopic";
 import { NodalLiftTopic } from "@/components/technology/nodal/NodalLiftTopic";
 import { ReservesTopic } from "@/components/technology/reserves/ReservesTopic";
 import { WellTestTopic } from "@/components/technology/welltest/WellTestTopic";
@@ -26,6 +27,7 @@ const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatT
   "pt-generation": PetroleumGenerationTopic,
   "gp-fdp-role": RoleOfReservoirGeophysicsTopic,
   "gp-fundamentals": GpFundamentalsTopic,
+  "gp-resistivity": ResistivityTopic,
   "ge-fdp-role": RoleOfGeologyTopic,
   "re-role": RoleOfReservoirEngineeringTopic,
   "re-fundamentals": FundamentalsTopic,
