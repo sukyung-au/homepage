@@ -34,6 +34,8 @@ const v = (o: Record<string, number>) => o as CSSProperties;
 const OVERVIEW_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
   id: "re-reservoir-cutaway",
   placeholder: "Reservoir cutaway — anticline under a cap rock with a gas cap, oil zone and water below, and a vertical producing well",
+  src: "/images/technology/engineering/re-reservoir-cutaway.webp",
+  alt: "배사 구조 덮개암 아래 저류층에 가스·석유·물이 차례로 있고 수직 생산정이 꼭대기를 지나는 단면을 표현한 AI 생성 이미지",
 };
 
 const SECTIONS = [
