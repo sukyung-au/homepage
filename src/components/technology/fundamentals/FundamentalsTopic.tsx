@@ -10,7 +10,7 @@ import { Details } from "./Details";
 import { Drives } from "./Drives";
 import { DrawdownExplorer, DrawdownFormula, Permeability, Skin } from "./Flow";
 import { CapillaryTubes, PcFormula, PoreDiagram, RelPerm, SatFormula } from "./Multiphase";
-import { AddedSources, PvtToFluidModel, SaturationHeight, ScalLab } from "./LabAdditions";
+import { AddedSources, CapillaryPhoto, PorePhoto, PvtToFluidModel, SaturationHeight, ScalLab } from "./LabAdditions";
 import { FluidTypes, SingleComponent } from "./PhaseBehavior";
 import { PvtLab } from "./PvtLab";
 import { EorClassification } from "./Recovery";
@@ -184,6 +184,7 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
             <h3 className={s.conceptTitle}>Fluid Saturation</h3>
             <SatFormula />
             <p className={s.lead}>포화도(S)는 공극 부피 중 각 유체(물·석유·가스)가 차지하는 비율이며, 세 값을 더하면 1입니다.</p>
+            <PorePhoto />
             <Details summary="Inside a pore (schematic)">
               <figure className={`${s.figure} ${s.smallFigure}`}><PoreDiagram /><figcaption className={s.caption}>Schematic pore · water-wet</figcaption></figure>
             </Details>
@@ -191,6 +192,7 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
           <div>
             <h3 className={s.conceptTitle}>Capillary Pressure</h3>
             <p className={s.lead}>서로 섞이지 않는 두 유체 사이의 압력차입니다. 계면장력과 젖음성이 클수록, 공극이 작을수록 커집니다.</p>
+            <CapillaryPhoto />
             <Details summary="Young–Laplace relation · capillary tubes">
               <PcFormula />
               <p className={s.pSmall}>모세관 튜브 모델의 관계식: σ 계면장력, θ 접촉각, r 공극(튜브) 반경.</p>

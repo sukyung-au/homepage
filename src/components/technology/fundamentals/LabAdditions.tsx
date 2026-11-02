@@ -9,14 +9,17 @@ import a from "./LabAdditions.module.css";
  * - 03 PVT: fluid sampling and how the PVT report becomes the fluid model (black-oil vs compositional).
  * - 05 Multiphase: saturation–height (FWL, OWC, transition zone) and how SCAL measures rock–fluid properties.
  * Qualitative text checked against the SLB Energy Glossary (docs/codex/CONTENT-re-fluids-scal.md); the chart is
- * conceptual (no values); lab photographs are AI-generated illustrations (public/images/technology/engineering).
+ * conceptual (no values); lab photographs and the 05 pore, capillary and cutaway images are AI-generated illustrations (public/images/technology/engineering).
  */
 
-type Img = { id: string; placeholder: string; src: string; alt: string };
-const IMAGES: Record<"pvtLab" | "corePlugs" | "coreflood", Img> = {
+type Img = { id: string; placeholder: string; src?: string; alt?: string };
+const IMAGES: Record<"pvtLab" | "corePlugs" | "coreflood" | "pore" | "capillary" | "satHeight", Img> = {
   pvtLab: { id: "re-pvt-lab", placeholder: "PVT laboratory — high-pressure visual cell with a reservoir fluid sample", src: "/images/technology/engineering/re-pvt-lab.webp", alt: "고압 가시 셀로 저류층 유체 시료를 분석하는 PVT 실험실을 표현한 AI 생성 이미지" },
   corePlugs: { id: "re-core-plugs", placeholder: "Cylindrical sandstone core plugs prepared for special core analysis", src: "/images/technology/engineering/re-core-plugs.webp", alt: "특수 코어 분석을 위해 준비된 원통형 사암 코어 플러그를 표현한 AI 생성 이미지" },
   coreflood: { id: "re-coreflood", placeholder: "Core-flooding apparatus — core holder, pumps and flow lines in a laboratory", src: "/images/technology/engineering/re-coreflood.webp", alt: "코어 홀더와 펌프, 배관으로 이루어진 코어 유동 실험 장치를 표현한 AI 생성 이미지" },
+  pore: { id: "re-pore-scale", placeholder: "Pore-scale close-up — water-wet sand grains coated by a thin water film, oil in the pore centre and a small gas bubble", src: "/images/technology/engineering/re-pore-scale.webp", alt: "물에 젖은 사암 입자 사이 공극에 석유와 가스 기포가 있는 모습을 표현한 AI 생성 이미지" },
+  capillary: { id: "re-capillary-tubes", placeholder: "Capillary rise — a wide and a narrow glass tube in a water bath; water rises higher in the narrow tube", src: "/images/technology/engineering/re-capillary-tubes.webp", alt: "굵은 유리관보다 가는 유리관에서 물이 더 높이 올라가는 모세관 상승을 표현한 AI 생성 이미지" },
+  satHeight: { id: "re-saturation-height", placeholder: "Reservoir cutaway — gas cap, oil column and water below, with oil staining fading through the transition zone", src: "/images/technology/engineering/re-saturation-height.webp", alt: "덮개암 아래 사암 저류층에 가스·석유·물이 높이에 따라 나뉘고 전이대에서 석유 착색이 옅어지는 단면을 표현한 AI 생성 이미지" },
 };
 
 function Photo({ img, ratio = "4 / 3", sizes }: { img: Img; ratio?: string; sizes: string }) {
@@ -160,6 +163,24 @@ function SaturationHeightChart() {
   );
 }
 
+/** 05 Multiphase: photographic companions to the pore and capillary-tube schematics (schematics stay in Details). */
+export function PorePhoto() {
+  return (
+    <figure className={s.figure}>
+      <Photo img={IMAGES.pore} sizes="(max-width: 1100px) 100vw, 40vw" />
+      <figcaption className={s.caption}>Pore-scale view · water-wet sandstone · AI-generated illustration</figcaption>
+    </figure>
+  );
+}
+export function CapillaryPhoto() {
+  return (
+    <figure className={s.figure}>
+      <Photo img={IMAGES.capillary} sizes="(max-width: 1100px) 100vw, 40vw" />
+      <figcaption className={s.caption}>Capillary rise in glass tubes · water-wet · AI-generated illustration</figcaption>
+    </figure>
+  );
+}
+
 export function SaturationHeight() {
   return (
     <div className={a.block}>
@@ -169,6 +190,10 @@ export function SaturationHeight() {
           <h3 className={s.asideTitle}>Saturation–Height</h3>
           <p className={s.lead}>모세관압은 두 유체의 밀도 차에 의한 부력과 균형을 이룹니다. 그래서 모세관압 곡선은 자유수면(FWL) 위 높이에 따른 수포화도 분포로 바꿔 읽을 수 있습니다.</p>
           <p className={a.formula}>h = P<sub>c</sub> ⁄ (Δρ · g)</p>
+          <figure className={s.figure}>
+            <Photo img={IMAGES.satHeight} sizes="(max-width: 1100px) 100vw, 30vw" />
+            <figcaption className={s.caption}>Reservoir cutaway · AI-generated illustration</figcaption>
+          </figure>
           <List items={PC_USES} />
         </div>
       </div>
