@@ -6,12 +6,14 @@ import { SectionHeading, topicStyles as t } from "@/components/technology/TopicP
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { ReactNode } from "react";
 import g from "./GenerativeAi.module.css";
+import { LlmExplorer } from "./LlmExplorer";
 
 /**
  * AI Technology topic 01 — generative AI during the internship. The definition follows the sources in SOURCES;
  * tools and cases are only what this project's own records show (repository history, docs/codex task files,
  * public/images README files), plus the literature-research tools the user reported using outside this project
- * (NotebookLM, Perplexity). Add other tools or cases only when the user supplies them.
+ * (NotebookLM, Perplexity). Add other tools or cases only when the user supplies them. "How an LLM Works" follows the
+ * Anthropic glossary and the Google ML Crash Course in SOURCES; its figure is illustrative, not a real model's output.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -28,7 +30,19 @@ const LOOP: [string, string][] = [
   ["Refine", "고칠 점을 다시 지시"],
 ];
 
-/* ── 02 Tools ── */
+/* ── 02 How an LLM works ── */
+const TRAINING: [string, string, string][] = [
+  ["Pretraining", "사전학습", "레이블이 없는 방대한 글을 읽으며, 앞의 문맥을 보고 다음 단어를 예측하도록 학습합니다. 이 단계의 모델은 아직 질문에 답하거나 지시를 따르는 데 서툽니다."],
+  ["Fine-tuning", "미세조정", "사전학습한 모델을 추가 자료로 더 학습시켜, 특정 작업이나 문체, 도움을 주는 어시스턴트의 방식을 따르게 합니다."],
+  ["RLHF", "사람의 피드백 강화학습", "사람이 여러 답변에 순위를 매기면, 모델이 더 높은 순위를 받은 답변과 비슷한 쪽을 선호하도록 학습합니다. 지시를 더 잘 따르게 됩니다."],
+];
+const KNOWS: { title: string; body: ReactNode }[] = [
+  { title: "Context Window", body: <>모델이 답을 만들 때 참고하는 범위는 대화, 지시, 첨부한 자료가 들어 있는 <b>컨텍스트 창</b>입니다. 학습에 쓰인 자료와는 다른, 일종의 작업 기억입니다.</> },
+  { title: "Grounding in Sources", body: <>학습 이후의 최신 정보나 내부 자료는 모델이 알지 못합니다. 관련 자료를 찾아 컨텍스트에 함께 넣으면(<b>RAG</b>) 근거에 기반한 답을 얻을 수 있습니다. NotebookLM에 논문을 올리고 Perplexity로 검색한 것이 이 방식입니다.</> },
+  { title: "Plausible ≠ True", body: <>LLM은 가장 그럴듯한 다음 글을 만들 뿐, 사실을 찾아보고 답하는 것이 아닙니다. 그래서 틀린 내용을 자연스럽게 말하는 <b>환각(hallucination)</b>이 생길 수 있습니다.</> },
+];
+
+/* ── 03 Tools ── */
 const TOOLS: { name: string; maker: string; scope: string; kind: string; uses: string[] }[] = [
   { name: "Claude Code", maker: "Anthropic", scope: "This website", kind: "AI 코딩 도구 (언어 모델)", uses: ["웹사이트 코드 작성 · 수정", "공개 기술 자료 검색과 출처 확인", "이미지 작업 지시서 작성", "Notion에 발표 구성안 정리"] },
   { name: "Codex", maker: "OpenAI", scope: "This website", kind: "AI 코딩 도구 · 내장 이미지 생성", uses: ["작업 지시서를 받아 설명용 이미지 생성", "생성한 이미지를 웹용 크기·형식으로 변환해 페이지에 연결"] },
@@ -41,7 +55,7 @@ const RESEARCH: [string, string, string][] = [
   ["Verify", "Original paper", "요약에서 인용된 부분을 원문에서 직접 확인"],
 ];
 
-/* ── 03 Use cases ── */
+/* ── 04 Use cases ── */
 const CASES: { title: string; body: string; href?: string; link?: string }[] = [
   { title: "Literature Search & Summary", body: "Perplexity로 해외 논문과 기술 자료를 찾고, NotebookLM에 논문 PDF를 올려 핵심을 요약·정리했습니다. 두 도구 모두 답에 출처를 달아 주어 원문을 바로 확인할 수 있었습니다." },
   { title: "Researching Technical Material", body: "매장량 분류(PRMS), 감퇴곡선, 유형곡선처럼 공개된 기술 자료를 찾아 핵심을 한국어로 정리하고, 각 페이지 끝에 출처 목록을 남겼습니다.", href: "/technology/reserves/rs-estimation", link: "04 Reserves Estimation" },
@@ -61,7 +75,7 @@ const FIXES = [
   "시료병 안의 액체를 오일층과 물층이 뚜렷하게 나뉜 모습으로 고치기",
 ];
 
-/* ── 04 Takeaways ── */
+/* ── 05 Takeaways ── */
 const WORKED = ["초안을 빠르게 만들고, 여러 번 고쳐 가며 다듬을 수 있었습니다.", "영어로 된 기술 자료를 폭넓게 찾아 한국어로 정리할 수 있었습니다.", "사진을 구하기 어려운 장면도 설명용 이미지로 만들 수 있었습니다."];
 const LIMITS = ["이미지에 글자처럼 보이는 무늬나 물리적으로 맞지 않는 장비가 섞여 나와, 고쳐 달라고 다시 지시해야 했습니다.", "그래프의 라벨이 서로 겹치는 등, 화면을 직접 봐야 찾을 수 있는 문제가 있었습니다.", "‘가장 널리 쓰이는’처럼 출처로 확인되지 않는 표현이 들어가, 찾아서 지웠습니다."];
 const HUMAN = ["기술 내용과 수치가 맞는지", "출처가 실제로 그 내용을 말하는지", "공개 사이트에 올려도 되는 자료인지"];
@@ -71,6 +85,10 @@ const SOURCES: [string, string][] = [
   ["Perplexity Help Center — How does Perplexity work?", "https://www.perplexity.ai/help-center/en/articles/10352895-how-does-perplexity-work"],
   ["Wikipedia — Generative artificial intelligence", "https://en.wikipedia.org/wiki/Generative_artificial_intelligence"],
   ["IBM — What is generative AI?", "https://www.ibm.com/think/topics/generative-ai"],
+  ["Anthropic — Glossary (tokens, pretraining, fine-tuning, RLHF, context window, temperature, RAG)", "https://docs.claude.com/en/docs/about-claude/glossary"],
+  ["Google — Machine Learning Crash Course: LLMs and Transformers", "https://developers.google.com/machine-learning/crash-course/llm/transformers"],
+  ["Vaswani et al. (2017) — Attention Is All You Need", "https://arxiv.org/abs/1706.03762"],
+  ["Ouyang et al. (2022) — Training language models to follow instructions with human feedback", "https://arxiv.org/abs/2203.02155"],
   ["Anthropic — Claude Code overview", "https://docs.claude.com/en/docs/claude-code/overview"],
   ["OpenAI — Codex", "https://developers.openai.com/codex"],
 ];
@@ -113,9 +131,28 @@ export function GenerativeAi() {
         </div>
       </section>
 
-      <section id="tools" className={cx(t.section, g.anchor)} data-section="tools">
+      <section id="how-llm-works" className={cx(t.section, g.anchor)} data-section="how-llm-works">
         <div className={t.inner}>
-          <Head num="02" title="Tools Used During the Internship">
+          <Head num="02" title="How an LLM Works">
+            LLM은 앞에 놓인 글을 보고 다음에 올 토큰을 확률로 예측하는 일을 반복해 답을 만듭니다. 결국 아주 정교한 ‘자동 완성’입니다. 한 문장으로 그 과정을 따라가 보세요.
+          </Head>
+          <LlmExplorer />
+          <h3 className={cx(g.subTitle, g.gap)}>How It Learns</h3>
+          <ol className={g.stages}>
+            {TRAINING.map(([en, ko, body], i) => (
+              <li key={en}><span className={g.num}>{String(i + 1).padStart(2, "0")} · {ko}</span><strong>{en}</strong><span className={g.body}>{body}</span></li>
+            ))}
+          </ol>
+          <h3 className={cx(g.subTitle, g.gap)}>What It Knows, and What It Doesn&apos;t</h3>
+          <ul className={g.knows}>
+            {KNOWS.map((k) => <li key={k.title}><h4 className={g.cardTitle}>{k.title}</h4><p className={g.body}>{k.body}</p></li>)}
+          </ul>
+        </div>
+      </section>
+
+      <section id="tools" className={cx(t.section, t.white, g.anchor)} data-section="tools">
+        <div className={t.inner}>
+          <Head num="03" title="Tools Used During the Internship">
             이 사이트를 만드는 데는 AI 코딩 도구와 이미지 생성 기능을, 사이트 밖에서는 해외 논문을 찾고 정리하는 데 AI 검색·리서치 도구를 사용했습니다.
           </Head>
           <ul className={g.tools}>
@@ -143,9 +180,9 @@ export function GenerativeAi() {
         </div>
       </section>
 
-      <section id="use-cases" className={cx(t.section, t.white, g.anchor)} data-section="use-cases">
+      <section id="use-cases" className={cx(t.section, g.anchor)} data-section="use-cases">
         <div className={t.inner}>
-          <Head num="03" title="Use Cases">
+          <Head num="04" title="Use Cases">
             인턴십 동안 생성형 AI가 맡은 일은 크게 다섯 가지입니다. 논문 조사는 사이트 밖의 업무에서, 나머지는 이 사이트를 만들며 활용했습니다.
           </Head>
           <ol className={g.cases}>
@@ -185,9 +222,9 @@ export function GenerativeAi() {
         </div>
       </section>
 
-      <section id="takeaways" className={cx(t.section, g.anchor)} data-section="takeaways">
+      <section id="takeaways" className={cx(t.section, t.white, g.anchor)} data-section="takeaways">
         <div className={t.inner}>
-          <Head num="04" title="What Worked, What Didn't">
+          <Head num="05" title="What Worked, What Didn't">
             생성형 AI는 작업의 속도와 범위를 넓혀 주었지만, 결과를 그대로 쓸 수 있는 경우는 많지 않았습니다.
           </Head>
           <div className={g.fit}>
@@ -207,7 +244,7 @@ export function GenerativeAi() {
 
           <div className={g.more}>
             <Details summary="Sources">
-              <p className={f.pSmall}>생성형 AI의 정의와 도구 설명은 아래 자료를, 사용 사례는 이 사이트의 저장소 기록(이미지 생성 기록 파일, 작업 지시서, 변경 이력)을 기준으로 했습니다.</p>
+              <p className={f.pSmall}>생성형 AI의 정의, LLM의 원리, 도구 설명은 아래 자료를, 사용 사례는 이 사이트의 저장소 기록(이미지 생성 기록 파일, 작업 지시서, 변경 이력)을 기준으로 했습니다.</p>
               <ul className={g.sourceList}>
                 {SOURCES.map(([label, href]) => <li key={href}><a href={href} target="_blank" rel="noopener noreferrer">{label}</a></li>)}
               </ul>
