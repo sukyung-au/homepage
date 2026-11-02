@@ -1,10 +1,15 @@
 "use client";
 import { useState, type ReactElement } from "react";
+import { ImageSlot } from "@/components/ds/ImageSlot";
 import { Choice } from "./Choice";
 import { Details } from "./Details";
 import s from "./Fundamentals.module.css";
+import a from "./LabAdditions.module.css";
 
-/** 03 — PVT laboratory analyses. Illustrations are schematic: cells, levels and peaks carry no values. */
+/**
+ * 03 — PVT laboratory analyses. Illustrations are schematic: cells, levels and peaks carry no values.
+ * Each test also has an AI-generated laboratory photograph (PHOTOS; docs/codex/TASK-re-pvt-photos.md).
+ */
 
 type TestId = "composition" | "flash" | "differential" | "separator" | "viscosity";
 
@@ -54,6 +59,15 @@ const TESTS: Test[] = [
     significance: "유동 저항과 이동도 계산에 쓰입니다. 기포점 아래에서는 용해 가스가 빠져나가 원유 점도가 커집니다.",
   },
 ];
+
+type Photo = { id: string; placeholder: string; src?: string; alt?: string };
+const PHOTOS: Record<TestId, Photo> = {
+  composition: { id: "re-pvt-composition", placeholder: "Gas chromatograph with an autosampler tray of small vials of separated gas and liquid samples" },
+  flash: { id: "re-pvt-flash", placeholder: "Windowed high-pressure PVT cell: amber oil with gas bubbles coming out of solution, the gas kept inside the cell" },
+  differential: { id: "re-pvt-differential", placeholder: "PVT cell with liberated gas drawn off through fine tubing into a glass gas-collection cylinder" },
+  separator: { id: "re-pvt-separator", placeholder: "Bench-scale separator stages in series, ending in a stock-tank flask of stabilised oil" },
+  viscosity: { id: "re-pvt-viscosity", placeholder: "Rolling-ball viscometer: an inclined high-pressure tube in a temperature-controlled bath" },
+};
 
 /* Schematic PVT cell: piston, gas cap (top) and liquid (bottom); heights are fractions of the cell */
 function Cell({ x, gas, liquid, label, out }: { x: number; gas: number; liquid: number; label: string; out?: boolean }) {
@@ -201,6 +215,12 @@ export function PvtLab() {
       <Choice idBase="pvt" label="PVT laboratory test" value={id} onChange={setId} options={TESTS.map((x) => ({ id: x.id, label: x.label }))} />
       <div id="pvt-panel" role="tabpanel" aria-labelledby={`pvt-tab-${id}`} className={s.labSplit}>
         <div className={s.labFigures}>
+          <figure className={s.figure}>
+            <div className={a.photo} style={{ aspectRatio: "4 / 3" }}>
+              <ImageSlot key={id} {...PHOTOS[id]} sizes="(max-width: 1100px) 100vw, 640px" />
+            </div>
+            <figcaption className={s.caption}>{t.label} · AI-generated illustration</figcaption>
+          </figure>
           <figure className={s.figure}>
             <Fig />
             {cmp && <figcaption className={s.figNote}>{compare ? `${t.label} — ` : ""}{COMPARE_NOTE[id]}</figcaption>}
