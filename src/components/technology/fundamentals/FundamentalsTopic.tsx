@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
 import { RevealScope } from "../RevealScope";
@@ -168,6 +169,16 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
       <SectionShell id="multiphase" num="05" white title="When Oil, Water, and Gas Flow Together."
         summary="저류층 공극에는 여러 유체가 함께 존재합니다. 물 포화도에 따라 각 유체의 유동 능력이 어떻게 바뀌는지가 생산 거동을 좌우합니다.">
         <div data-reveal="up"><RelPerm /></div>
+        <div className={s.wetGrid} data-reveal="up">
+          <div className={s.aside}>
+            <h3 className={s.asideTitle}>Wettability</h3>
+            <p className={s.lead}>암석 표면이 물에 젖는지(Water-wet), 석유에 젖는지(Oil-wet)에 따라 상대투과도 곡선의 모양이 달라집니다. 위 그래프는 두 경우의 k<sub>rw</sub>·k<sub>ro</sub> 곡선을 비교하고, 아래 그림은 공극 사이로 물과 석유가 함께 흐르는 모습을 보여 줍니다.</p>
+          </div>
+          <figure className={`${s.figure} ${s.wetFigure}`}>
+            <Image src="/images/technology/engineering/re-wettability.jpg" alt="Relative permeability against water saturation for oil-wet and water-wet rock (Krw and Kro curves), above an illustration of oil and water flowing through the pore spaces between sand grains" width={1280} height={1558} sizes="(max-width: 1099px) 100vw, 560px" className={s.wetImg} />
+            <figcaption className={s.caption}>Relative permeability · oil-wet vs water-wet, with a pore-scale illustration</figcaption>
+          </figure>
+        </div>
         <div className={s.concepts} data-reveal="up">
           <div>
             <h3 className={s.conceptTitle}>Fluid Saturation</h3>
