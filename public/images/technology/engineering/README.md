@@ -195,3 +195,35 @@ Edit this fictional rolling-ball viscometer laboratory photograph. Preserve its 
 ```
 
 - 최종 출력: 1600×1200, WebP 품질 84, 155446 bytes
+
+
+## Reservoir overview cutaway
+
+- 생성 날짜: 2026-11-02
+- 생성 도구: Codex 내장 image_gen (내장 도구 모드)
+- 설명: 개념을 표현한 AI 생성 이미지. 실제 유전·암석 시료를 재현한 기록이 아닙니다.
+- 원본 PNG는 Codex 생성 이미지 폴더에 보관하고 저장소에 포함하지 않습니다.
+- 최종 출력: re-reservoir-cutaway.webp, 1920×1080, WebP 품질 84, 379776 bytes
+
+### 생성 프롬프트
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website image for oil and gas education.
+16:9 landscape photorealistic 3D cutaway render of a block of the Earth's subsurface, seen slightly from above
+and the front, with a thin natural ground surface on top. The cut face shows sedimentary layers folded upward
+into a broad, gentle anticline. From top to bottom: several layers of overburden rock; a thin dense dark grey
+cap rock layer following the fold; a porous sandstone reservoir layer beneath it; and deeper grey rock below.
+Inside the reservoir sandstone only, the pore fluids are stacked by density with perfectly horizontal
+boundaries: a pale cream gas-filled zone at the crest, a rich amber-orange oil-saturated zone below it, and
+blue-grey water-saturated sandstone filling the lower flanks on both sides. One thin vertical steel well
+descends from a small simple wellhead on the ground surface, straight through the crest of the fold, ending in
+the oil zone. Soft studio lighting, clean neutral background, crisp rock textures, calm educational look.
+No text, no numbers, no scale bar, no arrows, no lines marking contacts, no labels, no legend, no drilling rig,
+no people, no logos, no watermark, no borders.
+```
+
+### 수정 생성 프롬프트
+
+```text
+Edit this geological cutaway image while preserving the single anticline, overburden layers, thin dark shale seal, one vertical steel production well ending in the amber oil zone, small wellhead, 16:9 framing, neutral background and lighting. Correct the pore-fluid portrayal: the pale cream gas zone must be solid porous sandstone with clearly visible fine rock grain texture, NOT an empty smooth cavity. All three colored fluid zones must look like solid saturated sandstone. Make the gas–oil contact and oil–water contact perfectly level horizontal boundaries across the front cut face, clipped strictly inside the curved sandstone reservoir. The blue-grey water zone begins at one horizontal elevation beneath the amber oil and occupies the entire lower reservoir plus both low flanks. The sandstone base curves below that water zone, with deeper grey rock underneath. Do not color overburden, dark cap rock or deeper rock with any fluids. No drawn contact lines, arrows, text, numbers, labels, logos or watermark. Do not add wells or rigs.
+```

@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { ImageSlot } from "@/components/ds/ImageSlot";
 import Image from "next/image";
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
@@ -28,6 +29,14 @@ import s from "./Fundamentals.module.css";
  */
 
 const v = (o: Record<string, number>) => o as CSSProperties;
+
+/** 01 overview: AI-generated cutaway (docs/codex/TASK-re-overview-photo.md); the SVG schematic stays in Details. */
+const OVERVIEW_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
+  id: "re-reservoir-cutaway",
+  placeholder: "Reservoir cutaway — anticline under a cap rock with a gas cap, oil zone and water below, and a vertical producing well",
+  src: "/images/technology/engineering/re-reservoir-cutaway.webp",
+  alt: "배사 구조 덮개암 아래 저류층에 가스·석유·물이 차례로 있고 수직 생산정이 꼭대기를 지나는 단면을 표현한 AI 생성 이미지",
+};
 
 const SECTIONS = [
   { id: "evaluation", num: "01", label: "Why Evaluation" },
@@ -78,13 +87,19 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
       <SectionShell id="evaluation" num="01" white title="Understanding the Reservoir Before Developing the Field."
         summary="저류공학적 평가는 저류층 특성을 정확하게 파악해 적절한 개발계획을 세우고, 생산 단계에서는 저류층 거동을 이해해 변화에 대응하기 위해 수행합니다.">
         <figure className={`${s.figure} ${s.wideFigure}`} data-reveal="up">
-          <ReservoirSection kind="overview" label="Conceptual reservoir cross-section with a gas cap, oil zone, water below and a producing well" />
-          <div className={s.legend}>
-            <span><i className={s.lgGas} />Gas</span>
-            <span><i className={s.lgOil} />Oil</span>
-            <span><i className={s.lgWater} />Water</span>
-            <span className={s.legendNote}>Conceptual cross-section · not to scale</span>
+          <div className={s.widePhoto}>
+            <ImageSlot {...OVERVIEW_PHOTO} sizes="(max-width: 1100px) 100vw, 1200px" />
           </div>
+          <figcaption className={s.caption}>Reservoir cutaway · gas cap, oil zone and water below · AI-generated illustration, not to scale</figcaption>
+          <Details summary="Schematic cross-section">
+            <ReservoirSection kind="overview" label="Conceptual reservoir cross-section with a gas cap, oil zone, water below and a producing well" />
+            <div className={s.legend}>
+              <span><i className={s.lgGas} />Gas</span>
+              <span><i className={s.lgOil} />Oil</span>
+              <span><i className={s.lgWater} />Water</span>
+              <span className={s.legendNote}>Conceptual cross-section · not to scale</span>
+            </div>
+          </Details>
         </figure>
         <ol className={s.flowRow} aria-label="From dynamic data to decisions" data-reveal="up">
           <li>
