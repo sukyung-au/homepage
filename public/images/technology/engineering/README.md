@@ -52,3 +52,40 @@ undefined
 | re-coreflood.webp | 1600×900 | 84 | 114030 |
 
 PVT 사진의 거품을 제거하고 액체 시료와 가스층 경계를 정리했습니다. 코어 유동 사진은 코어가 밀폐형 금속 홀더 안에 있도록 수정하고, 계기판 숫자·눈금 및 장비 표식을 제거했습니다. 장비 배관의 연속성, 얼굴·로고·글자·숫자 유무를 육안 확인한 최종본입니다.
+
+
+## Multiphase conceptual photographs
+
+- 생성 날짜: 2026-11-02
+- 생성 도구: Codex 내장 image_gen (내장 도구 모드)
+- 설명: 개념을 표현한 AI 생성 이미지. 실제 암석 시료·실험·저류층의 기록이 아닙니다.
+- 원본 PNG는 Codex 생성 이미지 폴더에 보관하고 저장소에는 포함하지 않습니다.
+- 출력: 모두 1600×1200, WebP 품질 84 (350KB 초과 시 78까지 조정).
+
+### re-pore-scale
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website image for oil and gas education.
+4:3 landscape macro photograph-style visualization of the pore space between rounded quartz sandstone grains, as if seen through a microscope cross-section. Water-wet rock: every grain surface is coated by a thin, clear, slightly bluish water film; an amber-brown oil droplet fills the centre of the pore without touching the grain surfaces; one small clear gas bubble sits inside the oil. Soft even lighting, neutral cool background tones, warm sand-coloured grains, crisp detail, shallow depth of field at the edges. No text, no numbers, no arrows, no labels, no scale bar, no logos, no watermark, no borders.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 236890 bytes
+
+### re-capillary-tubes
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for physics/oil and gas education.
+4:3 landscape clean laboratory photograph of a shallow clear glass dish of water with two vertical clear glass capillary tubes standing in it, held by a simple unmarked clamp: one wider tube and one much narrower tube. Water in both tubes rises above the dish's water level, and clearly higher in the narrow tube than in the wide tube; each water column ends in a concave (downward-curving) meniscus. Water very lightly tinted pale blue so the columns are visible. Plain light background, soft daylight, calm minimal composition. No text, no numbers, no rulers or scale marks, no labels, no logos, no people, no watermark, no borders.
+Physical accuracy: both menisci have higher edges at the glass wall and a lower centre, forming a U-shaped water-air interface. Exactly two continuous open-ended tubes immersed in the same water bath.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 67084 bytes
+
+### re-saturation-height
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website image for oil and gas education.
+4:3 landscape photorealistic cutaway render of a block of layered sandstone reservoir rock beneath an arched dark shale cap rock. Inside the porous sandstone, fluids are stacked by density: a pale, slightly grey gas-filled zone at the top, a rich amber-brown oil-stained zone in the middle, and clean grey-blue water-saturated sandstone at the bottom. Between the oil zone and the water zone the oil staining fades gradually over a band of the rock rather than stopping at a sharp line. Soft studio lighting on the cut face, neutral background, crisp rock texture. No text, no numbers, no arrows, no lines marking contacts, no labels, no logos, no watermark, no borders.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 78, 381232 bytes

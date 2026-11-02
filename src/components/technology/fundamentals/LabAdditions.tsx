@@ -17,9 +17,9 @@ const IMAGES: Record<"pvtLab" | "corePlugs" | "coreflood" | "pore" | "capillary"
   pvtLab: { id: "re-pvt-lab", placeholder: "PVT laboratory — high-pressure visual cell with a reservoir fluid sample", src: "/images/technology/engineering/re-pvt-lab.webp", alt: "고압 가시 셀로 저류층 유체 시료를 분석하는 PVT 실험실을 표현한 AI 생성 이미지" },
   corePlugs: { id: "re-core-plugs", placeholder: "Cylindrical sandstone core plugs prepared for special core analysis", src: "/images/technology/engineering/re-core-plugs.webp", alt: "특수 코어 분석을 위해 준비된 원통형 사암 코어 플러그를 표현한 AI 생성 이미지" },
   coreflood: { id: "re-coreflood", placeholder: "Core-flooding apparatus — core holder, pumps and flow lines in a laboratory", src: "/images/technology/engineering/re-coreflood.webp", alt: "코어 홀더와 펌프, 배관으로 이루어진 코어 유동 실험 장치를 표현한 AI 생성 이미지" },
-  pore: { id: "re-pore-scale", placeholder: "Pore-scale close-up — water-wet sand grains coated by a thin water film, oil in the pore centre and a small gas bubble" },
-  capillary: { id: "re-capillary-tubes", placeholder: "Capillary rise — a wide and a narrow glass tube in a water bath; water rises higher in the narrow tube" },
-  satHeight: { id: "re-saturation-height", placeholder: "Reservoir cutaway — gas cap, oil column and water below, with oil staining fading through the transition zone" },
+  pore: { id: "re-pore-scale", placeholder: "Pore-scale close-up — water-wet sand grains coated by a thin water film, oil in the pore centre and a small gas bubble", src: "/images/technology/engineering/re-pore-scale.webp", alt: "물에 젖은 사암 입자 사이 공극에 석유와 가스 기포가 있는 모습을 표현한 AI 생성 이미지" },
+  capillary: { id: "re-capillary-tubes", placeholder: "Capillary rise — a wide and a narrow glass tube in a water bath; water rises higher in the narrow tube", src: "/images/technology/engineering/re-capillary-tubes.webp", alt: "굵은 유리관보다 가는 유리관에서 물이 더 높이 올라가는 모세관 상승을 표현한 AI 생성 이미지" },
+  satHeight: { id: "re-saturation-height", placeholder: "Reservoir cutaway — gas cap, oil column and water below, with oil staining fading through the transition zone", src: "/images/technology/engineering/re-saturation-height.webp", alt: "덮개암 아래 사암 저류층에 가스·석유·물이 높이에 따라 나뉘고 전이대에서 석유 착색이 옅어지는 단면을 표현한 AI 생성 이미지" },
 };
 
 function Photo({ img, ratio = "4 / 3", sizes }: { img: Img; ratio?: string; sizes: string }) {
