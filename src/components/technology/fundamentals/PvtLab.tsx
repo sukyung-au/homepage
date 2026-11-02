@@ -62,11 +62,11 @@ const TESTS: Test[] = [
 
 type Photo = { id: string; placeholder: string; src?: string; alt?: string };
 const PHOTOS: Record<TestId, Photo> = {
-  composition: { id: "re-pvt-composition", placeholder: "Gas chromatograph with an autosampler tray of small vials of separated gas and liquid samples" },
-  flash: { id: "re-pvt-flash", placeholder: "Windowed high-pressure PVT cell: amber oil with gas bubbles coming out of solution, the gas kept inside the cell" },
-  differential: { id: "re-pvt-differential", placeholder: "PVT cell with liberated gas drawn off through fine tubing into a glass gas-collection cylinder" },
-  separator: { id: "re-pvt-separator", placeholder: "Bench-scale separator stages in series, ending in a stock-tank flask of stabilised oil" },
-  viscosity: { id: "re-pvt-viscosity", placeholder: "Rolling-ball viscometer: an inclined high-pressure tube in a temperature-controlled bath" },
+  composition: { id: "re-pvt-composition", placeholder: "Gas chromatograph with an autosampler tray of small vials of separated gas and liquid samples", src: "/images/technology/engineering/re-pvt-composition.webp", alt: "가스 크로마토그래프와 시료 바이알로 저류층 유체 조성을 분석하는 실험실을 표현한 AI 생성 이미지" },
+  flash: { id: "re-pvt-flash", placeholder: "Windowed high-pressure PVT cell: amber oil with gas bubbles coming out of solution, the gas kept inside the cell", src: "/images/technology/engineering/re-pvt-flash.webp", alt: "고압 PVT 셀 안에서 원유로부터 가스가 분리되어 셀 안에 머무는 모습을 표현한 AI 생성 이미지" },
+  differential: { id: "re-pvt-differential", placeholder: "PVT cell with liberated gas drawn off through fine tubing into a glass gas-collection cylinder", src: "/images/technology/engineering/re-pvt-differential.webp", alt: "PVT 셀에서 분리된 가스를 관을 통해 가스 수집 실린더로 빼내는 모습을 표현한 AI 생성 이미지" },
+  separator: { id: "re-pvt-separator", placeholder: "Bench-scale separator stages in series, ending in a stock-tank flask of stabilised oil", src: "/images/technology/engineering/re-pvt-separator.webp", alt: "직렬로 연결된 실험실 분리기와 저장탱크 원유 플라스크를 표현한 AI 생성 이미지" },
+  viscosity: { id: "re-pvt-viscosity", placeholder: "Rolling-ball viscometer: an inclined high-pressure tube in a temperature-controlled bath", src: "/images/technology/engineering/re-pvt-viscosity.webp", alt: "항온 장치 안에 기울여 설치한 rolling-ball 점도계로 원유 점도를 측정하는 모습을 표현한 AI 생성 이미지" },
 };
 
 /* Schematic PVT cell: piston, gas cap (top) and liquid (bottom); heights are fractions of the cell */

@@ -89,3 +89,109 @@ Use case: photorealistic-natural. Asset type: illustrative website image for oil
 ```
 
 - 최종 출력: 1600×1200, WebP 품질 78, 381232 bytes
+
+
+## PVT test photographs
+
+- 생성 날짜: 2026-11-02
+- 생성 도구: Codex 내장 image_gen (내장 도구 모드)
+- 설명: 가상의 실험실 장면을 표현한 AI 생성 이미지. 실제 회사·실험실·장비 모델의 기록이 아닙니다.
+- 원본 PNG는 Codex 생성 이미지 폴더에 보관하고 저장소에 포함하지 않습니다.
+- 출력: 모두 1600×1200, WebP 품질 84 (350KB 초과 시 78까지 조정).
+
+### re-pvt-composition
+
+생성 프롬프트:
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization of a clean modern analytical laboratory bench: a
+gas chromatograph with its autosampler tray holding rows of small sealed glass vials, some with clear
+contents and some with amber crude oil liquid; a gloved hand places one vial into the tray. Soft cool
+daylight, shallow depth of field, neutral cool palette with the amber oil as the only warm accent. Fictional
+equipment, not a real manufacturer. No readable text, no numbers, no screens with values, no logos, no brand
+names, no labels on vials, no borders.
+All equipment surfaces entirely blank and unmarked, including tiny illegible glyphs: no text-like markings, ticks or watermark. Physically continuous, connected tubing. No faces.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 87162 bytes
+
+### re-pvt-flash
+
+생성 프롬프트:
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape close-up editorial photograph-style visualization of a stainless-steel high-pressure PVT cell
+with a vertical glass sight window, mounted inside a temperature-controlled cabinet. Through the window: amber
+crude oil with small gas bubbles rising out of solution and a thin gas layer collecting at the top, all kept
+inside the closed cell. A piston pump is connected by fine stainless tubing at the bottom of the cell only;
+no gas outlet line. Soft cool lighting, neutral cool palette, amber oil as the only warm accent. No readable
+text, no numbers, no gauge scales, no logos, no labels, no borders.
+All equipment surfaces entirely blank and unmarked, including tiny illegible glyphs: no text-like markings, ticks or watermark. Physically continuous, connected tubing. No faces.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 101568 bytes
+
+### re-pvt-differential
+
+생성 프롬프트:
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization of a PVT laboratory setup: a stainless-steel
+high-pressure cell with a glass sight window showing amber crude oil with only a very thin gas layer at the
+top; from the top of the cell a fine stainless tube with a small valve leads out of the cell to a separate
+upright glass gas-collection cylinder standing beside it, partly filled with clear gas above a liquid seal.
+Tubing continuous and plausibly connected. Clean modern lab, soft cool daylight, amber oil as the only warm
+accent. No readable text, no numbers, no graduation marks, no gauge scales, no logos, no labels, no borders.
+All equipment surfaces entirely blank and unmarked, including tiny illegible glyphs: no text-like markings, ticks or watermark. Physically continuous, connected tubing. No faces.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 125734 bytes
+
+### re-pvt-separator
+
+생성 프롬프트:
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization of a bench-scale laboratory separator test rig: two or
+three small stainless-steel separator vessels with glass sight windows mounted in a row and connected in series
+by fine stainless tubing, each vessel with a small gas outlet line at its top, the last stage draining into a
+clear glass flask holding amber stabilised crude oil. Orderly composition left to right, clean modern lab,
+soft cool daylight, amber oil as the only warm accent. No readable text, no numbers, no gauge scales, no logos,
+no labels, no borders.
+All equipment surfaces entirely blank and unmarked, including tiny illegible glyphs: no text-like markings, ticks or watermark. Physically continuous, connected tubing. No faces.
+```
+
+수정 생성 프롬프트:
+
+```text
+Edit this fictional separator-test laboratory photograph, retaining the cool daylight, stainless vessels, amber oil, unmarked equipment and 4:3 framing. Correct ONLY the plumbing to make a physically clear SERIES of THREE stages: remove the existing common bottom manifold connecting all three vessels. Connect the BOTTOM liquid outlet of vessel one by a continuous fine tube to a SIDE inlet on vessel two; connect the BOTTOM liquid outlet of vessel two by a separate continuous fine tube to a SIDE inlet on vessel three. Connect the BOTTOM liquid outlet of vessel three by its own continuous tube to the neck of the final amber-oil flask on the right. Each vessel has its OWN separate fine GAS outlet tube from its TOP running upward and out of frame, with no gas line leading into another vessel or the oil flask. Show the whole flow path clearly, no disjointed tubing. Keep all glass windows and final flask. No text, numbers, scales, labels, logos, watermark or arrows.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 129982 bytes
+
+### re-pvt-viscosity
+
+생성 프롬프트:
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape editorial photograph-style visualization of a laboratory rolling-ball viscometer: a thick-walled
+high-pressure measuring tube mounted at an inclined angle inside a temperature-controlled jacket, filled with
+amber crude oil, connected by fine stainless tubing to a sample pump; the tube's metal end fittings and the
+inclined mount are clearly visible. Clean modern lab, soft cool daylight, shallow depth of field, amber oil as
+the only warm accent. No readable text, no numbers, no scales, no screens with values, no logos, no labels,
+no borders.
+All equipment surfaces entirely blank and unmarked, including tiny illegible glyphs: no text-like markings, ticks or watermark. Physically continuous, connected tubing. No faces.
+```
+
+수정 생성 프롬프트:
+
+```text
+Edit this fictional rolling-ball viscometer laboratory photograph. Preserve its inclined high-pressure measuring tube, metal end fittings, one small steel rolling ball, connected sample pump, cool light and 4:3 composition. Make the measuring bore completely filled with transparent amber crude oil with NO air pocket, NO free horizontal liquid surface inside the bore. Add a clearly visible transparent temperature-control outer jacket surrounding the inclined measuring tube, filled with clear circulating bath fluid, with two continuous connected coolant hoses at opposite ends. Distinguish the amber inner measuring tube from the clear outer thermal jacket. Preserve plain unmarked metal supports. No text, numbers, ticks, scales, labels, logos, watermark or people.
+```
+
+- 최종 출력: 1600×1200, WebP 품질 84, 155446 bytes
