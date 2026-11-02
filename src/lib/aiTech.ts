@@ -34,6 +34,8 @@ export const AI_TOPICS: AiTopic[] = [
     sections: [
       { id: "what", title: "What Generative AI Is", intent: "생성형 AI의 개념과, 글을 다루는 언어 모델과 이미지를 만드는 생성 모델의 차이를 짧게 소개합니다.",
         plan: ["생성형 AI 한 문단 정의", "언어 모델 vs 이미지 생성 모델", "‘질문 → 생성 → 확인’ 기본 사용 방식"] },
+      { id: "how-llm-works", title: "How an LLM Works", intent: "LLM이 토큰 단위로 다음에 올 글을 예측해 답을 만드는 원리와, 학습 단계, 모델이 아는 것과 모르는 것을 설명합니다.",
+        plan: ["토큰 → 어텐션 → 다음 토큰 예측 → 반복", "사전학습 · 미세조정 · RLHF", "컨텍스트 창, 최신 정보, 그럴듯함과 사실의 차이"] },
       { id: "tools", title: "Tools Used During the Internship", intent: "실제로 사용한 도구와 각각의 용도를 표로 보여 줍니다.",
         plan: ["도구별 용도 표 (예: 코드 작성, 이미지 생성, 문서 정리)", "도구를 고른 이유", "사용 화면 캡처 (민감 정보 제외)"] },
       { id: "use-cases", title: "Use Cases", intent: "업무에서 생성형 AI를 활용한 대표 사례를 카드로 보여 줍니다.",
