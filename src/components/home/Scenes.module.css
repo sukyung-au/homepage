@@ -101,6 +101,9 @@
 .outcomes li{flex:1;display:grid;grid-template-columns:36px 1fr;gap:12px;align-content:center;padding:14px 0;border-top:1px solid var(--ex-line)}
 .outcomes li:last-child{border-bottom:1px solid var(--ex-line)}
 .outcomes li:last-child .elTitle{color:var(--ex-blue)}
+/* Scene photograph: fixed ratio so the slot holds its shape before and after the image loads */
+.photo{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden}
+.photoWide{aspect-ratio:2/1}
 .devField{width:100%;max-width:1360px;margin:72px auto 0}
 .flowlines path{fill:none;stroke:var(--ex-navy);stroke-width:1.4}
 .flowlines .export{stroke:var(--ex-blue);stroke-dasharray:6 4}

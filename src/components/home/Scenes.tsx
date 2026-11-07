@@ -1,7 +1,9 @@
 import type { CSSProperties } from "react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
+import { ImageSlot } from "@/components/ds/ImageSlot";
 import { TechViz } from "@/components/ds/TechViz";
 import { Scene, SceneBody, SceneHead, sceneStyles as ss } from "@/components/site/scene";
+import { Details } from "@/components/technology/fundamentals/Details";
 import { getStage } from "@/lib/stages";
 import { DeviatedWell, FieldSection, H, OWC, Platform, Rig, SeismicSurvey, VerticalWell, horizonPath, wellPoint, type Camera } from "./FieldSection";
 import fs from "./FieldSection.module.css";
@@ -14,11 +16,31 @@ const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ")
  * so capping width at (available height − extra) × ratio keeps the whole visual above the floating nav.
  */
 const FIT: Record<string, CSSProperties> = {
-  exploration: { "--fit-ratio": "1.239", "--fit-extra": "64px" } as CSSProperties,
-  appraisal: { "--fit-ratio": "1.667", "--fit-extra": "92px" } as CSSProperties,
-  production: { "--fit-ratio": "1.667", "--fit-extra": "262px" } as CSSProperties,
-  decommissioning: { "--fit-ratio": "2.083", "--fit-extra": "0px" } as CSSProperties,
+  exploration: { "--fit-ratio": "1.6", "--fit-extra": "72px" } as CSSProperties,
+  appraisal: { "--fit-ratio": "1.6", "--fit-extra": "164px" } as CSSProperties,
+  production: { "--fit-ratio": "1.6", "--fit-extra": "334px" } as CSSProperties,
+  decommissioning: { "--fit-ratio": "1.6", "--fit-extra": "72px" } as CSSProperties,
 };
+
+type Photo = { id: string; placeholder: string; src?: string; alt?: string; wide?: boolean };
+
+/** One photorealistic image per scene. The schematic field section stays below it in a fold. */
+const PHOTOS: Record<string, Photo> = {
+  exploration: { id: "journey-exploration", placeholder: "Seismic survey vessel towing streamers at sea", src: "/images/journey/journey-exploration.webp", alt: "바다에서 여러 줄의 스트리머를 끌고 가는 탄성파 탐사선을 표현한 AI 생성 이미지" },
+  appraisal: { id: "journey-appraisal", placeholder: "Core samples laid out in trays for evaluation", src: "/images/journey/journey-appraisal.webp", alt: "트레이에 놓인 원기둥과 반으로 쪼갠 사암 코어 시료를 장갑 낀 손으로 살펴보는 AI 생성 이미지" },
+  development: { id: "journey-development", placeholder: "Heavy-lift vessel setting topsides onto a steel jacket", wide: true, src: "/images/journey/journey-development.webp", alt: "대형 크레인선이 바다 위 강재 재킷에 상부 설비를 설치하는 장면을 표현한 AI 생성 이미지" },
+  production: { id: "journey-production", placeholder: "Operator walking through the process deck of a producing platform", src: "/images/journey/journey-production.webp", alt: "생산 중인 고정식 해양 플랫폼의 공정 데크를 걸어가는 작업자의 뒷모습을 표현한 AI 생성 이미지" },
+  decommissioning: { id: "journey-decommissioning", placeholder: "Heavy-lift vessel removing a platform jacket section onto a barge", src: "/images/journey/journey-decommissioning.webp", alt: "크레인선이 철거한 강재 재킷 구간을 운송 바지선에 싣는 장면을 표현한 AI 생성 이미지" },
+};
+
+function ScenePhoto({ photo }: { photo: Photo }) {
+  const { wide, ...slot } = photo;
+  return (
+    <div className={cx(s.photo, wide && s.photoWide)}>
+      <ImageSlot {...slot} sizes={wide ? "(max-width: 1400px) 100vw, 1360px" : "(max-width: 900px) 100vw, 60vw"} />
+    </div>
+  );
+}
 
 /** Destination of the FDP technical page. Undefined until that page exists → the CTA renders inert. */
 const FDP_HREF: string | undefined = undefined;
@@ -97,30 +119,33 @@ function ExplorationScene() {
           </SceneHead>
         </div>
         <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.exploration}>
-          <RegionalMap />
-          <svg className={s.zoom} viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden>
-            <path d="M60,0 L0,40 M66.7,0 L100,40" />
-          </svg>
-          <FieldSection
-            camera={cam}
-            label="Illustrative offshore cross-section: seismic survey, interpreted horizons and an exploration well at the structure crest"
-            tags={[
-              { x: 200, y: 66, label: "Seismic Survey", step: "02", sub: "Source · streamer · reflections", seq: 2 },
-              { x: 300, y: H.seal(300), label: "Seismic Interpretation", step: "03", sub: "Interpreted horizons · prospect", side: "left", seq: 3 },
-              { x: 520, y: 322, label: "Exploration Drilling", step: "04", sub: "Exploration well · discovery", seq: 4 },
-            ]}
-          >
-            <SeismicSurvey x={170} />
-            <g data-layer="interpretation" data-sequence="3">
-              <path d={horizonPath(H.seal, 250, 800)} className={cx(fs.line, s.interp)} />
-              <path d={horizonPath(H.resTop, 250, 800)} className={cx(fs.line, s.interp)} />
-            </g>
-            <g data-layer="exploration-drilling" data-sequence="4">
-              <Rig x={520} />
-              <VerticalWell x={520} to={325} />
-              <circle cx={520} cy={322} r={5} className={s.discovery} />
-            </g>
-          </FieldSection>
+          <ScenePhoto photo={PHOTOS.exploration} />
+          <Details summary="Schematic cross-section">
+            <RegionalMap />
+            <svg className={s.zoom} viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden>
+              <path d="M60,0 L0,40 M66.7,0 L100,40" />
+            </svg>
+            <FieldSection
+              camera={cam}
+              label="Illustrative offshore cross-section: seismic survey, interpreted horizons and an exploration well at the structure crest"
+              tags={[
+                { x: 200, y: 66, label: "Seismic Survey", step: "02", sub: "Source · streamer · reflections", seq: 2 },
+                { x: 300, y: H.seal(300), label: "Seismic Interpretation", step: "03", sub: "Interpreted horizons · prospect", side: "left", seq: 3 },
+                { x: 520, y: 322, label: "Exploration Drilling", step: "04", sub: "Exploration well · discovery", seq: 4 },
+              ]}
+            >
+              <SeismicSurvey x={170} />
+              <g data-layer="interpretation" data-sequence="3">
+                <path d={horizonPath(H.seal, 250, 800)} className={cx(fs.line, s.interp)} />
+                <path d={horizonPath(H.resTop, 250, 800)} className={cx(fs.line, s.interp)} />
+              </g>
+              <g data-layer="exploration-drilling" data-sequence="4">
+                <Rig x={520} />
+                <VerticalWell x={520} to={325} />
+                <circle cx={520} cy={322} r={5} className={s.discovery} />
+              </g>
+            </FieldSection>
+          </Details>
         </div>
       </div>
     </Scene>
@@ -153,40 +178,43 @@ function AppraisalScene() {
     <Scene stage={st}>
       <div className={cx(ss.wrap, s.rowTop)}>
         <div className={cx(s.visual, s.fit, s.fitLeft)} style={FIT.appraisal}>
-          <FieldSection
-            camera={cam}
-            label="Illustrative close-up of the reservoir: an appraisal well penetrates the reservoir while datasets are acquired around it"
-            depthMarks={[[150, "Seabed"], [OWC, "Fluid contact"]]}
-            tags={[
-              { x: 520, y: 300, label: "Discovery well", side: "left", minor: true },
-              { x: AW, y: 190, label: "Appraisal Well", step: "01", seq: 1 },
-              { x: AW + 24, y: top + 8, label: "Core & Wireline", step: "02", seq: 2 },
-              { x: AW, y: 352, label: "PVT Analysis", step: "03", side: "left", seq: 3 },
-              { x: AW + 10, y: 384, label: "Well Test / DST", step: "04", seq: 4 },
-              { x: 880, y: 236, label: "3D Seismic", step: "05", side: "left", seq: 5 },
-              { x: 790, y: 436, label: "Initial Reservoir Model", step: "06", side: "left", seq: 6 },
-            ]}
-          >
-            <g data-layer="3d-seismic" data-sequence="5" className={s.survey}>
-              {Array.from({ length: 13 }, (_, i) => 380 + i * 42).map((x) => <line key={x} x1={x} x2={x} y1={160} y2={455} />)}
-              <rect x={380} y={160} width={504} height={295} />
-            </g>
-            <g data-layer="reservoir-model" data-sequence="6" className={s.model}>
-              {Array.from({ length: 22 }, (_, i) => 400 + i * 20).map((x) => (
-                <line key={x} x1={x} x2={x} y1={H.resTop(x)} y2={H.resBase(x)} />
-              ))}
-              <path d={horizonPath((x) => (H.resTop(x) + H.resBase(x)) / 2, 400, 820)} />
-            </g>
-            <line x1={330} x2={930} y1={OWC} y2={OWC} className={s.contact} data-layer="fluid-contact" />
-            <VerticalWell x={520} to={325} faded />
-            <g data-layer="appraisal-well" data-sequence="1">
-              <VerticalWell x={AW} to={402} kind="appraisal" />
-            </g>
-            <polyline points={log} className={s.wireline} data-layer="core-wireline" data-sequence="2" />
-            <rect x={AW - 4} y={top + 4} width={8} height={14} className={s.core} data-layer="core" data-sequence="2" />
-            <circle cx={AW} cy={352} r={4.5} className={s.pvt} data-layer="pvt" data-sequence="3" />
-            <path d={`M${AW + 8},${top + 30} h6 v24 h-6`} className={s.dst} data-layer="dst" data-sequence="4" />
-          </FieldSection>
+          <ScenePhoto photo={PHOTOS.appraisal} />
+          <Details summary="Schematic cross-section">
+            <FieldSection
+              camera={cam}
+              label="Illustrative close-up of the reservoir: an appraisal well penetrates the reservoir while datasets are acquired around it"
+              depthMarks={[[150, "Seabed"], [OWC, "Fluid contact"]]}
+              tags={[
+                { x: 520, y: 300, label: "Discovery well", side: "left", minor: true },
+                { x: AW, y: 190, label: "Appraisal Well", step: "01", seq: 1 },
+                { x: AW + 24, y: top + 8, label: "Core & Wireline", step: "02", seq: 2 },
+                { x: AW, y: 352, label: "PVT Analysis", step: "03", side: "left", seq: 3 },
+                { x: AW + 10, y: 384, label: "Well Test / DST", step: "04", seq: 4 },
+                { x: 880, y: 236, label: "3D Seismic", step: "05", side: "left", seq: 5 },
+                { x: 790, y: 436, label: "Initial Reservoir Model", step: "06", side: "left", seq: 6 },
+              ]}
+            >
+              <g data-layer="3d-seismic" data-sequence="5" className={s.survey}>
+                {Array.from({ length: 13 }, (_, i) => 380 + i * 42).map((x) => <line key={x} x1={x} x2={x} y1={160} y2={455} />)}
+                <rect x={380} y={160} width={504} height={295} />
+              </g>
+              <g data-layer="reservoir-model" data-sequence="6" className={s.model}>
+                {Array.from({ length: 22 }, (_, i) => 400 + i * 20).map((x) => (
+                  <line key={x} x1={x} x2={x} y1={H.resTop(x)} y2={H.resBase(x)} />
+                ))}
+                <path d={horizonPath((x) => (H.resTop(x) + H.resBase(x)) / 2, 400, 820)} />
+              </g>
+              <line x1={330} x2={930} y1={OWC} y2={OWC} className={s.contact} data-layer="fluid-contact" />
+              <VerticalWell x={520} to={325} faded />
+              <g data-layer="appraisal-well" data-sequence="1">
+                <VerticalWell x={AW} to={402} kind="appraisal" />
+              </g>
+              <polyline points={log} className={s.wireline} data-layer="core-wireline" data-sequence="2" />
+              <rect x={AW - 4} y={top + 4} width={8} height={14} className={s.core} data-layer="core" data-sequence="2" />
+              <circle cx={AW} cy={352} r={4.5} className={s.pvt} data-layer="pvt" data-sequence="3" />
+              <path d={`M${AW + 8},${top + 30} h6 v24 h-6`} className={s.dst} data-layer="dst" data-sequence="4" />
+            </FieldSection>
+          </Details>
           <Sequence label="Appraisal logic" attr="phase" items={["Discovery", "Data Acquisition", "Reservoir Understanding", "Commerciality Assessment"]} />
         </div>
         <div className={cx(s.text, s.textAppraisal)}>
@@ -282,29 +310,32 @@ function DevelopmentScene() {
       </div>
 
       <div className={s.devField}>
-        <FieldSection
-          camera={cam}
-          label="Illustrative field development: platform, development wells, subsea injector and export line"
-          tags={[
-            { x: 520, y: 30, label: "Facilities", sub: "Fixed platform", step: "03", seq: 3 },
-            { x: 430, y: 300, label: "Wells", sub: "Development wells", step: "02", side: "left", seq: 2 },
-            { x: 900, y: 150, label: "Production System", sub: "Flowlines · injection · export", step: "04", side: "left", seq: 4 },
-          ]}
-        >
-          <g data-layer="facilities" data-sequence="3"><Platform x={520} /></g>
-          <g data-layer="wells" data-sequence="2">
-            <DeviatedWell from={520} tx={430} ty={338} />
-            <DeviatedWell from={520} tx={470} ty={330} />
-            <DeviatedWell from={520} tx={590} ty={332} />
-            <DeviatedWell from={520} tx={690} ty={356} />
-            <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
-          </g>
-          <g data-layer="production-system" data-sequence="4" className={s.flowlines}>
-            <path d={`M520,${H.seabed(520) - 1} L860,${H.seabed(860) - 1}`} />
-            <path d={`M546,${H.seabed(546) - 1} C600,${H.seabed(600) + 6} 820,${H.seabed(820) + 6} 1000,${H.seabed(1000) + 4}`} className={s.export} />
-            <rect x={852} y={H.seabed(860) - 8} width={16} height={8} className={s.tree} />
-          </g>
-        </FieldSection>
+        <ScenePhoto photo={PHOTOS.development} />
+        <Details summary="Schematic cross-section">
+          <FieldSection
+            camera={cam}
+            label="Illustrative field development: platform, development wells, subsea injector and export line"
+            tags={[
+              { x: 520, y: 30, label: "Facilities", sub: "Fixed platform", step: "03", seq: 3 },
+              { x: 430, y: 300, label: "Wells", sub: "Development wells", step: "02", side: "left", seq: 2 },
+              { x: 900, y: 150, label: "Production System", sub: "Flowlines · injection · export", step: "04", side: "left", seq: 4 },
+            ]}
+          >
+            <g data-layer="facilities" data-sequence="3"><Platform x={520} /></g>
+            <g data-layer="wells" data-sequence="2">
+              <DeviatedWell from={520} tx={430} ty={338} />
+              <DeviatedWell from={520} tx={470} ty={330} />
+              <DeviatedWell from={520} tx={590} ty={332} />
+              <DeviatedWell from={520} tx={690} ty={356} />
+              <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
+            </g>
+            <g data-layer="production-system" data-sequence="4" className={s.flowlines}>
+              <path d={`M520,${H.seabed(520) - 1} L860,${H.seabed(860) - 1}`} />
+              <path d={`M546,${H.seabed(546) - 1} C600,${H.seabed(600) + 6} 820,${H.seabed(820) + 6} 1000,${H.seabed(1000) + 4}`} className={s.export} />
+              <rect x={852} y={H.seabed(860) - 8} width={16} height={8} className={s.tree} />
+            </g>
+          </FieldSection>
+        </Details>
       </div>
     </Scene>
   );
@@ -355,37 +386,40 @@ function ProductionScene() {
           </SceneHead>
         </div>
         <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.production}>
-          <FieldSection
-            camera={cam}
-            label="Illustrative producing field: fluids move toward producers, water is injected, and the fluid contact shifts over time"
-            depthMarks={[[70, "Sea level"], [150, "Seabed"]]}
-            tags={[
-              { x: px, y: py, label: "Producers", sub: "Fluid moves toward the wells", seq: 1 },
-              { x: lx, y: ly, label: "Artificial Lift", minor: true, seq: 2 },
-              { x: 820, y: 404, label: "Water Injection", sub: "Pressure support", side: "left", seq: 3 },
-              { x: ix, y: iy, label: "Additional Development", sub: "Planned infill (if needed)", side: "left", seq: 4 },
-              { x: 960, y: OWC - 10, label: "Initial → current contact", sub: "Understanding is updated", side: "left", minor: true, seq: 5 },
-            ]}
-          >
-            <Platform x={520} />
-            <DeviatedWell from={520} tx={430} ty={338} />
-            <DeviatedWell from={520} tx={470} ty={330} />
-            <DeviatedWell from={520} tx={590} ty={332} />
-            <DeviatedWell from={520} tx={690} ty={356} />
-            <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
-            <DeviatedWell from={520} tx={360} ty={356} kind="infill" dashed seq={4} />
-            <rect x={lx - 4} y={ly - 6} width={8} height={12} className={s.esp} data-layer="artificial-lift" />
-            <g data-layer="fluid-flow" data-sequence="1" className={s.flow}>
-              {flow.map(([x, y, rot]) => (
-                <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(${rot})`} />
-              ))}
-              {[[790, 425], [770, 432]].map(([x, y]) => (
-                <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(200)`} className={s.inject} />
-              ))}
-            </g>
-            <line x1={150} x2={1000} y1={OWC} y2={OWC} className={s.contact} data-layer="contact-initial" />
-            <line x1={150} x2={1000} y1={OWC - 10} y2={OWC - 10} className={s.contactNow} data-layer="contact-current" />
-          </FieldSection>
+          <ScenePhoto photo={PHOTOS.production} />
+          <Details summary="Schematic cross-section">
+            <FieldSection
+              camera={cam}
+              label="Illustrative producing field: fluids move toward producers, water is injected, and the fluid contact shifts over time"
+              depthMarks={[[70, "Sea level"], [150, "Seabed"]]}
+              tags={[
+                { x: px, y: py, label: "Producers", sub: "Fluid moves toward the wells", seq: 1 },
+                { x: lx, y: ly, label: "Artificial Lift", minor: true, seq: 2 },
+                { x: 820, y: 404, label: "Water Injection", sub: "Pressure support", side: "left", seq: 3 },
+                { x: ix, y: iy, label: "Additional Development", sub: "Planned infill (if needed)", side: "left", seq: 4 },
+                { x: 960, y: OWC - 10, label: "Initial → current contact", sub: "Understanding is updated", side: "left", minor: true, seq: 5 },
+              ]}
+            >
+              <Platform x={520} />
+              <DeviatedWell from={520} tx={430} ty={338} />
+              <DeviatedWell from={520} tx={470} ty={330} />
+              <DeviatedWell from={520} tx={590} ty={332} />
+              <DeviatedWell from={520} tx={690} ty={356} />
+              <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
+              <DeviatedWell from={520} tx={360} ty={356} kind="infill" dashed seq={4} />
+              <rect x={lx - 4} y={ly - 6} width={8} height={12} className={s.esp} data-layer="artificial-lift" />
+              <g data-layer="fluid-flow" data-sequence="1" className={s.flow}>
+                {flow.map(([x, y, rot]) => (
+                  <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(${rot})`} />
+                ))}
+                {[[790, 425], [770, 432]].map(([x, y]) => (
+                  <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(200)`} className={s.inject} />
+                ))}
+              </g>
+              <line x1={150} x2={1000} y1={OWC} y2={OWC} className={s.contact} data-layer="contact-initial" />
+              <line x1={150} x2={1000} y1={OWC - 10} y2={OWC - 10} className={s.contactNow} data-layer="contact-current" />
+            </FieldSection>
+          </Details>
           <div className={s.monitor} data-layer="monitoring" data-sequence="1">
             <div className={s.monitorHead}>
               <span className={s.monitorTitle}>Production monitoring · illustrative</span>
@@ -425,24 +459,27 @@ function DecommissioningScene() {
           </SceneHead>
         </div>
         <div className={cx(s.visual, s.fit, s.fitRight)} style={FIT.decommissioning}>
-          <FieldSection
-            camera={cam}
-            muted
-            label="Illustrative decommissioned field: plugged wells, platform removed, seabed restored"
-            tags={[
-              { x: 520, y: 40, label: "Facility Removal", step: "02", seq: 2 },
-              { x: 520, y: 196, label: "Plug & Abandonment", step: "01", side: "left", seq: 1 },
-              { x: 830, y: H.seabed(830) - 2, label: "Environmental Restoration", step: "03", side: "left", seq: 3 },
-            ]}
-          >
-            <g data-layer="facility-removal" data-sequence="2"><Platform x={520} ghost /></g>
-            <g data-layer="plug-abandonment" data-sequence="1">
-              {wells.map(([tx, ty]) => <DeviatedWell key={tx} from={520} tx={tx} ty={ty} kind="abandoned" dashed />)}
-              <rect x={515} y={170} width={10} height={14} className={s.plug} />
-              {wells.map(([tx, ty]) => <rect key={`p${tx}`} x={tx - 5} y={ty - 22} width={10} height={12} className={s.plug} />)}
-            </g>
-            <path d={horizonPath((x) => H.seabed(x) - 1)} className={s.restored} data-layer="restoration" data-sequence="3" />
-          </FieldSection>
+          <ScenePhoto photo={PHOTOS.decommissioning} />
+          <Details summary="Schematic cross-section">
+            <FieldSection
+              camera={cam}
+              muted
+              label="Illustrative decommissioned field: plugged wells, platform removed, seabed restored"
+              tags={[
+                { x: 520, y: 40, label: "Facility Removal", step: "02", seq: 2 },
+                { x: 520, y: 196, label: "Plug & Abandonment", step: "01", side: "left", seq: 1 },
+                { x: 830, y: H.seabed(830) - 2, label: "Environmental Restoration", step: "03", side: "left", seq: 3 },
+              ]}
+            >
+              <g data-layer="facility-removal" data-sequence="2"><Platform x={520} ghost /></g>
+              <g data-layer="plug-abandonment" data-sequence="1">
+                {wells.map(([tx, ty]) => <DeviatedWell key={tx} from={520} tx={tx} ty={ty} kind="abandoned" dashed />)}
+                <rect x={515} y={170} width={10} height={14} className={s.plug} />
+                {wells.map(([tx, ty]) => <rect key={`p${tx}`} x={tx - 5} y={ty - 22} width={10} height={12} className={s.plug} />)}
+              </g>
+              <path d={horizonPath((x) => H.seabed(x) - 1)} className={s.restored} data-layer="restoration" data-sequence="3" />
+            </FieldSection>
+          </Details>
           <SceneBody stage={st} className={cx(s.bodyUnder, s.bodyCentered)} />
         </div>
       </div>
