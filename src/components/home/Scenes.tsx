@@ -26,11 +26,11 @@ type Photo = { id: string; placeholder: string; src?: string; alt?: string; wide
 
 /** One photorealistic image per scene. The schematic field section stays below it in a fold. */
 const PHOTOS: Record<string, Photo> = {
-  exploration: { id: "journey-exploration", placeholder: "Seismic survey vessel towing streamers at sea" },
-  appraisal: { id: "journey-appraisal", placeholder: "Core samples laid out in trays for evaluation" },
-  development: { id: "journey-development", placeholder: "Heavy-lift vessel setting topsides onto a steel jacket", wide: true },
-  production: { id: "journey-production", placeholder: "Operator walking through the process deck of a producing platform" },
-  decommissioning: { id: "journey-decommissioning", placeholder: "Heavy-lift vessel removing a platform jacket section onto a barge" },
+  exploration: { id: "journey-exploration", placeholder: "Seismic survey vessel towing streamers at sea", src: "/images/journey/journey-exploration.webp", alt: "바다에서 여러 줄의 스트리머를 끌고 가는 탄성파 탐사선을 표현한 AI 생성 이미지" },
+  appraisal: { id: "journey-appraisal", placeholder: "Core samples laid out in trays for evaluation", src: "/images/journey/journey-appraisal.webp", alt: "트레이에 놓인 원기둥과 반으로 쪼갠 사암 코어 시료를 장갑 낀 손으로 살펴보는 AI 생성 이미지" },
+  development: { id: "journey-development", placeholder: "Heavy-lift vessel setting topsides onto a steel jacket", wide: true, src: "/images/journey/journey-development.webp", alt: "대형 크레인선이 바다 위 강재 재킷에 상부 설비를 설치하는 장면을 표현한 AI 생성 이미지" },
+  production: { id: "journey-production", placeholder: "Operator walking through the process deck of a producing platform", src: "/images/journey/journey-production.webp", alt: "생산 중인 고정식 해양 플랫폼의 공정 데크를 걸어가는 작업자의 뒷모습을 표현한 AI 생성 이미지" },
+  decommissioning: { id: "journey-decommissioning", placeholder: "Heavy-lift vessel removing a platform jacket section onto a barge", src: "/images/journey/journey-decommissioning.webp", alt: "크레인선이 철거한 강재 재킷 구간을 운송 바지선에 싣는 장면을 표현한 AI 생성 이미지" },
 };
 
 function ScenePhoto({ photo }: { photo: Photo }) {
