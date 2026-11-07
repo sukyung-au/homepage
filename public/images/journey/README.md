@@ -12,7 +12,7 @@
 | --- | --- | --- | --- | --- |
 | journey-exploration.webp | 1600×1000 | 84 | 240122 | 0 |
 | journey-appraisal.webp | 1600×1000 | 84 | 178694 | 0 |
-| journey-development.webp | 1920×960 | 84 | 174174 | 1 |
+| journey-development.webp | 1920×960 | 84 | 158878 | 5 |
 | journey-production.webp | 1600×1000 | 84 | 290722 | 0 |
 | journey-decommissioning.webp | 1600×1000 | 84 | 215508 | 0 |
 
@@ -71,6 +71,32 @@ Fictional scene, not a real company, vessel or facility. No readable text, no nu
 Edit this fictional offshore installation photograph. Preserve the 2:1 framing, connected taut orange lifting slings, crane hook, complete topsides aligned over a steel jacket with legs entering the sea, lighting, sea and composition. Remove every painted white draft mark, vertical scale, cross-shaped marking, numeral-like marking and any glyph from the vessel hull, including near the bow, below the superstructure, and near the stern. Make the dark hull and red waterline completely plain and unmarked. Keep all equipment physically continuous and plausible. Fictional scene, not a real company, vessel or facility. No readable text, no numbers, no text-like markings, no hull names, no logos, no watermark, no borders, no visible faces.
 ```
 
+### journey-development · A-frame 윈치 드럼 표식 제거
+
+```text
+Edit only the small winch drum at the top of the crane's white A-frame, around x=640–690, y=515–535 in this 1920×960 photograph. Remove the red digit-like and logo-like painted marks on that drum and replace them with plain unmarked off-white paint matching the surrounding housing. Keep the drum shape, cables, railing, shading and mechanical details. Keep everything else unchanged: exact 2:1 composition and framing, vessel hull and superstructure, entire crane structure, connected lifting cables and orange slings, topsides, jacket legs and bracing, sky, sea, lighting and colors. Do not add any marks anywhere. Fictional scene, not a real company, vessel or facility. No readable text, no numbers, no text-like markings, no hull names, no logos, no watermark, no borders, no visible faces.
+```
+
+### journey-development · 크레인 페데스털 표식 제거 시도 (폐기)
+
+```text
+Make one tiny localized correction only to this fictional offshore installation photograph: on the pale gray cylindrical crane pedestal immediately above the deck railings, around x=720–740, y=785–800 in the 1920×960 source, remove the small dark bird-shaped/logo-like mark and replace it with continuous plain pale gray paint and natural shading. Keep the pedestal geometry and all railings unchanged. The winch drum at the top of the white A-frame must remain plain unmarked off-white paint. Preserve everything else: composition, vessel and its genuine round hawse openings, crane, cables, orange slings, topsides, jacket, sky, sea, lighting and color. Do not add letters, digits, logos, painted symbols or glyph-like markings anywhere. No readable text, no numbers, no text-like markings, no hull names, no logos, no watermark, no borders, no visible faces.
+```
+
+### journey-development · 크레인 페데스털 표식 제거 재시도
+
+```text
+Remove the small dark bird silhouette painted on the lowest pale gray cylindrical base of the crane, immediately ABOVE the yellow deck rail and just to the RIGHT of the white rectangular machinery housing. This is the lower crane pedestal on the ship, NOT the white A-frame winch high above it. Its lower curved gray surface must be entirely plain, smooth, unmarked gray paint with natural shading. Also keep the A-frame top winch drum entirely plain white without red markings. Change only this tiny painted silhouette. Keep the whole offshore installation photograph and all mechanical structures, vessels, crane, taut connected slings, topsides, jacket, sea and sky unchanged. No text, symbols, digits, logos, watermarks or glyph-like marks.
+```
+
+### journey-development · 윈치 드럼 붉은 표식 최종 제거
+
+```text
+Remove all red painted strokes from the small white winch drum/housing at the very top of the crane's white A-frame, just below the diagonal black suspension cables and above the white triangular supports. Make that small housing entirely plain off-white paint: absolutely no red dots, red strokes, lettering or logo-like paint there. Keep the lowest cylindrical gray crane pedestal plain and unmarked as it is now. Preserve everything else in the provided photograph, including composition, vessel, full crane, slings, module, jacket, sky and sea. No text, digits, logos, glyphs, watermark or borders.
+```
+
 ## 육안 검수
+
+2026-11-07 추가 검수: A-frame 상부 윈치 드럼의 붉은 숫자·로고형 표식을 내장 image_gen 수정 생성으로 제거했습니다. 확대 검사에서 발견한 하부 크레인 페데스털의 새 모양 표식도 제거했습니다. 첫 페데스털 수정본은 표식이 남아 폐기했고, 재시도 후 다시 생긴 드럼의 붉은 점을 최종 수정했습니다. 최종 WebP의 드럼 영역을 6배 확대하고 선체·상부 구조·페데스털·붐·후크를 확대해 확인했으며, 추가 글리프형 도장 표식은 발견하지 못했습니다. 선체의 둥근 계선용 개구부와 기계 부품·음영은 유지했습니다. 구도, 선박과 크레인, 연결된 슬링, 상부 설비와 재킷, 하늘과 바다는 유지했습니다.
 
 5장 모두 직접 확인했습니다. Exploration의 스트리머는 선미에서 이어지고, Appraisal의 코어는 원기둥·반원기둥 형태입니다. Development와 Decommissioning의 슬링은 후크에서 인양물까지 이어지며, Development의 재킷 다리는 물속으로 이어집니다. Production의 배관은 연결되어 있고 작업자는 뒷모습으로만 보입니다. 최초 Development 이미지의 선체 흘수 표식은 수정 생성으로 제거했습니다. 최종 이미지에서 글자·숫자·로고·얼굴이나 명백한 물리적 단절은 발견하지 못했습니다. 차분한 푸른 바다, 중성 강재와 노란 난간이 hero-surface.webp의 밝은 해양 현장 톤과 어울리는지 확인했습니다.
