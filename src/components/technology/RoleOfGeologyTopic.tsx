@@ -38,25 +38,25 @@ const WORKFLOW: { en: string; ko: string; body: string; items: string[]; img: Ph
     en: "Rock & Well Data", ko: "암석과 시추공 자료",
     body: "코어와 암편으로 암석을 관찰하고, 검층 자료와 함께 시추공에서 만난 지층의 특성을 해석합니다.",
     items: ["암상과 퇴적구조 관찰", "코어·검층 자료의 연계"],
-    img: { id: "ge-wf-core", placeholder: "Geologist examining slabbed sandstone core in trays with a hand lens" },
+    img: { id: "ge-wf-core", placeholder: "Geologist examining slabbed sandstone core in trays with a hand lens", src: "/images/technology/geology/ge-wf-core.webp", alt: "반으로 자른 사암 코어의 퇴적 구조를 실내 실험실에서 돋보기로 관찰하는 장면을 표현한 AI 생성 이미지" },
   },
   {
     en: "Stratigraphic Framework", ko: "층서 골격과 지층 대비",
     body: "시추공 사이의 지층을 대비하고 지구물리의 구조 해석과 연결해, 저류층의 공간적 골격을 구성합니다.",
     items: ["지층 경계와 두께 해석", "구조·층서 자료 통합"],
-    img: { id: "ge-wf-strata", placeholder: "Coastal cliff of layered sedimentary strata traceable across the exposure" },
+    img: { id: "ge-wf-strata", placeholder: "Coastal cliff of layered sedimentary strata traceable across the exposure", src: "/images/technology/geology/ge-wf-strata.webp", alt: "해안 절벽을 따라 이어지며 두께가 변하는 퇴적암 지층을 표현한 AI 생성 이미지" },
   },
   {
     en: "Depositional Facies", ko: "퇴적환경과 퇴적상",
     body: "암석이 쌓인 환경을 해석하고, 퇴적상(facies)의 분포와 관계를 이용해 시추공 사이의 저류암을 추정합니다.",
     items: ["퇴적상 분포 모델링", "저류층의 연속성과 불균질성 검토"],
-    img: { id: "ge-wf-facies", placeholder: "Aerial view of a meandering river with sand bars and floodplain" },
+    img: { id: "ge-wf-facies", placeholder: "Aerial view of a meandering river with sand bars and floodplain", src: "/images/technology/geology/ge-wf-facies.webp", alt: "모래톱과 범람원, 우각호가 있는 사행하천을 하늘에서 본 장면을 표현한 AI 생성 이미지" },
   },
   {
     en: "Property Distribution", ko: "저류층 물성 분포",
     body: "암석물리 평가 결과와 퇴적상 모델을 통합해 공극률·투과도 등의 공간 분포를 모델에 반영합니다.",
     items: ["자료의 해상도와 규모 차이 고려", "여러 지질 시나리오의 불확실성 비교"],
-    img: { id: "ge-wf-model", placeholder: "3D grid reservoir model with colour-graded cells on a workstation monitor" },
+    img: { id: "ge-wf-model", placeholder: "3D grid reservoir model with colour-graded cells on a workstation monitor", src: "/images/technology/geology/ge-wf-model.webp", alt: "작업용 모니터에 표시된 색상별 격자 셀의 3차원 저류층 모델을 표현한 AI 생성 이미지" },
   },
 ];
 

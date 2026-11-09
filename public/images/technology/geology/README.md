@@ -78,3 +78,61 @@ Within this ONE reservoir layer only, amber-brown oil saturates the upper crest.
 Soft natural sunlight, crisp photographic rock textures, realistic restrained equipment, calm educational 3D render matching reference, cool blue sea with warm sandstone and amber oil accents.
 No text, no numbers, no tiny text-like equipment markings, no logos, no watermark, no labels, no legend, no scale, no arrows, no boundary annotation lines, no people, no ships, no seismic paths, no borders. All equipment surfaces blank and unmarked.
 ```
+
+## Role of Geology · 03 Workflow card photos
+
+- 생성 날짜: 2026-11-09
+- 생성 도구: Codex 내장 image_gen (내장 도구 모드)
+- 설명: 가상의 장면을 표현한 AI 생성 이미지. 실제 회사·장소·자료를 재현하지 않습니다.
+- 생성 횟수: 각 이미지 최초 생성 1회, 재생성·수정 생성 0회.
+- 원본 PNG: Codex 생성 이미지 폴더에 보관하며 저장소에는 포함하지 않습니다.
+- 처리: 각 1448×1086 원본을 가장자리 자르기 없이 1600×1200으로 크기 조정. WebP 품질 84를 기준으로 변환했고, facies는 350KB 이하를 위해 품질 82로 조정했습니다.
+
+### 프롬프트 전문
+
+#### ge-wf-core · 최초 생성
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape documentary photograph in a clean indoor core laboratory. Slabbed sandstone core lies flat-face-up in long shallow plain trays on a light work bench, showing fine sedimentary layering and cross-bedding on the cut faces. A gloved hand holds a small hand lens over one section of the core. Soft cool daylight from a window, shallow depth of field, neutral cool palette with the warm sandstone as the accent. Trays and bench are plain and unmarked, with no depth markers, tags or writing.
+Each core is a longitudinally halved cylinder with a planar upward cut face and curved underside; show the semicircular ends. Indoor laboratory window and shelves in soft focus, no sea or offshore equipment. Single hand lens and gloved hand enter from the right. Plain smooth trays with absolutely no marks.
+Fictional scene, not a real company, place or dataset. No readable text, no numbers, no text-like markings, no labels, no logos, no watermark, no borders, no visible faces. Keep the upper-left corner free of important subjects. 4:3 landscape.
+```
+
+#### ge-wf-strata · 최초 생성
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for geology education.
+4:3 landscape documentary photograph of a tall coastal sea cliff exposing gently dipping layered sedimentary rock: alternating pale sandstone beds and darker grey mudstone beds that run continuously across the whole cliff face, some beds gradually thinning or thickening from one side to the other. A calm sea and a strip of beach at the foot of the cliff, soft daylight, clear natural colours. No people, no buildings, no signs.
+Fictional scene, not a real company, place or dataset. No readable text, no numbers, no text-like markings, no labels, no logos, no watermark, no borders, no visible faces. Keep the upper-left corner free of important subjects. 4:3 landscape.
+```
+
+#### ge-wf-facies · 최초 생성
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for geology education.
+4:3 landscape high aerial photograph looking down on a wide meandering river crossing a green floodplain. Pale sand bars (point bars) lie on the inner side of each bend, the channel winds in smooth loops, and one abandoned crescent-shaped former channel (oxbow) lies nearby on the floodplain. Natural muted colours, soft daylight, clear air. No roads, no buildings, no boats, no people.
+Fictional scene, not a real company, place or dataset. No readable text, no numbers, no text-like markings, no labels, no logos, no watermark, no borders, no visible faces. Keep the upper-left corner free of important subjects. 4:3 landscape.
+```
+
+#### ge-wf-model · 최초 생성
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+4:3 landscape documentary photograph of a geomodelling workstation in a calm, dim modern office. A large monitor fills most of the frame at a slight angle and shows only a full-screen 3D view of a layered reservoir grid model: a gently folded block made of many small rectangular cells, each cell coloured on a smooth gradient from pale blue through cyan to deep blue and a few warm amber cells, with thin cell edges visible. The screen shows no menus, no toolbars, no windows, no axes, no colour bar and no text of any kind. The edge of a keyboard and a hand on a mouse are softly out of focus in the foreground. Cool screen glow, neutral palette.
+The monitor bezel and keyboard are entirely unbranded and unmarked; keyboard keys are blank. Screen is just one reservoir block floating against a plain dark background, without any other graphics or marks.
+Fictional scene, not a real company, place or dataset. No readable text, no numbers, no text-like markings, no labels, no logos, no watermark, no borders, no visible faces. Keep the upper-left corner free of important subjects. 4:3 landscape.
+```
+
+### 최종 출력 및 육안 검증
+
+| 파일 | 크기 | WebP 품질 | 용량 (bytes) | 재생성·수정 횟수 |
+| --- | --- | --- | --- | --- |
+| ge-wf-core.webp | 1600×1200 | 84 | 136148 | 0 |
+| ge-wf-strata.webp | 1600×1200 | 84 | 328724 | 0 |
+| ge-wf-facies.webp | 1600×1200 | 82 | 331666 | 0 |
+| ge-wf-model.webp | 1600×1200 | 84 | 113268 | 0 |
+
+전체 이미지와 코어 트레이·돋보기 및 모니터 화면의 확대 크롭을 직접 확인했습니다. 코어는 평평한 절단면과 둥근 아래쪽을 가진 반원통 형태이며, 창과 선반이 있는 실내 실험실에서 돋보기로 관찰하는 장면으로 Journey의 해상 코어 장면과 구분됩니다. 트레이와 장비에 글자·숫자·글자처럼 보이는 표식이 없고 사람 얼굴도 없습니다. 절벽의 밝은 사암층과 짙은 이암층은 옆으로 이어지고 두께가 달라집니다. 하천의 안쪽 굽이에 모래톱이 있고 범람원에 떨어진 초승달 모양의 옛 하도가 보이며 도로·건물·배·사람은 없습니다. 모니터에는 격자 셀이 보이는 완만한 습곡 블록만 표시되고 메뉴·창·축·색 막대·문자는 없습니다. 네 이미지의 차분한 자연색과 푸른색·사암색이 어울리며 왼쪽 위에는 번호 배지가 가릴 중요한 대상을 두지 않았습니다.
+
+브라우저 확인: 개발 서버의 `/technology/geology/ge-fdp-role`에서 네 카드 이미지가 정상 로드되고 번호 배지가 주요 대상을 가리지 않음을 확인했습니다. “Schematic diagrams”를 펼쳐 기존 SVG 개념도 네 개가 표시되는 것을 확인했으며 브라우저 콘솔 오류는 없었습니다. `npm run lint`와 `npm run build`는 모두 종료 코드 0으로 통과했습니다.
