@@ -227,3 +227,32 @@ no people, no logos, no watermark, no borders.
 ```text
 Edit this geological cutaway image while preserving the single anticline, overburden layers, thin dark shale seal, one vertical steel production well ending in the amber oil zone, small wellhead, 16:9 framing, neutral background and lighting. Correct the pore-fluid portrayal: the pale cream gas zone must be solid porous sandstone with clearly visible fine rock grain texture, NOT an empty smooth cavity. All three colored fluid zones must look like solid saturated sandstone. Make the gas–oil contact and oil–water contact perfectly level horizontal boundaries across the front cut face, clipped strictly inside the curved sandstone reservoir. The blue-grey water zone begins at one horizontal elevation beneath the amber oil and occupies the entire lower reservoir plus both low flanks. The sandstone base curves below that water zone, with deeper grey rock underneath. Do not color overburden, dark cap rock or deeper rock with any fluids. No drawn contact lines, arrows, text, numbers, labels, logos or watermark. Do not add wells or rigs.
 ```
+
+
+## Role of Reservoir Engineering · opening model review
+
+- 생성 날짜: 2026-11-09
+- 생성 도구: Codex 내장 image_gen (내장 도구 모드)
+- 설명: 가상의 장면을 표현한 AI 생성 이미지. 실제 회사·사무실·소프트웨어를 재현한 것이 아닙니다.
+- 원본 PNG는 Codex 생성 이미지 폴더에 보관하고 저장소에 포함하지 않습니다.
+- 최종 출력: re-role-model-review.webp, 1600×1000, WebP 품질 84, 149046 bytes
+- 생성 횟수: 최초 생성 1회, 재생성·수정 생성 0회.
+- 화면 가장자리, 사람의 옷과 손, 실내 물건을 확대 확인했습니다. 글자·숫자·로고·UI·얼굴 노출이 없고, 격자 셀·시추정 3개·주입정과 생산정을 연결하는 유선 및 손·몸의 형태를 육안 확인했습니다.
+
+### 생성 프롬프트 전문
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website photography for oil and gas education.
+16:10 landscape documentary photograph in a dim, modern collaboration room. A large wall-mounted display fills
+the upper and central part of the frame and shows only a full-screen 3D view of a reservoir grid model: a gently
+folded layered block of small cells, coloured warm amber near the crest and grading to blue toward the flanks and
+base. Three thin well trajectories pass down into the block: two production wells near the crest and one
+injection well on a flank. Several thin, softly glowing cyan streamlines curve through the block from the
+injection well toward the production wells. In the foreground, two or three engineers are seen from behind or
+from a rear three-quarter angle with faces not visible, discussing the model; one points at the streamlines.
+The display is the main light source, casting a cool blue glow on the people; a warm accent light in the room.
+The screen shows no menus, no windows, no axes, no colour bar, no legend and no text of any kind.
+Fictional scene, not a real company, office or software. No readable text, no numbers, no text-like markings,
+no badges, no signs, no logos, no watermark, no borders, no visible faces.
+Compose as a wide room view with exactly two standing engineers in plain unmarked clothing, seen strictly from the back. Keep the entire wall display visible above their shoulders. One anatomically natural pointing hand with an extended index finger and other fingers gently curled, the other person's hands relaxed out of view. No desks or handheld objects needed. Exactly three well trajectories visually distinct from the fine cyan streamlines. The right-flank injector connects through several curving cyan streamlines toward both crest producers. The grid is visibly layered and contains clearly resolved small rectangular cells. No text-like decorative strokes on screen edges or clothing. Render 1600x1000.
+```

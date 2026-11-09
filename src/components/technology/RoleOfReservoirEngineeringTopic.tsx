@@ -2,12 +2,14 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowLeft } from "lucide-react";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
+import { ImageSlot } from "@/components/ds/ImageSlot";
 import { DeviatedWell, FieldSection, Platform, wellPoint, type Camera } from "@/components/home/FieldSection";
 import { sceneStyles as ss } from "@/components/site/scene";
 import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { REVEAL_BOOT } from "./revealBoot";
+import { Details } from "./fundamentals/Details";
 import { Crumb, SectionHeading, topicStyles as t } from "./TopicParts";
 import s from "./RoleOfReservoirEngineering.module.css";
 
@@ -65,7 +67,18 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
   return <ul className={cx(s.bullets, className)}>{items.map((x) => <li key={x}>{x}</li>)}</ul>;
 }
 
-/** Opening figure: the shared Journey field section, framed on the reservoir with a producer pair and an injector. */
+/** Opening photo: reservoir engineers reviewing a 3D reservoir model together (Codex-generated). */
+const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
+  id: "re-role-model-review",
+  placeholder: "Engineers reviewing a 3D reservoir model with injector-to-producer streamlines on a large wall display",
+  src: "/images/technology/engineering/re-role-model-review.webp",
+  alt: "엔지니어들이 대형 화면의 3D 저류층 모델과 주입정에서 생산정으로 이어지는 유선을 보며 논의하는 장면을 표현한 AI 생성 이미지",
+};
+
+/**
+ * Opening figure: the photo first, then the shared Journey field section (a producer pair and an injector)
+ * folded under "Schematic cross-section".
+ */
 function OpeningFigure() {
   const cam: Camera = { x: 300, y: 20, w: 640, h: 470 };
   const [px, py] = wellPoint(520, 590, 332, 0.82);
@@ -73,27 +86,33 @@ function OpeningFigure() {
   const oil: [number, number, number][] = [[400, 350, 0], [440, 346, 0], [640, 350, 180], [690, 354, 180]];
   return (
     <figure className={s.openFigure} data-reveal="figure">
-      <FieldSection
-        camera={cam}
-        label="Conceptual reservoir cross-section: production wells draw fluid from the reservoir while an injection well supports pressure"
-        tags={[
-          { x: px, y: py, label: "Production Well", sub: "Producer", seq: 1 },
-          { x: ix, y: iy, label: "Injection Well", sub: "Injector", side: "left", seq: 2 },
-          { x: 400, y: 350, label: "Fluid Flow", sub: "Toward the producers", minor: true, seq: 3 },
-          { x: 330, y: 400, label: "Reservoir", sub: "Rock · fluids · pressure", minor: true, seq: 4 },
-        ]}
-      >
-        <Platform x={520} />
-        <DeviatedWell from={520} tx={470} ty={330} />
-        <DeviatedWell from={520} tx={590} ty={332} />
-        <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
-        <g className={s.flow} data-layer="fluid-flow">
-          {/* pulse order follows the flow: outer chevron first, then the one nearer the producers */}
-          {oil.map(([x, y, r], i) => <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(${r})`} style={v({ "--i": [0, 1, 1, 0][i] })} />)}
-          {[[792, 418], [770, 426]].map(([x, y], i) => <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(200)`} className={s.inject} style={v({ "--i": i })} />)}
-        </g>
-      </FieldSection>
-      <figcaption className={s.caption}>Conceptual illustration — not to scale.</figcaption>
+      <div className={s.openPhoto}>
+        <ImageSlot {...OPENING_PHOTO} priority sizes="(max-width: 1100px) 100vw, 760px" />
+      </div>
+      <figcaption className={s.caption}>Reviewing a 3D reservoir model · AI-generated illustration</figcaption>
+      <Details summary="Schematic cross-section">
+        <FieldSection
+          camera={cam}
+          label="Conceptual reservoir cross-section: production wells draw fluid from the reservoir while an injection well supports pressure"
+          tags={[
+            { x: px, y: py, label: "Production Well", sub: "Producer", seq: 1 },
+            { x: ix, y: iy, label: "Injection Well", sub: "Injector", side: "left", seq: 2 },
+            { x: 400, y: 350, label: "Fluid Flow", sub: "Toward the producers", minor: true, seq: 3 },
+            { x: 330, y: 400, label: "Reservoir", sub: "Rock · fluids · pressure", minor: true, seq: 4 },
+          ]}
+        >
+          <Platform x={520} />
+          <DeviatedWell from={520} tx={470} ty={330} />
+          <DeviatedWell from={520} tx={590} ty={332} />
+          <DeviatedWell from={860} tx={800} ty={410} kind="injector" />
+          <g className={s.flow} data-layer="fluid-flow">
+            {/* pulse order follows the flow: outer chevron first, then the one nearer the producers */}
+            {oil.map(([x, y, r], i) => <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(${r})`} style={v({ "--i": [0, 1, 1, 0][i] })} />)}
+            {[[792, 418], [770, 426]].map(([x, y], i) => <path key={x} d="M-7,-4 L0,0 L-7,4" transform={`translate(${x} ${y}) rotate(200)`} className={s.inject} style={v({ "--i": i })} />)}
+          </g>
+        </FieldSection>
+        <p className={s.caption}>Conceptual illustration — not to scale.</p>
+      </Details>
     </figure>
   );
 }
