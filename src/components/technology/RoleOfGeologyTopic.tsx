@@ -7,6 +7,7 @@ import { FieldSection, H, Rig, VerticalWell, type Camera } from "@/components/ho
 import { sceneStyles as ss } from "@/components/site/scene";
 import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
+import { Details } from "./fundamentals/Details";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { Crumb, SectionHeading, topicStyles as t } from "./TopicParts";
 import s from "./RoleOfReservoirEngineering.module.css";
@@ -157,24 +158,41 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
   return <ul className={cx(s.bullets, className)}>{items.map((x) => <li key={x}>{x}</li>)}</ul>;
 }
 
-/** Shared field section: geological context, observed wells and the reservoir interval. */
+/** Opening photo: a photorealistic cutaway of the same scene as the schematic below it. */
+const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
+  id: "ge-role-cutaway",
+  placeholder: "Cutaway — folded rock layers with a seal over a reservoir sandstone, and two wells drilled into the structure",
+  src: "/images/technology/geology/ge-role-cutaway.webp",
+  alt: "배사 구조의 덮개암 아래 저류암 꼭대기에 석유가 모여 있고, 두 해상 리그의 시추정이 저류암까지 내려간 단면을 표현한 AI 생성 이미지",
+};
+
+/**
+ * Opening figure: the photo first, then the shared field section (geological context, observed wells and the
+ * reservoir interval) folded under "Schematic cross-section".
+ */
 function OpeningFigure() {
   const cam: Camera = { x: 150, y: 0, w: 800, h: 520 };
   return (
     <figure className={s.openFigure} data-reveal="figure">
-      <FieldSection
-        camera={cam}
-        label="지층과 덮개암, 저류암을 두 시추공과 함께 보여 주는 개념 단면도"
-        tags={[
-          { x: 330, y: H.seal(330), label: "Seal", sub: "덮개암", side: "left", seq: 1 },
-          { x: 500, y: H.resTop(500) + 24, label: "Reservoir", sub: "저류암의 구조와 두께", seq: 2 },
-          { x: 750, y: 260, label: "Well Data", sub: "코어 · 검층", side: "left", seq: 3 },
-        ]}
-      >
-        <Rig x={400} /><VerticalWell x={400} to={430} />
-        <Rig x={750} /><VerticalWell x={750} to={460} />
-      </FieldSection>
-      <figcaption className={s.caption}>Conceptual illustration — not to scale.</figcaption>
+      <div className={g.openPhoto}>
+        <ImageSlot {...OPENING_PHOTO} priority sizes="(max-width: 1100px) 100vw, 760px" />
+      </div>
+      <figcaption className={s.caption}>Seal · reservoir · well data · AI-generated illustration, not to scale</figcaption>
+      <Details summary="Schematic cross-section">
+        <FieldSection
+          camera={cam}
+          label="지층과 덮개암, 저류암을 두 시추공과 함께 보여 주는 개념 단면도"
+          tags={[
+            { x: 330, y: H.seal(330), label: "Seal", sub: "덮개암", side: "left", seq: 1 },
+            { x: 500, y: H.resTop(500) + 24, label: "Reservoir", sub: "저류암의 구조와 두께", seq: 2 },
+            { x: 750, y: 260, label: "Well Data", sub: "코어 · 검층", side: "left", seq: 3 },
+          ]}
+        >
+          <Rig x={400} /><VerticalWell x={400} to={430} />
+          <Rig x={750} /><VerticalWell x={750} to={460} />
+        </FieldSection>
+        <p className={s.caption}>Conceptual illustration — not to scale.</p>
+      </Details>
     </figure>
   );
 }

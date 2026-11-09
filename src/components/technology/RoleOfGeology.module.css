@@ -108,3 +108,6 @@
   .logTable td::before{content:attr(data-label);display:block;margin-bottom:2px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;color:var(--ex-faint)}
   .interpSteps > li{grid-template-columns:40px 1fr}
 }
+
+/* Opening photo: fixed 16:10 frame so the slot keeps its shape before and after the image loads */
+.openPhoto{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden}
