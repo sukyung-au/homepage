@@ -111,3 +111,8 @@
 
 /* Opening photo: fixed 16:10 frame so the slot keeps its shape before and after the image loads */
 .openPhoto{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden}
+
+/* 03 schematics, folded under the photo cards */
+.schematics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.schematics .photo{margin-bottom:0}
+@media (max-width:640px){.schematics{grid-template-columns:repeat(2,minmax(0,1fr))}}
