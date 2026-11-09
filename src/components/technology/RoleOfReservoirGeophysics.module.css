@@ -21,3 +21,6 @@
   .workflow{grid-template-columns:1fr}
   .output{grid-template-columns:1fr;gap:8px;padding:24px}
 }
+
+/* Opening photo: fixed 16:10 frame so the slot keeps its shape before and after the image loads */
+.openPhoto{position:relative;aspect-ratio:16/10;border-radius:4px;overflow:hidden}

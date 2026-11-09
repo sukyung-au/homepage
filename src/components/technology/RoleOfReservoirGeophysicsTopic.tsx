@@ -10,6 +10,7 @@ import { categoryHref, topicHref, topicLink, type FlatTopic } from "@/lib/techno
 import { sceneId } from "@/lib/stages";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { REVEAL_BOOT } from "./revealBoot";
+import { Details } from "./fundamentals/Details";
 import { Crumb, SectionHeading, topicStyles as t } from "./TopicParts";
 import s from "./RoleOfReservoirEngineering.module.css";
 import g from "./RoleOfReservoirGeophysics.module.css";
@@ -89,32 +90,49 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
   return <ul className={cx(s.bullets, className)}>{items.map((x) => <li key={x}>{x}</li>)}</ul>;
 }
 
-/** Opening figure: the shared Journey field section with a seismic survey, interpreted horizons and a well tie. */
+/** Opening photo: a photorealistic cutaway of the same scene as the schematic below it. */
+const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
+  id: "gp-role-cutaway",
+  placeholder: "Cutaway — survey vessel towing streamers above folded rock layers, with a well drilled into the structure",
+  src: "/images/technology/geophysics/gp-role-cutaway.webp",
+  alt: "바다 위 탄성파 탐사선과 해저 아래 배사 구조로 휜 지층, 그 구조를 관통하는 시추정을 함께 보여 주는 단면을 표현한 AI 생성 이미지",
+};
+
+/**
+ * Opening figure: the photo first, then the shared Journey field section (seismic survey, interpreted horizons,
+ * well tie) folded under "Schematic cross-section".
+ */
 function OpeningFigure() {
   const cam: Camera = { x: 60, y: 20, w: 820, h: 470 };
   return (
     <figure className={s.openFigure} data-reveal="figure">
-      <FieldSection
-        camera={cam}
-        label="Conceptual cross-section: a seismic vessel records reflections from layer boundaries, interpreted horizons outline the structure and a well ties the seismic to the rock"
-        tags={[
-          { x: 200, y: 66, label: "Seismic Survey", sub: "Source · streamer · receivers", seq: 1 },
-          { x: 300, y: H.seal(300), label: "Reflections", sub: "Layer boundaries", side: "left", seq: 2 },
-          { x: 720, y: H.resTop(720), label: "Interpreted Horizon", sub: "Top reservoir", side: "left", seq: 3 },
-          { x: 520, y: 236, label: "Well Tie", sub: "Seismic ↔ rock", seq: 4 },
-        ]}
-      >
-        <SeismicSurvey x={170} />
-        <g className={g.interp} data-layer="interpretation" data-sequence="3">
-          <path d={horizonPath(H.seal, 250, 860)} className={fs.line} />
-          <path d={horizonPath(H.resTop, 250, 860)} className={fs.line} />
-        </g>
-        <g data-layer="well-tie" data-sequence="4">
-          <Rig x={520} />
-          <VerticalWell x={520} to={340} />
-        </g>
-      </FieldSection>
-      <figcaption className={s.caption}>Conceptual illustration — not to scale.</figcaption>
+      <div className={g.openPhoto}>
+        <ImageSlot {...OPENING_PHOTO} priority sizes="(max-width: 1100px) 100vw, 760px" />
+      </div>
+      <figcaption className={s.caption}>Seismic survey · layer boundaries · well tie · AI-generated illustration, not to scale</figcaption>
+      <Details summary="Schematic cross-section">
+        <FieldSection
+          camera={cam}
+          label="Conceptual cross-section: a seismic vessel records reflections from layer boundaries, interpreted horizons outline the structure and a well ties the seismic to the rock"
+          tags={[
+            { x: 200, y: 66, label: "Seismic Survey", sub: "Source · streamer · receivers", seq: 1 },
+            { x: 300, y: H.seal(300), label: "Reflections", sub: "Layer boundaries", side: "left", seq: 2 },
+            { x: 720, y: H.resTop(720), label: "Interpreted Horizon", sub: "Top reservoir", side: "left", seq: 3 },
+            { x: 520, y: 236, label: "Well Tie", sub: "Seismic ↔ rock", seq: 4 },
+          ]}
+        >
+          <SeismicSurvey x={170} />
+          <g className={g.interp} data-layer="interpretation" data-sequence="3">
+            <path d={horizonPath(H.seal, 250, 860)} className={fs.line} />
+            <path d={horizonPath(H.resTop, 250, 860)} className={fs.line} />
+          </g>
+          <g data-layer="well-tie" data-sequence="4">
+            <Rig x={520} />
+            <VerticalWell x={520} to={340} />
+          </g>
+        </FieldSection>
+        <p className={s.caption}>Conceptual illustration — not to scale.</p>
+      </Details>
     </figure>
   );
 }
