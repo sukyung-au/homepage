@@ -71,6 +71,8 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
 const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
   id: "re-role-model-review",
   placeholder: "Engineers reviewing a 3D reservoir model with injector-to-producer streamlines on a large wall display",
+  src: "/images/technology/engineering/re-role-model-review.webp",
+  alt: "엔지니어들이 대형 화면의 3D 저류층 모델과 주입정에서 생산정으로 이어지는 유선을 보며 논의하는 장면을 표현한 AI 생성 이미지",
 };
 
 /**
