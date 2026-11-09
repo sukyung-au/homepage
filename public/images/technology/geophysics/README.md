@@ -107,3 +107,48 @@ Full-bleed like a screen capture of interpretation data, no axes, no tick marks,
 no text, no grid, no borders, no 3D perspective.
 Fictional illustrative scene, not a real company, equipment model, site or survey. No watermark, no collage. Output 4:3 landscape.
 ```
+
+
+## Topic 1.1 — Role of Reservoir Geophysics opening cutaway
+
+- 생성 날짜: 2026-11-09
+- 생성 도구: Codex 내장 image_gen (기본 내장 도구 모드, 생성 1회 및 표식 제거 수정 2회)
+- 설명: 가상의 장면을 표현한 AI 생성 이미지. 실제 회사·선박·시설·조사 자료를 재현한 것이 아닙니다.
+- 출력: 1600×1000, WebP 품질 84. 원본 PNG는 Codex 생성 이미지 폴더에 보관하며 저장소에 포함하지 않습니다.
+- 검수: 전체 장면과 확대된 선체·선실·리그·크레인·장비를 확인했습니다. 탐사선 1척과 선미에 연결된 스트리머, 배사 지층, 리그 1기와 그 아래로 이어지는 수직 시추정 1개를 확인했습니다.
+
+### 생성 프롬프트 전문 — gp-role-cutaway
+
+```text
+Use case: photorealistic-natural. Asset type: illustrative website image for oil and gas education.
+16:10 landscape photorealistic 3D cutaway render of an offshore block, seen slightly from above and the front.
+The upper part shows calm open sea under a pale daylight sky; the front face of the block is cut away to reveal
+the water column, the seabed and the sedimentary rock layers beneath it. On the sea surface at the left, one
+marine seismic survey vessel tows several long thin streamer cables behind its stern. Beneath the seabed,
+several rock layers are stacked and folded upward into a broad, gentle anticline in the centre.
+Near the crest of the fold, one offshore drilling rig stands on the sea,
+and one thin vertical well descends from it through the water and the seabed straight down into the top of the
+fold. Soft natural lighting, crisp rock textures, calm educational look, cool blue palette with warm sandstone
+layers as accent.
+Fictional scene, not a real company, vessel or facility. No readable text, no numbers, no text-like markings,
+no hull names, no scale bar, no arrows, no labels, no legend, no people, no logos, no watermark, no borders.
+Composition clarification: the vessel is facing left, and its stern at the right visibly connects to multiple thin streamer cables trailing rightward on the sea. The single rig is near the centre-right directly above the anticline crest. The front cut face shows a single continuous straight vertical well aligned with the rig's derrick from its deck through the water and seabed into the folded rock. Rig support legs are distinct structural supports and terminate at the seabed. All vessel hull panels, rig equipment and crane surfaces are plain unmarked metal, without even small painted symbols or helipad letters. Omit sound-wave ray paths. Restrained realistic textures and a clean, readable educational composition, with beige sandstone, grey shale, navy sea and subdued amber accents. Output landscape 1600x1000.
+```
+
+### 수정 프롬프트 전문 — 선체와 리그의 글자처럼 보이는 표식 제거
+
+```text
+Use case: precise-object-edit. Edit this offshore geological cutaway only to remove text-like markings. Keep the exact scene, layout, anticline rock layers, water, one vessel with stern-connected streamers, one rig and single vertical well unchanged. On the survey vessel, remove the small grey text-like row on the white forward superstructure above the round portholes, remove the small dark text-like row high on the forward navy hull, and remove all faint pale marks at mid-hull. Make those panel areas completely clean unmarked paint while preserving legitimate round portholes and rectangular bridge windows. On the rig, remove the little dark symbol-like mark on the yellow front horizontal deck beam directly below the derrick. Keep structural metalwork, equipment, crane, railings and windows. No writing, no numbers, no logos, no people, no new elements. Preserve realistic rendering and 16:10 landscape composition.
+```
+
+### 추가 수정 프롬프트 전문 — 크레인 표면 정리
+
+```text
+Use case: precise-object-edit. Preserve this exact offshore cutaway image and all geometry, composition, colors, vessel, streamer cables, rig, well and geology. Make only two tiny surface cleanup changes: the crane's yellow rectangular machinery housing at the base of its diagonal boom has a blue-grey curved inset symbol on its right face that can resemble a numeral; remove that entire inset/symbol and make that housing face smooth uninterrupted yellow painted metal. Also remove the faint pale horizontal scratch at the middle of the vessel's navy hull so the hull paint is clean. Do not add any markings, symbols, text, logos, people or equipment; preserve legitimate windows, round portholes, railings and structural framing. No other changes.
+```
+
+| 파일 | 출력 크기 | 품질 | 크기 (bytes) |
+| --- | --- | --- | --- |
+| gp-role-cutaway.webp | 1600×1000 | 84 | 193448 |
+
+- 크기 맞춤: 원본 1586×992에서 가장자리만 비율을 맞춘 뒤 1600×1000으로 변환했습니다.

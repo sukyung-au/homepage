@@ -94,6 +94,8 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
 const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
   id: "gp-role-cutaway",
   placeholder: "Cutaway — survey vessel towing streamers above folded rock layers, with a well drilled into the structure",
+  src: "/images/technology/geophysics/gp-role-cutaway.webp",
+  alt: "바다 위 탄성파 탐사선과 해저 아래 배사 구조로 휜 지층, 그 구조를 관통하는 시추정을 함께 보여 주는 단면을 표현한 AI 생성 이미지",
 };
 
 /**
