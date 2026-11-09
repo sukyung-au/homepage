@@ -164,12 +164,10 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
   return <ul className={cx(s.bullets, className)}>{items.map((x) => <li key={x}>{x}</li>)}</ul>;
 }
 
-/** Opening photo: a photorealistic cutaway of the same scene as the schematic below it. */
+/** Opening photo: oil-stained core under UV light — the rock evidence that oil is present. */
 const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
-  id: "ge-role-cutaway",
-  placeholder: "Cutaway — folded rock layers with a seal over a reservoir sandstone, and two wells drilled into the structure",
-  src: "/images/technology/geology/ge-role-cutaway.webp",
-  alt: "배사 구조의 덮개암 아래 저류암 꼭대기에 석유가 모여 있고, 두 해상 리그의 시추정이 저류암까지 내려간 단면을 표현한 AI 생성 이미지",
+  id: "ge-role-uv-core",
+  placeholder: "Slabbed core under UV light — the oil-bearing sandstone glows while the shale above and below stays dark",
 };
 
 /**
@@ -183,7 +181,7 @@ function OpeningFigure() {
       <div className={g.openPhoto}>
         <ImageSlot {...OPENING_PHOTO} priority sizes="(max-width: 1100px) 100vw, 760px" />
       </div>
-      <figcaption className={s.caption}>Seal · reservoir · well data · AI-generated illustration, not to scale</figcaption>
+      <figcaption className={s.caption}>Oil-stained sandstone core under UV light · AI-generated illustration</figcaption>
       <Details summary="Schematic cross-section">
         <FieldSection
           camera={cam}
