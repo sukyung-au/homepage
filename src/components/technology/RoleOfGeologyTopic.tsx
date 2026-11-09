@@ -168,6 +168,8 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
 const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
   id: "ge-role-uv-core",
   placeholder: "Slabbed core under UV light — the oil-bearing sandstone glows while the shale above and below stays dark",
+  src: "/images/technology/geology/ge-role-uv-core.webp",
+  alt: "자외선 아래에서 석유가 스민 사암 구간만 빛나고 위아래 셰일은 어둡게 남은 코어를 표현한 AI 생성 이미지",
 };
 
 /**
