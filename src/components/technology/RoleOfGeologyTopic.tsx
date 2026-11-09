@@ -162,6 +162,8 @@ function Bullets({ items, className }: { items: string[]; className?: string }) 
 const OPENING_PHOTO: { id: string; placeholder: string; src?: string; alt?: string } = {
   id: "ge-role-cutaway",
   placeholder: "Cutaway — folded rock layers with a seal over a reservoir sandstone, and two wells drilled into the structure",
+  src: "/images/technology/geology/ge-role-cutaway.webp",
+  alt: "배사 구조의 덮개암 아래 저류암 꼭대기에 석유가 모여 있고, 두 해상 리그의 시추정이 저류암까지 내려간 단면을 표현한 AI 생성 이미지",
 };
 
 /**
