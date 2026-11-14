@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { GenerativeAi } from "@/components/ai/GenerativeAi";
-import { ResponsibleAi } from "@/components/ai/ResponsibleAi";
 import { VibeCoding } from "@/components/ai/VibeCoding";
 import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { SiteHeader } from "@/components/ds/SiteHeader";
@@ -21,7 +20,7 @@ import a from "./AiTopic.module.css";
  * show each section's summary and planned items (lib/aiTech.ts) until the content is written.
  */
 
-const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "vibe-coding": VibeCoding, "responsible-ai": ResponsibleAi };
+const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "vibe-coding": VibeCoding };
 
 export const dynamicParams = false;
 
@@ -40,7 +39,7 @@ async function resolve(params: PageProps<"/ai-technology/[topic]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/ai-technology/[topic]">): Promise<Metadata> {
   const { topic } = await resolve(params);
-  return { title: `${topic.title} — AI Technology — Oil & Gas Development` };
+  return { title: `${topic.title} — AI Technology — Oil & Gas Development`, description: topic.summary };
 }
 
 export default async function AiTopicPage({ params }: PageProps<"/ai-technology/[topic]">) {

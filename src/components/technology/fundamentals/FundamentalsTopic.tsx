@@ -71,7 +71,7 @@ export function FundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; pre
               저류층의 유체 물성, 유동 원리, 구동 메커니즘을 이해하고 실제 생산 및 회수 전략으로 연결합니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

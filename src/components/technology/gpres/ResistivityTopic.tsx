@@ -106,7 +106,7 @@ export function ResistivityTopic({ topic, prev, next }: { topic: FlatTopic; prev
               지층수는 전기가 잘 통하지만 석유와 가스는 거의 통하지 않습니다. 이 차이를 시추 전에는 해저에서 전자기 탐사(CSEM)로 넓게, 시추 후에는 시추공 안에서 비저항 검층으로 자세히 측정합니다. 탄성파가 지층의 모양을 보여 준다면, 비저항은 그 안을 채운 유체에 대한 단서를 줍니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

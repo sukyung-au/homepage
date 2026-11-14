@@ -127,7 +127,7 @@ export function GenerativeAi() {
               <li key={en}><span className={g.num}>{String(i + 1).padStart(2, "0")}</span><strong>{en}</strong><span className={g.body}>{ko}</span></li>
             ))}
           </ol>
-          <p className={g.note}>생성형 AI는 그럴듯한 결과를 만들 뿐, 그 내용이 사실인지 스스로 보장하지 않습니다. 그래서 마지막 확인은 언제나 사람의 몫입니다 — <Link href="/ai-technology/responsible-ai">04 Using AI Responsibly</Link>.</p>
+          <p className={g.note}>생성형 AI는 그럴듯한 결과를 만들 뿐, 그 내용이 사실인지 스스로 보장하지 않습니다. 그래서 마지막 확인은 언제나 사람의 몫입니다.</p>
         </div>
       </section>
 

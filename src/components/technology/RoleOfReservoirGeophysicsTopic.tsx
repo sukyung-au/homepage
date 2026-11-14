@@ -6,7 +6,7 @@ import { ImageSlot } from "@/components/ds/ImageSlot";
 import { FieldSection, H, Rig, SeismicSurvey, VerticalWell, horizonPath, type Camera } from "@/components/home/FieldSection";
 import fs from "@/components/home/FieldSection.module.css";
 import { sceneStyles as ss } from "@/components/site/scene";
-import { categoryHref, topicHref, topicLink, type FlatTopic } from "@/lib/technology";
+import { topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
 import { RevealScope, ScrollHint } from "./RevealScope";
 import { REVEAL_BOOT } from "./revealBoot";
@@ -159,7 +159,7 @@ export function RoleOfReservoirGeophysicsTopic({ topic, next }: { topic: FlatTop
               저류층 지구물리는 탄성파 자료로 지하 구조와 저류층의 분포·특성을 영상화하고 해석하여, 시추공과 시추공 사이의 공간을 채우는 정보를 저류층 모델과 개발 계획에 제공하는 분야입니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>
@@ -290,9 +290,7 @@ export function RoleOfReservoirGeophysicsTopic({ topic, next }: { topic: FlatTop
       <section className={t.next}>
         <div className={t.nextRow} data-reveal="up">
           <div className={s.backLinks}>
-            {categoryHref(cat) !== topicHref(topic) && (
-              <Link href={categoryHref(cat)} className={t.back}><ArrowLeft size={14} aria-hidden /> {cat.num} {cat.label} · Overview</Link>
-            )}
+            <Link href="/technology" className={t.back}><ArrowLeft size={14} aria-hidden /> Petroleum Technology · Overview</Link>
             <Link href={`/#${sceneId("exploration")}`} className={t.back}><ArrowLeft size={14} aria-hidden /> Journey · 01 Exploration — Seismic</Link>
           </div>
           {next && (

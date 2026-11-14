@@ -110,4 +110,7 @@
   .kinds,.tools,.loop,.cases,.gallery,.fit,.flow,.stages,.knows,.sourceList{grid-template-columns:1fr}
   .kind,.tool{padding:24px}
   .handoff{padding:20px}
+  /* LLM explorer: keep the token diagram legible — it scrolls sideways instead of shrinking */
+  .explorer .fig{overflow-x:auto}
+  .explorer .fig > svg{min-width:560px}
 }

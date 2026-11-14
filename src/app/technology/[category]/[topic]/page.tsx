@@ -20,8 +20,7 @@ import { FLAT_TOPICS, TECH, findTopic, type FlatTopic } from "@/lib/technology";
 
 /**
  * Topic id → page body. Add an entry (and set `hasPage` in lib/technology.ts) to publish a topic.
- * pt-generation is the preserved legacy topic (see lib/technologyLegacy.ts); it is built only while a live
- * category lists it.
+ * pt-generation is a topic from the earlier 5-category IA; it is built only while a live category lists it.
  */
 const TOPIC_PAGES: Record<string, ComponentType<{ topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }>> = {
   "pt-generation": PetroleumGenerationTopic,
@@ -52,7 +51,10 @@ async function resolve(params: PageProps<"/technology/[category]/[topic]">["para
 
 export async function generateMetadata({ params }: PageProps<"/technology/[category]/[topic]">): Promise<Metadata> {
   const { topic } = await resolve(params);
-  return { title: `${topic.num} ${topic.title} — Oil & Gas Development` };
+  return {
+    title: `${topic.num} ${topic.title} — Oil & Gas Development`,
+    description: [topic.ko, topic.sub].filter(Boolean).join(" — ") || undefined,
+  };
 }
 
 export default async function TopicPage({ params }: PageProps<"/technology/[category]/[topic]">) {

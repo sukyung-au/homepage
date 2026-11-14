@@ -90,7 +90,7 @@ export function ReservesTopic({ topic, prev, next }: { topic: FlatTopic; prev?: 
               매장량은 앞으로 상업적으로 생산할 수 있다고 추정하는 석유·가스의 양입니다. 자료가 적은 초기에는 체적법으로, 생산과 압력 이력이 쌓이면 물질수지·감퇴곡선 분석·저류층 시뮬레이션으로 추정하고, 서로 다른 방법의 결과를 비교하며 추정을 다듬어 갑니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

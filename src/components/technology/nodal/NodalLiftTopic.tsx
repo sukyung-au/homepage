@@ -82,7 +82,7 @@ export function NodalLiftTopic({ topic, prev, next }: { topic: FlatTopic; prev?:
               석유와 가스는 저류층에서 유정으로 들어와 생산관을 타고 지표의 분리기까지 흐르며, 지나는 곳마다 압력을 잃습니다. 노달 분석은 이 생산 시스템 전체를 한 번에 보고 유정이 얼마나 생산할지 예측하며, 압력이 부족해지면 인공채유로 에너지를 더합니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

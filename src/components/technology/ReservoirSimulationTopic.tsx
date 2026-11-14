@@ -121,7 +121,7 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
               ))}
             </ol>
             <div className={t.meta}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

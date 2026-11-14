@@ -1,10 +1,12 @@
 import type { CSSProperties } from "react";
-import { ArrowCTA } from "@/components/ds/ArrowCTA";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { ImageSlot } from "@/components/ds/ImageSlot";
 import { TechViz } from "@/components/ds/TechViz";
 import { Scene, SceneBody, SceneHead, sceneStyles as ss } from "@/components/site/scene";
 import { Details } from "@/components/technology/fundamentals/Details";
 import { getStage } from "@/lib/stages";
+import { FLAT_TOPICS, topicLink } from "@/lib/technology";
 import { DeviatedWell, FieldSection, H, OWC, Platform, Rig, SeismicSurvey, VerticalWell, horizonPath, wellPoint, type Camera } from "./FieldSection";
 import fs from "./FieldSection.module.css";
 import s from "./Scenes.module.css";
@@ -42,8 +44,37 @@ function ScenePhoto({ photo }: { photo: Photo }) {
   );
 }
 
-/** Destination of the FDP technical page. Undefined until that page exists → the CTA renders inert. */
-const FDP_HREF: string | undefined = undefined;
+/**
+ * Journey item → the Technology topic that explains it (topic ids from lib/technology.ts). An item listed here
+ * links to that topic and shows its number; items without a matching topic stay plain text.
+ */
+const TOPIC_FOR: Record<string, string> = {
+  "Seismic Survey": "gp-fundamentals",
+  "Seismic Interpretation": "gp-fdp-role",
+  "Core & Wireline": "ge-fdp-role",
+  "PVT Analysis": "re-fundamentals",
+  "Well Test / DST": "re-well-test",
+  "3D Seismic": "gp-fdp-role",
+  "Initial Reservoir Model": "rs-estimation",
+  "Geology & Geophysics": "ge-fdp-role",
+  "Reservoir Engineering": "re-role",
+  "Production Engineering": "re-nodal-lift",
+  "Reservoir Management": "re-well-test",
+  "Artificial Lift": "re-nodal-lift",
+};
+
+/** Item name, linked to its Technology topic when it has one. */
+function ItemName({ name }: { name: string }) {
+  const topic = FLAT_TOPICS.find((t) => t.id === TOPIC_FOR[name]);
+  const href = topicLink(topic);
+  if (!topic || !href) return <>{name}</>;
+  return (
+    <Link href={href} className={s.topicLink} title={`Technology ${topic.num} · ${topic.title}`}>
+      {name}
+      <span className={s.topicRef}>{topic.num} <ArrowRight size={12} aria-hidden /></span>
+    </Link>
+  );
+}
 
 /** Numbered narrative list (V1 element-list style). Each row carries data-step for future reveal. */
 function Steps({ items, arrows }: { items: [string, string][]; arrows?: boolean }) {
@@ -53,7 +84,7 @@ function Steps({ items, arrows }: { items: [string, string][]; arrows?: boolean 
         <li key={a} data-step={i + 1}>
           <span className={s.elNum}>{String(i + 1).padStart(2, "0")}</span>
           <div>
-            <div className={s.elTitle}>{a}</div>
+            <div className={s.elTitle}><ItemName name={a} /></div>
             {b && <div className={s.elBody}>{b}</div>}
           </div>
         </li>
@@ -281,7 +312,7 @@ function DevelopmentScene() {
           {DISCIPLINES.map(([a, b], i) => (
             <li key={a} data-discipline={i + 1}>
               <span className={s.elNum}>{String(i + 1).padStart(2, "0")}</span>
-              <span className={s.discName}>{a}</span>
+              <span className={s.discName}><ItemName name={a} /></span>
               <span className={s.discSub}>{b}</span>
             </li>
           ))}
@@ -291,9 +322,6 @@ function DevelopmentScene() {
           <span className={s.fdpKicker}>Field Development Plan</span>
           <span className={s.fdpMark}>FDP</span>
           <p className={s.fdpBody}>여러 분야의 자료와 판단을 하나의 개발 계획으로 통합합니다.</p>
-          <ArrowCTA tone="blue" href={FDP_HREF} title={FDP_HREF ? undefined : "FDP technical page — coming soon"} style={{ marginTop: 28 }}>
-            Explore the FDP
-          </ArrowCTA>
         </div>
         <Fan n={OUTCOMES.length} dir="out" attr="expand" />
         <ol className={s.outcomes} aria-label="From FDP to production system">
@@ -301,7 +329,7 @@ function DevelopmentScene() {
             <li key={a} data-expand-step={i + 1}>
               <span className={s.elNum}>{String(i + 1).padStart(2, "0")}</span>
               <div>
-                <div className={s.elTitle}>{a}</div>
+                <div className={s.elTitle}><ItemName name={a} /></div>
                 <div className={s.elBody}>{b}</div>
               </div>
             </li>
@@ -376,7 +404,7 @@ function ProductionScene() {
                   <span className={s.loopKey}>{g.k}</span>
                   <ul>
                     {g.items.map(([a, b]) => (
-                      <li key={a}><span className={s.elTitle}>{a}</span><span className={s.elBody}>{b}</span></li>
+                      <li key={a}><span className={s.elTitle}><ItemName name={a} /></span><span className={s.elBody}>{b}</span></li>
                     ))}
                   </ul>
                 </div>

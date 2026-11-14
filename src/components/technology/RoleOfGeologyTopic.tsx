@@ -5,7 +5,7 @@ import { ArrowCTA } from "@/components/ds/ArrowCTA";
 import { ImageSlot } from "@/components/ds/ImageSlot";
 import { FieldSection, H, Rig, VerticalWell, type Camera } from "@/components/home/FieldSection";
 import { sceneStyles as ss } from "@/components/site/scene";
-import { categoryHref, topicLink, type FlatTopic } from "@/lib/technology";
+import { topicLink, type FlatTopic } from "@/lib/technology";
 import { sceneId } from "@/lib/stages";
 import { Details } from "./fundamentals/Details";
 import { RevealScope, ScrollHint } from "./RevealScope";
@@ -322,7 +322,7 @@ export function RoleOfGeologyTopic({ topic, next }: { topic: FlatTopic; prev?: F
               지질은 암석과 지층에 남은 기록을 해석해 저류암이 어디에, 어떤 형태로 분포하는지 설명합니다. 코어·검층·탄성파 자료를 통합한 지질 모델은 저류층 평가와 개발 계획의 공간적 기반이 됩니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>
@@ -577,7 +577,7 @@ export function RoleOfGeologyTopic({ topic, next }: { topic: FlatTopic; prev?: F
       <section className={t.next}>
         <div className={t.nextRow} data-reveal="up">
           <div className={s.backLinks}>
-            <Link href={categoryHref(cat)} className={t.back}><ArrowLeft size={14} aria-hidden /> {cat.num} {cat.label} · Overview</Link>
+            <Link href="/technology" className={t.back}><ArrowLeft size={14} aria-hidden /> Petroleum Technology · Overview</Link>
             <Link href={`/#${sceneId("development")}`} className={t.back}><ArrowLeft size={14} aria-hidden /> Journey · 03 Development &amp; Drilling — FDP</Link>
           </div>
           {next && (
