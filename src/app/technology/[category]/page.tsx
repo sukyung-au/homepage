@@ -22,7 +22,10 @@ async function resolve(params: PageProps<"/technology/[category]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/technology/[category]">): Promise<Metadata> {
   const cat = await resolve(params);
-  return { title: `${cat.num} ${cat.label} — Petroleum Technology — Oil & Gas Development` };
+  return {
+    title: `${cat.num} ${cat.label} — Petroleum Technology — Oil & Gas Development`,
+    description: cat.ko && `${cat.ko} 분야의 기술 토픽 목록입니다.`,
+  };
 }
 
 /**

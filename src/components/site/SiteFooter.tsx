@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SITE_LINKS } from "@/lib/site";
 import { STAGES, sceneId } from "@/lib/stages";
 import s from "./SiteFooter.module.css";
 
@@ -10,6 +11,9 @@ export function SiteFooter() {
           <b>Oil &amp; Gas</b> <span>Development</span>
           <p className={s.note}>From Subsurface to Field Development. 본 사이트의 수치는 설명을 위한 예시입니다.</p>
         </div>
+        <nav className={s.site} aria-label="Site sections">
+          {SITE_LINKS.map((l) => l.href && <Link key={l.id} href={l.href}>{l.label}</Link>)}
+        </nav>
         <nav className={s.links} aria-label="Journey stages">
           {STAGES.map((st) => (
             <Link key={st.id} href={`/#${sceneId(st.id)}`}><span>{st.num}</span>{st.label}</Link>

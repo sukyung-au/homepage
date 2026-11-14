@@ -182,7 +182,7 @@ export function RoleOfReservoirEngineeringTopic({ topic, next }: { topic: FlatTo
               저류공학은 저류층의 물성과 유체 거동을 분석하고, 생산량을 예측하며, 개발 전략 수립과 생산 최적화에 필요한 기술적 근거를 제공하는 분야입니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

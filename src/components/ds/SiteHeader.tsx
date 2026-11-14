@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { SiteLink } from "@/lib/site";
+import { MobileMenu } from "./MobileMenu";
 import s from "./SiteHeader.module.css";
 
 export interface SiteHeaderProps {
@@ -12,7 +12,7 @@ export interface SiteHeaderProps {
   style?: CSSProperties;
 }
 
-/** Transparent 72px editorial header: type-only wordmark, 13px links, search + KR/EN. Sits over the hero. */
+/** Transparent 72px editorial header: type-only wordmark and 13px links (a menu button on narrow screens). Sits over the hero. */
 export function SiteHeader({ links = [], active, tone = "light", position = "absolute", style }: SiteHeaderProps) {
   return (
     <header className={tone === "dark" ? `${s.header} ${s.dark}` : s.header} style={{ position, ...style }}>
@@ -30,10 +30,7 @@ export function SiteHeader({ links = [], active, tone = "light", position = "abs
           );
         })}
       </nav>
-      <div className={s.tools}>
-        <Search size={16} aria-label="Search" />
-        <span className={s.lang}><b>KR</b> <span>/ EN</span></span>
-      </div>
+      <MobileMenu links={links} active={active} />
     </header>
   );
 }

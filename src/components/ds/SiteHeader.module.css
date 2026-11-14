@@ -8,9 +8,11 @@
 .inert{cursor:default}
 .active{font-weight:600;color:var(--ex-blue)}
 .dark .active{color:#4DA3FF}
-.tools{display:flex;gap:20px;align-items:center;font-size:12px}
-.lang{letter-spacing:0.06em;white-space:nowrap}
-.lang b{font-weight:600}
-.lang span{opacity:0.5}
-/* Tablet portrait and below: the design system collapses the global nav; no hamburger is designed yet. */
-@media (max-width:833px){.nav{display:none}}
+/* Tablet portrait and below: the global nav collapses into a menu button with a panel under the header. */
+.mobile{display:none}
+.menuButton{display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-right:-12px;padding:0;border:0;background:none;color:inherit;cursor:pointer}
+.panel{position:absolute;top:100%;left:0;right:0;display:flex;flex-direction:column;padding:8px var(--gutter-page) 16px;background:#fff;border-top:1px solid var(--ex-line);border-bottom:1px solid var(--ex-line);box-shadow:0 16px 32px rgba(11,27,51,0.08);color:var(--ex-navy)}
+.panelLink{padding:14px 0;font-size:16px;color:inherit;border-bottom:1px solid var(--ex-line)}
+.panelLink:last-child{border-bottom:0}
+.panelActive{font-weight:600;color:var(--ex-blue)}
+@media (max-width:833px){.nav{display:none}.mobile{display:block}}

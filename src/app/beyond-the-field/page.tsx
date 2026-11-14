@@ -7,7 +7,10 @@ import { SiteFooter } from "@/components/site/SiteFooter";
 import { BEYOND, BEYOND_PHOTO_SLOTS } from "@/lib/beyond";
 import { SITE_LINKS } from "@/lib/site";
 
-export const metadata: Metadata = { title: "Beyond the Field — Oil & Gas Development" };
+export const metadata: Metadata = {
+  title: "Beyond the Field — Oil & Gas Development",
+  description: "KNOC 인턴십 이야기 — 울산에서의 시간과 만난 사람들.",
+};
 
 export default function BeyondTheField() {
   return (

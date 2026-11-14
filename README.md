@@ -59,7 +59,7 @@ npm run dev
 ## 디자인
 
 - 시각적 기준은 Claude Design V1 (`design/`)입니다. `design/ui_kits/explorer/`에 원본 프로토타입, `design/chats/`에 디자인 대화 기록이 있습니다.
-- 스타일은 `src/styles/tokens/`의 CSS 변수와 CSS Modules를 사용합니다. Tailwind는 설치만 되어 있고 사용하지 않습니다.
+- 스타일은 `src/styles/tokens/`의 CSS 변수와 CSS Modules를 사용합니다. Tailwind는 사용하지 않습니다.
 - `DESIGN-notion.md`는 이전 디자인 참고 문서입니다.
 - 모션은 아직 구현하지 않았습니다. 각 scene `<section>`의 `data-motion`, `data-transition-in` / `-hold` / `-out`, `data-persist` 속성과 시각화 안의 `data-layer`, `data-sequence`, `data-step` 속성이 이후 스크롤 모션 작업의 기준입니다.
 - 이전 9단계 Journey(V1)는 `design/versions/JOURNEY-V1.md`에 정리되어 있습니다.

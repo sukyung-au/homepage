@@ -117,7 +117,7 @@ function DiagnosticPlot({ id }: { id: Regime }) {
       {id === "no-flow" && <text x="505" y="160" className={f.gTinyBlue} textAnchor="middle">≈ 2× plateau</text>}
       {id === "constant" && <text x="500" y="250" className={f.gTinyBlue} textAnchor="middle">Derivative drops</text>}
       {id === "closed" && <text x="476" y="166" className={f.gTinyBlue}>Late unit slope</text>}
-      {id === "storage" && <text x="214" y="138" className={f.gTinyBlue} textAnchor="middle">Hump</text>}
+      {id === "storage" && <text x="244" y="168" className={f.gTinyBlue}>Hump</text>}
       <text x="548" y="342" className={f.gAxisLabel} textAnchor="end">Elapsed time (log) →</text>
       <text x="44" y="18" className={f.gAxisLabel} transform="rotate(-90 44 18)" textAnchor="end">Δp and derivative (log) →</text>
     </svg>

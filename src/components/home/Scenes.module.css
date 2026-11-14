@@ -16,6 +16,10 @@
 .elements li{position:relative;display:grid;grid-template-columns:36px 1fr;gap:12px;padding:16px 0;border-top:1px solid var(--ex-line)}
 .elNum{font-family:var(--font-editorial);font-size:12px;color:var(--ex-blue);padding-top:2px;font-variant-numeric:tabular-nums}
 .elTitle{font-family:var(--font-editorial);font-size:15px;font-weight:600;color:var(--ex-navy)}
+/* Item linked to its Technology topic: the name, then the topic number in blue */
+.topicLink{display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px;color:inherit;text-decoration:none}
+.topicLink:hover{color:var(--ex-blue)}
+.topicRef{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;letter-spacing:0.04em;font-variant-numeric:tabular-nums;color:var(--ex-blue);white-space:nowrap}
 .elBody{font-family:var(--font-kr);font-size:14px;line-height:1.6;color:var(--ex-muted);margin-top:2px}
 /* Progression variant: a thin blue spine with arrowheads links the steps */
 .flow li:not(:last-child)::after{content:"";position:absolute;left:4px;bottom:-5px;width:7px;height:7px;border-right:1px solid var(--ex-blue);border-bottom:1px solid var(--ex-blue);transform:rotate(45deg);background:var(--ex-bg)}

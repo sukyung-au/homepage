@@ -74,7 +74,7 @@ export function GpFundamentalsTopic({ topic, prev, next }: { topic: FlatTopic; p
               지구물리는 지하를 직접 보지 않고, 지표에서 측정한 물리량으로 그 아래를 추정합니다. 탄성파 탐사에서는 땅속으로 보낸 파동이 지층 경계에서 반사되어 돌아오는 시간과 세기를 기록합니다. 이 페이지는 Topic 1.1의 작업 흐름 뒤에 있는 물리 원리를 정리합니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

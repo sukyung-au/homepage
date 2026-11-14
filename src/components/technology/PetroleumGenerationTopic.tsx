@@ -55,7 +55,7 @@ export function PetroleumGenerationTopic({ topic, prev, next }: { topic: FlatTop
               석유 시스템은 수백만 년에 걸쳐 함께 작동하는 지질학적 과정의 집합입니다. 근원암의 유기물이 탄화수소로 바뀌고, 이동하여 저류암에 모이며, 트랩과 덮개암에 의해 보존됩니다. 각 요소와 그 순서가 모두 맞아야 매장량이 됩니다.
             </p>
             <div className={s.meta}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{topic.read} read</span>
               <span>Updated Oct 2026</span>
             </div>

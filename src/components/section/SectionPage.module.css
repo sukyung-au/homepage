@@ -20,6 +20,14 @@
 a.row:hover .title{color:var(--ex-blue)}
 .rowMeta{font-family:var(--font-editorial);font-size:12px;color:var(--ex-faint);white-space:nowrap}
 .soon{font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ex-faint);border:1px solid var(--ex-line);border-radius:999px;padding:4px 10px;white-space:nowrap}
+/* Grouped index (Technology overview): a category heading above each list */
+.group{margin-top:72px;scroll-margin-top:24px}
+.group + .group{margin-top:64px}
+.groupHead{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px;font-weight:400}
+.groupHead .num{width:72px}
+.groupTitle{font-family:var(--font-editorial);font-size:var(--type-editorial-md);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:var(--ex-navy)}
+.groupKo{font-family:var(--font-kr);font-size:15px;color:var(--ex-muted)}
+.group .list{margin-top:24px}
 .empty{margin:28px 0 0;font-family:var(--font-kr);font-size:15px;color:var(--ex-muted)}
 
 /* Story sections (Beyond the Field): text left, photo slots right */
@@ -33,6 +41,8 @@ a.row:hover .title{color:var(--ex-blue)}
 @media (max-width:734px){
   .head{padding-top:40px}
   .list{margin-top:48px}
+  .group{margin-top:48px}
+  .groupHead .num{width:48px}
   .row{grid-template-columns:48px 1fr;padding:22px 0}
   .row > :last-child{grid-column:2;justify-self:start}
   .stories{margin-top:48px}

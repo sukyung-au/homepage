@@ -85,8 +85,8 @@ export function FluidCurves() {
           <Axes x="Water saturation" y="Relative permeability">
             <path d="M30,24 C70,40 120,96 196,116" className={s.lineNavy} />
             <path d="M30,118 C100,116 150,90 196,30" className={s.lineBlue} />
-            <text x="40" y="38" className={s.tag}>Oil</text>
-            <text x="178" y="44" className={s.tagBlue}>Water</text>
+            <text x="36" y="60" className={s.tag}>Oil</text>
+            <text x="170" y="40" className={s.tagBlue} textAnchor="end">Water</text>
           </Axes>
           <span className={s.trioName}>Relative Permeability</span>
         </div>

@@ -2,10 +2,10 @@
  * Technology information architecture — the knowledge used along the Journey (NOT the Journey stages).
  *
  * Categories follow the KNOC technical team's disciplines. Data-driven: edit TECH_DATA only. Category numbers
- * (01, 02 …), topic numbers (1.1, 1.2 …), counts and the TechNav rail all follow from it. Topics are added one at
+ * (01, 02 …), topic numbers (1.1, 1.2 …), counts, the overview (app/technology/page.tsx) and the TechNav rail all
+ * follow from it. Topics are added one at
  * a time from the real course material; a topic is listed as "Coming soon" until it has a page (`hasPage: true`
  * plus an entry in app/technology/[category]/[topic]/page.tsx).
- * The previous 5-category IA and its published topic are kept in lib/technologyLegacy.ts.
  */
 export interface TechTopic {
   id: string;
@@ -44,7 +44,7 @@ const TECH_DATA: CategoryInput[] = [
     ],
   },
   {
-    id: "geology", label: "Geology", ko: "지질",
+    id: "geology", label: "Geology", ko: "지질", landing: "ge-fdp-role",
     topics: [{ id: "ge-fdp-role", title: "Role of Geology", sub: "From Rock Evidence to Reservoir Understanding", ko: "FDP에서 지질의 역할", hasPage: true }],
   },
   {

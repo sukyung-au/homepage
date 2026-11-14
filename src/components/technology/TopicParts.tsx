@@ -32,7 +32,7 @@ export function SectionHeading({ num, children }: { num: string; children: React
 }
 
 /**
- * End-of-topic navigation. Left: previous topic, or the category overview when this is the first topic.
+ * End-of-topic navigation. Left: previous topic, or the Technology overview when this is the first topic.
  * Right: the next topic — labelled "Next category" when it crosses into the next category.
  */
 export function TopicNext({ topic, prev, next }: { topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }) {
@@ -49,7 +49,7 @@ export function TopicNext({ topic, prev, next }: { topic: FlatTopic; prev?: Flat
             <span className={s.back}><ArrowLeft size={14} aria-hidden /> {prev.num} {prev.title}</span>
           )
         ) : (
-          <Link href={categoryHref(topic.category)} className={s.back}><ArrowLeft size={14} aria-hidden /> {topic.category.num} {topic.category.label} · Overview</Link>
+          <Link href="/technology" className={s.back}><ArrowLeft size={14} aria-hidden /> Petroleum Technology · Overview</Link>
         )}
         {next && (
           <div className={s.nextBlock}>

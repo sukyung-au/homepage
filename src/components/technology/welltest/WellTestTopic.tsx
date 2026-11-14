@@ -116,7 +116,7 @@ export function WellTestTopic({ topic, prev, next }: { topic: FlatTopic; prev?: 
               유정의 유량을 바꾸면 저류층의 압력이 반응합니다. 그 압력과 유량의 시간 변화를 해석하면 직접 볼 수 없는 저류층의 유동 능력, 유정 주변 상태, 경계와 연결된 부피를 알아낼 수 있습니다.
             </p>
             <div className={t.meta} data-reveal="up" style={v({ "--i": 4 })}>
-              <span>Topic {topic.num} of {cat.topics.length}</span>
+              <span>Topic {topic.num.split(".")[1]} of {cat.topics.length}</span>
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>

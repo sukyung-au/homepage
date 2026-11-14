@@ -1,6 +1,6 @@
 /**
- * AI Technology — four topics, told as one story: the tools → what was built with them → a work task they
- * automated → the rules for using them. A draft topic's sections say what they will cover (`intent`) and list the
+ * AI Technology — three topics, told as one story: the tools → what was built with them → a work task they
+ * automated. A draft topic's sections say what they will cover (`intent`) and list the
  * planned items (`plan`); once a topic is written, its body lives in a component (TOPIC_BODIES in
  * app/ai-technology/[topic]/page.tsx) and its sections here only feed the outline. Add only facts and figures
  * that can be checked (no invented numbers).
@@ -80,23 +80,6 @@ export const AI_TOPICS: AiTopic[] = [
         plan: ["작업 시간 비교 (추정 예정 · 근거 명시)", "작업 단계 수 비교", "정확도·일관성 변화"] },
       { id: "security", title: "Data & Security", intent: "공개 사이트에 맞게 실제 생산 자료 대신 익명화한 예시를 사용한다는 원칙을 밝힙니다.",
         plan: ["익명화한 예시 화면과 가상 데이터", "공개 범위 확인 결과", "내부 자료 취급 원칙"] },
-    ],
-  },
-  {
-    id: "responsible-ai",
-    title: "Using AI Responsibly",
-    ko: "AI 활용 원칙",
-    sub: "Verify Sources, Never Invent Numbers, Protect the Data",
-    summary: "이 사이트를 만들며 실제로 지킨 AI 활용 원칙과, 앞으로 업무에 적용할 방향을 정리합니다.",
-    sections: [
-      { id: "verify", title: "Verify, Then Trust", intent: "AI가 만든 기술 설명을 공개 자료와 대조해 확인하고 출처를 남긴 과정을 설명합니다.",
-        plan: ["출처 확인 절차", "페이지별 출처 목록 사례", "확인할 수 없는 내용의 처리"] },
-      { id: "no-invented-numbers", title: "No Invented Numbers", intent: "AI가 그럴듯한 수치를 만들어 낼 수 있다는 한계와, 검증되지 않은 수치를 쓰지 않는 원칙을 다룹니다.",
-        plan: ["그럴듯한 오답(환각) 사례", "개념도에 ‘값 없음’을 표시한 이유", "수치를 쓸 때의 기준"] },
-      { id: "protect-data", title: "Protect the Data", intent: "내부 자료와 개인정보를 AI 도구와 공개 사이트에서 다루는 기준을 정리합니다.",
-        plan: ["AI 도구에 입력하지 않을 정보", "공개 사이트 게시 기준", "사내 보안 기준과의 연계"] },
-      { id: "ahead", title: "Looking Ahead", intent: "석유개발 업무에서 생성형 AI를 더 활용할 수 있는 방향을 제안합니다.",
-        plan: ["반복 업무 자동화 확대", "기술 자료 정리·검색", "사람의 판단이 필요한 영역"] },
     ],
   },
 ];

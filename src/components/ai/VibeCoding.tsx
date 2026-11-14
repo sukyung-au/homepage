@@ -4,16 +4,20 @@ import { sceneStyles as ss } from "@/components/site/scene";
 import { Details } from "@/components/technology/fundamentals/Details";
 import f from "@/components/technology/fundamentals/Fundamentals.module.css";
 import { SectionHeading, topicStyles as t } from "@/components/technology/TopicParts";
+import { AI_TOPICS } from "@/lib/aiTech";
+import { STAGES } from "@/lib/stages";
+import { FLAT_TOPICS } from "@/lib/technology";
 import v from "./VibeCoding.module.css";
 
 /**
  * AI Technology topic 02 — vibe coding, and how this website was built with it.
  * The definition follows the sources in SOURCES; everything about this site comes from its own repository
- * (GitHub history, package.json, lib/*.ts). Figures in 04 are counted from GitHub as of AS_OF — update them
- * together with the date, never one without the other.
+ * (GitHub history, package.json, lib/*.ts). The GitHub figures in 04 (days, commits, pull requests) are counted as
+ * of AS_OF — update them together with the date, never one without the other. The stage and topic counts follow
+ * the site's data files.
  */
 
-const AS_OF = "2026-10-28";
+const AS_OF = "2026-11-14";
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
@@ -43,9 +47,9 @@ const EXAMPLE: [string, string][] = [
 
 /* ── 03 This site ── */
 const SECTIONS: [string, string, string][] = [
-  ["Journey", "/", "탐사부터 폐광까지, 하나의 필드 단면으로 보는 석유개발 5단계"],
+  ["Journey", "/", "탐사부터 폐쇄까지, 하나의 필드 단면으로 보는 석유개발 5단계"],
   ["Petroleum Technology", "/technology", "지구물리 · 지질 · 저류공학 등 개발 과정에서 쓰이는 기술 지식"],
-  ["AI Technology", "/ai-technology", "생성형 AI 활용, 바이브 코딩, 업무 자동화, AI 활용 원칙"],
+  ["AI Technology", "/ai-technology", "생성형 AI 활용, 바이브 코딩, 업무 자동화"],
   ["Beyond the Field", "/beyond-the-field", "KNOC 인턴십 이야기 — 울산에서의 시간과 만난 사람들"],
 ];
 const STACK: [string, string][] = [
@@ -69,14 +73,14 @@ const DEPLOY: [string, string][] = [
   ["Deploy", "Vercel 자동 배포"],
 ];
 
-/* ── 04 Numbers ── (counted from GitHub, see AS_OF) */
+/* ── 04 Numbers ── (GitHub figures counted as of AS_OF; stage and topic counts read from lib/*.ts) */
 const STATS: [string, string, string][] = [
-  ["30", "days", "첫 커밋 2026-09-29부터 기준일까지"],
-  ["73", "commits", "main 브랜치 커밋 (병합 커밋 포함)"],
-  ["13", "pull requests", "그중 12건 병합, 1건 열림"],
-  ["5", "journey stages", "Exploration → Decommissioning"],
-  ["6", "technology topics", "페이지가 있는 Petroleum Technology 토픽"],
-  ["4", "AI topics", "AI Technology 토픽"],
+  ["47", "days", "첫 커밋 2026-09-29부터 기준일까지"],
+  ["128", "commits", "main 브랜치 커밋 (병합 커밋 포함)"],
+  ["33", "pull requests", "그중 32건 병합, 1건 열림"],
+  [String(STAGES.length), "journey stages", "Exploration → Decommissioning"],
+  [String(FLAT_TOPICS.filter((x) => x.hasPage).length), "technology topics", "페이지가 있는 Petroleum Technology 토픽"],
+  [String(AI_TOPICS.length), "AI topics", "AI Technology 토픽"],
 ];
 
 /* ── 05 Lessons ── */
