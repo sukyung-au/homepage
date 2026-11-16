@@ -27,9 +27,19 @@ export const BEYOND: BeyondChapter[] = [
   {
     id: "people-and-learning",
     title: "People & Learning",
-    photos: [{ src: "/images/beyond/people-1.webp", alt: "사무실에서 커피를 들고 함께 웃고 있는 동료들" }],
+    photos: [
+      { src: "/images/beyond/people-1.webp", alt: "사무실에서 커피를 들고 함께 웃고 있는 동료들" },
+      { src: "/images/beyond/learning-2.webp", alt: "‘인턴 어수경’ 명패가 놓인 자리에서 모니터의 저류층 모델을 보며 작업하는 모습" },
+    ],
   },
-  { id: "moments-in-ulsan", title: "Moments in Ulsan" },
+  {
+    id: "moments-in-ulsan",
+    title: "Moments in Ulsan",
+    photos: [
+      { src: "/images/beyond/ulsan-1.webp", alt: "해 질 녘 강변 공원 잔디밭에서 돗자리를 펴고 컬러링북을 칠하는 모습" },
+      { src: "/images/beyond/ulsan-2.webp", alt: "맑은 날 바닷가 모래사장에서 바다 풍경을 사진으로 담는 모습" },
+    ],
+  },
   {
     id: "thank-you-knoc",
     title: "Thank You, KNOC",
