@@ -1,0 +1,91 @@
+/* 04 Feedback & Evolution (FeedbackStory.tsx). Default: the three steps stacked. .pinned (desktop, motion allowed):
+   one sticky screen over a 140svh runway; the active step cross-fades in place. */
+
+.track{position:relative}
+.sticky{padding:88px var(--gutter-page)}
+.inner{max-width:1360px;margin:0 auto}
+
+.pinned{height:calc(100svh + 140svh)}
+.pinned .sticky{position:sticky;top:0;height:100svh;padding-top:56px;padding-bottom:40px;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box}
+.pinned .inner{width:100%}
+.pinned .inner > :first-child{margin-bottom:28px}
+
+.layout{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:56px;align-items:start}
+
+/* Step list */
+.nav{display:flex;flex-direction:column;border-top:1px solid var(--ex-navy)}
+.navItem{all:unset;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:3px;padding:16px 0 16px 18px;border-bottom:1px solid var(--ex-line);color:var(--ex-muted);transition:color .2s}
+.navItem::before{content:"";position:absolute;left:0;top:16px;bottom:16px;width:2px;border-radius:1px;background:transparent;transition:background-color .2s}
+.navItem:hover{color:var(--ex-blue)}
+.navItem:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;border-radius:4px}
+.navOn{color:var(--ex-navy)}
+.navOn::before{background:var(--ex-blue)}
+.navKey{font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.1em;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.navTitle{font-family:var(--font-editorial);font-size:16px;font-weight:600}
+.navSub{font-family:var(--font-kr);font-size:12px;line-height:1.5;color:var(--ex-faint)}
+.legend{margin:18px 0 0;font-family:var(--font-kr);font-size:11px;line-height:1.6;color:var(--ex-faint)}
+.legend .status{margin-right:6px}
+
+/* Scenes: stacked by default; one grid cell when pinned */
+.scenes{display:flex;flex-direction:column;gap:72px}
+.pinned .scenes{display:grid}
+.pinned .scene{grid-area:1 / 1;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .35s var(--ease-standard),transform .35s var(--ease-standard),visibility 0s .35s}
+.pinned .sceneOn{opacity:1;visibility:visible;transform:none;transition:opacity .35s var(--ease-standard),transform .35s var(--ease-standard)}
+.pinned .nav .legend{display:block}
+.scene{min-width:0;scroll-margin-top:24px}
+
+.kicker{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;font-family:var(--font-kr);font-size:13px;color:var(--ex-muted)}
+.kickerKey{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.1em;color:var(--ex-blue)}
+.status{display:inline-flex;align-items:center;height:20px;padding:0 9px;border-radius:999px;background:rgba(27,175,122,0.12);color:#13784f;font-family:var(--font-kr);font-size:11px;font-weight:600}
+.sceneTitle{margin:10px 0 24px;font-family:var(--font-editorial);font-size:30px;font-weight:300;letter-spacing:-0.015em;color:var(--ex-navy)}
+
+.label{margin:0 0 6px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.voice{margin:0 0 20px;padding-left:14px;border-left:2px solid var(--ex-blue);font-family:var(--font-kr);font-size:16px;line-height:1.6;color:var(--ex-navy)}
+.points{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
+.points li{position:relative;padding-left:18px}
+.points li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--ex-blue)}
+
+/* A · feedback → change */
+.sceneA{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:40px;align-items:center}
+.ba{display:grid;grid-template-columns:minmax(0,3fr) auto minmax(0,5fr);gap:20px;align-items:center}
+.ba figure{margin:0}
+.ba figcaption{margin-top:8px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.after figcaption{color:var(--ex-blue)}
+.frame{position:relative;border-radius:6px;overflow:hidden}
+.before .frame{opacity:.75}
+.arrow{font-family:var(--font-editorial);font-size:22px;color:var(--ex-blue)}
+.after{padding:14px 16px 10px;border-radius:6px;background:#fff;box-shadow:var(--shadow-float)}
+.chartHead{font-family:var(--font-editorial);font-size:13px;color:var(--ex-muted);margin-bottom:4px}
+.chartHead b{color:var(--ex-navy)}
+
+/* B · one question, three answers */
+.question{margin:0 0 24px;font-family:var(--font-editorial);font-size:22px;font-weight:300;color:var(--ex-navy)}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.modes figure{margin:0;padding-top:14px;border-top:1px solid var(--ex-navy)}
+.modes figcaption{display:flex;flex-direction:column;gap:2px;margin-bottom:12px}
+.modes figcaption b{font-family:var(--font-editorial);font-size:17px;font-weight:600;color:var(--ex-navy)}
+.modes figcaption span{font-family:var(--font-kr);font-size:13px;color:var(--ex-muted)}
+.splitMini{display:flex;flex-direction:column;gap:8px}
+.path{margin:28px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;font-family:var(--font-kr);font-size:14px;color:var(--ex-muted)}
+.path i{font-style:normal;color:var(--ex-blue)}
+.path b{color:var(--ex-navy)}
+
+/* C · request → response, twice */
+.sceneC{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}
+.req{min-width:0;padding-top:16px;border-top:1px solid var(--ex-navy)}
+.answer{margin:0 0 12px;font-family:var(--font-editorial);font-size:17px;font-weight:600;color:var(--ex-navy)}
+.formula{display:block;margin-top:4px;font-family:var(--font-kr);font-size:12px;font-weight:400;color:var(--ex-muted)}
+.cap{margin:6px 0 0;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.08em;color:var(--ex-faint)}
+
+@media (prefers-reduced-motion:reduce){.pinned .scene,.pinned .sceneOn,.navItem,.navItem::before{transition:none}}
+
+@media (max-width:899px){
+  .sticky{padding:64px var(--gutter-page)}
+  .layout{grid-template-columns:1fr;gap:32px}
+  .nav{display:none}
+  .sceneA,.sceneC{grid-template-columns:1fr}
+  .ba{grid-template-columns:1fr;gap:12px}
+  .arrow{display:none}
+  .modes{grid-template-columns:1fr}
+  .sceneTitle{font-size:24px}
+}

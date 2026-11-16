@@ -1,0 +1,95 @@
+/* AI Technology topic 03 (ProductionReport.tsx). Same editorial system as the other topics; each section is sized
+   to hold its key content in one desktop screen. */
+
+.sec{padding:76px var(--gutter-page);scroll-margin-top:0}
+.white{background:#fff}
+.inner{max-width:1360px;margin:0 auto}
+
+.head{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.h2{margin:0;font-family:var(--font-editorial);font-size:var(--type-editorial-md);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:var(--ex-navy);text-wrap:balance}
+.sub{margin:0;font-family:var(--font-kr);font-size:16px;line-height:1.6;color:var(--ex-muted)}
+
+/* ── 01 Problem ── */
+.flow{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,3fr) minmax(0,5fr);align-items:center;gap:32px}
+.doc,.sheet{position:relative;padding:44px 28px 28px;border-radius:6px;background:var(--ex-bg);box-shadow:inset 0 0 0 1px var(--ex-line)}
+.white .doc,.white .sheet{background:#fff;box-shadow:var(--shadow-float)}
+.docLabel{position:absolute;left:28px;top:16px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
+.docLine{display:block;height:8px;margin:0 0 14px;border-radius:4px;background:#E2E8F0}
+.docLine:nth-child(3n+2){background:#D3DCE7}
+.lane{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center}
+.laneLabel{font-family:var(--font-editorial);font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--ex-blue)}
+.laneNote{font-family:var(--font-kr);font-size:12px;color:var(--ex-faint)}
+.laneTrack{position:relative;width:100%;height:2px;background:linear-gradient(90deg,var(--ex-line),var(--ex-blue))}
+.laneTrack::after{content:"";position:absolute;right:-2px;top:50%;width:8px;height:8px;border-top:2px solid var(--ex-blue);border-right:2px solid var(--ex-blue);transform:translateY(-50%) rotate(45deg)}
+.laneTrack i{position:absolute;top:50%;left:0;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:var(--ex-blue);opacity:0}
+.cells{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.cells i{display:block;aspect-ratio:2 / 1;border-radius:2px;background:#EEF2F7}
+.cells .cellDate{background:#DCE3EC}
+.cells .cellFill{background:var(--ex-tint);box-shadow:inset 0 0 0 1.5px var(--ex-blue)}
+
+.pains{list-style:none;margin:48px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 48px}
+.pains li{display:flex;flex-direction:column;gap:6px;padding-top:16px;border-top:1px solid var(--ex-navy)}
+.pains b{font-family:var(--font-editorial);font-size:18px;font-weight:400;color:var(--ex-navy)}
+.pains span{font-family:var(--font-kr);font-size:14px;line-height:1.6;color:var(--ex-muted)}
+
+/* ── 02 Solution ── */
+.solution{display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:40px 56px;align-items:start}
+.shot,.mini{margin:0}
+.shotFrame{position:relative;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-float)}
+.marker{position:absolute;z-index:2;display:flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:var(--ex-blue);color:#fff;font-family:var(--font-editorial);font-size:12px;font-weight:600;box-shadow:0 0 0 4px rgba(10,92,219,0.18)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:2px 0;padding:16px 0;border-top:1px solid var(--ex-line)}
+.steps li:first-child{border-top-color:var(--ex-navy)}
+.stepNum{grid-row:span 2;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--ex-blue);color:#fff;font-family:var(--font-editorial);font-size:11px;font-weight:600}
+.steps b{font-family:var(--font-editorial);font-size:17px;font-weight:600;color:var(--ex-navy)}
+.steps li > span:last-child{font-family:var(--font-kr);font-size:13px;line-height:1.6;color:var(--ex-muted)}
+.mini{margin-top:14px}
+.mini figcaption{margin-top:10px;font-family:var(--font-kr);font-size:12px;color:var(--ex-faint)}
+.facts{margin:32px 0 0;font-family:var(--font-kr);font-size:14px;color:var(--ex-navy)}
+
+/* ── 03 Dashboard: compact head so the dashboard fits one screen ── */
+.secDash{padding-top:64px;padding-bottom:56px}
+.secDash .head{margin-bottom:12px;gap:10px}
+.demo{margin-left:auto;font-family:var(--font-editorial);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-blue);border:1px solid var(--ex-line);border-radius:999px;padding:3px 10px;background:#fff}
+.demoNote{margin:16px 0 0;font-family:var(--font-kr);font-size:12px;color:var(--ex-faint)}
+
+/* ── 04 handled by FeedbackStory (pinned view) ── */
+.secStory{padding:0}
+
+/* ── 05 Outcome ── */
+.lessons{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 48px}
+.lessons li{display:flex;flex-direction:column;gap:6px;padding-top:18px;border-top:1px solid var(--ex-navy)}
+.lessonNum{font-family:var(--font-editorial);font-size:12px;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.lessons b{font-family:var(--font-editorial);font-size:24px;font-weight:300;letter-spacing:-0.01em;color:var(--ex-navy)}
+.lessonKo{font-family:var(--font-kr);font-size:13px;color:var(--ex-faint)}
+.lessonBody{margin-top:6px;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
+.outcomes{margin:48px 0 0;display:flex;flex-wrap:wrap;gap:24px 64px}
+.outcomes div{display:flex;align-items:baseline;gap:14px}
+.outcomes dt{font-family:var(--font-editorial);font-size:36px;font-weight:300;letter-spacing:-0.02em;color:var(--ex-navy);font-variant-numeric:tabular-nums}
+.outcomes dd{margin:0;display:flex;flex-direction:column;font-family:var(--font-kr);font-size:14px;color:var(--ex-navy)}
+.outcomes dd span{font-size:12px;color:var(--ex-faint)}
+.closing{margin:56px 0 0;padding:8px 0 8px 28px;border-left:3px solid var(--ex-blue)}
+.closing blockquote{margin:0;max-width:900px;font-family:var(--font-kr);font-size:22px;line-height:1.6;letter-spacing:-0.01em;color:var(--ex-navy)}
+
+/* ── Entrance motion (RevealScope; only while <html data-rm> is set) ── */
+.motion [data-reveal="up"]{transition:opacity .6s var(--ease-standard),transform .6s var(--ease-standard);transition-delay:calc(var(--i,0) * .08s)}
+:global(html[data-rm]) .motion [data-reveal="up"]:not([data-in]){opacity:0;transform:translateY(14px)}
+/* 01: values travel from the PDF to the sheet, a few times, once the graphic is in view */
+.motion .flow[data-in] .laneTrack i{animation:carry 1.6s var(--ease-standard) calc(var(--k) * .45s + .3s) 3 both}
+.motion .flow[data-in] .cellFill{animation:fill .5s var(--ease-standard) calc(var(--k) * .12s + .9s) both}
+@keyframes carry{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
+@keyframes fill{from{background:#EEF2F7;box-shadow:none}to{background:var(--ex-tint);box-shadow:inset 0 0 0 1.5px var(--ex-blue)}}
+@media (prefers-reduced-motion:reduce){.motion .flow[data-in] .laneTrack i,.motion .flow[data-in] .cellFill{animation:none}}
+
+@media (max-width:899px){
+  .sec{padding:64px var(--gutter-page)}
+  .flow{grid-template-columns:1fr;gap:16px}
+  .lane{flex-direction:row;justify-content:center}
+  .laneTrack{width:80px}
+  .pains,.lessons{grid-template-columns:1fr}
+  .solution{grid-template-columns:1fr}
+  .marker{width:26px;height:26px;font-size:10px}
+  .outcomes dt{font-size:30px}
+  .closing blockquote{font-size:18px}
+  .demo{margin-left:0}
+}

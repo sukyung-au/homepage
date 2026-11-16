@@ -1,0 +1,131 @@
+/* ODR dashboard demo (OdrDashboard.tsx / LineChart.tsx). Site tokens only; rules instead of boxes. */
+
+.dash{font-family:var(--font-editorial);color:var(--ex-navy)}
+
+/* Tabs — text tabs with a blue underline, like the Journey rail */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--ex-line)}
+.tab{all:unset;cursor:pointer;position:relative;padding:12px 18px 14px;font-size:15px;color:var(--ex-muted);transition:color .16s}
+.tab::after{content:"";position:absolute;left:18px;right:18px;bottom:-1px;height:2px;background:transparent;transition:background-color .16s}
+.tab:hover{color:var(--ex-blue)}
+.tab:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-4px;border-radius:6px}
+.tabOn{color:var(--ex-navy);font-weight:600}
+.tabOn::after{background:var(--ex-blue)}
+.tabDate{margin-left:8px;font-size:11px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+
+/* All panels share one grid cell: the stage keeps the tallest panel's height, so switching never moves the page */
+.stage{display:grid}
+.panel{grid-area:1 / 1;visibility:hidden;opacity:0;transition:opacity .2s var(--ease-standard),visibility 0s .2s}
+.panelOn{visibility:visible;opacity:1;transition:opacity .2s var(--ease-standard)}
+.panelBody{display:flex;flex-direction:column;gap:14px;padding-top:18px}
+
+/* Controls */
+.seg{all:unset;cursor:pointer;box-sizing:border-box;display:inline-flex;align-items:center;height:30px;padding:0 12px;border-radius:999px;font-size:13px;color:var(--ex-navy);background:transparent;border:1px solid var(--ex-line);white-space:nowrap;transition:background-color .16s,color .16s,border-color .16s}
+.seg:hover{border-color:var(--ex-blue);color:var(--ex-blue)}
+.seg:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.on,.on:hover{background:var(--ex-blue);border-color:var(--ex-blue);color:#fff}
+
+.period{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.periodLabel,.groupLabel{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint);white-space:nowrap}
+.periodVal{min-width:84px;font-size:15px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.period input{flex:1 1 200px;min-width:120px;accent-color:var(--ex-blue)}
+.presets{display:flex;gap:6px;flex-wrap:wrap}
+
+.metricRow,.wellControls{display:flex;flex-wrap:wrap;align-items:center;gap:10px 22px}
+.metricGroup{display:inline-flex;flex-wrap:wrap;align-items:center;gap:6px}
+.metricGroup > .groupLabel{margin-right:4px}
+.tint{padding:5px 8px 5px 12px;border-radius:999px;background:rgba(10,92,219,0.05)}
+.tintInj{background:rgba(242,154,31,0.09)}
+
+.readout{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+.big{font-size:40px;font-weight:300;letter-spacing:-0.02em;line-height:1;font-variant-numeric:tabular-nums}
+.unit{font-size:14px;color:var(--ex-muted)}
+.stats{font-family:var(--font-kr);font-size:13px;color:var(--ex-muted)}
+.up{color:#c0392b}
+.down{color:#1a8a5a}
+.flat{color:var(--ex-faint)}
+.def{margin:0;font-family:var(--font-kr);font-size:12px;line-height:1.6;color:var(--ex-faint)}
+.def span{margin-right:10px;font-family:var(--font-editorial);font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-blue)}
+
+/* Chart */
+.chart{position:relative;width:100%;outline:none;touch-action:pan-y}
+.chart[data-pickable]{cursor:crosshair}
+.chart:focus-visible{box-shadow:0 0 0 2px var(--focus-ring);border-radius:4px}
+.chart svg{display:block;overflow:visible}
+.grid{stroke:var(--ex-line);stroke-width:1}
+.ytick,.xtick{font-size:11px;fill:var(--ex-faint);font-variant-numeric:tabular-nums}
+.line{fill:none;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
+.series{animation:fadeIn .28s var(--ease-standard)}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.cross line{stroke:var(--ex-navy);stroke-width:1;stroke-dasharray:3 3;opacity:.55}
+.cross circle{stroke:#fff;stroke-width:1.5}
+.tip{position:absolute;z-index:5;min-width:150px;max-width:300px;padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.97);box-shadow:var(--shadow-float);font-size:12px;line-height:1.5;color:var(--ex-navy);pointer-events:none}
+.tipDate{font-weight:700;margin-bottom:4px;font-variant-numeric:tabular-nums}
+.tipRow{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.tipName{color:var(--ex-muted)}
+.tipSub{display:block;width:100%;font-family:var(--font-kr);font-size:11px;color:var(--ex-faint)}
+.tipMore,.tipHint{margin-top:4px;font-family:var(--font-kr);font-size:11px;color:var(--ex-faint)}
+.sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;flex:none}
+
+/* Well operations */
+.wellLayout{display:grid;grid-template-columns:150px minmax(0,1fr);gap:28px}
+.wellList{display:flex;flex-direction:column;gap:14px;font-size:13px}
+.pad{display:flex;flex-direction:column;gap:5px}
+.padHead{display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer}
+.wellItem{display:flex;align-items:center;gap:8px;padding-left:14px;color:var(--ex-navy);cursor:pointer}
+.wellItem .sw{margin:0 0 0 auto}
+.wellList input{accent-color:var(--ex-blue);margin:0}
+.clear{all:unset;cursor:pointer;align-self:flex-start;font-size:12px;color:var(--ex-blue)}
+.clear:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.wellMain{min-width:0}
+.legend{margin:0 0 10px;font-family:var(--font-kr);font-size:12px;line-height:1.6;color:var(--ex-muted)}
+.axisNote{display:block;color:var(--ex-faint)}
+.axisNote > span + span::before{content:" │ ";color:var(--ex-line-strong)}
+.dashKey{display:inline-flex;align-items:center;gap:2px;margin-left:6px}
+.dashSample line{stroke:var(--ex-navy);stroke-width:2}
+.wellArea{overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.splitGrid{display:grid;gap:16px 24px}
+.totalStack{display:flex;flex-direction:column;gap:14px}
+.cell{min-width:0}
+.cellHead{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px;font-size:13px;font-weight:600;margin-bottom:2px}
+.cellStat{font-weight:400;color:var(--ex-muted)}
+.cellStat b{color:var(--ex-navy)}
+.rule{font-family:var(--font-kr);font-size:11px;font-weight:400;color:var(--ex-faint)}
+.chips{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;margin-bottom:6px}
+.chips > span{display:inline-flex;align-items:center}
+.empty{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--font-kr);font-size:14px;color:var(--ex-faint)}
+
+/* Operating status */
+.statusHead{display:flex;align-items:center;flex-wrap:wrap;gap:8px 10px}
+.statusDate{font-size:18px;font-weight:600;margin-right:8px;font-variant-numeric:tabular-nums}
+.statusNote{font-family:var(--font-kr);font-size:12px;color:var(--ex-faint)}
+.statusGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 72px;padding-top:8px}
+.statusTitle{margin:0 0 16px;font-size:15px;font-weight:600}
+.statusTitle span{font-weight:400;color:var(--ex-faint)}
+.tank{display:grid;grid-template-columns:150px minmax(0,1fr) 44px;align-items:center;gap:16px;padding:9px 0;font-size:13px}
+.tank b{text-align:right;font-variant-numeric:tabular-nums}
+.bar{height:8px;border-radius:999px;background:#E5EAF1;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:999px;transition:width .3s var(--ease-standard)}
+.check{padding:9px 0;font-size:13px;font-variant-numeric:tabular-nums}
+.check b{margin-right:6px}
+.ok{color:#1a8a5a;font-weight:600;margin-right:10px}
+.warn{color:#c0392b;font-weight:600;margin-right:10px}
+.limit{color:var(--ex-faint);margin-left:6px}
+.statusFoot{margin:18px 0 0;font-family:var(--font-kr);font-size:12px;color:var(--ex-faint)}
+
+@media (prefers-reduced-motion:reduce){.panel,.panelOn,.series,.bar span,.tab,.tab::after,.seg{transition:none;animation:none}}
+
+@media (max-width:899px){
+  .wellLayout{grid-template-columns:1fr;gap:12px}
+  .wellList{flex-direction:row;flex-wrap:wrap;gap:8px 20px}
+  .pad{flex-direction:row;flex-wrap:wrap;gap:6px 12px;align-items:center}
+  .wellItem{padding-left:0}
+  .wellItem .sw{margin-left:0}
+  .statusGrid{grid-template-columns:1fr}
+  .big{font-size:32px}
+}
+@media (max-width:640px){
+  .tab{padding:10px 12px 12px}
+  .tab::after{left:12px;right:12px}
+  .tank{grid-template-columns:110px minmax(0,1fr) 40px;gap:10px}
+}
+@media (max-width:640px){.splitGrid{grid-template-columns:1fr !important}}
