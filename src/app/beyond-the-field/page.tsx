@@ -30,9 +30,14 @@ export default function BeyondTheField() {
                     {ch.story?.length ? ch.story.map((p, j) => <p key={j} className={ss.body} style={{ margin: 0 }}>{p}</p>) : <span className={s.soon} style={{ alignSelf: "flex-start" }}>Coming soon</span>}
                   </div>
                   <div className={s.photos}>
-                    {ch.photos?.length
-                      ? ch.photos.map((ph, j) => <div key={j} className={s.photo}><ImageSlot id={`${ch.id}-${j + 1}`} placeholder={ph.alt} src={ph.src} alt={ph.alt} sizes="(max-width: 734px) 100vw, 40vw" /></div>)
-                      : Array.from({ length: BEYOND_PHOTO_SLOTS }, (_, j) => <div key={j} className={s.photo}><ImageSlot id={`${ch.id}-${j + 1}`} placeholder={`Photo · ${ch.title}`} /></div>)}
+                    {Array.from({ length: Math.max(BEYOND_PHOTO_SLOTS, ch.photos?.length ?? 0) }, (_, j) => {
+                      const ph = ch.photos?.[j];
+                      return (
+                        <div key={j} className={s.photo}>
+                          {ph ? <ImageSlot id={`${ch.id}-${j + 1}`} placeholder={ph.alt} src={ph.src} alt={ph.alt} sizes="(max-width: 734px) 100vw, 40vw" /> : <ImageSlot id={`${ch.id}-${j + 1}`} placeholder={`Photo · ${ch.title}`} />}
+                        </div>
+                      );
+                    })}
                   </div>
                 </article>
               );
