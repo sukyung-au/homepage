@@ -47,7 +47,17 @@
 .cardTitle{font-family:var(--font-editorial);font-size:clamp(17px,1.25vw,21px);font-weight:600;letter-spacing:-0.01em;color:var(--ex-navy)}
 .num{margin-right:8px;font-size:13px;color:var(--ex-blue);font-variant-numeric:tabular-nums}
 .desc{font-family:var(--font-kr);font-size:clamp(13px,0.9vw,15px);line-height:1.6;color:var(--ex-navy)}
-.more{display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.06em;color:var(--ex-blue)}
+.more{all:unset;cursor:pointer;align-self:flex-start;display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.06em;color:var(--ex-blue);transition:gap .2s}
+.more:hover{gap:7px}
+.more:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:3px}
+
+/* Topic list row chosen from a card (the list itself is unchanged; AiIntro sets data-picked on its <li>) */
+.intro ~ :global(#topics) :global(li){transition:background-color .45s var(--ease-standard),box-shadow .45s var(--ease-standard)}
+.intro ~ :global(#topics) :global(li){position:relative}
+.intro ~ :global(#topics) :global(li::before){content:"";position:absolute;left:-14px;top:0;bottom:0;width:3px;border-radius:2px;background:var(--ex-blue);opacity:0;transition:opacity .45s var(--ease-standard)}
+.intro ~ :global(#topics) :global(li[data-picked]){background:rgba(10,92,219,0.06);box-shadow:-14px 0 0 rgba(10,92,219,0.06)}
+.intro ~ :global(#topics) :global(li[data-picked]::before){opacity:1}
+.intro ~ :global(#topics) :global(li[data-picked] a > span:nth-child(2)){color:var(--ex-blue)}
 
 /* Laptop frame around each card image */
 .screen{display:flex;flex-direction:column;align-items:center}
