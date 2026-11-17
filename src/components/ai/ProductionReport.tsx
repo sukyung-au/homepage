@@ -12,7 +12,7 @@ import p from "./ProductionReport.module.css";
  *
  * Public-page rules: no field data, well names, internal paths or operator comments. The dashboard (03) and the
  * small charts in 04 run on synthetic data (odr/demoData.ts) with the program's real metric definitions
- * (odr/metrics.ts). Program screenshots stay as placeholders until re-captured on synthetic data. Figures appear
+ * (odr/metrics.ts). Program screenshots (02) are real captures with internal paths and ODR values masked. Figures appear
  * in 05 only once their source is confirmed (OUTCOMES[].confirmed).
  */
 
@@ -99,11 +99,12 @@ export function ProductionReport() {
           <div className={p.solution}>
             <figure className={p.shot} data-reveal="up">
               <div className={p.shotFrame} style={{ aspectRatio: "1681 / 905" }}>
-                <ImageSlot id="odr-gui-import" placeholder="프로그램 가져오기 화면 — 가상 데이터로 다시 캡처한 화면으로 교체 예정" />
-                <span className={p.marker} style={{ left: "2%", top: "8%" }}>01</span>
-                <span className={p.marker} style={{ left: "41%", top: "60%" }}>02</span>
-                <span className={p.marker} style={{ right: "3%", bottom: "3%" }}>03</span>
+                <ImageSlot id="odr-gui-import" src="/images/ai/production-report/odr-gui-import.webp" alt="ODR 자동 집계 프로그램의 가져오기 화면: 파일 위치, 날짜별 처리 목록, PDF 원문과 입력값 비교 표, Excel에 저장 버튼" placeholder="프로그램 가져오기 화면" sizes="(max-width: 899px) 100vw, 66vw" />
+                <span className={p.marker} style={{ left: "9%", top: "10.6%" }}>01</span>
+                <span className={p.marker} style={{ left: "67.2%", top: "47%" }}>02</span>
+                <span className={p.marker} style={{ left: "77%", top: "94.3%" }}>03</span>
               </div>
+              <figcaption className={p.shotCap}>실제 프로그램 화면 · 사내 경로와 ODR 수치는 가림 처리</figcaption>
             </figure>
             <div className={p.solutionSide}>
               <ol className={p.steps}>
@@ -112,8 +113,8 @@ export function ProductionReport() {
                 ))}
               </ol>
               <figure className={p.mini} data-reveal="up" style={{ "--i": 3 } as CSSProperties}>
-                <div className={p.shotFrame} style={{ aspectRatio: "1685 / 921" }}>
-                  <ImageSlot id="odr-gui-dashboard" placeholder="대시보드 탭 캡처 (가상 데이터)" />
+                <div className={p.shotFrame} style={{ aspectRatio: "1100 / 400" }}>
+                  <ImageSlot id="odr-gui-dashboard" src="/images/ai/production-report/odr-gui-dashboard-tab.webp" alt="ODR 자동 집계 프로그램의 대시보드 탭: 대시보드 열기(브라우저) 버튼" placeholder="대시보드 탭" sizes="(max-width: 899px) 100vw, 30vw" />
                 </div>
                 <figcaption>프로그램의 대시보드 탭 → 버튼 하나로 브라우저 대시보드 열기</figcaption>
               </figure>
