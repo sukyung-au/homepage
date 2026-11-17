@@ -62,8 +62,10 @@ function SceneA() {
       </div>
       <div className={f.ba}>
         <figure className={f.before}>
-          <div className={f.frame} style={{ aspectRatio: "16 / 10" }}><ImageSlot id="odr-dashboard-before" placeholder="개선 전 대시보드 캡처" /></div>
-          <figcaption>Before</figcaption>
+          <div className={f.frame} style={{ aspectRatio: "1466 / 641" }}>
+            <ImageSlot id="odr-dashboard-before" src="/images/ai/production-report/odr-dashboard-before.webp" alt="개선 전 대시보드: 여러 지표를 작은 카드 여섯 개에 한꺼번에 보여 주는 화면" placeholder="개선 전 대시보드" sizes="(max-width: 899px) 100vw, 30vw" />
+          </div>
+          <figcaption>Before · 실제 화면 (수치 가림)</figcaption>
         </figure>
         <span className={f.arrow} aria-hidden>→</span>
         <figure className={f.after}>

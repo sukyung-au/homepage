@@ -46,13 +46,13 @@
 .points li::before{content:"";position:absolute;left:0;top:.55em;width:8px;height:8px;border-radius:50%;background:var(--ex-blue)}
 
 /* A · feedback → change */
-.sceneA{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:40px;align-items:center}
-.ba{display:grid;grid-template-columns:minmax(0,3fr) auto minmax(0,5fr);gap:20px;align-items:center}
+.sceneA{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,9fr);gap:40px;align-items:center}
+.ba{display:grid;grid-template-columns:minmax(0,5fr) auto minmax(0,4fr);gap:20px;align-items:center}
 .ba figure{margin:0}
 .ba figcaption{margin-top:8px;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--ex-faint)}
 .after figcaption{color:var(--ex-blue)}
-.frame{position:relative;border-radius:6px;overflow:hidden}
-.before .frame{opacity:.75}
+.frame{position:relative;border-radius:6px;overflow:hidden;box-shadow:inset 0 0 0 1px var(--ex-line)}
+.before .frame{opacity:.9}
 .arrow{font-family:var(--font-editorial);font-size:22px;color:var(--ex-blue)}
 .after{padding:14px 16px 10px;border-radius:6px;background:#fff;box-shadow:var(--shadow-float)}
 .chartHead{font-family:var(--font-editorial);font-size:13px;color:var(--ex-muted);margin-bottom:4px}
