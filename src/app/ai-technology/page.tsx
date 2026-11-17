@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AiIntro } from "@/components/ai/AiIntro";
 import { SiteHeader } from "@/components/ds/SiteHeader";
 import { IndexList, SectionHead, sectionStyles as s } from "@/components/section/SectionPage";
 import { SiteFooter } from "@/components/site/SiteFooter";
@@ -14,7 +15,8 @@ export default function AiTechnology() {
   return (
     <main>
       <SiteHeader links={SITE_LINKS} active="ai" position="relative" />
-      <section className={s.page}>
+      <AiIntro />
+      <section id="topics" className={s.page}>
         <div className={s.inner}>
           <SectionHead label="AI Technology" title="AI Technology" sub="Tools, What We Built, and Work Automated"
             meta={<span>{AI_TOPICS.length} topics</span>} />

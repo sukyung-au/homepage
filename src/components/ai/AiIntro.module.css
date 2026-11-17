@@ -1,0 +1,100 @@
+/* AI Technology — Introduction (AiIntro.tsx), after the approved design draft. Bright white-blue page, navy type,
+   blue accents. Left: AI hub + three application nodes; right: three result cards. Hover/focus on either side sets
+   data-hi on the section, which highlights the matching node, spoke and card. Entrance ≈ 1.5 s, once. */
+
+.intro{position:relative;padding:28px var(--gutter-page) 40px;background:radial-gradient(1200px 600px at 20% 70%,#EAF2FF 0%,rgba(234,242,255,0) 70%),linear-gradient(180deg,#F7FAFF 0%,#FFFFFF 100%);overflow:hidden}
+.inner{position:relative;max-width:1360px;margin:0 auto;word-break:keep-all}
+
+/* Top bar */
+.bar{display:flex;align-items:center;gap:24px;font-family:var(--font-editorial);font-size:13px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-muted);white-space:nowrap}
+.bar i{font-style:normal;margin:0 4px;color:var(--ex-line-strong)}
+.barRule{flex:1;height:1px;background:var(--ex-line-strong)}
+
+.body{margin-top:26px;display:grid;grid-template-columns:minmax(0,56fr) minmax(0,44fr);gap:0}
+.left{padding-right:48px;border-right:1px solid var(--ex-line)}
+.right{padding-left:48px;display:flex;flex-direction:column;justify-content:center}
+
+/* Title */
+.title{margin:0;display:flex;flex-direction:column;font-family:var(--font-editorial);font-size:clamp(32px,min(2.9vw,5.6svh),52px);font-weight:600;line-height:1.08;letter-spacing:-0.02em;color:var(--ex-navy)}
+.title em{font-style:normal;color:var(--ex-blue)}
+@media (min-width:900px){.title > span{white-space:nowrap}}
+.sub{margin:16px 0 0;font-family:var(--font-kr);font-size:clamp(15px,1.1vw,19px);line-height:1.6;color:var(--ex-navy)}
+
+/* Diagram */
+.diagram{position:relative;margin-top:12px;height:clamp(380px,calc(100svh - 360px),560px)}
+.lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.tri{fill:none;stroke:var(--ex-blue);stroke-width:1.4;vector-effect:non-scaling-stroke;opacity:.45}
+.spoke{fill:none;stroke:var(--ex-blue);stroke-width:1.4;vector-effect:non-scaling-stroke;opacity:.35;stroke-dasharray:4 5;transition:opacity .2s,stroke-width .2s}
+.orbit{position:absolute;left:50%;top:55%;height:96%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed rgba(10,92,219,0.22);pointer-events:none}
+.orbit::after{content:"";position:absolute;inset:16%;border-radius:50%;border:1px solid rgba(10,92,219,0.10)}
+
+.hub{position:absolute;z-index:2;width:clamp(120px,9vw,156px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;background:radial-gradient(circle at 35% 30%,#4D8DF0 0%,var(--ex-blue) 55%,#0846A8 100%);box-shadow:0 0 0 10px rgba(10,92,219,0.08),0 0 0 22px rgba(10,92,219,0.04),0 16px 40px rgba(10,92,219,0.30)}
+.hub b{font-family:var(--font-editorial);font-size:clamp(36px,2.8vw,48px);font-weight:700;line-height:1;letter-spacing:-0.02em}
+
+.node{position:absolute;z-index:3;width:clamp(150px,11.5vw,200px);aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:18px;box-sizing:border-box;text-align:center;background:radial-gradient(circle at 50% 30%,#FFFFFF 0%,#F2F7FF 70%,#E6EFFC 100%);border:1.5px solid rgba(10,92,219,0.18);box-shadow:0 10px 30px rgba(11,26,44,0.08);outline:none;transition:border-color .2s,box-shadow .2s,transform .2s}
+.nodeIcon{color:var(--ex-blue);margin-bottom:4px}
+.node b{font-family:var(--font-editorial);font-size:clamp(16px,1.2vw,20px);font-weight:600;line-height:1.2;color:var(--ex-navy)}
+.node span{font-family:var(--font-kr);font-size:clamp(12px,0.85vw,14px);line-height:1.45;color:var(--ex-muted)}
+.node:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+
+/* Cards */
+.listLabel{margin:0 0 18px;font-family:var(--font-editorial);font-size:14px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ex-blue)}
+.cards{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:clamp(12px,1.8svh,20px)}
+.card{display:grid;grid-template-columns:clamp(130px,11vw,180px) 1fr;gap:20px;align-items:center;padding:16px 20px 16px 16px;border-radius:12px;background:#fff;border:1px solid #E3EAF4;box-shadow:inset 3px 0 0 var(--ex-blue),0 8px 24px rgba(11,26,44,0.06);color:inherit;text-decoration:none;outline:none;transition:border-color .2s,box-shadow .2s,transform .2s}
+.card:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.cardLink{border:1.5px solid rgba(10,92,219,0.45)}
+.cardText{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cardTitle{font-family:var(--font-editorial);font-size:clamp(17px,1.25vw,21px);font-weight:600;letter-spacing:-0.01em;color:var(--ex-navy)}
+.num{margin-right:8px;font-size:13px;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.desc{font-family:var(--font-kr);font-size:clamp(13px,0.9vw,15px);line-height:1.6;color:var(--ex-navy)}
+.more{display:inline-flex;align-items:center;gap:4px;margin-top:2px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.06em;color:var(--ex-blue)}
+
+/* Laptop frame around each card image */
+.screen{display:flex;flex-direction:column;align-items:center}
+.display{position:relative;width:88%;aspect-ratio:16 / 10;border:5px solid #1B2433;border-bottom-width:7px;border-radius:6px 6px 2px 2px;overflow:hidden;background:#1B2433}
+.display img{object-fit:cover;object-position:0 0}
+.base{width:100%;height:6px;border-radius:0 0 6px 6px;background:linear-gradient(180deg,#9AA6B6,#6E7A8B)}
+
+/* Linked highlight: whichever side is hovered/focused, the pair lights up */
+.intro[data-hi="ppt"] .node[data-k="ppt"],.intro[data-hi="web"] .node[data-k="web"],.intro[data-hi="odr"] .node[data-k="odr"]{border-color:var(--ex-blue);box-shadow:0 0 0 6px rgba(10,92,219,0.10),0 14px 34px rgba(10,92,219,0.18);transform:translate(-50%,-50%) scale(1.04)}
+.intro[data-hi="ppt"] .spoke[data-k="ppt"],.intro[data-hi="web"] .spoke[data-k="web"],.intro[data-hi="odr"] .spoke[data-k="odr"]{opacity:1;stroke-width:2.4;stroke-dasharray:none}
+.intro[data-hi="ppt"] .card[data-k="ppt"],.intro[data-hi="web"] .card[data-k="web"],.intro[data-hi="odr"] .card[data-k="odr"]{border-color:var(--ex-blue);box-shadow:inset 3px 0 0 var(--ex-blue),0 12px 30px rgba(10,92,219,0.14);transform:translateX(-3px)}
+
+/* Entrance: hub → spokes → nodes; cards in order */
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.9)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes drawIn{from{stroke-dashoffset:120;opacity:0}to{opacity:.35}}
+@media (prefers-reduced-motion:no-preference){
+  .bar{animation:fade .5s var(--ease-standard) backwards}
+  .head > *{animation:rise .55s var(--ease-standard) backwards}
+  .head > :nth-child(2){animation-delay:.12s}
+  .orbit{animation:fade .6s var(--ease-standard) .3s backwards}
+  .hub{animation:pop .5s var(--ease-standard) .3s backwards}
+  .tri{animation:fade .5s var(--ease-standard) .7s backwards}
+  .spoke{animation:drawIn .5s var(--ease-standard) calc(.55s + var(--i) * .12s) backwards}
+  .node{animation:pop .45s var(--ease-standard) calc(.65s + var(--i) * .15s) backwards}
+  .listLabel{animation:fade .4s var(--ease-standard) .5s backwards}
+  .cardWrap{animation:rise .45s var(--ease-standard) calc(.7s + var(--i) * .15s) backwards}
+}
+@media (prefers-reduced-motion:reduce){.node,.card,.spoke{transition:none}}
+
+/* Tablet: diagram above the cards */
+@media (max-width:1099px){
+  .body{grid-template-columns:1fr}
+  .left{padding-right:0;border-right:0}
+  .right{padding:32px 0 0;margin-top:24px;border-top:1px solid var(--ex-line)}
+  .diagram{height:520px}
+}
+/* Mobile: smaller diagram; cards stack image over text */
+@media (max-width:640px){
+  .bar{font-size:11px;gap:12px;letter-spacing:0.12em}
+  .bar > :last-child,.barRule{display:none}
+  .diagram{height:400px}
+  .node{width:122px;padding:10px}
+  .node span{display:none}
+  .hub{width:96px}
+  .hub b{font-size:30px}
+  .card{grid-template-columns:1fr}
+  .screen{max-width:240px}
+}
