@@ -49,6 +49,11 @@
 /* Chart */
 .chart{position:relative;width:100%;outline:none;touch-action:pan-y}
 .chart[data-pickable]{cursor:crosshair}
+.chart[data-range]{cursor:col-resize;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.range rect{fill:rgba(10,92,219,0.08)}
+.range line{stroke:var(--ex-blue);stroke-width:1.5}
+.range text{font-size:11px;font-weight:600;fill:var(--ex-blue)}
+.rangeDot{fill:#fff;stroke:var(--ex-blue);stroke-width:2.5}
 .chart:focus-visible{box-shadow:0 0 0 2px var(--focus-ring);border-radius:4px}
 .chart svg{display:block;overflow:visible}
 .grid{stroke:var(--ex-line);stroke-width:1}

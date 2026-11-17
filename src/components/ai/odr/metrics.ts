@@ -177,3 +177,16 @@ export function change(points: [number, Val][]) {
   const pct = i0 === i1 || !first ? null : ((value - first) / Math.abs(first)) * 100;
   return { i0, i1, value, first, avg, pct };
 }
+
+/**
+ * Start → end comparison for a dragged range: the metric's value on the end day minus its value on the start day
+ * (not the volume accumulated over the range). The % change is not computed when the start value is 0 or missing.
+ */
+export function pointChange(start: Val, end: Val): { diff: Val; pct: Val } {
+  if (start === null || end === null) return { diff: null, pct: null };
+  const diff = end - start;
+  return { diff, pct: start === 0 ? null : (diff / start) * 100 };
+}
+
+/** Signed number for a change: "+1,000" / "-250" */
+export const signed = (v: number, digits: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fmt(Math.abs(v), digits)}`;

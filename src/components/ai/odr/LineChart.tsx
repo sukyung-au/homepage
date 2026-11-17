@@ -34,6 +34,9 @@ interface Props {
   bare?: boolean;
   label: string;
   onPick?: (i: number) => void;
+  /** Drag-to-select range (controlled): selected start/end day indices, reported while dragging */
+  range?: [number, number] | null;
+  onRange?: (r: [number, number]) => void;
 }
 
 const DAY = 86400000;
@@ -65,10 +68,11 @@ const tickLabel = (t: number, step: number) => {
   return t.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 };
 
-export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick }: Props) {
+export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick, range, onRange }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [hi, setHi] = useState<number | null>(null);
+  const drag = useRef<number | null>(null);
 
   useEffect(() => {
     const el = host.current;
@@ -122,7 +126,22 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
     for (const i of idx) { const d = Math.abs(geo.X(i) - x); if (d < bd) { bd = d; best = i; } }
     return best;
   };
-  const onMove = (e: PointerEvent) => setHi(nearest(e.clientX));
+  const onMove = (e: PointerEvent) => {
+    const i = nearest(e.clientX);
+    if (drag.current !== null && i !== null) {
+      if (i !== drag.current) onRange?.([drag.current, i]);
+      setHi(null);
+      return;
+    }
+    setHi(i);
+  };
+  const onDown = (e: PointerEvent) => {
+    if (!onRange) return onMove(e);
+    drag.current = nearest(e.clientX);
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setHi(null);
+  };
+  const onUp = () => { drag.current = null; };
   const onKey = (e: KeyboardEvent) => {
     if (!idx.length) return;
     const k = hi === null ? -1 : idx.indexOf(hi);
@@ -146,12 +165,15 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
       role="img"
       aria-label={label}
       onPointerMove={onMove}
-      onPointerDown={onMove}
+      onPointerDown={onDown}
+      onPointerUp={onUp}
+      onPointerCancel={onUp}
       onPointerLeave={(e) => e.pointerType === "mouse" && setHi(null)}
       onClick={() => hi !== null && onPick?.(hi)}
       onKeyDown={onKey}
       onBlur={() => setHi(null)}
       data-pickable={onPick ? "" : undefined}
+      data-range={onRange ? "" : undefined}
     >
       {width > 0 && geo && (
         <svg width={width} height={height} aria-hidden>
@@ -167,6 +189,19 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
           {!bare && geo.xticks.map((t) => (
             <text key={t} x={m.l + ((t - geo.t0) / geo.span) * pw} y={height - 6} className={s.xtick} textAnchor="middle">{mmdd(new Date(t).toISOString().slice(0, 10))}</text>
           ))}
+          {range && (() => {
+            const [a, b] = range[0] <= range[1] ? range : [range[1], range[0]];
+            const xa = geo.X(a), xb = geo.X(b);
+            return (
+              <g className={s.range}>
+                <rect x={xa} y={m.t} width={Math.max(1, xb - xa)} height={ph} />
+                <line x1={xa} x2={xa} y1={m.t} y2={m.t + ph} />
+                <line x1={xb} x2={xb} y1={m.t} y2={m.t + ph} />
+                <text x={xa} y={m.t + 12} textAnchor="end" dx={-6}>시작</text>
+                <text x={xb} y={m.t + 12} dx={6}>종료</text>
+              </g>
+            );
+          })()}
           <g key={sig} className={s.series}>
             {lines.map((l, k) => (
               <g key={l.name}>
@@ -175,6 +210,10 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
               </g>
             ))}
           </g>
+          {range && lines[0] && [range[0], range[1]].map((i, k) => {
+            const v = lines[0].values[i];
+            return v === null || v === undefined ? null : <circle key={k} cx={geo.X(i)} cy={geo.Y(lines[0].axis ?? 0, v)} r={5} className={s.rangeDot} />;
+          })}
           {hi !== null && (
             <g className={s.cross}>
               <line x1={geo.X(hi)} x2={geo.X(hi)} y1={m.t} y2={m.t + ph} />

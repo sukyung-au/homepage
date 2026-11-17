@@ -1,6 +1,6 @@
 // Checks the ODR demo's metric rules (src/components/ai/odr/metrics.ts) on small hand-computed cases.
 // Run: node scripts/verify-odr-metrics.mjs   (Node 22+, which loads the .ts module directly)
-import { BBL, PLANT, selectionTotal, wellValue } from "../src/components/ai/odr/metrics.ts";
+import { BBL, PLANT, pointChange, selectionTotal, signed, wellValue } from "../src/components/ai/odr/metrics.ts";
 
 let failed = 0;
 const near = (a, b) => (a === null || b === null ? a === b : Math.abs(a - b) < 1e-9);
@@ -37,6 +37,16 @@ check("plant SOR = steam ÷ bitumen", plant.sor, 2.7);
 check("plant emulsion = (bitumen + water) × 6.28981", plant.emulsion, 3500 * BBL);
 check("D/B ratio = diluent ÷ bitumen component × 100", plant.dil_ratio, 50);
 check("D/B ratio is empty when bitumen component is 0", PLANT.find((m) => m.key === "dil_ratio").value({ ...day, bitComp: 0 }), null);
+
+const ex = pointChange(10000, 11000);
+check("range: change = end − start (10,000 → 11,000)", ex.diff, 1000);
+check("range: % change = change ÷ start × 100", ex.pct, 10);
+check("range: decrease keeps its sign", pointChange(11000, 10000).diff, -1000);
+check("range: % change not computed when start is 0", pointChange(0, 500).pct, null);
+check("range: nothing computed when start is missing", pointChange(null, 500).diff, null);
+check("range: nothing computed when end is missing", pointChange(500, null).pct, null);
+check("range: sign shown on increase", signed(1000, 0) === "+1,000" ? 1 : 0, 1);
+check("range: sign shown on decrease", signed(-12.34, 1) === "-12.3" ? 1 : 0, 1);
 
 console.log(failed ? `\n${failed} check(s) failed` : "\nall checks passed");
 process.exit(failed ? 1 : 0);

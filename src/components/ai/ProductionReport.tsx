@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { ImageSlot } from "@/components/ds/ImageSlot";
 import { sceneStyles as ss } from "@/components/site/scene";
@@ -10,7 +11,8 @@ import p from "./ProductionReport.module.css";
  * AI Technology topic 03 — the Black Gold daily production report (ODR) automation, told as one story:
  * the problem → the tool → the dashboard → how feedback shaped it → what it taught.
  *
- * Public-page rules: no field data, well names, internal paths or operator comments. The dashboard (03) and the
+ * Public-page rules: no field data, well names, internal paths or operator comments; real captures (01, 02, 04-A)
+ * are masked before they are committed. The dashboard (03) and the
  * small charts in 04 run on synthetic data (odr/demoData.ts) with the program's real metric definitions
  * (odr/metrics.ts). Program screenshots (02) are real captures with internal paths and ODR values masked. Figures appear
  * in 05 only once their source is confirmed (OUTCOMES[].confirmed).
@@ -37,22 +39,26 @@ const PAINS: [string, string][] = [
 
 function ProblemGraphic() {
   return (
-    <div className={p.flow} data-reveal="up" role="img" aria-label="ODR PDF의 값을 Excel 집계표로 하나씩 손으로 옮겨 적는 과정을 나타낸 개념도">
-      <div className={p.doc}>
-        <span className={p.docLabel}>ODR · PDF</span>
-        {[72, 48, 86, 60, 78, 40, 66, 54].map((w, i) => <span key={i} className={p.docLine} style={{ width: `${w}%` }} />)}
-      </div>
+    <div className={p.flow} data-reveal="up">
+      <figure className={p.docFig}>
+        <div className={p.docFrame} style={{ aspectRatio: "784 / 490" }}>
+          <Image src="/images/ai/production-report/odr-report-masked.webp" alt="ODR(일일 생산보고서)의 Production 표: Bitumen, Produced Water, Steam Injection 등 항목별 단위와 값이 이어지는 보고서 (수치는 가림 처리)" fill sizes="(max-width: 899px) 100vw, 40vw" />
+          <span className={p.mark} style={{ left: "2.5%", top: "11.4%", width: "96%", height: "7.8%" }} aria-hidden />
+        </div>
+        <figcaption><b>ODR · PDF</b> 일일 생산보고서</figcaption>
+      </figure>
       <div className={p.lane} aria-hidden>
         <span className={p.laneLabel}>Manual Input</span>
         <span className={p.laneTrack}>{[0, 1, 2].map((i) => <i key={i} style={{ "--k": i } as CSSProperties} />)}</span>
         <span className={p.laneNote}>매일 · 항목마다</span>
       </div>
-      <div className={p.sheet} aria-hidden>
-        <span className={p.docLabel}>Excel 집계표</span>
-        <div className={p.cells}>
-          {Array.from({ length: 60 }, (_, i) => <i key={i} className={i % 10 === 0 ? p.cellDate : [13, 24, 37, 46, 55].includes(i) ? p.cellFill : undefined} style={{ "--k": i % 10 } as CSSProperties} />)}
+      <figure className={p.docFig}>
+        <div className={p.docFrame} style={{ aspectRatio: "797 / 498" }}>
+          <Image src="/images/ai/production-report/odr-excel-masked.webp" alt="기존 Excel 집계표: 날짜별 행에 Bitumen, Pipeline Dilbit, Steam to Wells 등 항목을 열마다 옮겨 적는 표 (날짜와 수치는 가림 처리)" fill sizes="(max-width: 899px) 100vw, 40vw" />
+          <span className={`${p.mark} ${p.markLate}`} style={{ left: "18.8%", top: "27%", width: "20.8%", height: "73%" }} aria-hidden />
         </div>
-      </div>
+        <figcaption><b>Excel</b> 기존 집계표</figcaption>
+      </figure>
     </div>
   );
 }
@@ -84,7 +90,9 @@ export function ProductionReport() {
       <section id="problem" className={cx(p.sec, p.white)} data-section="problem">
         <div className={p.inner}>
           <Head num="01" label="The Problem" title="Every Field. Every Day.">반복적인 ODR 수기 집계 업무에서 발견한 문제</Head>
+          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 유전의 생산·주입·운영 데이터를 기록한 문서입니다. 기존에는 이 보고서의 데이터를 매일 Excel 집계표에 직접 입력해야 했습니다.</p>
           <ProblemGraphic />
+          <p className={p.maskNote}>실제 문서 화면 · 날짜, 수치, Well·설비 이름은 가림 처리</p>
           <ol className={p.pains}>
             {PAINS.map(([t, d], i) => (
               <li key={t} data-reveal="up" style={{ "--i": i } as CSSProperties}><b>{t}</b><span>{d}</span></li>
