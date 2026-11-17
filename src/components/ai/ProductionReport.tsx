@@ -11,7 +11,8 @@ import p from "./ProductionReport.module.css";
  * AI Technology topic 03 — the Black Gold daily production report (ODR) automation, told as one story:
  * the problem → the tool → the dashboard → how feedback shaped it → what it taught.
  *
- * Public-page rules: no field data, well names, internal paths or operator comments; real captures (01, 02, 04-A)
+ * Public-page rules: no internal paths or operator comments. The 01 ODR / Excel captures are shown unmasked at the
+ * owner's request; real captures in 02 and 04-A
  * are masked before they are committed. The dashboard (03) and the
  * small charts in 04 run on synthetic data (odr/demoData.ts) with the program's real metric definitions
  * (odr/metrics.ts). Program screenshots (02) are real captures with internal paths and ODR values masked. Figures appear
@@ -42,7 +43,7 @@ function ProblemGraphic() {
     <div className={p.flow} data-reveal="up">
       <figure className={p.docFig}>
         <div className={p.docFrame} style={{ aspectRatio: "784 / 490" }}>
-          <Image src="/images/ai/production-report/odr-report-masked.webp" alt="ODR(일일 생산보고서)의 Production 표: Bitumen, Produced Water, Steam Injection 등 항목별 단위와 값이 이어지는 보고서 (수치는 가림 처리)" fill sizes="(max-width: 899px) 100vw, 40vw" />
+          <Image src="/images/ai/production-report/odr-report.webp" alt="ODR(일일 생산보고서)의 Production 표: Bitumen, Produced Water, Steam Injection 등 항목별 단위와 값이 이어지는 보고서" fill sizes="(max-width: 899px) 100vw, 40vw" />
           <span className={p.mark} style={{ left: "2.5%", top: "11.4%", width: "96%", height: "7.8%" }} aria-hidden />
         </div>
         <figcaption><b>ODR · PDF</b> 일일 생산보고서</figcaption>
@@ -54,7 +55,7 @@ function ProblemGraphic() {
       </div>
       <figure className={p.docFig}>
         <div className={p.docFrame} style={{ aspectRatio: "797 / 498" }}>
-          <Image src="/images/ai/production-report/odr-excel-masked.webp" alt="기존 Excel 집계표: 날짜별 행에 Bitumen, Pipeline Dilbit, Steam to Wells 등 항목을 열마다 옮겨 적는 표 (날짜와 수치는 가림 처리)" fill sizes="(max-width: 899px) 100vw, 40vw" />
+          <Image src="/images/ai/production-report/odr-excel.webp" alt="기존 Excel 집계표: 날짜별 행에 Bitumen, Pipeline Dilbit, Steam to Wells 등 항목을 열마다 옮겨 적는 표" fill sizes="(max-width: 899px) 100vw, 40vw" />
           <span className={`${p.mark} ${p.markLate}`} style={{ left: "18.8%", top: "27%", width: "20.8%", height: "73%" }} aria-hidden />
         </div>
         <figcaption><b>Excel</b> 기존 집계표</figcaption>
@@ -92,7 +93,7 @@ export function ProductionReport() {
           <Head num="01" label="The Problem" title="Every Field. Every Day.">반복적인 ODR 수기 집계 업무에서 발견한 문제</Head>
           <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 유전의 생산·주입·운영 데이터를 기록한 문서입니다. 기존에는 이 보고서의 데이터를 매일 Excel 집계표에 직접 입력해야 했습니다.</p>
           <ProblemGraphic />
-          <p className={p.maskNote}>실제 문서 화면 · 날짜, 수치, Well·설비 이름은 가림 처리</p>
+          <p className={p.maskNote}>실제 문서 화면</p>
           <ol className={p.pains}>
             {PAINS.map(([t, d], i) => (
               <li key={t} data-reveal="up" style={{ "--i": i } as CSSProperties}><b>{t}</b><span>{d}</span></li>
