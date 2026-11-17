@@ -61,6 +61,14 @@
 /* ── 05 Outcome ── */
 .lessons{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 56px;align-items:stretch}
 .lessons li{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--ex-navy)}
+/* Mini line illustrations above each label */
+.mini{display:block;width:96px;height:72px;margin:0 0 2px;overflow:visible}
+.mini *{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.miniLine{stroke:var(--ex-line-strong)}
+.miniSoft{stroke:var(--ex-line-strong);fill:var(--ex-bg) !important}
+.miniBlue{stroke:var(--ex-blue)}
+.miniFill{stroke:none;fill:var(--ex-tint) !important}
+.miniDot{stroke:none;fill:var(--ex-blue) !important}
 /* What Changed: a slightly stronger title only */
 .lessons li:nth-child(2) b{font-weight:600}
 /* Section 05 closes the page: a little more room below the three items */
@@ -80,6 +88,12 @@
 @keyframes carry{0%{left:0;opacity:0}15%{opacity:1}85%{opacity:1}100%{left:calc(100% - 8px);opacity:0}}
 @keyframes markIn{from{opacity:0;transform:scale(1.02)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.motion .flow[data-in] .laneTrack i,.motion .flow[data-in] .mark{animation:none}}
+/* 05: each mini illustration fades in just after its item; 01's arrow makes one short move */
+.motion .lessons .mini{transition:opacity .5s var(--ease-standard);transition-delay:calc(var(--i,0) * .08s + .15s)}
+:global(html[data-rm]) .motion .lessons li:not([data-in]) .mini{opacity:0}
+.motion .lessons li[data-in] .miniMove{animation:miniMove .5s var(--ease-standard) .3s backwards}
+@keyframes miniMove{from{transform:translateX(-6px);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.motion .lessons li[data-in] .miniMove{animation:none}}
 
 @media (max-width:899px){
   .sec{padding:64px var(--gutter-page)}

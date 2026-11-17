@@ -71,6 +71,35 @@ const STEPS: [string, string, string][] = [
 ];
 
 /* ── 05 Outcome: where it started, what changed, what it taught about using AI ── */
+/** Mini line illustrations for the three 05 items — one style: 96×72, 1.5 px strokes, blue + light blue-grey */
+const MINI: ReactNode[] = [
+  // 01 a report page → an arrow → spreadsheet cells
+  <>
+    <path d="M8 12h20l6 6v32H8z" className={p.miniSoft} />
+    <path d="M28 12v6h6" className={p.miniLine} />
+    <path d="M13 26h15M13 32h15M13 38h10" className={p.miniLine} />
+    <g className={p.miniMove}><path d="M40 31h14" className={p.miniBlue} /><path d="M50 27l4 4-4 4" className={p.miniBlue} /></g>
+    <rect x="60" y="16" width="28" height="30" rx="1.5" className={p.miniSoft} />
+    <path d="M60 26h28M60 36h28M69.3 16v30M78.6 16v30" className={p.miniLine} />
+    <rect x="69.3" y="26" width="9.3" height="10" className={p.miniFill} />
+  </>,
+  // 02 a small trend chart with a check: analysed and verified
+  <>
+    <path d="M12 14v38h56" className={p.miniLine} />
+    <path d="M18 44l11-9 9 5 11-12 9 4" className={p.miniBlue} />
+    <circle cx="29" cy="35" r="1.8" className={p.miniDot} /><circle cx="49" cy="28" r="1.8" className={p.miniDot} />
+    <circle cx="76" cy="22" r="12.5" className={p.miniSoft} />
+    <path d="M70.5 22.5l4 4 7-7.5" className={p.miniBlue} />
+  </>,
+  // 03 a shield with a padlock (shifted left to share the others' left edge)
+  <g transform="translate(-16 0)">
+    <path d="M48 8l22 8v16c0 14-9.5 24-22 30-12.5-6-22-16-22-30V16z" className={p.miniSoft} />
+    <path d="M42 34v-5a6 6 0 0 1 12 0v5" className={p.miniBlue} />
+    <rect x="38.5" y="34" width="19" height="14" rx="2" className={p.miniBlue} />
+    <path d="M48 39.5v3.5" className={p.miniBlue} />
+  </g>,
+];
+
 const LESSONS: [string, string, string][] = [
   ["Starting Point", "반복 업무를 줄이자", "매일 반복되는 ODR 수기 입력 업무를 자동화하는 것이 처음 목표였습니다."],
   ["What Changed", "실제로 활용할 수 있게 만들자", "데이터 검증, 기존 업무 흐름, 실무자 피드백까지 고려하며 프로그램을 개선했습니다."],
@@ -147,6 +176,7 @@ export function ProductionReport() {
           <ol className={p.lessons}>
             {LESSONS.map(([label, title, d], i) => (
               <li key={label} data-reveal="up" style={{ "--i": i } as CSSProperties}>
+                <svg className={p.mini} viewBox="0 0 96 72" aria-hidden>{MINI[i]}</svg>
                 <span className={p.lessonLabel}><span>{String(i + 1).padStart(2, "0")}</span>{label}</span>
                 <b>{title}</b>
                 <span className={p.lessonBody}>{d}</span>
