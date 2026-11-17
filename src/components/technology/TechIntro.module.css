@@ -1,123 +1,129 @@
-/* Petroleum Technology — Introduction (TechIntro.tsx). Bright page, navy type, blue accents; the hub, its rings
-   and the four links are the main visual. Entrance ≈ 3 s on load: title 0–0.6 s · hub 0.5–1.1 s · links & cards
-   0.8–1.5 s · glow 1.5–2.1 s · journey 1.5–2.7 s · arrow nudge 2.8–3.6 s. Entrances use fill-mode `backwards`,
-   so hover transforms work once they finish. */
+/* Petroleum Technology — Introduction (TechIntro.tsx), after the approved design draft: bright page, navy type,
+   blue accents; the hub, its ring and the four links are the main visual. Entrance ≈ 3 s on load:
+   title 0–0.6 s · hub 0.5–1.1 s · links, nodes & cards 0.8–1.5 s · glow 1.5–2.1 s · journey 1.5–2.7 s ·
+   arrow nudge 2.9–3.8 s. Entrances use fill-mode `backwards`, so hover transforms work once they finish. */
 
-.intro{padding:40px var(--gutter-page) 8px}
-.inner{max-width:1360px;margin:0 auto;display:flex;flex-direction:column}
+.intro{padding:28px var(--gutter-page) 12px;background:linear-gradient(180deg,#F3F7FD 0%,var(--ex-bg) 100%)}
+.inner{position:relative;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;word-break:keep-all}
+
+/* ── Top bar: label · rule · section number ── */
+.bar{display:flex;align-items:center;gap:24px;font-family:var(--font-editorial);font-size:13px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-muted);white-space:nowrap}
+.bar i{font-style:normal;margin:0 4px;color:var(--ex-line-strong)}
+.barRule{flex:1;height:1px;background:var(--ex-line-strong)}
 
 /* ── Title ── */
-.head{max-width:980px}
-.label{margin:0;font-family:var(--font-editorial);font-size:13px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
-.label span{margin:0 6px;color:var(--ex-line-strong)}
-.title{margin:16px 0 0;display:flex;flex-direction:column;font-family:var(--font-editorial);font-size:clamp(40px,min(4.2vw,6.6svh),74px);font-weight:300;line-height:1.04;letter-spacing:-0.025em;color:var(--ex-navy)}
-.accent{color:var(--ex-blue)}
-.sub{margin:18px 0 0;max-width:880px;font-family:var(--font-kr);font-size:18px;line-height:1.65;color:var(--ex-muted)}
+.head{margin-top:26px}
+.title{margin:0;display:flex;flex-direction:column;font-family:var(--font-editorial);font-size:clamp(38px,min(3.6vw,6svh),66px);font-weight:600;line-height:1.08;letter-spacing:-0.02em;color:var(--ex-navy)}
+.title em{font-style:normal;color:var(--ex-blue)}
+.sub{margin:18px 0 0;font-family:var(--font-kr);font-size:clamp(16px,1.15vw,20px);line-height:1.6;color:var(--ex-navy)}
 
-/* ── Body ── */
-.body{margin-top:28px;display:grid;grid-template-columns:minmax(0,8fr) minmax(0,4fr);gap:48px 64px;align-items:stretch}
-.colLabel{margin:0 0 14px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-faint)}
+/* ── Body: diagram | divider | journey ── */
+.body{margin-top:30px;display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);align-items:center}
 
-/* Diagram: hub in the middle, one card in each corner, links underneath */
-.diagram{position:relative;height:clamp(400px,calc(100svh - 500px),560px)}
+.diagram{position:relative;height:clamp(380px,calc(100svh - 470px),540px);margin-right:40px}
 .links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.link{fill:none;stroke:var(--ex-blue);stroke-width:1.5;vector-effect:non-scaling-stroke;stroke-dasharray:1200;stroke-dashoffset:0;opacity:.75}
-.node{position:absolute;z-index:2;width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;background:#fff;border:2px solid var(--ex-blue)}
+.link{fill:none;stroke:var(--ex-blue);stroke-width:2.4;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:0}
+.node{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ex-blue);box-shadow:0 0 0 3px #fff}
 
-.hub{position:absolute;left:50%;top:50%;width:260px;height:260px;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center}
-.rings{position:absolute;left:50%;top:50%;width:440px;height:440px;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
-.ringInner{fill:none;stroke:var(--ex-blue);stroke-width:1.2;opacity:.55;stroke-dasharray:1;stroke-dashoffset:0}
-.ringOuter{fill:none;stroke:var(--ex-blue);stroke-width:1;stroke-dasharray:2 7;opacity:.4}
+.hub{position:absolute;left:50%;top:50%;width:216px;height:216px;transform:translate(-50%,-50%)}
+.rings{position:absolute;left:50%;top:50%;width:400px;height:400px;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.ringBand{fill:none;stroke:#DCE8FA;stroke-width:22;opacity:.85}
+.ringLine{fill:none;stroke:var(--ex-blue);stroke-width:1;opacity:.35;stroke-dasharray:1;stroke-dashoffset:0}
+.ringOuter{fill:none;stroke:var(--ex-blue);stroke-width:1;stroke-dasharray:2 8;opacity:.3}
 .drift{transform-origin:220px 220px}
-.disc{position:relative;width:236px;height:236px;border-radius:50%;overflow:hidden;background:var(--ex-tint);box-shadow:0 0 0 6px #fff,0 0 0 7px rgba(10,92,219,0.18),0 0 48px rgba(10,92,219,0.22)}
-.discImg{object-fit:cover;object-position:74% 40%}
-.hubLabel{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);margin:0;padding:10px 20px;border-radius:4px;background:#fff;border:1px solid var(--ex-line);box-shadow:var(--shadow-float);font-family:var(--font-editorial);font-size:14px;font-weight:700;letter-spacing:0.12em;line-height:1.3;text-align:center;text-transform:uppercase;white-space:nowrap;color:var(--ex-navy)}
+.disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 30%,#F7FAFF 0%,#DDE9FA 70%,#CFDFF6 100%);box-shadow:0 0 0 1px rgba(10,92,219,0.16),0 10px 30px rgba(11,26,44,0.10),0 0 46px rgba(10,92,219,0.20)}
+.discImg{position:absolute;left:0;right:0;bottom:0;height:62%;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 32%);mask-image:linear-gradient(180deg,transparent 0%,#000 32%)}
+.discImg img{object-fit:cover;object-position:76% 35%}
+.hubLabel{position:absolute;left:0;right:0;top:24%;margin:0;font-family:var(--font-editorial);font-size:16px;font-weight:600;letter-spacing:0.12em;line-height:1.5;text-align:center;text-transform:uppercase;color:var(--ex-navy)}
 
-.card{position:absolute;width:31%;height:40%;display:flex;flex-direction:column;border-radius:6px;background:#fff;border:1px solid var(--ex-line);box-shadow:0 1px 2px rgba(11,26,44,0.04),0 8px 24px rgba(11,26,44,0.05);overflow:hidden;transition:transform .2s var(--ease-standard),border-color .2s,box-shadow .2s}
-.card:hover{transform:translateY(-3px);border-color:var(--ex-blue);box-shadow:0 1px 2px rgba(11,26,44,0.04),0 12px 28px rgba(10,92,219,0.10)}
+/* Cards: image left, text right */
+.card{position:absolute;z-index:2;width:35.5%;height:40%;display:grid;grid-template-columns:38% 1fr;gap:16px;align-items:center;padding:14px 18px 14px 14px;box-sizing:border-box;border-radius:12px;background:rgba(255,255,255,0.92);border:1px solid #E3EAF4;box-shadow:0 1px 2px rgba(11,26,44,0.04),0 10px 26px rgba(11,26,44,0.07);transition:transform .2s var(--ease-standard),border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--ex-blue);box-shadow:0 1px 2px rgba(11,26,44,0.04),0 14px 30px rgba(10,92,219,0.12)}
 .tl{left:0;top:0}
 .tr{right:0;top:0}
 .bl{left:0;bottom:0}
 .br{right:0;bottom:0}
-.cardImg{position:relative;flex:1 1 auto;min-height:56px}
+.cardImg{position:relative;height:100%;border-radius:8px;overflow:hidden}
 .cardImg img{object-fit:cover}
-.cardText{padding:12px 16px 14px;border-top:1px solid var(--ex-line)}
-.cardText h3{margin:0;font-family:var(--font-editorial);font-size:18px;font-weight:600;letter-spacing:-0.005em;color:var(--ex-navy)}
-.cardText h3 span{display:inline-block;white-space:nowrap;margin-left:2px;font-family:var(--font-kr);font-size:14px;font-weight:400;color:var(--ex-faint)}
-.cardText p{margin:4px 0 0;font-family:var(--font-kr);font-size:15px;line-height:1.5;color:var(--ex-muted)}
+.cardText{min-width:0}
+.cardText h3{margin:0;font-family:var(--font-editorial);font-size:clamp(18px,1.35vw,24px);font-weight:600;line-height:1.15;letter-spacing:-0.01em;color:var(--ex-navy)}
+.ko{display:block;margin-top:6px;font-family:var(--font-kr);font-size:16px;color:var(--ex-navy)}
+.dash{display:block;width:22px;height:2px;margin:10px 0;border-radius:1px;background:var(--ex-blue)}
+.cardText p{margin:0;font-family:var(--font-kr);font-size:clamp(14px,0.95vw,16px);line-height:1.5;color:var(--ex-muted)}
 
-/* Learning journey: numbered steps on one vertical line */
-.journey{display:flex;flex-direction:column}
-.steps{list-style:none;margin:0;padding:22px 0 0;flex:1;display:flex;flex-direction:column;justify-content:center;gap:24px;border-top:1px solid var(--ex-navy)}
-.step{position:relative;display:grid;grid-template-columns:48px 1fr;gap:18px;align-items:start;padding:18px 18px 18px 0;border-radius:6px}
-.stepNum{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;background:#fff;border:1.5px solid var(--ex-blue);font-family:var(--font-editorial);font-size:15px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums}
-.step h3{margin:4px 0 0;font-family:var(--font-editorial);font-size:22px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
-.step p{margin:6px 0 0;font-family:var(--font-kr);font-size:16px;line-height:1.55;color:var(--ex-muted)}
-/* connector from this step's number down to the next one, with a small arrowhead */
-.stepLink{position:absolute;left:23px;top:68px;bottom:-40px;width:1.5px;background:var(--ex-blue);opacity:.55;transform-origin:top}
-.stepLink::after{content:"";position:absolute;left:-3.5px;bottom:2px;width:7px;height:7px;border-right:1.5px solid var(--ex-blue);border-bottom:1.5px solid var(--ex-blue);transform:rotate(45deg)}
-.stepGoal{padding-left:18px;margin-left:-18px;background:rgba(10,92,219,0.06);box-shadow:inset 3px 0 0 var(--ex-blue)}
-.stepGoal .stepNum{background:var(--ex-blue);color:#fff}
-.stepGoal h3{color:var(--ex-blue);font-weight:600}
+/* Journey: divider on the left, icon tiles joined by chevrons */
+.journey{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding-left:44px;border-left:1px solid var(--ex-line)}
+.journeyLabel{margin:0 0 22px;font-family:var(--font-editorial);font-size:14px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ex-blue)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px}
+.step{position:relative;display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:center;padding:12px 14px;margin:0 -14px;border-radius:12px;border:1.5px solid transparent}
+.icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:12px;background:#EEF3FB;color:var(--ex-navy);box-shadow:inset 0 0 0 1px #E1E9F5}
+.step h3{margin:0;font-family:var(--font-editorial);font-size:clamp(18px,1.3vw,23px);font-weight:600;letter-spacing:-0.01em;color:var(--ex-navy)}
+.stepNum{margin-right:10px;font-size:13px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums;vertical-align:2px}
+.step p{margin:6px 0 0;font-family:var(--font-kr);font-size:clamp(15px,1vw,17px);line-height:1.5;color:var(--ex-navy)}
+.chev{position:absolute;left:35px;bottom:-29px;color:var(--ex-blue);opacity:.8}
+.goal{background:linear-gradient(180deg,#F2F7FF,#E8F0FC);border-color:var(--ex-blue);box-shadow:0 8px 24px rgba(10,92,219,0.10)}
+.goal .icon{background:#fff;color:var(--ex-blue)}
+.goal h3{color:var(--ex-blue)}
 
 /* Scroll cue to the topic index below */
-.down{align-self:center;margin-top:18px;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;color:var(--ex-blue);border:1px solid var(--ex-line);background:#fff;transition:border-color .2s,transform .2s}
-.down:hover{border-color:var(--ex-blue)}
+.down{align-self:flex-end;margin-top:6px;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--ex-blue);color:#fff;box-shadow:0 8px 20px rgba(10,92,219,0.25);transition:background-color .2s}
+.down:hover{background:var(--ex-blue-deep)}
 .down:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
 
 /* ── Entrance ── */
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes hubIn{from{opacity:0;transform:translate(-50%,-50%) scale(.96)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes hubIn{from{opacity:0;transform:translate(-50%,-50%) scale(.95)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
 @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes drawLink{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
-@keyframes pop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
-@keyframes glow{from{box-shadow:0 0 0 6px #fff,0 0 0 7px rgba(10,92,219,0),0 0 0 rgba(10,92,219,0)}}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+@keyframes glow{from{box-shadow:0 0 0 1px rgba(10,92,219,0.16),0 10px 30px rgba(11,26,44,0.10),0 0 0 rgba(10,92,219,0)}}
 @keyframes spin{to{transform:rotate(360deg)}}
-@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
-@keyframes goal{from{background:transparent;box-shadow:inset 0 0 0 transparent}}
+@keyframes goal{from{border-color:transparent;box-shadow:none}}
 @keyframes nudge{0%,100%{transform:translateY(0)}45%{transform:translateY(7px)}}
 
 @media (prefers-reduced-motion:no-preference){
+  .bar{animation:fade .5s var(--ease-standard) backwards}
   .head > *{animation:rise .6s var(--ease-standard) backwards}
-  .head > :nth-child(2){animation-delay:.08s}
-  .head > :nth-child(3){animation-delay:.18s}
-  .colLabel{animation:fade .5s var(--ease-standard) .45s backwards}
+  .head > :nth-child(2){animation-delay:.15s}
 
   .hub{animation:hubIn .5s var(--ease-standard) .5s backwards}
-  .ringInner{animation:draw .55s var(--ease-standard) .6s backwards}
-  .ringOuter{animation:fade .5s var(--ease-standard) .8s backwards}
-  .drift{animation:spin 140s linear 1.5s infinite}
+  .ringBand{animation:fade .5s var(--ease-standard) .6s backwards}
+  .ringLine{animation:draw .6s var(--ease-standard) .6s backwards}
+  .ringOuter{animation:fade .5s var(--ease-standard) .9s backwards}
+  .drift{animation:spin 160s linear 1.5s infinite}
   .disc{animation:glow .6s var(--ease-standard) 1.5s backwards}
-  .hubLabel{animation:fade .4s var(--ease-standard) .75s backwards}
-  .link{animation:drawLink .6s cubic-bezier(.4,0,.6,1) calc(.8s + var(--i) * .1s) backwards}
-  .node{animation:pop .3s var(--ease-standard) calc(1.05s + var(--i) * .1s) backwards}
+  .link{animation:drawLink .45s cubic-bezier(.4,0,.6,1) calc(.8s + var(--i) * .1s) backwards}
+  .node{animation:pop .3s var(--ease-standard) calc(1s + var(--i) * .1s) backwards}
   .card{animation:rise .45s var(--ease-standard) calc(1s + var(--i) * .1s) backwards}
 
+  .journey{animation:fade .4s var(--ease-standard) 1.4s backwards}
   .step{animation:rise .45s var(--ease-standard) calc(1.5s + var(--i) * .3s) backwards}
-  .stepLink{animation:grow .3s var(--ease-standard) calc(1.75s + var(--i) * .3s) backwards}
-  .stepGoal{animation:rise .45s var(--ease-standard) 2.1s backwards,goal .5s var(--ease-standard) 2.5s backwards}
+  .chev{animation:fade .3s var(--ease-standard) calc(1.8s + var(--i) * .3s) backwards}
+  .goal{animation:rise .45s var(--ease-standard) 2.1s backwards,goal .5s var(--ease-standard) 2.5s backwards}
 
   .down{animation:fade .4s var(--ease-standard) 2.6s backwards,nudge .9s var(--ease-standard) 2.9s 1}
 }
 
-/* ── Tablet & mobile: stack, hub above a 2×2 card grid; links hidden ── */
-@media (max-width:1099px){
-  .body{grid-template-columns:1fr}
+/* ── Tablet: journey below the diagram ── */
+@media (max-width:1199px){
+  .body{grid-template-columns:1fr;gap:40px}
+  .diagram{margin-right:0;height:460px}
+  .journey{padding:28px 0 0;border-left:0;border-top:1px solid var(--ex-line)}
 }
+/* ── Mobile: hub above a stack of cards; links hidden ── */
 @media (max-width:899px){
-  .intro{padding-top:32px}
-  .diagram{height:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+  .bar{font-size:11px;gap:12px;letter-spacing:0.12em}
+  .diagram{height:auto;display:grid;grid-template-columns:1fr;gap:12px}
   .links,.node{display:none}
-  .hub{position:relative;left:auto;top:auto;transform:none;grid-column:1 / -1;justify-self:center;margin:24px 0 40px;width:220px;height:220px}
-  .rings{width:340px;height:340px}
-  .disc{width:200px;height:200px}
-  .card{position:relative;inset:auto;width:auto;height:auto}
-  .cardImg{flex:none;aspect-ratio:16 / 9}
+  .hub{position:relative;left:auto;top:auto;transform:none;justify-self:center;margin:30px 0 34px;width:200px;height:200px}
+  .rings{width:330px;height:330px}
+  .card{position:relative;inset:auto;width:auto;height:132px;grid-template-columns:120px 1fr}
+  .down{align-self:center}
 }
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){.hub{animation-name:fade}}
-@media (max-width:560px){
-  .diagram{grid-template-columns:1fr}
-  .sub{font-size:16px}
-  .step h3{font-size:19px}
+@media (max-width:480px){
+  .bar > :last-child,.barRule{display:none}
+  .card{grid-template-columns:96px 1fr;height:auto;min-height:120px}
+  .cardImg{height:96px}
 }
