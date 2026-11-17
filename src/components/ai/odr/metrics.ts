@@ -190,3 +190,12 @@ export function pointChange(start: Val, end: Val): { diff: Val; pct: Val } {
 
 /** Signed number for a change: "+1,000" / "-250" */
 export const signed = (v: number, digits: number) => `${v > 0 ? "+" : v < 0 ? "-" : ""}${fmt(Math.abs(v), digits)}`;
+
+/** Range comparison as the dashboard does it: the first and last values inside [a, b] (missing days skipped) */
+export function rangeChange(values: Val[], a: number, b: number) {
+  const [lo, hi] = a <= b ? [a, b] : [b, a];
+  let i0 = -1, i1 = -1;
+  for (let i = lo; i <= hi; i++) if (values[i] !== null && values[i] !== undefined) { if (i0 < 0) i0 = i; i1 = i; }
+  if (i0 < 0) return null;
+  return { i0, i1, v0: values[i0] as number, v1: values[i1] as number, ...pointChange(values[i0], values[i1]) };
+}

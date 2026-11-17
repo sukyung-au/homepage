@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ImageSlot } from "@/components/ds/ImageSlot";
 import { DAYS, PLANT_DAYS, WELLS } from "./demoData";
 import { LineChart, type ChartLine } from "./LineChart";
-import { PLANT, fmt, pointChange, selectionTotal, signed, wellValue, type Val } from "./metrics";
+import { PLANT, fmt, rangeChange, selectionTotal, signed, wellValue, type Val } from "./metrics";
 import f from "./FeedbackStory.module.css";
 
 /**
@@ -11,9 +11,7 @@ import f from "./FeedbackStory.module.css";
  * reader scrolls through a short runway (A → B → C); the step buttons jump to a step by scrolling to it, so the
  * page never traps or skips. Narrow screens, short screens and reduced motion get the three steps stacked.
  *
- * Status labels: "구현" means the feature is in the program's code (checked in the dashboard HTML). "Demo" (04-C ③
- * range comparison) is reproduced on this site only, until the program's version is confirmed. Neither
- * claim a business-side validation.
+ * Status labels: "구현" means the feature is in the program's code. It does not claim a business-side validation.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -37,7 +35,7 @@ function Kicker({ k }: { k: number }) {
     <div className={f.kicker}>
       <span className={f.kickerKey}>04-{STEPS[k].key}</span>
       <span>{STEPS[k].kicker}</span>
-      {k < 2 && <Status />}
+      <Status />
     </div>
   );
 }
@@ -115,76 +113,64 @@ const DR = PLANT.find((m) => m.key === "dil_ratio")!;
 const C_RATIO: ChartLine[] = [{ name: DR.label, color: DR.color, values: PLANT_DAYS.map((d) => DR.value(d)), tip: (_, v) => <><b>{fmt(v, 1)}</b> %</> }];
 const C_MANY: ChartLine[] = WELLS.map((w, k) => ({ name: w.name, color: COLORS[k], values: DAYS.map((_, i) => wellValue("oil", w.raw, i)), tip: (_, v) => <><b>{fmt(v, 0)}</b> bbl/d</> }));
 
-/* ③ range comparison — its own short synthetic series so the worked example reads exactly:
-   11-01 = 10,000 bbl/d → 11-10 = 11,000 bbl/d (+1,000 bbl/d, +10.0 %) */
+/* ③ range comparison on a short synthetic series; opens on 11-01 → 11-10 (10,000 → 11,000 bbl/d) */
 const R_DAYS = Array.from({ length: 31 }, (_, k) => new Date(Date.UTC(2026, 9, 20 + k)).toISOString().slice(0, 10));
 const R_FIXED: Record<string, number> = { "2026-11-01": 10000, "2026-11-10": 11000 };
 const R_VALUES: Val[] = R_DAYS.map((d, k) => R_FIXED[d] ?? Math.round(10000 + (k - 12) * 105 + 160 * Math.sin(k / 2.3) + 70 * Math.cos(k * 1.7)));
 const R_IDX = R_DAYS.map((_, i) => i);
 const R_START: [number, number] = [R_DAYS.indexOf("2026-11-01"), R_DAYS.indexOf("2026-11-10")];
-const R_LINE: ChartLine[] = [{ name: "Bitumen", color: "#2a78d6", values: R_VALUES, tip: (_, v) => <><b>{fmt(v, 0)}</b> bbl/d</> }];
-const mdKo = (d: string) => `${+d.slice(5, 7)}월 ${+d.slice(8)}일`;
+const R_COLOR = "#2a78d6";
+const R_LINE: ChartLine[] = [{ name: "Bitumen", color: R_COLOR, values: R_VALUES, tip: (_, v) => <><b>{fmt(v, 0)}</b> bbl/d</> }];
+const md = (d: string) => d.slice(5);
 
-function RangeCompare() {
-  const [range, setRange] = useState<[number, number]>(R_START);
-  const [a, b] = range[0] <= range[1] ? range : [range[1], range[0]];
-  const v0 = R_VALUES[a], v1 = R_VALUES[b];
-  const { diff, pct } = pointChange(v0, v1);
-  const tone = diff === null || diff === 0 ? "" : diff > 0 ? f.up : f.down;
+/** The popup reads like the dashboard's: period, change (± and %), first → last value, basis */
+function RangeTip({ range }: { range: [number, number] }) {
+  const r = rangeChange(R_VALUES, range[0], range[1]);
+  if (!r) return null;
+  const tone = !r.diff ? undefined : r.diff > 0 ? f.up : f.down;
   return (
     <>
-      <LineChart days={R_DAYS} idx={R_IDX} lines={R_LINE} axes={["bbl/d"]} digits={0} height={176} compact range={range} onRange={setRange}
-        label="Bitumen 추세에서 드래그로 시작일과 종료일을 고르는 그래프 (가상 데이터)" />
-      <dl className={f.readout} aria-live="polite">
-        <div><dt>선택 기간</dt><dd>{mdKo(R_DAYS[a])} ~ {mdKo(R_DAYS[b])}</dd></div>
-        <div><dt>시작값</dt><dd>{fmt(v0, 0)} <small>bbl/d</small></dd></div>
-        <div><dt>종료값</dt><dd>{fmt(v1, 0)} <small>bbl/d</small></dd></div>
-        <div><dt>변화량</dt><dd className={tone}>{diff === null ? "계산 불가" : <>{signed(diff, 0)} <small>bbl/d</small></>}</dd></div>
-        <div><dt>증감률</dt><dd className={tone}>{pct === null ? "계산 불가" : `${signed(pct, 1)}%`}</dd></div>
-      </dl>
-      <p className={f.cap}>Demo · 가상 데이터 · 그래프를 드래그해 보세요</p>
+      <div className={f.rtHead}><b>{R_DAYS[r.i0]} → {R_DAYS[r.i1]}</b> ({Math.abs(r.i1 - r.i0)}일 구간)</div>
+      <div className={f.rtRow}>
+        <span className={f.rtDot} style={{ background: R_COLOR }} />Bitumen:{" "}
+        <b className={tone}>{r.diff === null ? "계산 불가" : `${signed(r.diff, 0)} bbl/d`} ({r.pct === null ? "계산 불가" : `${signed(r.pct, 1)}%`})</b>
+        <span className={f.rtSub}> {md(R_DAYS[r.i0])} {fmt(r.v0, 0)} → {md(R_DAYS[r.i1])} {fmt(r.v1, 0)}</span>
+      </div>
+      <div className={f.rtNote}>구간 안 첫 값 → 마지막 값 기준 · 그래프를 클릭하면 닫힘</div>
     </>
   );
 }
 
-const REQUESTS: { short: string; voice: string; answer: string; formula: string; status: "done" | "demo"; body: () => ReactNode }[] = [
-  { short: "D/B 비율 그래프", voice: "Diluent / Bitumen 비율이 날짜별로 어떻게 변하는지 보고 싶다.", answer: "D/B 비율 지표 추가",
-    formula: "Diluent Component ÷ Bitumen Component × 100 (%)", status: "done",
-    body: () => <><LineChart days={DAYS} idx={ALL} lines={C_RATIO} axes={["%"]} digits={1} height={176} compact label="Diluent/Bitumen 비율 추세 (가상 데이터)" /><p className={f.cap}>Demo · 가상 데이터</p></> },
-  { short: "Overlay 표시 제한 해제", voice: "선택한 Well을 개수 제한 없이 한 그래프에서 비교하고 싶다.", answer: "Overlay 표시 개수 제한 해제",
-    formula: "개선 전: 일부 Well만 표시 → 개선 후: 선택한 Well 모두 표시", status: "done",
-    body: () => <><LineChart days={DAYS} idx={LAST60} lines={C_MANY} axes={["bbl/d"]} digits={0} height={176} compact label="Well 12개 Oil Overlay (가상 데이터)" /><p className={f.cap}>Demo · 선택한 Well {WELLS.length}개 모두 표시</p></> },
-  { short: "드래그 구간 비교", voice: "그래프에서 기간을 드래그하면, 시작점과 종료점의 값 차이와 증감률을 바로 확인하고 싶다.", answer: "드래그 구간 비교",
-    formula: "변화량 = 종료일 값 − 시작일 값 · 증감률 = 변화량 ÷ 시작일 값 × 100 — 기간 누적량이 아닌 두 날짜의 값 비교", status: "demo",
+function RangeCompare() {
+  const [range, setRange] = useState<[number, number] | null>(R_START);
+  return (
+    <LineChart days={R_DAYS} idx={R_IDX} lines={R_LINE} axes={["bbl/d"]} digits={0} height={200} compact range={range} onRange={setRange}
+      rangeTip={range && <RangeTip range={range} />} label="Bitumen 추세에서 드래그로 구간을 고르는 그래프 (가상 데이터)" />
+  );
+}
+
+const REQUESTS: { voice: string; answer: string; formula: string; cap: string; body: () => ReactNode }[] = [
+  { voice: "Diluent / Bitumen 비율이 날짜별로 어떻게 변하는지 보고 싶다.", answer: "D/B 비율 지표 추가", formula: "Diluent Component ÷ Bitumen Component × 100 (%)", cap: "Demo · 가상 데이터",
+    body: () => <LineChart days={DAYS} idx={ALL} lines={C_RATIO} axes={["%"]} digits={1} height={200} compact label="Diluent/Bitumen 비율 추세 (가상 데이터)" /> },
+  { voice: "선택한 Well을 개수 제한 없이 한 그래프에서 비교하고 싶다.", answer: "Overlay 표시 개수 제한 해제", formula: "개선 전: 일부 Well만 표시 → 개선 후: 선택한 Well 모두 표시", cap: `Demo · 선택한 Well ${WELLS.length}개 모두 표시`,
+    body: () => <LineChart days={DAYS} idx={LAST60} lines={C_MANY} axes={["bbl/d"]} digits={0} height={200} compact label="Well 12개 Oil Overlay (가상 데이터)" /> },
+  { voice: "그래프를 드래그해 고른 기간의 시작·끝 값 차이와 증감률을 바로 보고 싶다.", answer: "드래그 구간 비교", formula: "구간 끝 값 − 시작 값, 증감률(%) 함께 표시 · 누적량 아님", cap: "Demo · 그래프를 드래그해 보세요",
     body: () => <RangeCompare /> },
 ];
 
 function SceneC() {
-  const [k, setK] = useState(0);
   return (
     <div className={f.sceneC}>
-      <ol className={f.reqList} role="tablist" aria-label="사업부서 요청">
-        {REQUESTS.map((r, i) => (
-          <li key={r.short}>
-            <button type="button" role="tab" aria-selected={k === i} className={k === i ? `${f.reqItem} ${f.reqOn}` : f.reqItem} onClick={() => setK(i)}>
-              <span className={f.reqNum}>0{i + 1}</span>
-              <span className={f.reqShort}>{r.short}</span>
-              {r.status === "done" ? <span className={f.status}>구현</span> : <span className={f.statusDemo} title="홈페이지에서 가상 데이터로 재현한 화면">Demo</span>}
-            </button>
-          </li>
-        ))}
-      </ol>
-      <div className={f.reqStage}>
-        {REQUESTS.map((r, i) => (
-          <div key={r.short} role="tabpanel" className={k === i ? `${f.reqPanel} ${f.reqPanelOn}` : f.reqPanel} aria-hidden={k !== i} inert={k !== i}>
-            <p className={f.label}>요청 요지</p>
-            <p className={f.voice}>{r.voice}</p>
-            <p className={f.label}>반영</p>
-            <p className={f.answer}>{r.answer} <span className={f.formula}>{r.formula}</span></p>
-            {r.body()}
-          </div>
-        ))}
-      </div>
+      {REQUESTS.map((r) => (
+        <div key={r.answer} className={f.req}>
+          <p className={f.label}>요청 요지</p>
+          <p className={f.voice}>{r.voice}</p>
+          <p className={f.label}>반영</p>
+          <p className={f.answer}>{r.answer} <span className={f.formula}>{r.formula}</span></p>
+          {r.body()}
+          <p className={f.cap}>{r.cap}</p>
+        </div>
+      ))}
     </div>
   );
 }

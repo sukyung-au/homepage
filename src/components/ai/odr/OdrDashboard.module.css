@@ -52,8 +52,8 @@
 .chart[data-range]{cursor:col-resize;user-select:none;-webkit-user-select:none;touch-action:pan-y}
 .range rect{fill:rgba(10,92,219,0.08)}
 .range line{stroke:var(--ex-blue);stroke-width:1.5}
-.range text{font-size:11px;font-weight:600;fill:var(--ex-blue)}
 .rangeDot{fill:#fff;stroke:var(--ex-blue);stroke-width:2.5}
+.rangeTip{position:absolute;z-index:6;top:0;transform:translateX(-50%);width:max-content;max-width:min(300px,96%);padding:8px 12px;border-radius:8px;background:#fff;border:1.5px solid var(--ex-blue);box-shadow:var(--shadow-float);font-size:12px;line-height:1.5;color:var(--ex-navy);pointer-events:none}
 .chart:focus-visible{box-shadow:0 0 0 2px var(--focus-ring);border-radius:4px}
 .chart svg{display:block;overflow:visible}
 .grid{stroke:var(--ex-line);stroke-width:1}

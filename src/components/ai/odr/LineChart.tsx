@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from "react";
-import { fmt, type Val } from "./metrics";
+import { fmt, rangeChange, type Val } from "./metrics";
 import s from "./OdrDashboard.module.css";
 
 /**
@@ -36,7 +36,10 @@ interface Props {
   onPick?: (i: number) => void;
   /** Drag-to-select range (controlled): selected start/end day indices, reported while dragging */
   range?: [number, number] | null;
-  onRange?: (r: [number, number]) => void;
+  /** Called while dragging; a click without dragging clears the range (null) */
+  onRange?: (r: [number, number] | null) => void;
+  /** Popup shown above a selected range (replaces the hover tooltip while a range is set) */
+  rangeTip?: ReactNode;
 }
 
 const DAY = 86400000;
@@ -68,11 +71,12 @@ const tickLabel = (t: number, step: number) => {
   return t.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 };
 
-export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick, range, onRange }: Props) {
+export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick, range, onRange, rangeTip }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [hi, setHi] = useState<number | null>(null);
   const drag = useRef<number | null>(null);
+  const moved = useRef(false);
 
   useEffect(() => {
     const el = host.current;
@@ -129,7 +133,7 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
   const onMove = (e: PointerEvent) => {
     const i = nearest(e.clientX);
     if (drag.current !== null && i !== null) {
-      if (i !== drag.current) onRange?.([drag.current, i]);
+      if (i !== drag.current) { moved.current = true; onRange?.([drag.current, i]); }
       setHi(null);
       return;
     }
@@ -138,10 +142,14 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
   const onDown = (e: PointerEvent) => {
     if (!onRange) return onMove(e);
     drag.current = nearest(e.clientX);
+    moved.current = false;
     e.currentTarget.setPointerCapture(e.pointerId);
     setHi(null);
   };
-  const onUp = () => { drag.current = null; };
+  const onUp = () => {
+    if (drag.current !== null && !moved.current) onRange?.(null);
+    drag.current = null;
+  };
   const onKey = (e: KeyboardEvent) => {
     if (!idx.length) return;
     const k = hi === null ? -1 : idx.indexOf(hi);
@@ -197,8 +205,6 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
                 <rect x={xa} y={m.t} width={Math.max(1, xb - xa)} height={ph} />
                 <line x1={xa} x2={xa} y1={m.t} y2={m.t + ph} />
                 <line x1={xb} x2={xb} y1={m.t} y2={m.t + ph} />
-                <text x={xa} y={m.t + 12} textAnchor="end" dx={-6}>시작</text>
-                <text x={xb} y={m.t + 12} dx={6}>종료</text>
               </g>
             );
           })()}
@@ -210,10 +216,10 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
               </g>
             ))}
           </g>
-          {range && lines[0] && [range[0], range[1]].map((i, k) => {
-            const v = lines[0].values[i];
-            return v === null || v === undefined ? null : <circle key={k} cx={geo.X(i)} cy={geo.Y(lines[0].axis ?? 0, v)} r={5} className={s.rangeDot} />;
-          })}
+          {range && lines[0] && (() => {
+            const r = rangeChange(lines[0].values, range[0], range[1]);
+            return r && [r.i0, r.i1].map((i, k) => <circle key={k} cx={geo.X(i)} cy={geo.Y(lines[0].axis ?? 0, lines[0].values[i] as number)} r={5} className={s.rangeDot} />);
+          })()}
           {hi !== null && (
             <g className={s.cross}>
               <line x1={geo.X(hi)} x2={geo.X(hi)} y1={m.t} y2={m.t + ph} />
@@ -222,7 +228,12 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
           )}
         </svg>
       )}
-      {hi !== null && geo && (
+      {range && rangeTip && geo && (() => {
+        const [a, b] = range[0] <= range[1] ? range : [range[1], range[0]];
+        const mid = (geo.X(a) + geo.X(b)) / 2;
+        return <div className={s.rangeTip} style={{ left: Math.min(Math.max(mid, 150), width - 150) }} role="status">{rangeTip}</div>;
+      })()}
+      {hi !== null && geo && !(range && rangeTip) && (
         <div className={s.tip} style={{ left: flip ? undefined : tipLeft + 14, right: flip ? width - tipLeft + 14 : undefined, top: m.t + 4 }} role="status">
           <div className={s.tipDate}>{days[hi]}</div>
           {tipRows.slice(0, 12).map(({ l, v }) => (
