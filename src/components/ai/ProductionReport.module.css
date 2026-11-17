@@ -60,18 +60,11 @@
 
 /* ── 05 Outcome ── */
 .lessons{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 48px}
-.lessons li{display:flex;flex-direction:column;gap:6px;padding-top:18px;border-top:1px solid var(--ex-navy)}
-.lessonNum{font-family:var(--font-editorial);font-size:12px;color:var(--ex-blue);font-variant-numeric:tabular-nums}
-.lessons b{font-family:var(--font-editorial);font-size:24px;font-weight:300;letter-spacing:-0.01em;color:var(--ex-navy)}
-.lessonKo{font-family:var(--font-kr);font-size:13px;color:var(--ex-faint)}
-.lessonBody{margin-top:6px;font-family:var(--font-kr);font-size:14px;line-height:1.7;color:var(--ex-muted)}
-.outcomes{margin:48px 0 0;display:flex;flex-wrap:wrap;gap:24px 64px}
-.outcomes div{display:flex;align-items:baseline;gap:14px}
-.outcomes dt{font-family:var(--font-editorial);font-size:36px;font-weight:300;letter-spacing:-0.02em;color:var(--ex-navy);font-variant-numeric:tabular-nums}
-.outcomes dd{margin:0;display:flex;flex-direction:column;font-family:var(--font-kr);font-size:14px;color:var(--ex-navy)}
-.outcomes dd span{font-size:12px;color:var(--ex-faint)}
-.closing{margin:56px 0 0;padding:8px 0 8px 28px;border-left:3px solid var(--ex-blue)}
-.closing blockquote{margin:0;max-width:900px;font-family:var(--font-kr);font-size:22px;line-height:1.6;letter-spacing:-0.01em;color:var(--ex-navy)}
+.lessons li{display:flex;flex-direction:column;gap:14px;padding-top:20px;border-top:1px solid var(--ex-navy)}
+.lessonLabel{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-blue)}
+.lessonLabel span{margin-right:10px;font-variant-numeric:tabular-nums}
+.lessons b{font-family:var(--font-kr);font-size:clamp(20px,1.6vw,26px);font-weight:500;line-height:1.4;letter-spacing:-0.01em;color:var(--ex-navy);word-break:keep-all}
+.lessonBody{font-family:var(--font-kr);font-size:15px;line-height:1.75;color:var(--ex-muted);word-break:keep-all}
 
 /* ── Entrance motion (RevealScope; only while <html data-rm> is set) ── */
 .motion [data-reveal="up"]{transition:opacity .6s var(--ease-standard),transform .6s var(--ease-standard);transition-delay:calc(var(--i,0) * .08s)}
@@ -93,7 +86,5 @@
   .pains,.lessons{grid-template-columns:1fr}
   .solution{grid-template-columns:1fr}
   .marker{width:26px;height:26px;font-size:10px}
-  .outcomes dt{font-size:30px}
-  .closing blockquote{font-size:18px}
   .demo{margin-left:0}
 }

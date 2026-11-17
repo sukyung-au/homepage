@@ -15,8 +15,7 @@ import p from "./ProductionReport.module.css";
  * owner's request; real captures in 02 and 04-A
  * are masked before they are committed. The dashboard (03) and the
  * small charts in 04 run on synthetic data (odr/demoData.ts) with the program's real metric definitions
- * (odr/metrics.ts). Program screenshots (02) are real captures with internal paths and ODR values masked. Figures appear
- * in 05 only once their source is confirmed (OUTCOMES[].confirmed).
+ * (odr/metrics.ts). Program screenshots (02) are real captures with internal paths and ODR values masked.
  */
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
@@ -71,18 +70,11 @@ const STEPS: [string, string, string][] = [
   ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다. 저장 전에는 항상 backup 폴더에 자동 백업합니다."],
 ];
 
-/* ── 05 Outcome ── */
+/* ── 05 Outcome: where it started, what changed, what it taught about using AI ── */
 const LESSONS: [string, string, string][] = [
-  ["Data You Can Trust", "데이터 검증", "자동으로 읽은 값도 원문과 비교할 수 있어야 실무에서 쓸 수 있었습니다. 처리하지 못한 날짜는 숨기지 않고 ‘확인 필요’로 남겼습니다."],
-  ["Fits the Workflow", "실무 활용성", "새로운 도구보다 기존 Excel 양식과 업무 흐름을 그대로 지키는 것이 더 중요했습니다."],
-  ["Shaped by Feedback", "피드백 반영", "사용자와 사업부서의 의견을 반영하며, 무엇을 보여 줘야 하는지가 더 분명해졌습니다."],
-];
-
-/** Only `confirmed` figures are shown. 44/44 (automated tests) waits for its test record. */
-const OUTCOMES: { value: string; label: string; note?: string; confirmed: boolean }[] = [
-  { value: "79 / 81", label: "ODR 자동 추출", note: "나머지 2건: 확인 필요 1 · 미지원 양식 1", confirmed: true },
-  { value: "44 / 44", label: "자동 테스트 통과", confirmed: false },
-  { value: "1 EXE", label: "Python 설치 없이 실행되는 Windows 프로그램", confirmed: true },
+  ["Starting Point", "반복 업무를 줄이자", "매일 반복되는 ODR 수기 입력 업무를 자동화하는 것이 처음 목표였습니다."],
+  ["What Changed", "실제로 활용할 수 있게 만들자", "데이터 검증, 기존 업무 흐름, 실무자 피드백까지 고려하며 프로그램을 개선했습니다."],
+  ["Responsible AI", "정보보호를 고려한 AI 활용", "AI를 활용한 개발 과정에서 내부정보의 노출 위험을 인식하고, 제공하는 정보를 최소화하는 중요성을 배웠습니다."],
 ];
 
 export function ProductionReport() {
@@ -153,22 +145,14 @@ export function ProductionReport() {
         <div className={p.inner}>
           <Head num="05" label="Outcome & Reflection" title="Beyond Automation.">기술 구현에서 실무 문제 해결로</Head>
           <ol className={p.lessons}>
-            {LESSONS.map(([en, ko, d], i) => (
-              <li key={en} data-reveal="up" style={{ "--i": i } as CSSProperties}>
-                <span className={p.lessonNum}>{String(i + 1).padStart(2, "0")}</span>
-                <b>{en}</b><span className={p.lessonKo}>{ko}</span>
+            {LESSONS.map(([label, title, d], i) => (
+              <li key={label} data-reveal="up" style={{ "--i": i } as CSSProperties}>
+                <span className={p.lessonLabel}><span>{String(i + 1).padStart(2, "0")}</span>{label}</span>
+                <b>{title}</b>
                 <span className={p.lessonBody}>{d}</span>
               </li>
             ))}
           </ol>
-          <dl className={p.outcomes} data-reveal="up">
-            {OUTCOMES.filter((o) => o.confirmed).map((o) => (
-              <div key={o.value}><dt>{o.value}</dt><dd>{o.label}{o.note && <span>{o.note}</span>}</dd></div>
-            ))}
-          </dl>
-          <figure className={p.closing} data-reveal="up">
-            <blockquote>자동화의 가치는 기능을 만드는 데서 끝나지 않습니다. 실제 업무에서 믿고 쓸 수 있는 데이터를 제공하고, 쓰는 사람의 의견을 반영해 계속 나아지는 것까지가 자동화입니다.</blockquote>
-          </figure>
         </div>
       </section>
     </RevealScope>
