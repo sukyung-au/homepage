@@ -12,10 +12,10 @@ import s from "./AiIntro.module.css";
  *
  * "상세 보기" goes through the topic list below (#topics): smooth-scroll to it, tint the chosen row, pause briefly,
  * then open that topic (≈2–2.5 s in all). Scrolling, a key or a click cancels the pending move; reduced motion
- * opens the topic at once. A card whose topic is not in the list yet only scrolls to the list.
+ * opens the topic at once.
  *
  * Card images: `website` and `odr` are captures of this site (the Technology intro and the synthetic-data ODR demo);
- * `presentation` is a stand-in photo until the HTML slide capture is supplied — replace `img` in APPS.
+ * `presentation` is the cover slide of the Claymore HTML deck.
  */
 
 type Key = "ppt" | "web" | "odr";
@@ -23,7 +23,7 @@ type Key = "ppt" | "web" | "odr";
 const APPS: { key: Key; num: string; title: string; node: string; nodeDesc: string; desc: string; img: string; imgAlt: string; topic?: string; Icon: typeof Presentation }[] = [
   { key: "ppt", num: "01", title: "AI-Powered Presentation", node: "Presentation", nodeDesc: "업무 자료 제작 및 팀 발표", Icon: Presentation,
     desc: "2027년도 작업계획 및 예산 검토 과정에서 Dana Claymore 유전의 일반현황을 정리하고, Claude를 활용해 HTML 기반 발표자료를 제작하여 팀 내 발표 진행",
-    img: "/images/ai/intro/presentation.webp", imgAlt: "해양 생산 플랫폼 사진 (발표자료 캡처로 교체 예정)", topic: "ai-presentation" },
+    img: "/images/ai/intro/presentation.webp", imgAlt: "Claymore 유전 일반현황 HTML 발표자료 표지", topic: "ai-presentation" },
   { key: "web", num: "02", title: "Digital Knowledge Portal", node: "Website", nodeDesc: "기술 지식 포털 구축", Icon: Laptop,
     desc: "인턴십에서 교육받은 석유개발 기술을 체계적으로 정리하고 공유할 수 있도록 AI 기반 바이브 코딩으로 홈페이지 구축",
     img: "/images/ai/intro/website.webp", imgAlt: "이 홈페이지의 Petroleum Technology 첫 화면", topic: "vibe-coding" },

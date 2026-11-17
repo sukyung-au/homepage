@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
+import { AiPresentation } from "@/components/ai/AiPresentation";
 import { GenerativeAi } from "@/components/ai/GenerativeAi";
 import { ProductionReport } from "@/components/ai/ProductionReport";
 import { VibeCoding } from "@/components/ai/VibeCoding";
@@ -21,7 +22,7 @@ import a from "./AiTopic.module.css";
  * show each section's summary and planned items (lib/aiTech.ts) until the content is written.
  */
 
-const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "vibe-coding": VibeCoding, "production-report": ProductionReport };
+const TOPIC_BODIES: Partial<Record<string, ComponentType>> = { "generative-ai": GenerativeAi, "ai-presentation": AiPresentation, "vibe-coding": VibeCoding, "production-report": ProductionReport };
 
 export const dynamicParams = false;
 

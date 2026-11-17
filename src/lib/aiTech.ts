@@ -1,6 +1,6 @@
 /**
- * AI Technology — three topics, told as one story: the tools → what was built with them → a work task they
- * automated. A draft topic's sections say what they will cover (`intent`) and list the
+ * AI Technology — four topics, told as one story: the tools → a briefing deck made with them → this website →
+ * a work task they automated. A draft topic's sections say what they will cover (`intent`) and list the
  * planned items (`plan`); once a topic is written, its body lives in a component (TOPIC_BODIES in
  * app/ai-technology/[topic]/page.tsx) and its sections here only feed the outline. Add only facts and figures
  * that can be checked (no invented numbers).
@@ -42,6 +42,18 @@ export const AI_TOPICS: AiTopic[] = [
         plan: ["기술 자료 조사·요약", "설명 이미지 생성 (이 사이트의 AI 생성 이미지)", "발표 구성과 문서 정리"] },
       { id: "takeaways", title: "What Worked, What Didn't", intent: "효과가 컸던 부분과 한계가 드러난 부분을 함께 정리합니다.",
         plan: ["효과가 컸던 작업", "결과를 그대로 쓸 수 없었던 경우", "사람이 꼭 확인해야 하는 부분"] },
+    ],
+  },
+  {
+    id: "ai-presentation",
+    title: "AI-Powered Presentation",
+    ko: "AI 기반 업무 발표자료 제작",
+    sub: "From Field Information to a Briefing Deck",
+    summary: "2027년도 작업계획 및 예산 검토 과정에서 Dana Claymore 유전의 일반현황을 정리하고, Claude를 활용해 HTML 기반 발표자료를 만들어 팀 내에서 발표한 경험입니다.",
+    sections: [
+      { id: "task", title: "The Task", intent: "작업계획·예산 검토를 위해 Claymore 유전의 일반현황을 정리해야 했던 업무 배경.", plan: [] },
+      { id: "approach", title: "The Approach", intent: "Claude로 자료를 구조화하고 HTML 발표자료로 만든 과정.", plan: [] },
+      { id: "outcome", title: "The Outcome", intent: "실제 발표자료의 대표 화면과 팀 내 발표.", plan: [] },
     ],
   },
   {
