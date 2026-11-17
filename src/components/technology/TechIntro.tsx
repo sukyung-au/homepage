@@ -1,13 +1,16 @@
+"use client";
 import Image from "next/image";
-import type { CSSProperties } from "react";
-import { BookOpen, ChevronDown, Laptop, Users } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Laptop, Users } from "lucide-react";
 import s from "./TechIntro.module.css";
 
 /**
- * Petroleum Technology — Introduction. Four disciplines around one development goal (left) and how the knowledge
- * on this site was built (right), after the approved design draft. The entrance plays once on load in about
- * three seconds (CSS only); afterwards the only motion is a very slow drift of the outer ring. Reduced motion
- * shows the finished state. Images are the site's own illustrative (AI-generated) assets — no company or field data.
+ * Petroleum Technology — Introduction, in two presenter-paced steps (after the approved design draft).
+ * Step 01: the four disciplines around one development goal, centred; the entrance plays once on load (~1.6 s).
+ * Step 02 (next arrow / →): the collaboration diagram eases left and smaller while My Learning Journey appears
+ * step by step. Previous (← ) returns to step 01; the journey replays each time. Only the section's content
+ * changes — the page never scrolls. After the entrance nothing moves on its own. CSS motion only; reduced motion
+ * switches instantly. Images are the site's own illustrative (AI-generated) assets — no company or field data.
  */
 
 const FIELDS: { en: string; ko: string; desc: string; img: string; pos: "tl" | "tr" | "bl" | "br" }[] = [
@@ -29,8 +32,24 @@ const STEPS = [
 const v = (o: Record<string, string | number>) => o as CSSProperties;
 
 export function TechIntro({ next }: { next: string }) {
+  const [step, setStep] = useState(0);
+  const ref = useRef<HTMLElement>(null);
+
+  // ← / → step through the intro while it is on screen (presentation clicker or keyboard)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.altKey || e.ctrlKey || e.metaKey || (e.target as HTMLElement).closest?.("input, textarea, select, [contenteditable]")) return;
+      const r = ref.current?.getBoundingClientRect();
+      if (!r || r.bottom < window.innerHeight * 0.5 || r.top > window.innerHeight * 0.5) return;
+      if (e.key === "ArrowRight") { setStep(1); e.preventDefault(); }
+      else if (e.key === "ArrowLeft") { setStep(0); e.preventDefault(); }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   return (
-    <section className={s.intro} aria-labelledby="tech-intro-title">
+    <section ref={ref} className={s.intro} data-step={step} aria-labelledby="tech-intro-title">
       <div className={s.inner}>
         <div className={s.bar}>
           <span>KNOC <i>/</i> Petroleum Technology</span>
@@ -62,7 +81,7 @@ export function TechIntro({ next }: { next: string }) {
               <svg className={s.rings} viewBox="0 0 440 440" aria-hidden>
                 <circle cx="220" cy="220" r="186" className={s.ringBand} />
                 <circle cx="220" cy="220" r="186" pathLength={1} className={s.ringLine} />
-                <g className={s.drift}><circle cx="220" cy="220" r="212" className={s.ringOuter} /></g>
+                <circle cx="220" cy="220" r="212" className={s.ringOuter} />
               </svg>
               <div className={s.disc}>
                 <div className={s.discImg}><Image src="/hero-surface.webp" alt="" fill sizes="216px" /></div>
@@ -83,7 +102,7 @@ export function TechIntro({ next }: { next: string }) {
             ))}
           </div>
 
-          <div className={s.journey}>
+          <div className={s.journey} aria-hidden={step === 0} inert={step === 0}>
             <p className={s.journeyLabel}>My Learning Journey</p>
             <ol className={s.steps}>
               {STEPS.map(({ title, desc, Icon }, i) => (
@@ -100,9 +119,17 @@ export function TechIntro({ next }: { next: string }) {
           </div>
         </div>
 
-        <a href={`#${next}`} className={s.down} aria-label="Technology 목차로 이동">
-          <ChevronDown size={22} strokeWidth={2.2} aria-hidden />
-        </a>
+        <div className={s.controls}>
+          <a href={`#${next}`} className={s.down} aria-label="Technology 목차로 이동" tabIndex={step === 1 ? 0 : -1} aria-hidden={step === 0}>
+            <ChevronDown size={20} strokeWidth={2.2} aria-hidden />
+          </a>
+          <div className={s.stepper}>
+            <span className={s.stepLabel} aria-live="polite">{step === 0 ? "Multidisciplinary Collaboration" : "My Learning Journey"}</span>
+            <button type="button" className={s.stepBtn} onClick={() => setStep(0)} disabled={step === 0} aria-label="이전: Multidisciplinary Collaboration"><ArrowLeft size={18} aria-hidden /></button>
+            <span className={s.dots} aria-label={`Step ${step + 1} of 2`}><i data-on="" /><i data-on={step === 1 || undefined} /></span>
+            <button type="button" className={`${s.stepBtn} ${s.stepNext}`} onClick={() => setStep(1)} disabled={step === 1} aria-label="다음: My Learning Journey"><ArrowRight size={18} aria-hidden /></button>
+          </div>
+        </div>
       </div>
     </section>
   );

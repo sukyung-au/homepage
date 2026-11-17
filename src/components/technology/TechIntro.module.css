@@ -1,7 +1,10 @@
 /* Petroleum Technology — Introduction (TechIntro.tsx), after the approved design draft: bright page, navy type,
-   blue accents; the hub, its ring and the four links are the main visual. Entrance ≈ 3 s on load:
-   title 0–0.6 s · hub 0.5–1.1 s · links, nodes & cards 0.8–1.5 s · glow 1.5–2.1 s · journey 1.5–2.7 s ·
-   arrow nudge 2.9–3.8 s. Entrances use fill-mode `backwards`, so hover transforms work once they finish. */
+   blue accents; the hub, its ring and the four links are the main visual.
+   Step 01 (data-step="0"): the collaboration diagram sits centred and slightly larger; it enters once on load in
+   about 1.6 s — title 0–0.6 s · hub & rings 0.3–0.9 s · links, nodes & cards 0.7–1.6 s. Nothing moves after that.
+   Step 02 (data-step="1"): the diagram eases left to its column (0.6 s) and My Learning Journey enters step by step
+   (≈1.2 s); the journey animations are attached to step 02, so they replay every time it is entered.
+   Entrances use fill-mode `backwards`, so hover transforms work once they finish. */
 
 .intro{padding:28px var(--gutter-page) 12px;background:linear-gradient(180deg,#F3F7FD 0%,var(--ex-bg) 100%)}
 .inner{position:relative;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;word-break:keep-all}
@@ -18,9 +21,11 @@
 .sub{margin:18px 0 0;font-family:var(--font-kr);font-size:clamp(16px,1.15vw,20px);line-height:1.6;color:var(--ex-navy)}
 
 /* ── Body: diagram | divider | journey ── */
-.body{margin-top:30px;display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);align-items:center}
+.body{margin-top:30px;display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);align-items:center;container-type:inline-size}
 
-.diagram{position:relative;height:clamp(380px,calc(100svh - 470px),540px);margin-right:40px}
+.diagram{position:relative;height:clamp(380px,calc(100svh - 470px),540px);margin-right:40px;transform-origin:50% 50%;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+/* Step 01: centre the diagram in the full width (its column is 63 % minus the 40 px gutter) and enlarge it a little */
+.intro[data-step="0"] .diagram{transform:translateX(calc(18.5cqw + 20px)) scale(1.06)}
 .links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .link{fill:none;stroke:var(--ex-blue);stroke-width:2.4;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:0}
 .node{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ex-blue);box-shadow:0 0 0 3px #fff}
@@ -30,7 +35,6 @@
 .ringBand{fill:none;stroke:#DCE8FA;stroke-width:22;opacity:.85}
 .ringLine{fill:none;stroke:var(--ex-blue);stroke-width:1;opacity:.35;stroke-dasharray:1;stroke-dashoffset:0}
 .ringOuter{fill:none;stroke:var(--ex-blue);stroke-width:1;stroke-dasharray:2 8;opacity:.3}
-.drift{transform-origin:220px 220px}
 .disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 30%,#F7FAFF 0%,#DDE9FA 70%,#CFDFF6 100%);box-shadow:0 0 0 1px rgba(10,92,219,0.16),0 10px 30px rgba(11,26,44,0.10),0 0 46px rgba(10,92,219,0.20)}
 .discImg{position:absolute;left:0;right:0;bottom:0;height:62%;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 32%);mask-image:linear-gradient(180deg,transparent 0%,#000 32%)}
 .discImg img{object-fit:cover;object-position:76% 35%}
@@ -52,7 +56,8 @@
 .cardText p{margin:0;font-family:var(--font-kr);font-size:clamp(14px,0.95vw,16px);line-height:1.5;color:var(--ex-muted)}
 
 /* Journey: divider on the left, icon tiles joined by chevrons */
-.journey{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding-left:44px;border-left:1px solid var(--ex-line)}
+.journey{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding-left:44px;border-left:1px solid var(--ex-line);transition:opacity .35s var(--ease-standard),visibility 0s}
+.intro[data-step="0"] .journey{opacity:0;visibility:hidden;transition:opacity .25s var(--ease-standard),visibility 0s .25s}
 .journeyLabel{margin:0 0 22px;font-family:var(--font-editorial);font-size:14px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ex-blue)}
 .steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px}
 .step{position:relative;display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:center;padding:12px 14px;margin:0 -14px;border-radius:12px;border:1.5px solid transparent}
@@ -65,10 +70,23 @@
 .goal .icon{background:#fff;color:var(--ex-blue)}
 .goal h3{color:var(--ex-blue)}
 
-/* Scroll cue to the topic index below */
-.down{align-self:flex-end;margin-top:6px;display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:50%;background:var(--ex-blue);color:#fff;box-shadow:0 8px 20px rgba(10,92,219,0.25);transition:background-color .2s}
-.down:hover{background:var(--ex-blue-deep)}
+/* Controls: scroll cue (step 02) · step arrows */
+.controls{margin-top:10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.down{grid-column:2;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;color:var(--ex-blue);background:#fff;border:1px solid var(--ex-line);transition:opacity .3s,border-color .2s}
+.down:hover{border-color:var(--ex-blue)}
 .down:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.intro[data-step="0"] .down{opacity:0;pointer-events:none}
+.stepper{grid-column:3;justify-self:end;display:flex;align-items:center;gap:12px}
+.stepLabel{margin-right:6px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-faint);white-space:nowrap}
+.stepBtn{all:unset;cursor:pointer;box-sizing:border-box;width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--ex-line);color:var(--ex-navy);transition:background-color .2s,border-color .2s,color .2s}
+.stepBtn:hover:not(:disabled){border-color:var(--ex-blue);color:var(--ex-blue)}
+.stepBtn:disabled{cursor:default;color:var(--ex-line-strong)}
+.stepBtn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.stepNext:not(:disabled){background:var(--ex-blue);border-color:var(--ex-blue);color:#fff;box-shadow:0 6px 18px rgba(10,92,219,0.25)}
+.stepNext:not(:disabled):hover{background:var(--ex-blue-deep);color:#fff}
+.dots{display:flex;gap:6px}
+.dots i{width:18px;height:3px;border-radius:2px;background:var(--ex-line)}
+.dots i[data-on]{background:var(--ex-blue)}
 
 /* ── Entrance ── */
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
@@ -77,39 +95,36 @@
 @keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
 @keyframes drawLink{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
 @keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
-@keyframes glow{from{box-shadow:0 0 0 1px rgba(10,92,219,0.16),0 10px 30px rgba(11,26,44,0.10),0 0 0 rgba(10,92,219,0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
 @keyframes goal{from{border-color:transparent;box-shadow:none}}
-@keyframes nudge{0%,100%{transform:translateY(0)}45%{transform:translateY(7px)}}
 
 @media (prefers-reduced-motion:no-preference){
+  /* Step 01 — once, on load */
   .bar{animation:fade .5s var(--ease-standard) backwards}
   .head > *{animation:rise .6s var(--ease-standard) backwards}
   .head > :nth-child(2){animation-delay:.15s}
+  .hub{animation:hubIn .5s var(--ease-standard) .3s backwards}
+  .ringBand{animation:fade .5s var(--ease-standard) .4s backwards}
+  .ringLine{animation:draw .5s var(--ease-standard) .4s backwards}
+  .ringOuter{animation:fade .4s var(--ease-standard) .6s backwards}
+  .link{animation:drawLink .4s cubic-bezier(.4,0,.6,1) calc(.7s + var(--i) * .08s) backwards}
+  .node{animation:pop .25s var(--ease-standard) calc(.95s + var(--i) * .08s) backwards}
+  .card{animation:rise .45s var(--ease-standard) calc(.75s + var(--i) * .1s) backwards}
+  .stepper{animation:fade .4s var(--ease-standard) 1.4s backwards}
 
-  .hub{animation:hubIn .5s var(--ease-standard) .5s backwards}
-  .ringBand{animation:fade .5s var(--ease-standard) .6s backwards}
-  .ringLine{animation:draw .6s var(--ease-standard) .6s backwards}
-  .ringOuter{animation:fade .5s var(--ease-standard) .9s backwards}
-  .drift{animation:spin 160s linear 1.5s infinite}
-  .disc{animation:glow .6s var(--ease-standard) 1.5s backwards}
-  .link{animation:drawLink .45s cubic-bezier(.4,0,.6,1) calc(.8s + var(--i) * .1s) backwards}
-  .node{animation:pop .3s var(--ease-standard) calc(1s + var(--i) * .1s) backwards}
-  .card{animation:rise .45s var(--ease-standard) calc(1s + var(--i) * .1s) backwards}
-
-  .journey{animation:fade .4s var(--ease-standard) 1.4s backwards}
-  .step{animation:rise .45s var(--ease-standard) calc(1.5s + var(--i) * .3s) backwards}
-  .chev{animation:fade .3s var(--ease-standard) calc(1.8s + var(--i) * .3s) backwards}
-  .goal{animation:rise .45s var(--ease-standard) 2.1s backwards,goal .5s var(--ease-standard) 2.5s backwards}
-
-  .down{animation:fade .4s var(--ease-standard) 2.6s backwards,nudge .9s var(--ease-standard) 2.9s 1}
+  /* Step 02 — every time it is entered */
+  .intro[data-step="1"] .step{animation:rise .4s var(--ease-standard) calc(.25s + var(--i) * .2s) backwards}
+  .intro[data-step="1"] .chev{animation:fade .3s var(--ease-standard) calc(.45s + var(--i) * .2s) backwards}
+  .intro[data-step="1"] .goal{animation:rise .4s var(--ease-standard) .65s backwards,goal .4s var(--ease-standard) .95s backwards}
 }
+@media (prefers-reduced-motion:reduce){.diagram,.journey,.down{transition:none}}
 
 /* ── Tablet: journey below the diagram ── */
 @media (max-width:1199px){
   .body{grid-template-columns:1fr;gap:40px}
   .diagram{margin-right:0;height:460px}
+  .intro[data-step="0"] .diagram{transform:none}
   .journey{padding:28px 0 0;border-left:0;border-top:1px solid var(--ex-line)}
+  .intro[data-step="0"] .journey{display:none}
 }
 /* ── Mobile: hub above a stack of cards; links hidden ── */
 @media (max-width:899px){
@@ -119,7 +134,10 @@
   .hub{position:relative;left:auto;top:auto;transform:none;justify-self:center;margin:30px 0 34px;width:200px;height:200px}
   .rings{width:330px;height:330px}
   .card{position:relative;inset:auto;width:auto;height:132px;grid-template-columns:120px 1fr}
-  .down{align-self:center}
+  .controls{grid-template-columns:auto 1fr;gap:12px}
+  .down{grid-column:1}
+  .stepper{grid-column:2}
+  .stepLabel{display:none}
 }
 @media (max-width:899px) and (prefers-reduced-motion:no-preference){.hub{animation-name:fade}}
 @media (max-width:480px){
