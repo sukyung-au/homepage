@@ -11,6 +11,9 @@
 .steps a:hover{color:var(--ex-blue)}
 .steps span{font-variant-numeric:tabular-nums;color:var(--ex-faint)}
 .heroIso{width:100%;height:auto}
+.heroShot{display:block;width:100%;height:auto;border-radius:6px;box-shadow:var(--shadow-float)}
+/* Hero capture: on wide screens it extends into the right page margin, up to the header's right edge (the text column keeps its place) */
+@media (min-width:900px){.heroShotWrap{margin-right:min(0px,calc((1360px - 100vw) / 2 + var(--gutter-page)))}}
 
 /* Steps — text left, figure right */
 .stepSection{scroll-margin-top:16px}

@@ -1,9 +1,9 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
-import { HandsOn } from "./simulation/HandsOn";
 import { RunSimulator } from "./simulation/RunSimulator";
-import { ForecastCases, FluidCurves, HeroModel, HistoryCases, StaticLayers } from "./simulation/SimFigures";
+import { Figure, ForecastCases, FluidCurves, HistoryCases, StaticLayers } from "./simulation/SimFigures";
 import { SimulatorSections } from "./simulation/SimulatorSections";
 import s from "./simulation/Simulation.module.css";
 import { Crumb, SectionHeading, TopicNext, topicStyles as t } from "./TopicParts";
@@ -99,7 +99,7 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
   const cat = topic.category;
   return (
     <>
-      {/* Hero — text left, conceptual grid model right */}
+      {/* Hero — text left, a Petrel simulation capture (Guillemont field) right */}
       <section className={t.intro} data-category={cat.id} data-topic={topic.id} data-section="opening">
         <Crumb topic={topic} />
         <div className={s.hero}>
@@ -126,12 +126,13 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
               <span>{cat.label} · {cat.ko}</span>
             </div>
           </div>
-          <HeroModel />
+          <div className={s.heroShotWrap}>
+            <Figure caption="Petrel 시뮬레이션 화면 · Dana UK Guillemont Field">
+            <Image src="/images/technology/engineering/re-sim-petrel-guillemont.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프" width={1910} height={980} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
+          </Figure>
+          </div>
         </div>
       </section>
-
-      {/* Hands-on Petrel work on a real field model, before the step-by-step explanation */}
-      <HandsOn />
 
       {/* 01–05 — the workflow (03 is the interactive dashboard: heading, collapsible notes, then the viewer) */}
       {STEPS.map((st, i) => st.id === "run" ? (
