@@ -60,10 +60,12 @@
 
 /* ── 05 Outcome ── */
 .lessons{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px 56px;align-items:stretch}
-.lessons li{display:flex;flex-direction:column;gap:12px;padding-top:22px;border-top:1px solid var(--ex-navy)}
+.lessons li{display:flex;flex-direction:column;gap:12px}
+/* the rule sits under the number + label, above the title */
+.lessons .lessonLabel{padding-bottom:14px;border-bottom:1px solid var(--ex-navy)}
 /* Mini line illustrations above each label */
-.mini{display:block;width:96px;height:72px;margin:0 0 2px;overflow:visible}
-.mini *{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mini{display:block;align-self:center;width:128px;height:96px;margin:0 0 10px;overflow:visible}
+.mini *{fill:none;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
 .miniLine{stroke:var(--ex-line-strong)}
 .miniSoft{stroke:var(--ex-line-strong);fill:var(--ex-bg) !important}
 .miniBlue{stroke:var(--ex-blue)}

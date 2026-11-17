@@ -71,7 +71,7 @@ const STEPS: [string, string, string][] = [
 ];
 
 /* ── 05 Outcome: where it started, what changed, what it taught about using AI ── */
-/** Mini line illustrations for the three 05 items — one style: 96×72, 1.5 px strokes, blue + light blue-grey */
+/** Mini line illustrations for the three 05 items — one style: 96×72 viewBox, 1.6 px strokes, blue + light blue-grey */
 const MINI: ReactNode[] = [
   // 01 a report page → an arrow → spreadsheet cells
   <>
@@ -91,8 +91,8 @@ const MINI: ReactNode[] = [
     <circle cx="76" cy="22" r="12.5" className={p.miniSoft} />
     <path d="M70.5 22.5l4 4 7-7.5" className={p.miniBlue} />
   </>,
-  // 03 a shield with a padlock (shifted left to share the others' left edge)
-  <g transform="translate(-16 0)">
+  // 03 a shield with a padlock
+  <g>
     <path d="M48 8l22 8v16c0 14-9.5 24-22 30-12.5-6-22-16-22-30V16z" className={p.miniSoft} />
     <path d="M42 34v-5a6 6 0 0 1 12 0v5" className={p.miniBlue} />
     <rect x="38.5" y="34" width="19" height="14" rx="2" className={p.miniBlue} />
