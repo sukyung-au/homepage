@@ -1,0 +1,147 @@
+/* Petroleum Technology — Introduction (TechIntro.tsx), after the approved design draft: bright page, navy type,
+   blue accents; the hub, its ring and the four links are the main visual.
+   Step 01 (data-step="0"): the collaboration diagram sits centred and slightly larger; it enters once on load in
+   about 1.6 s — title 0–0.6 s · hub & rings 0.3–0.9 s · links, nodes & cards 0.7–1.6 s. Nothing moves after that.
+   Step 02 (data-step="1"): the diagram eases left to its column (0.6 s) and My Learning Journey enters step by step
+   (≈1.2 s); the journey animations are attached to step 02, so they replay every time it is entered.
+   Entrances use fill-mode `backwards`, so hover transforms work once they finish. */
+
+.intro{padding:28px var(--gutter-page) 12px;background:linear-gradient(180deg,#F3F7FD 0%,var(--ex-bg) 100%)}
+.inner{position:relative;max-width:1360px;margin:0 auto;display:flex;flex-direction:column;word-break:keep-all}
+
+/* ── Top bar: label · rule · section number ── */
+.bar{display:flex;align-items:center;gap:24px;font-family:var(--font-editorial);font-size:13px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-muted);white-space:nowrap}
+.bar i{font-style:normal;margin:0 4px;color:var(--ex-line-strong)}
+.barRule{flex:1;height:1px;background:var(--ex-line-strong)}
+
+/* ── Title ── */
+.head{margin-top:26px}
+.title{margin:0;display:flex;flex-direction:column;font-family:var(--font-editorial);font-size:clamp(38px,min(3.6vw,6svh),66px);font-weight:600;line-height:1.08;letter-spacing:-0.02em;color:var(--ex-navy)}
+.title em{font-style:normal;color:var(--ex-blue)}
+.sub{margin:18px 0 0;font-family:var(--font-kr);font-size:clamp(16px,1.15vw,20px);line-height:1.6;color:var(--ex-navy)}
+
+/* ── Body: diagram | divider | journey ── */
+.body{margin-top:30px;display:grid;grid-template-columns:minmax(0,63fr) minmax(0,37fr);align-items:center;container-type:inline-size}
+
+.diagram{position:relative;height:clamp(380px,calc(100svh - 470px),540px);margin-right:40px;transform-origin:50% 50%;transition:transform .6s cubic-bezier(.22,.61,.36,1)}
+/* Step 01: centre the diagram in the full width (its column is 63 % minus the 40 px gutter) and enlarge it a little */
+.intro[data-step="0"] .diagram{transform:translateX(calc(18.5cqw + 20px)) scale(1.06)}
+.links{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.link{fill:none;stroke:var(--ex-blue);stroke-width:2.4;vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-dasharray:1200;stroke-dashoffset:0}
+.node{position:absolute;z-index:3;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:var(--ex-blue);box-shadow:0 0 0 3px #fff}
+
+.hub{position:absolute;left:50%;top:50%;width:216px;height:216px;transform:translate(-50%,-50%)}
+.rings{position:absolute;left:50%;top:50%;width:400px;height:400px;transform:translate(-50%,-50%);overflow:visible;pointer-events:none}
+.ringBand{fill:none;stroke:#DCE8FA;stroke-width:22;opacity:.85}
+.ringLine{fill:none;stroke:var(--ex-blue);stroke-width:1;opacity:.35;stroke-dasharray:1;stroke-dashoffset:0}
+.ringOuter{fill:none;stroke:var(--ex-blue);stroke-width:1;stroke-dasharray:2 8;opacity:.3}
+.disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:radial-gradient(circle at 50% 30%,#F7FAFF 0%,#DDE9FA 70%,#CFDFF6 100%);box-shadow:0 0 0 1px rgba(10,92,219,0.16),0 10px 30px rgba(11,26,44,0.10),0 0 46px rgba(10,92,219,0.20)}
+.discImg{position:absolute;left:0;right:0;bottom:0;height:62%;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 32%);mask-image:linear-gradient(180deg,transparent 0%,#000 32%)}
+.discImg img{object-fit:cover;object-position:76% 35%}
+.hubLabel{position:absolute;left:0;right:0;top:24%;margin:0;font-family:var(--font-editorial);font-size:16px;font-weight:600;letter-spacing:0.12em;line-height:1.5;text-align:center;text-transform:uppercase;color:var(--ex-navy)}
+
+/* Cards: image left, text right */
+.card{position:absolute;z-index:2;width:35.5%;height:40%;display:grid;grid-template-columns:38% 1fr;gap:16px;align-items:center;padding:14px 18px 14px 14px;box-sizing:border-box;border-radius:12px;background:rgba(255,255,255,0.92);border:1px solid #E3EAF4;box-shadow:0 1px 2px rgba(11,26,44,0.04),0 10px 26px rgba(11,26,44,0.07);transition:transform .2s var(--ease-standard),border-color .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--ex-blue);box-shadow:0 1px 2px rgba(11,26,44,0.04),0 14px 30px rgba(10,92,219,0.12)}
+.tl{left:0;top:0}
+.tr{right:0;top:0}
+.bl{left:0;bottom:0}
+.br{right:0;bottom:0}
+.cardImg{position:relative;height:100%;border-radius:8px;overflow:hidden}
+.cardImg img{object-fit:cover}
+.cardText{min-width:0}
+.cardText h3{margin:0;font-family:var(--font-editorial);font-size:clamp(18px,1.35vw,24px);font-weight:600;line-height:1.15;letter-spacing:-0.01em;color:var(--ex-navy)}
+.ko{display:block;margin-top:6px;font-family:var(--font-kr);font-size:16px;color:var(--ex-navy)}
+.dash{display:block;width:22px;height:2px;margin:10px 0;border-radius:1px;background:var(--ex-blue)}
+.cardText p{margin:0;font-family:var(--font-kr);font-size:clamp(14px,0.95vw,16px);line-height:1.5;color:var(--ex-muted)}
+
+/* Journey: divider on the left, icon tiles joined by chevrons */
+.journey{align-self:stretch;display:flex;flex-direction:column;justify-content:center;padding-left:44px;border-left:1px solid var(--ex-line);transition:opacity .35s var(--ease-standard),visibility 0s}
+.intro[data-step="0"] .journey{opacity:0;visibility:hidden;transition:opacity .25s var(--ease-standard),visibility 0s .25s}
+.journeyLabel{margin:0 0 22px;font-family:var(--font-editorial);font-size:14px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--ex-blue)}
+.steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:30px}
+.step{position:relative;display:grid;grid-template-columns:64px 1fr;gap:20px;align-items:center;padding:12px 14px;margin:0 -14px;border-radius:12px;border:1.5px solid transparent}
+.icon{display:flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:12px;background:#EEF3FB;color:var(--ex-navy);box-shadow:inset 0 0 0 1px #E1E9F5}
+.step h3{margin:0;font-family:var(--font-editorial);font-size:clamp(18px,1.3vw,23px);font-weight:600;letter-spacing:-0.01em;color:var(--ex-navy)}
+.stepNum{margin-right:10px;font-size:13px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums;vertical-align:2px}
+.step p{margin:6px 0 0;font-family:var(--font-kr);font-size:clamp(15px,1vw,17px);line-height:1.5;color:var(--ex-navy)}
+.chev{position:absolute;left:35px;bottom:-29px;color:var(--ex-blue);opacity:.8}
+.goal{background:linear-gradient(180deg,#F2F7FF,#E8F0FC);border-color:var(--ex-blue);box-shadow:0 8px 24px rgba(10,92,219,0.10)}
+.goal .icon{background:#fff;color:var(--ex-blue)}
+.goal h3{color:var(--ex-blue)}
+
+/* Controls: scroll cue (step 02) · step arrows */
+.controls{margin-top:10px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}
+.down{grid-column:2;display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;color:var(--ex-blue);background:#fff;border:1px solid var(--ex-line);transition:opacity .3s,border-color .2s}
+.down:hover{border-color:var(--ex-blue)}
+.down:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.intro[data-step="0"] .down{opacity:0;pointer-events:none}
+.stepper{grid-column:3;justify-self:end;display:flex;align-items:center;gap:12px}
+.stepLabel{margin-right:6px;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-faint);white-space:nowrap}
+.stepBtn{all:unset;cursor:pointer;box-sizing:border-box;width:44px;height:44px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#fff;border:1px solid var(--ex-line);color:var(--ex-navy);transition:background-color .2s,border-color .2s,color .2s}
+.stepBtn:hover:not(:disabled){border-color:var(--ex-blue);color:var(--ex-blue)}
+.stepBtn:disabled{cursor:default;color:var(--ex-line-strong)}
+.stepBtn:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
+.stepNext:not(:disabled){background:var(--ex-blue);border-color:var(--ex-blue);color:#fff;box-shadow:0 6px 18px rgba(10,92,219,0.25)}
+.stepNext:not(:disabled):hover{background:var(--ex-blue-deep);color:#fff}
+.dots{display:flex;gap:6px}
+.dots i{width:18px;height:3px;border-radius:2px;background:var(--ex-line)}
+.dots i[data-on]{background:var(--ex-blue)}
+
+/* ── Entrance ── */
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes hubIn{from{opacity:0;transform:translate(-50%,-50%) scale(.95)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+@keyframes draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@keyframes drawLink{from{stroke-dashoffset:1200}to{stroke-dashoffset:0}}
+@keyframes pop{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
+@keyframes goal{from{border-color:transparent;box-shadow:none}}
+
+@media (prefers-reduced-motion:no-preference){
+  /* Step 01 — once, on load */
+  .bar{animation:fade .5s var(--ease-standard) backwards}
+  .head > *{animation:rise .6s var(--ease-standard) backwards}
+  .head > :nth-child(2){animation-delay:.15s}
+  .hub{animation:hubIn .5s var(--ease-standard) .3s backwards}
+  .ringBand{animation:fade .5s var(--ease-standard) .4s backwards}
+  .ringLine{animation:draw .5s var(--ease-standard) .4s backwards}
+  .ringOuter{animation:fade .4s var(--ease-standard) .6s backwards}
+  .link{animation:drawLink .4s cubic-bezier(.4,0,.6,1) calc(.7s + var(--i) * .08s) backwards}
+  .node{animation:pop .25s var(--ease-standard) calc(.95s + var(--i) * .08s) backwards}
+  .card{animation:rise .45s var(--ease-standard) calc(.75s + var(--i) * .1s) backwards}
+  .stepper{animation:fade .4s var(--ease-standard) 1.4s backwards}
+
+  /* Step 02 — every time it is entered */
+  .intro[data-step="1"] .step{animation:rise .4s var(--ease-standard) calc(.25s + var(--i) * .2s) backwards}
+  .intro[data-step="1"] .chev{animation:fade .3s var(--ease-standard) calc(.45s + var(--i) * .2s) backwards}
+  .intro[data-step="1"] .goal{animation:rise .4s var(--ease-standard) .65s backwards,goal .4s var(--ease-standard) .95s backwards}
+}
+@media (prefers-reduced-motion:reduce){.diagram,.journey,.down{transition:none}}
+
+/* ── Tablet: journey below the diagram ── */
+@media (max-width:1199px){
+  .body{grid-template-columns:1fr;gap:40px}
+  .diagram{margin-right:0;height:460px}
+  .intro[data-step="0"] .diagram{transform:none}
+  .journey{padding:28px 0 0;border-left:0;border-top:1px solid var(--ex-line)}
+  .intro[data-step="0"] .journey{display:none}
+}
+/* ── Mobile: hub above a stack of cards; links hidden ── */
+@media (max-width:899px){
+  .bar{font-size:11px;gap:12px;letter-spacing:0.12em}
+  .diagram{height:auto;display:grid;grid-template-columns:1fr;gap:12px}
+  .links,.node{display:none}
+  .hub{position:relative;left:auto;top:auto;transform:none;justify-self:center;margin:30px 0 34px;width:200px;height:200px}
+  .rings{width:330px;height:330px}
+  .card{position:relative;inset:auto;width:auto;height:132px;grid-template-columns:120px 1fr}
+  .controls{grid-template-columns:auto 1fr;gap:12px}
+  .down{grid-column:1}
+  .stepper{grid-column:2}
+  .stepLabel{display:none}
+}
+@media (max-width:899px) and (prefers-reduced-motion:no-preference){.hub{animation-name:fade}}
+@media (max-width:480px){
+  .bar > :last-child,.barRule{display:none}
+  .card{grid-template-columns:96px 1fr;height:auto;min-height:120px}
+  .cardImg{height:96px}
+}
