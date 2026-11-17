@@ -36,10 +36,10 @@ function RampKey({ ramp, label }: { ramp: Ramp; label: string }) {
   );
 }
 
-/** Hero: empty grid model with producers and the injector — the future interactive view */
+/** Hero: empty grid model with producers and the injector */
 export function HeroModel() {
   return (
-    <Figure note="Interactive time view · in preparation">
+    <Figure>
       <IsoGrid nx={NX} ny={NY} nz={3} cell={30} layer={18} wells={SIM_WELLS} label="Conceptual 2.5D reservoir grid with two production wells and one injection well" className={s.heroIso} />
     </Figure>
   );

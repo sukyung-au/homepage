@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { sceneStyles as ss } from "@/components/site/scene";
 import type { FlatTopic } from "@/lib/technology";
+import { HandsOn } from "./simulation/HandsOn";
 import { RunSimulator } from "./simulation/RunSimulator";
 import { ForecastCases, FluidCurves, HeroModel, HistoryCases, StaticLayers } from "./simulation/SimFigures";
 import { SimulatorSections } from "./simulation/SimulatorSections";
@@ -128,6 +129,9 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
           <HeroModel />
         </div>
       </section>
+
+      {/* Hands-on Petrel work on a real field model, before the step-by-step explanation */}
+      <HandsOn />
 
       {/* 01–05 — the workflow (03 is the interactive dashboard: heading, collapsible notes, then the viewer) */}
       {STEPS.map((st, i) => st.id === "run" ? (

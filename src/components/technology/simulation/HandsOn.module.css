@@ -1,0 +1,43 @@
+/* Reservoir Simulation — Hands-on Experience (HandsOn.tsx). Bright page, navy type, blue accents; the capture is the
+   centre of the section. Entrance (RevealScope, once): title → image → the three items. */
+
+.section{padding:96px var(--gutter-page);border-top:1px solid var(--ex-line)}
+.inner{max-width:1360px;margin:0 auto}
+
+.head{max-width:900px}
+.label{margin:0;font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
+.label i{font-style:normal;margin:0 4px;color:var(--ex-line-strong)}
+.title{margin:18px 0 0;font-family:var(--font-editorial);font-size:var(--type-editorial-md);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:var(--ex-navy)}
+.sub{margin:14px 0 0;font-family:var(--font-editorial);font-size:20px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-muted)}
+
+/* Capture: whole image, original ratio; the button opens the full-size view */
+.figure{margin:40px 0 0}
+.shot{all:unset;cursor:zoom-in;position:relative;display:block;width:100%;border-radius:6px;overflow:hidden;background:#fff;box-shadow:var(--shadow-float)}
+.shot:focus-visible{outline:2px solid var(--focus-ring);outline-offset:4px}
+.img{display:block;width:100%;height:auto}
+.zoom{position:absolute;right:14px;bottom:14px;display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;background:rgba(11,26,44,0.72);color:#fff;font-family:var(--font-kr);font-size:12px;opacity:0;transition:opacity .2s}
+.shot:hover .zoom,.shot:focus-visible .zoom{opacity:1}
+
+/* Three items: number, title, one line */
+.work{list-style:none;margin:40px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 48px}
+.work li{display:flex;flex-direction:column;gap:6px;padding-top:16px;border-top:1px solid var(--ex-navy)}
+.num{font-family:var(--font-editorial);font-size:12px;font-weight:600;color:var(--ex-blue);font-variant-numeric:tabular-nums}
+.work b{font-family:var(--font-editorial);font-size:20px;font-weight:400;letter-spacing:-0.01em;color:var(--ex-navy)}
+.desc{font-family:var(--font-kr);font-size:15px;line-height:1.65;color:var(--ex-muted);word-break:keep-all}
+
+/* Full-size view */
+.dialog{width:min(96vw,1910px);max-width:none;max-height:94vh;padding:0;border:0;border-radius:8px;background:#fff;box-shadow:0 20px 60px rgba(11,26,44,0.35);overflow:auto}
+.dialog::backdrop{background:rgba(11,26,44,0.6)}
+.full{display:block;width:100%;height:auto}
+.close{all:unset;cursor:pointer;position:absolute;top:12px;right:12px;display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:rgba(11,26,44,0.72);color:#fff}
+.close:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* Entrance (only while <html data-rm> is set) */
+.motion [data-reveal="up"]{transition:opacity .6s var(--ease-standard),transform .6s var(--ease-standard);transition-delay:calc(var(--i,0) * .12s)}
+:global(html[data-rm]) .motion [data-reveal="up"]:not([data-in]){opacity:0;transform:translateY(16px)}
+
+@media (max-width:899px){
+  .section{padding:64px var(--gutter-page)}
+  .work{grid-template-columns:1fr}
+  .zoom{opacity:1}
+}
