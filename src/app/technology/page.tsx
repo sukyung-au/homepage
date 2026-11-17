@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/ds/SiteHeader";
 import { IndexList, SectionHead, sectionStyles as s } from "@/components/section/SectionPage";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { TechIntro } from "@/components/technology/TechIntro";
 import { SITE_LINKS } from "@/lib/site";
 import { FLAT_TOPICS, TECH, topicLink } from "@/lib/technology";
 
@@ -16,7 +17,8 @@ export default function TechnologyIndex() {
   return (
     <main>
       <SiteHeader links={SITE_LINKS} active="technology" position="relative" />
-      <section className={s.page}>
+      <TechIntro next="topics" />
+      <section id="topics" className={s.page}>
         <div className={s.inner}>
           <SectionHead label="Petroleum Technology" title="Petroleum Technology" sub="The Knowledge Used Along the Journey"
             meta={<><span>{TECH.length} categories</span><span>{n} {n === 1 ? "topic" : "topics"}</span></>} />
