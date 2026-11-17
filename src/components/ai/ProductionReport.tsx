@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ArrowRight, ShieldCheck } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import { ImageSlot } from "@/components/ds/ImageSlot";
 import { sceneStyles as ss } from "@/components/site/scene";
@@ -71,12 +70,12 @@ const STEPS: [string, string, string][] = [
   ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다. 저장 전에는 항상 backup 폴더에 자동 백업합니다."],
 ];
 
-/* ── 05 Outcome: how the goal grew (01 → 02), and the principle held throughout (03) ── */
-const GROWTH: [string, string, string][] = [
+/* ── 05 Outcome: where it started, what changed, what it taught about using AI ── */
+const LESSONS: [string, string, string][] = [
   ["Starting Point", "반복 업무를 줄이자", "매일 반복되는 ODR 수기 입력 업무를 자동화하는 것이 처음 목표였습니다."],
   ["What Changed", "실제로 활용할 수 있게 만들자", "데이터 검증, 기존 업무 흐름, 실무자 피드백까지 고려하며 프로그램을 개선했습니다."],
+  ["Responsible AI", "정보보호를 고려한 AI 활용", "AI를 활용한 개발 과정에서 내부정보의 노출 위험을 인식하고, 제공하는 정보를 최소화하는 중요성을 배웠습니다."],
 ];
-const PRINCIPLE = ["Responsible AI", "정보보호를 고려한 AI 활용", "AI를 활용한 개발 과정에서 내부정보의 노출 위험을 인식하고, 제공하는 정보를 최소화하는 중요성을 배웠습니다."];
 
 export function ProductionReport() {
   return (
@@ -142,26 +141,18 @@ export function ProductionReport() {
         />
       </section>
 
-      <section id="outcome" className={cx(p.sec, p.white)} data-section="outcome">
+      <section id="outcome" className={cx(p.sec, p.white, p.secOutcome)} data-section="outcome">
         <div className={p.inner}>
           <Head num="05" label="Outcome & Reflection" title="Beyond Automation.">기술 구현에서 실무 문제 해결로</Head>
-          <div className={p.growth}>
-            {GROWTH.map(([label, title, d], i) => (
-              <div key={label} className={i ? `${p.stage} ${p.stageNow}` : p.stage} data-reveal="up" style={{ "--d": i ? 0.45 : 0 } as CSSProperties}>
+          <ol className={p.lessons}>
+            {LESSONS.map(([label, title, d], i) => (
+              <li key={label} data-reveal="up" style={{ "--i": i } as CSSProperties}>
                 <span className={p.lessonLabel}><span>{String(i + 1).padStart(2, "0")}</span>{label}</span>
                 <b>{title}</b>
                 <span className={p.lessonBody}>{d}</span>
-              </div>
-            )).flatMap((el, i) => (i ? [<span key="link" className={p.link} data-reveal="line" aria-hidden><ArrowRight size={16} /></span>, el] : [el]))}
-          </div>
-          <div className={p.principle} data-reveal="up" style={{ "--d": 0.8 } as CSSProperties}>
-            <span className={p.shield} aria-hidden><ShieldCheck size={22} strokeWidth={1.6} /></span>
-            <div>
-              <span className={p.lessonLabel}><span>03</span>{PRINCIPLE[0]}</span>
-              <b>{PRINCIPLE[1]}</b>
-            </div>
-            <span className={p.lessonBody}>{PRINCIPLE[2]}</span>
-          </div>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
     </RevealScope>
