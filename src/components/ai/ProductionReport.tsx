@@ -92,7 +92,7 @@ const MINI: ReactNode[] = [
     <path d="M70.5 22.5l4 4 7-7.5" className={p.miniBlue} />
   </>,
   // 03 a shield with a padlock
-  <g>
+  <g key="shield">
     <path d="M48 8l22 8v16c0 14-9.5 24-22 30-12.5-6-22-16-22-30V16z" className={p.miniSoft} />
     <path d="M42 34v-5a6 6 0 0 1 12 0v5" className={p.miniBlue} />
     <rect x="38.5" y="34" width="19" height="14" rx="2" className={p.miniBlue} />

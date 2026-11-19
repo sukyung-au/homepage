@@ -1,9 +1,11 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import s from "./EditMode.module.css";
 
 /**
- * Presenter edit mode for /presentation. Press E to turn it on (only the Close button turns it off, so a
+ * Presenter edit mode, on every page (mounted in the root layout). Turn it on with ?edit in the address, or
+ * Alt+Shift+E (on /presentation also plain E). Click a photo to select its frame — move it or resize its box. Press E to turn it on (only the Close button turns it off, so a
  * stray E — or ㄷ while typing Korean — can't drop out of it); click any text to retype it, and use the toolbar to
  * resize it, drag the ✥ handle to move it (CSS `translate`, so it composes with the page's own transform
  * animations), drag the ◢ corner to resize its box (width / height), or widen the selection to the enclosing box. Changes are kept in this browser only (localStorage) and re-applied on reload; "Copy changes"
@@ -14,13 +16,14 @@ import s from "./EditMode.module.css";
 
 interface Override { html?: string; size?: number; x?: number; y?: number; w?: number; h?: number; original: string }
 type Overrides = Record<string, Override>;
-const STORE = "presentation-edits-v1";
+/** One store per page; /presentation keeps its original key so earlier edits still apply */
+const storeKey = (path: string) => (path === "/presentation" ? "presentation-edits-v1" : `site-edits-v1:${path}`);
 
 /** Saved paths start at <main>: elements injected into <body> (e.g. the Vercel preview toolbar) shift body's
  *  children, so older "body > main:nth-child(n)" paths are rewritten on load. */
-const load = (): Overrides => {
+const load = (key: string): Overrides => {
   let raw: Overrides = {};
-  try { raw = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch { /* storage blocked */ }
+  try { raw = JSON.parse(localStorage.getItem(key) || "{}"); } catch { /* storage blocked */ }
   const out: Overrides = {};
   for (const [p, o] of Object.entries(raw)) {
     const k = p.replace(/^body > main:nth-child\(\d+\)/, "main");
@@ -28,8 +31,8 @@ const load = (): Overrides => {
   }
   return out;
 };
-const save = (o: Overrides) => {
-  try { localStorage.setItem(STORE, JSON.stringify(o)); } catch { /* storage blocked */ }
+const save = (key: string, o: Overrides) => {
+  try { localStorage.setItem(key, JSON.stringify(o)); } catch { /* storage blocked */ }
 };
 
 /** Stable DOM path (tag:nth-child chain) — class names are hashed, so they are not used. */
@@ -41,6 +44,15 @@ function pathOf(el: Element): string {
     parts.unshift(`${n.tagName.toLowerCase()}:nth-child(${i})`);
   }
   return parts[0] === "main" ? parts.join(" > ") : "body > " + parts.join(" > ");
+}
+
+/** A clicked photo → its frame (the image's positioned wrapper, or the <figure> holding it) */
+function imageTarget(from: EventTarget | null): HTMLElement | null {
+  if (!(from instanceof Element) || from.closest("[data-edit-ui]")) return null;
+  const img = from.closest("img, svg[role=img]") ?? (from instanceof HTMLElement && from.children.length === 1 ? from.querySelector(":scope > img") : null);
+  if (!img) return null;
+  const wrap = img.parentElement;
+  return wrap && wrap !== document.body ? (wrap.closest("figure") as HTMLElement) ?? wrap : null;
 }
 
 /** The nearest element that directly holds visible text */
@@ -77,17 +89,21 @@ export function EditMode() {
   const [dims, setDims] = useState<{ w: number; h: number } | null>(null);
   const [box, setBox] = useState<{ left: number; top: number; right: number; bottom: number } | null>(null);
   const edits = useRef<Overrides>({});
+  const pathname = usePathname();
+  const key = useRef(storeKey(pathname));
+  const [isImg, setIsImg] = useState(false);
   const sel = useRef<{ el: HTMLElement; path: string; onInput: () => void } | null>(null);
 
-  const commit = useCallback(() => { save(edits.current); setCount(Object.keys(edits.current).length); }, []);
+  const commit = useCallback(() => { save(key.current, edits.current); setCount(Object.keys(edits.current).length); }, []);
   const record = useCallback((path: string, el: HTMLElement, patch: Partial<Override>) => {
     edits.current[path] = { ...edits.current[path], ...patch, original: edits.current[path]?.original ?? patch.original ?? el.innerText };
     commit();
   }, [commit]);
 
-  // Re-apply saved changes now and whenever new content mounts (prologue, scenes)
+  // Re-apply this page's saved changes now, on client-side navigation, and whenever new content mounts
   useEffect(() => {
-    edits.current = load();
+    key.current = storeKey(pathname);
+    edits.current = load(key.current);
     let raf = 0;
     const apply = () => {
       for (const [p, o] of Object.entries(edits.current)) {
@@ -104,7 +120,15 @@ export function EditMode() {
     const mo = new MutationObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(apply); });
     mo.observe(document.body, { childList: true, subtree: true });
     return () => { mo.disconnect(); cancelAnimationFrame(raf); };
-  }, []);
+  }, [pathname]);
+
+  // ?edit in the address turns edit mode on
+  useEffect(() => {
+    if (!new URLSearchParams(location.search).has("edit")) return;
+    document.documentElement.setAttribute("data-editing", "");
+    const t = window.setTimeout(() => setOn(true), 0);
+    return () => window.clearTimeout(t);
+  }, [pathname]);
 
   const flash = (t: string) => { setNote(t); window.setTimeout(() => setNote(""), 1600); };
 
@@ -119,15 +143,18 @@ export function EditMode() {
     setHasSel(false);
   }, []);
 
-  const select = useCallback((el: HTMLElement) => {
+  const select = useCallback((el: HTMLElement, image = false) => {
     deselect();
     const path = pathOf(el);
-    const original = edits.current[path]?.original ?? el.innerText;
+    const original = edits.current[path]?.original ?? (image ? "(image)" : el.innerText);
     const onInput = () => record(path, el, { original, html: el.innerHTML });
-    el.addEventListener("input", onInput);
-    el.contentEditable = "true";
+    if (!image) {
+      el.addEventListener("input", onInput);
+      el.contentEditable = "true";
+      el.focus();
+    }
     el.setAttribute("data-edit-sel", "");
-    el.focus();
+    setIsImg(image);
     sel.current = { el, path, onInput };
     setHasSel(true);
     setPos({ x: edits.current[path]?.x ?? 0, y: edits.current[path]?.y ?? 0 });
@@ -160,7 +187,9 @@ export function EditMode() {
         if (!NAV_KEYS.has(e.code)) e.stopPropagation();
         return;
       }
-      if (e.code === "KeyE" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.isComposing) {
+      const plainE = e.code === "KeyE" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.isComposing && location.pathname === "/presentation";
+      const comboE = e.code === "KeyE" && e.altKey && e.shiftKey && !e.metaKey && !e.ctrlKey;
+      if (plainE || comboE) {
         e.stopPropagation();
         toggle(true);
       }
@@ -178,6 +207,8 @@ export function EditMode() {
       if ((e.target as Element).closest?.("[data-edit-ui]")) return;
       e.preventDefault();
       e.stopPropagation();
+      const img = imageTarget(e.target);
+      if (img) { if (img !== sel.current?.el) select(img, true); return; }
       const el = textTarget(e.target);
       if (el && el !== sel.current?.el) select(el);
     };
@@ -255,7 +286,7 @@ export function EditMode() {
   // Widen the selection to the enclosing box (e.g. a whole card) to move it as one
   const selectParent = () => {
     const p = sel.current?.el.parentElement;
-    if (p && p !== document.body && p.tagName !== "MAIN") select(p);
+    if (p && p !== document.body && p.tagName !== "MAIN") select(p, isImg);
   };
 
   const resize = (d: number) => {
@@ -281,8 +312,8 @@ export function EditMode() {
   };
 
   const resetAll = () => {
-    if (!window.confirm("Reset all edits? The page will reload.")) return;
-    try { localStorage.removeItem(STORE); } catch { /* storage blocked */ }
+    if (!window.confirm("이 페이지의 수정 사항을 모두 초기화할까요? 페이지가 새로고침됩니다.")) return;
+    try { localStorage.removeItem(key.current); } catch { /* storage blocked */ }
     location.reload();
   };
 
@@ -299,10 +330,14 @@ export function EditMode() {
       <span className={s.badge}>Edit mode</span>
       {hasSel ? (
         <>
-          <span className={s.label}>Size</span>
-          <button type="button" className={s.btn} onClick={() => resize(-2)} aria-label="Smaller">−</button>
-          <span className={s.value}>{size}px</span>
-          <button type="button" className={s.btn} onClick={() => resize(2)} aria-label="Larger">+</button>
+          {isImg ? <span className={s.label}>사진</span> : (
+            <>
+              <span className={s.label}>Size</span>
+              <button type="button" className={s.btn} onClick={() => resize(-2)} aria-label="Smaller">−</button>
+              <span className={s.value}>{size}px</span>
+              <button type="button" className={s.btn} onClick={() => resize(2)} aria-label="Larger">+</button>
+            </>
+          )}
           <span className={s.sep} />
           <span className={s.label}>Move</span>
           <span className={s.value}>{pos.x}, {pos.y}</span>
@@ -315,7 +350,7 @@ export function EditMode() {
           <button type="button" className={s.btn} onClick={deselect}>Done</button>
         </>
       ) : (
-        <span className={s.label}>글자를 클릭해 수정하세요</span>
+        <span className={s.label}>글자나 사진을 클릭해 선택하세요</span>
       )}
       <span className={s.sep} />
       <span className={s.label}>{count} edits</span>
