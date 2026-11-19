@@ -99,7 +99,7 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
   const cat = topic.category;
   return (
     <>
-      {/* Hero — text left, a Petrel simulation capture (Guillemont field) right */}
+      {/* Hero — text left (purpose + hands-on Petrel work), a Petrel simulation capture right */}
       <section className={t.intro} data-category={cat.id} data-topic={topic.id} data-section="opening">
         <Crumb topic={topic} />
         <div className={s.hero}>
@@ -111,8 +111,13 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
             <h1 className={s.h1}>{topic.title}</h1>
             {topic.sub && <p className={s.sub}>{topic.sub}</p>}
             <p className={`${ss.body} ${s.lede}`}>
-              저류층 시뮬레이션은 저류층을 작은 격자로 나누고, 각 셀의 암석·유체 특성과 유정 운영 조건을 바탕으로 시간에 따른 압력과 유체 포화도 변화를 수치적으로 계산하는 방법입니다.
+              저류층 시뮬레이션은 지하 유체의 흐름과 압력 변화를 모사하여 향후 생산량을 예측하고, 다양한 개발 시나리오를 검토하는 데 활용됩니다.
             </p>
+            <div className={s.handsOn}>
+              <p className={s.handsOnLabel}>Hands-on Experience</p>
+              <p className={s.handsOnTitle}>Petrel 기반 저류층 시뮬레이션 실습</p>
+              <p className={s.handsOnItems}>History Matched Model <i>·</i> Sensitivity Study <i>·</i> Production Forecast</p>
+            </div>
             <ol className={s.steps} aria-label="Simulation workflow">
               {STEPS.map((st, i) => (
                 <li key={st.id}><a href={`#${st.id}`}><span>{pad(i)}</span>{st.title}</a></li>
@@ -127,8 +132,8 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
             </div>
           </div>
           <div className={s.heroShotWrap}>
-            <Figure caption="Petrel 시뮬레이션 화면 · Dana UK Guillemont Field">
-            <Image src="/images/technology/engineering/re-sim-petrel-guillemont.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프" width={1910} height={980} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
+            <Figure caption="Petrel Reservoir Simulation · 공사 보유 Oil Field 실습">
+            <Image src="/images/technology/engineering/re-sim-petrel.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프" width={1910} height={980} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
           </Figure>
           </div>
         </div>

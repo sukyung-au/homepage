@@ -6,6 +6,12 @@
 .h1{margin:28px 0 0;font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:0.98;letter-spacing:-0.02em;color:var(--ex-navy);text-wrap:balance}
 .sub{margin:24px 0 0;font-family:var(--font-editorial);font-size:clamp(18px,1.6vw,22px);font-weight:400;line-height:1.35;letter-spacing:-0.01em;color:var(--ex-blue)}
 .lede{max-width:500px}
+/* Hero: hands-on Petrel work — text and spacing only */
+.handsOn{margin-top:32px}
+.handsOnLabel{margin:0;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
+.handsOnTitle{margin:6px 0 0;font-family:var(--font-kr);font-size:17px;font-weight:600;color:var(--ex-navy)}
+.handsOnItems{margin:4px 0 0;font-family:var(--font-editorial);font-size:14px;color:var(--ex-muted)}
+.handsOnItems i{font-style:normal;margin:0 6px;color:var(--ex-line-strong)}
 .steps{list-style:none;margin:32px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px 20px;font-family:var(--font-editorial);font-size:13px}
 .steps a{display:inline-flex;gap:6px;color:var(--ex-navy);text-decoration:none}
 .steps a:hover{color:var(--ex-blue)}
