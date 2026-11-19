@@ -78,9 +78,9 @@ export const AI_TOPICS: AiTopic[] = [
   {
     id: "production-report",
     title: "Automating the Daily Production Report",
-    ko: "업무자동화 — Black Gold 생산일보 자동집계",
+    ko: "업무자동화 — 공사 보유 해외 Oil Field 생산일보 자동집계",
     sub: "From Manual Collation to an Automated Daily Report",
-    summary: "캐나다 오일샌드 필드 Black Gold의 생산일보(ODR) 집계 업무를 자동화한 과정입니다. 반복적인 수기 입력에서 문제를 발견하고, PDF를 읽어 검증한 뒤 Excel에 저장하는 프로그램과 대시보드를 만들고, 실무자 피드백으로 개선했습니다.",
+    summary: "공사 보유 해외 Oil Field의 생산일보(ODR) 집계 업무를 자동화한 과정입니다. 반복적인 수기 입력에서 문제를 발견하고, PDF를 읽어 검증한 뒤 Excel에 저장하는 프로그램과 대시보드를 만들고, 실무자 피드백으로 개선했습니다.",
     sections: [
       { id: "problem", title: "The Problem", intent: "매일 ODR PDF의 값을 Excel에 손으로 옮겨 적던 반복 업무와 그 문제.", plan: [] },
       { id: "solution", title: "The Solution", intent: "PDF 확인 · 데이터 검증 · Excel 저장을 하나로 묶은 Windows 프로그램.", plan: [] },
