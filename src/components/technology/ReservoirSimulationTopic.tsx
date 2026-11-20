@@ -134,7 +134,7 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
           </div>
           <div className={s.heroShotWrap}>
             <Figure caption="Petrel Reservoir Simulation · 공사 보유 Oil Field 실습">
-            <Image src="/images/technology/engineering/re-sim-petrel-public.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프 (모델명·유정명·수치 눈금은 가림 처리)" width={1506} height={798} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
+            <Image src="/images/technology/engineering/re-sim-petrel.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프" width={1910} height={980} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
           </Figure>
           </div>
         </div>
