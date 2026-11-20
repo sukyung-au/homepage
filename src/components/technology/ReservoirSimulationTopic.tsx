@@ -115,10 +115,11 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
             </p>
             <div className={s.handsOn}>
               <p className={s.handsOnLabel}>Hands-on Experience</p>
-              <p className={s.handsOnTitle}>Petrel 기반 저류층 시뮬레이션 실습</p>
-              <p className={s.handsOnItems}>History Matched Model <i>·</i> Sensitivity Study <i>·</i> Production Forecast</p>
+              <p className={s.handsOnTitle}>Petrel을 활용한 민감도 분석 및 생산 예측</p>
+              <p className={s.handsOnItems}>History-Matched Model <i>·</i> Sensitivity Analysis <i>·</i> Production Forecast</p>
             </div>
-            <ol className={s.steps} aria-label="Simulation workflow">
+            <p className={s.stepsLabel} id="sim-contents">Learning Contents</p>
+            <ol className={s.steps} aria-labelledby="sim-contents">
               {STEPS.map((st, i) => (
                 <li key={st.id}><a href={`#${st.id}`}><span>{pad(i)}</span>{st.title}</a></li>
               ))}
@@ -133,7 +134,7 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
           </div>
           <div className={s.heroShotWrap}>
             <Figure caption="Petrel Reservoir Simulation · 공사 보유 Oil Field 실습">
-            <Image src="/images/technology/engineering/re-sim-petrel.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프" width={1910} height={980} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
+            <Image src="/images/technology/engineering/re-sim-petrel-public.webp" alt="Petrel 시뮬레이션 화면: 왼쪽은 저류층 모델의 3D 압력 분포, 오른쪽은 유정의 압력·액체·오일·물 생산 이력 그래프 (모델명·유정명·수치 눈금은 가림 처리)" width={1506} height={798} sizes="(max-width: 899px) 100vw, 1100px" priority className={s.heroShot} />
           </Figure>
           </div>
         </div>
