@@ -69,8 +69,6 @@
 .miniBlue{stroke:var(--ex-blue)}
 .miniFill{stroke:none;fill:var(--ex-tint) !important}
 .miniDot{stroke:none;fill:var(--ex-blue) !important}
-/* What Changed: a slightly stronger title only */
-.lessons li:nth-child(2) b{font-weight:600}
 /* Section 05 closes the page: a little more room below the three items */
 .secOutcome{padding-bottom:104px}
 .lessonLabel{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-blue)}

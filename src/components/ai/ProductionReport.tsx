@@ -71,8 +71,8 @@ const STEPS: [string, string, string][] = [
   ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다. 저장 전에는 항상 backup 폴더에 자동 백업합니다."],
 ];
 
-/* ── 05 Outcome: where it started, what changed, what it taught about using AI ── */
-/** Mini line illustrations for the three 05 items — one style: 96×72 viewBox, 1.6 px strokes, blue + light blue-grey */
+/* ── 05 Outcome: repetitive work improved → built together with the people who use it → a team-level contribution ── */
+/** Mini line illustrations for the three 05 items — one style: 96×72 viewBox, blue + light blue-grey */
 const MINI: ReactNode[] = [
   // 01 a report page → an arrow → spreadsheet cells
   <>
@@ -84,27 +84,27 @@ const MINI: ReactNode[] = [
     <path d="M60 26h28M60 36h28M69.3 16v30M78.6 16v30" className={p.miniLine} />
     <rect x="69.3" y="26" width="9.3" height="10" className={p.miniFill} />
   </>,
-  // 02 a small trend chart with a check: analysed and verified
-  <>
-    <path d="M12 14v38h56" className={p.miniLine} />
-    <path d="M18 44l11-9 9 5 11-12 9 4" className={p.miniBlue} />
-    <circle cx="29" cy="35" r="1.8" className={p.miniDot} /><circle cx="49" cy="28" r="1.8" className={p.miniDot} />
-    <circle cx="76" cy="22" r="12.5" className={p.miniSoft} />
-    <path d="M70.5 22.5l4 4 7-7.5" className={p.miniBlue} />
-  </>,
-  // 03 a shield with a padlock
-  <g key="shield">
-    <path d="M48 8l22 8v16c0 14-9.5 24-22 30-12.5-6-22-16-22-30V16z" className={p.miniSoft} />
-    <path d="M42 34v-5a6 6 0 0 1 12 0v5" className={p.miniBlue} />
-    <rect x="38.5" y="34" width="19" height="14" rx="2" className={p.miniBlue} />
-    <path d="M48 39.5v3.5" className={p.miniBlue} />
+  // 02 two speech bubbles in conversation
+  <g key="talk">
+    <path d="M14 12h38a4 4 0 0 1 4 4v18a4 4 0 0 1-4 4H30l-9 8v-8h-7a4 4 0 0 1-4-4V16a4 4 0 0 1 4-4z" className={p.miniSoft} />
+    <path d="M20 22h26M20 29h17" className={p.miniLine} />
+    <path d="M46 30h36a4 4 0 0 1 4 4v16a4 4 0 0 1-4 4h-6v8l-9-8H46a4 4 0 0 1-4-4V34a4 4 0 0 1 4-4z" className={p.miniSoft} />
+    <path d="M52 40h26M52 47h16" className={p.miniBlue} />
+  </g>,
+  // 03 a report document with a check
+  <g key="report">
+    <path d="M28 8h28l10 10v46H28z" className={p.miniSoft} />
+    <path d="M56 8v10h10" className={p.miniLine} />
+    <path d="M35 24h16M35 31h24M35 38h24M35 45h12" className={p.miniLine} />
+    <circle cx="64" cy="54" r="11" className={p.miniSoft} />
+    <path d="M59 54.5l3.5 3.5 6.5-7" className={p.miniBlue} />
   </g>,
 ];
 
 const LESSONS: [string, string, string][] = [
-  ["Starting Point", "반복 업무를 줄이자", "매일 반복되는 ODR 수기 입력 업무를 자동화하는 것이 처음 목표였습니다."],
-  ["What Changed", "실제로 활용할 수 있게 만들자", "데이터 검증, 기존 업무 흐름, 실무자 피드백까지 고려하며 프로그램을 개선했습니다."],
-  ["Responsible AI", "정보보호를 고려한 AI 활용", "AI를 활용한 개발 과정에서 내부정보의 노출 위험을 인식하고, 제공하는 정보를 최소화하는 중요성을 배웠습니다."],
+  ["Problem Solving", "반복 업무의 개선", "매일 반복되는 생산일보 수기 입력 업무를 자동화하고, 데이터 검증과 분석 기능까지 구현했습니다."],
+  ["Communication & Collaboration", "소통을 통한 발전", "실무자 및 사업부서의 의견을 반영하며, 실제 업무에 필요한 기능을 함께 고민하고 개선했습니다."],
+  ["Organizational Contribution", "조직의 업무개선에 기여", "담당 유전의 생산일보 자동화 프로그램이 팀 차원의 AI 활용 업무개선 사례 중 하나로, 2026년 경영실적보고서에 반영될 예정입니다."],
 ];
 
 export function ProductionReport() {
@@ -168,7 +168,7 @@ export function ProductionReport() {
 
       <section id="outcome" className={cx(p.sec, p.white, p.secOutcome)} data-section="outcome">
         <div className={p.inner}>
-          <Head num="05" label="Outcome & Reflection" title="Beyond Automation.">기술 구현에서 실무 문제 해결로</Head>
+          <Head num="05" label="Outcome & Reflection" title="Beyond Automation.">업무자동화를 넘어, 협업과 조직 기여로</Head>
           <ol className={p.lessons}>
             {LESSONS.map(([label, title, d], i) => (
               <li key={label} data-reveal="up" style={{ "--i": i } as CSSProperties}>
