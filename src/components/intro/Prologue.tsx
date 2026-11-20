@@ -5,23 +5,23 @@ import s from "./Prologue.module.css";
 
 /**
  * Presenter-driven self-introduction shown after the v2 intro reel on /presentation, before the Hero.
- * Step 0 shows the title and presenter; each Space / → reveals the next card (← steps back). After the third
- * card the "Why I built this" message and EXPLORE THE WEBSITE appear — the Hero opens only from that button,
+ * Cards follow the opening script: 01 major → 02 motivation → 03 internship growth. Step 0 shows the title and presenter; each Space / → reveals the next card (← steps back). After the third
+ * card the "My Internship Journey" message and EXPLORE MY JOURNEY appear — the Hero opens only from that button,
  * never from another key press. Rendered as ShowReelV2's "prologue" phase (page scroll stays locked).
  */
 
 const STAGES = [
   {
-    num: "01", key: "Background", ko: "전공에서 배운 지식", en: "Earth Resources System Engineering", sub: "세종대학교 지구자원시스템공학 전공",
-    body: "전공 지식이 실제 산업에서 어떻게 활용되는지 경험하고자 한국석유공사에 지원",
+    num: "01", key: "Background", ko: "전공 배경", en: "Earth Resources System Engineering", sub: "세종대학교 지구자원시스템공학 전공",
+    body: "지질과 지하자원에 관한 다양한 전공 지식 습득",
   },
   {
-    num: "02", key: "Experience", ko: "현장에서 경험한 협업", en: "Multidisciplinary Collaboration", sub: "Geology · Geophysics · Reservoir Engineering",
-    body: "교육과 회의 참석을 통해 석유개발이 다양한 기술 분야의 협업으로 이루어진다는 점을 이해",
+    num: "02", key: "Motivation", ko: "지원동기", en: "From Theory to Practice", sub: "Academic Knowledge → Industry Field",
+    body: "전공 지식이 실제 산업 현장에서 어떻게 활용되는지 직접 경험하고자 한국석유공사에 지원",
   },
   {
-    num: "03", key: "Outcome", ko: "배움을 디지털 결과물로", en: "Digital Knowledge Portal", sub: "Oil & Gas Development Website",
-    body: "인턴 기간에 학습한 석유개발 기술을 체계적으로 정리하고 AI를 활용해 홈페이지를 제작",
+    num: "03", key: "Growth", ko: "인턴십 경험", en: "Learning & Growth", sub: "KNOC Internship",
+    body: "다양한 교육과 경험을 통해 석유개발에 대한 이해를 넓히고 한 단계 성장",
   },
 ];
 const LAST = STAGES.length;
@@ -38,38 +38,40 @@ function Strata() {
   );
 }
 
-function Disciplines() {
+/** An open book (academic knowledge) → a drilling rig on the ground line (the industry field) */
+function TheoryToPractice() {
   return (
     <svg viewBox="0 0 120 64" className={s.glyph} aria-hidden>
-      <circle cx="44" cy="26" r="20" className={s.ring} />
-      <circle cx="76" cy="26" r="20" className={s.ring} />
-      <circle cx="60" cy="44" r="20" className={s.ringBlue} />
-      <text x="34" y="24" className={s.ringText}>G</text>
-      <text x="80" y="24" className={s.ringText}>GP</text>
-      <text x="54" y="54" className={s.ringTextBlue}>RE</text>
+      <path d="M24,18 C18,14 10,14 4,16 V44 C10,42 18,42 24,46 C30,42 38,42 44,44 V16 C38,14 30,14 24,18 Z" className={s.lineSoft} />
+      <path d="M24,18 V46 M9,23 H19 M9,29 H19 M9,35 H17 M29,23 H39 M29,29 H39 M29,35 H37" className={s.line} />
+      <path d="M52,31 H70" className={s.lineBlueDash} />
+      <path d="M67,27 L71,31 L67,35" className={s.lineBlue} />
+      <path d="M78,50 H118" className={s.line} />
+      <path d="M89,50 L98,8 L107,50 M92,36 H104 M94.5,24 H101.5 M92,36 L104,50 M104,36 L92,50" className={s.lineNavy} />
+      <circle cx="98" cy="8" r="2.4" className={s.dotBlue} />
+      <text x="24" y="60" className={s.glyphText} textAnchor="middle">Academic</text>
+      <text x="98" y="60" className={s.glyphTextBlue} textAnchor="middle">Industry</text>
     </svg>
   );
 }
 
-/** A small browser window showing the homepage hero */
-function MiniSite() {
+/** Rising steps: education and experience building up through the internship */
+function Growth() {
   return (
-    <div className={s.browser} aria-hidden>
-      <div className={s.browserBar}>
-        <i /><i /><i />
-        <span className={s.url}>homepage-sukyung.vercel.app</span>
-      </div>
-      <div className={s.browserView}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/hero-surface.webp" alt="" className={s.browserImg} />
-        <span className={s.browserNav}><b>Oil &amp; Gas</b> Development</span>
-        <span className={s.browserTitle}>Oil &amp; Gas<br />Development</span>
-      </div>
-    </div>
+    <svg viewBox="0 0 120 64" className={s.glyph} aria-hidden>
+      <path d="M4,56 H116" className={s.line} />
+      <path d="M10,56 V48 H34 V38 H58 V28 H82 V18 H106" className={s.lineNavy} />
+      <path d="M82,18 H106" className={s.lineBlue} />
+      <circle cx="10" cy="48" r="2.4" className={s.dotNavy} />
+      <circle cx="34" cy="38" r="2.4" className={s.dotNavy} />
+      <circle cx="58" cy="28" r="2.4" className={s.dotNavy} />
+      <circle cx="82" cy="18" r="2.4" className={s.dotNavy} />
+      <path d="M106,18 V4 M101,9 L106,4 L111,9" className={s.lineBlue} />
+    </svg>
   );
 }
 
-const VISUALS = [<Strata key="a" />, <Disciplines key="b" />, <MiniSite key="c" />];
+const VISUALS = [<Strata key="a" />, <TheoryToPractice key="b" />, <Growth key="c" />];
 
 export function Prologue({ onBegin }: { onBegin: () => void }) {
   const [step, setStep] = useState(0);
@@ -140,14 +142,14 @@ export function Prologue({ onBegin }: { onBegin: () => void }) {
 
         <footer className={s.foot}>
           <div className={s.why} data-shown={done || undefined} aria-hidden={!done}>
-            <span className={s.kickerBlue}>Why I built this</span>
-            <p className={s.whyTitle}>Turning What I Learned Into Something I Can Share.</p>
-            <p className={s.whyBody}>석유개발의 전반적인 과정과 주요 기술에 대한 배움을 체계적으로 정리하고, AI를 활용해 직관적인 기술 지식 홈페이지로 구현했습니다.</p>
+            <span className={s.kickerBlue}>My Internship Journey</span>
+            <p className={s.whyTitle}>From Learning to Experience.</p>
+            <p className={s.whyBody}>전공에서 시작해 석유개발 현장에서 배우고 경험한 과정을 소개합니다.</p>
           </div>
           <div className={s.actions}>
             {done ? (
               <button type="button" className={s.begin} onClick={begin}>
-                Explore the Website <ArrowRight size={16} aria-hidden />
+                Explore My Journey <ArrowRight size={16} aria-hidden />
               </button>
             ) : (
               <span className={s.beginSlot} aria-hidden />
