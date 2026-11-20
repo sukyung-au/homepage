@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowLeft, ArrowRight, BookOpen, ChevronDown, Laptop, Users } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronDown, Laptop, Network, Users } from "lucide-react";
 import s from "./TechIntro.module.css";
 
 /**
@@ -25,7 +25,7 @@ const ENDS: Record<string, [number, number]> = { tl: [35.5, 30], tr: [64.5, 30],
 
 const STEPS = [
   { title: "Expert Mentoring", desc: "각 분야 전문가분들의 실무 중심 교육", Icon: Users },
-  { title: "Knowledge Structuring", desc: "배운 내용을 체계적으로 정리 · 연계", Icon: BookOpen },
+  { title: "Connecting the Knowledge", desc: "석유개발 과정에서 각 기술의 연계성 이해", Icon: Network },
   { title: "Digital Knowledge Portal", desc: "석유개발 기술 지식 포털 구축", Icon: Laptop },
 ];
 
