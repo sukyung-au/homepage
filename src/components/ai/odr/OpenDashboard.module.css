@@ -1,0 +1,18 @@
+/* Section 02 → 03 bridge (OpenDashboard.tsx). The capture's own button is the control; a light outline shows it. */
+.bridge{margin:24px 0 0;display:flex;flex-direction:column;gap:14px}
+.frame{position:relative;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-float)}
+.frame img{display:block;width:100%;height:auto}
+.hit{all:unset;position:absolute;cursor:pointer;border-radius:6px;box-shadow:0 0 0 2px rgba(10,92,219,0.55);transition:box-shadow .2s,background-color .15s}
+.hit:hover{box-shadow:0 0 0 3px var(--ex-blue);background:rgba(10,92,219,0.05)}
+.hit:focus-visible{box-shadow:0 0 0 3px var(--focus-ring)}
+.pressed{background:rgba(10,92,219,0.14)}
+.text{display:flex;flex-direction:column;gap:4px}
+.kicker{font-family:var(--font-editorial);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--ex-blue)}
+.lead{font-family:var(--font-kr);font-size:15px;line-height:1.6;color:var(--ex-navy);word-break:keep-all}
+.hint{font-family:var(--font-kr);font-size:13px;color:var(--ex-faint)}
+
+/* Arrival in 03: the dashboard settles in once */
+@keyframes arrive{from{opacity:.35;transform:translateY(12px)}to{opacity:1;transform:none}}
+:global(#dashboard[data-arrive] [data-odr-dash]){animation:arrive .5s var(--ease-standard)}
+@media (prefers-reduced-motion:reduce){.hit{transition:none}:global(#dashboard[data-arrive] [data-odr-dash]){animation:none}}
+

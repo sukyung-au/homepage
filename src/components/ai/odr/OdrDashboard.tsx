@@ -316,7 +316,7 @@ export function OdrDashboard() {
   const pick = (i: number) => { setStatusI(i); setPicked(true); };
 
   return (
-    <div className={s.dash}>
+    <div className={s.dash} data-odr-dash>
       <div className={s.tabs} role="tablist" aria-label="ODR Dashboard">
         {TABS.map(([k, l]) => (
           <button key={k} type="button" role="tab" id={`odr-tab-${k}`} aria-selected={tab === k} aria-controls={`odr-panel-${k}`}

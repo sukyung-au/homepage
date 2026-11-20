@@ -5,6 +5,7 @@ import { sceneStyles as ss } from "@/components/site/scene";
 import { RevealScope } from "@/components/technology/RevealScope";
 import { FeedbackStory } from "./odr/FeedbackStory";
 import { OdrDashboard } from "./odr/OdrDashboard";
+import { OpenDashboard } from "./odr/OpenDashboard";
 import p from "./ProductionReport.module.css";
 
 /**
@@ -142,12 +143,7 @@ export function ProductionReport() {
                   <li key={n} data-reveal="up" style={{ "--i": i } as CSSProperties}><span className={p.stepNum}>{n}</span><b>{t}</b><span>{d}</span></li>
                 ))}
               </ol>
-              <figure className={p.mini} data-reveal="up" style={{ "--i": 3 } as CSSProperties}>
-                <div className={p.shotFrame} style={{ aspectRatio: "1100 / 400" }}>
-                  <ImageSlot id="odr-gui-dashboard" src="/images/ai/production-report/odr-gui-dashboard-tab.webp" alt="ODR 자동 집계 프로그램의 대시보드 탭: 대시보드 열기(브라우저) 버튼" placeholder="대시보드 탭" sizes="(max-width: 899px) 100vw, 30vw" />
-                </div>
-                <figcaption>프로그램의 대시보드 탭 → 버튼 하나로 브라우저 대시보드 열기</figcaption>
-              </figure>
+              <OpenDashboard style={{ "--i": 3 } as CSSProperties} />
             </div>
           </div>
           <p className={p.facts} data-reveal="up">기존 Excel 양식 유지 · 체크한 날짜만 저장 · 저장 전 자동 백업 · Python 설치 없이 실행되는 Windows EXE</p>
