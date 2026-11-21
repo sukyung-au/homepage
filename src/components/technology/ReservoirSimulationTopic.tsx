@@ -95,7 +95,7 @@ const STEPS: Step[] = [
 
 const pad = (i: number) => String(i + 1).padStart(2, "0");
 
-/** Hero concept: fluid flow & pressure → production forecast → scenario review (three line drawings, one style) */
+/** Hero concept: fluid flow & pressure → production forecast → development planning (three line drawings, one style) */
 const CONCEPT: [string, ReactNode][] = [
   ["유체 흐름·압력 변화", (
     <g key="flow">
@@ -116,7 +116,7 @@ const CONCEPT: [string, ReactNode][] = [
       <path d="M62 10V70" className={s.cNow} />
     </g>
   )],
-  ["개발 시나리오 검토", (
+  ["개발 계획 수립", (
     <g key="cases">
       <path d="M14 8V70H114" className={s.cAxis} />
       <path d="M18 52C28 44 38 40 50 40" className={s.cHist} />
@@ -130,7 +130,7 @@ const CONCEPT: [string, ReactNode][] = [
 
 function ConceptFlow() {
   return (
-    <ol className={s.concept} aria-label="저류층 시뮬레이션: 유체 흐름·압력 변화, 생산량 예측, 개발 시나리오 검토">
+    <ol className={s.concept} aria-label="저류층 시뮬레이션: 유체 흐름·압력 변화, 생산량 예측, 개발 계획 수립">
       {CONCEPT.map(([ko, art], i) => (
         <li key={ko} className={s.conceptItem}>
           {i > 0 && <span className={s.conceptArrow} aria-hidden />}
