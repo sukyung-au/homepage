@@ -33,7 +33,7 @@ function Head({ num, label, title, children, aside }: { num: string; label: stri
 
 /* ── 01 Problem: concept graphic (no figures) ── */
 const PAINS: [string, string][] = [
-  ["반복 입력", "매일 같은 항목(약 160개)을 PDF에서 찾아 Excel에 옮겨 적는 작업"],
+  ["반복 입력", "매일 같은 항목(약 160개)을 PDF에서 찾아 수기로 Excel에 입력하는 반복 작업"],
   ["오류·누락 가능성", "손으로 옮기는 과정에서 생기는 오타와 빠진 값"],
   ["추세 확인의 번거로움", "날짜별 변화를 보려면 표를 따로 정리해 그래프를 만들어야 함"],
 ];
@@ -113,7 +113,7 @@ export function ProductionReport() {
       <section id="problem" className={cx(p.sec, p.white)} data-section="problem">
         <div className={p.inner}>
           <Head num="01" label="The Problem" title="Every Field. Every Day." />
-          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 해외 유전 현장에서 생산·주입·운영 현황을 기록하는 보고서</p>
+          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 해외 유전 현장에서 매일 생산·주입·운영 현황을 기록하는 보고서</p>
           <ProblemGraphic />
           <p className={p.maskNote}>실제 문서 양식 · 수치와 날짜는 실제 데이터와 무관한 예시 데이터(Illustrative Data)</p>
           <ol className={p.pains}>
