@@ -27,7 +27,8 @@ export default function BeyondTheField() {
                   <div className={s.storyText}>
                     <Eyebrow num={num} />
                     <h2 id={`${ch.id}-title`} className={s.storyTitle}>{ch.title}</h2>
-                    {ch.story?.length ? ch.story.map((p, j) => <p key={j} className={ss.body} style={{ margin: 0 }}>{p}</p>) : <span className={s.soon} style={{ alignSelf: "flex-start" }}>Coming soon</span>}
+                    {ch.sub && <p className={s.storySub}>{ch.sub}</p>}
+                    {ch.story?.map((p, j) => <p key={j} className={ss.body} style={{ margin: 0 }}>{p}</p>)}
                   </div>
                   <div className={s.photos}>
                     {Array.from({ length: Math.max(BEYOND_PHOTO_SLOTS, ch.photos?.length ?? 0) }, (_, j) => {

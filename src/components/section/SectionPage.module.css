@@ -35,6 +35,7 @@ a.row:hover .title{color:var(--ex-blue)}
 .story{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px 64px;padding:56px 0;border-bottom:1px solid var(--ex-line);scroll-margin-top:24px}
 .storyText{display:flex;flex-direction:column;gap:20px}
 .storyTitle{margin:0;font-family:var(--font-editorial);font-size:var(--type-editorial-md);font-weight:300;line-height:1.05;letter-spacing:-0.02em;color:var(--ex-navy)}
+.storySub{margin:-6px 0 0;font-family:var(--font-kr);font-size:17px;line-height:1.6;color:var(--ex-muted)}
 .photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
 .photo{position:relative;aspect-ratio:4 / 3;border-radius:4px;overflow:hidden}
 
