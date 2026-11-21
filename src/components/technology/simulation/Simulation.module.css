@@ -1,7 +1,7 @@
 /* Topic 3.2 — Reservoir Simulation. Same editorial system as 3.1: bright page, navy type, blue as the point colour. */
 
 /* Hero */
-.hero{max-width:1360px;margin:40px auto 0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px 72px;align-items:center}
+.hero{max-width:1360px;margin:40px auto 0;display:grid;grid-template-columns:minmax(0,4.7fr) minmax(0,7.3fr);gap:48px;align-items:center}
 .heroText{display:flex;flex-direction:column;padding-top:24px}
 .h1{margin:28px 0 0;font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:0.98;letter-spacing:-0.02em;color:var(--ex-navy);text-wrap:balance}
 .sub{margin:24px 0 0;font-family:var(--font-editorial);font-size:clamp(18px,1.6vw,22px);font-weight:400;line-height:1.35;letter-spacing:-0.01em;color:var(--ex-blue)}
@@ -20,7 +20,7 @@
 .heroIso{width:100%;height:auto}
 .heroShot{display:block;width:100%;height:auto;border-radius:6px;box-shadow:var(--shadow-float)}
 /* Hero capture: on wide screens it extends into the right page margin, up to the header's right edge (the text column keeps its place) */
-@media (min-width:900px){.heroShotWrap{margin-right:min(0px,calc((1360px - 100vw) / 2 + var(--gutter-page)))}}
+@media (min-width:900px){.heroShotWrap{margin-right:min(0px,calc((1360px - 100vw) / 2 + var(--gutter-page) / 2))}}
 
 /* Steps — text left, figure right */
 .stepSection{scroll-margin-top:16px}

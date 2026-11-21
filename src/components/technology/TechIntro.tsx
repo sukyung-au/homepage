@@ -62,7 +62,7 @@ export function TechIntro({ next }: { next: string }) {
             <span>Different Expertise.</span>
             <span>One <em>Development Goal.</em></span>
           </h2>
-          <p className={s.sub}>석유개발은 지질, 지구물리, 저류공학, 시설 등 다양한 전문 분야의 유기적인 협업을 통해 이루어집니다.</p>
+          <p className={s.sub}>석유개발은 지질, 지구물리, 저류공학, 시설 등 다양한 전문 분야의 유기적인 협업을 통해 이루어짐</p>
         </header>
 
         <div className={s.body}>

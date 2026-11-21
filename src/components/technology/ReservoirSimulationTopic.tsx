@@ -109,9 +109,8 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
               <span className={ss.eyebrowNum}>· {topic.num}</span>
             </div>
             <h1 className={s.h1}>{topic.title}</h1>
-            {topic.sub && <p className={s.sub}>{topic.sub}</p>}
             <p className={`${ss.body} ${s.lede}`}>
-              저류층 시뮬레이션은 지하 유체의 흐름과 압력 변화를 모사하여 향후 생산량을 예측하고, 다양한 개발 시나리오를 검토하는 데 활용됩니다.
+              저류층 시뮬레이션은 지하 유체의 흐름과 압력 변화를 모사하여<br className="br-d" /> 향후 생산량을 예측하고 다양한 개발 시나리오를 검토하는 데 활용
             </p>
             <div className={s.handsOn}>
               <p className={s.handsOnLabel}>Hands-on Experience</p>

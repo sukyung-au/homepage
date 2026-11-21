@@ -21,19 +21,19 @@ import p from "./ProductionReport.module.css";
 
 const cx = (...c: (string | false | undefined)[]) => c.filter(Boolean).join(" ");
 
-function Head({ num, label, title, children, aside }: { num: string; label: string; title: string; children: ReactNode; aside?: ReactNode }) {
+function Head({ num, label, title, children, aside }: { num: string; label: string; title: string; children?: ReactNode; aside?: ReactNode }) {
   return (
     <div className={p.head} data-reveal="up">
       <div className={ss.eyebrow}><span>{num}</span><span className={ss.eyebrowRule} /><span className={ss.eyebrowLabel}>{label}</span>{aside}</div>
       <h2 className={p.h2}>{title}</h2>
-      <p className={p.sub}>{children}</p>
+      {children && <p className={p.sub}>{children}</p>}
     </div>
   );
 }
 
 /* ── 01 Problem: concept graphic (no figures) ── */
 const PAINS: [string, string][] = [
-  ["반복 입력", "매일 같은 항목을 PDF에서 찾아 Excel에 옮겨 적는 작업"],
+  ["반복 입력", "매일 같은 항목(약 160개)을 PDF에서 찾아 Excel에 옮겨 적는 작업"],
   ["오류·누락 가능성", "손으로 옮기는 과정에서 생기는 오타와 빠진 값"],
   ["추세 확인의 번거로움", "날짜별 변화를 보려면 표를 따로 정리해 그래프를 만들어야 함"],
 ];
@@ -66,9 +66,9 @@ function ProblemGraphic() {
 
 /* ── 02 Solution ── */
 const STEPS: [string, string, string][] = [
-  ["01", "PDF 확인", "ODR 폴더를 지정하면 날짜별 PDF를 읽고, 저장할 날짜와 확인이 필요한 날짜를 나눠 보여 줍니다."],
-  ["02", "Data Validation", "항목마다 PDF 원문과 입력값을 나란히 놓고, 미추출 · 수동 입력 · 수정한 값을 색으로 구분합니다."],
-  ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다. 저장 전에는 항상 backup 폴더에 자동 백업합니다."],
+  ["01", "PDF 확인", "ODR 폴더를 지정하면 날짜별 PDF를 읽고 저장할 날짜와 확인이 필요한 날짜를 나눠 보여 줍니다."],
+  ["02", "Data Validation", "항목마다 PDF 원문과 입력값을 나란히 놓고 미추출 · 수동 입력 · 수정한 값을 색으로 구분합니다."],
+  ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다."],
 ];
 
 /* ── 05 Outcome: repetitive work improved → built together with the people who use it → a team-level contribution ── */
@@ -101,10 +101,10 @@ const MINI: ReactNode[] = [
   </g>,
 ];
 
-const LESSONS: [string, string, string][] = [
-  ["Problem Solving", "반복 업무의 개선", "매일 반복되는 생산일보 수기 입력 업무를 자동화하고, 데이터 검증과 분석 기능까지 구현했습니다."],
-  ["Communication & Collaboration", "소통을 통한 발전", "실무자 및 사업부서의 의견을 반영하며, 실제 업무에 필요한 기능을 함께 고민하고 개선했습니다."],
-  ["Organizational Contribution", "조직의 업무개선에 기여", "담당 유전의 생산일보 자동화 프로그램이 팀 차원의 AI 활용 업무개선 사례 중 하나로, 2026년 경영실적보고서에 반영될 예정입니다."],
+const LESSONS: [string, string, ReactNode][] = [
+  ["Problem Solving", "반복 업무의 개선", <>매일 반복되는 생산일보 수기 입력 업무를 자동화하고<br className="br-d" /> 데이터 검증과 분석 기능까지 구현</>],
+  ["Communication & Collaboration", "소통을 통한 발전", <>실무자 및 사업부서의 의견을 반영하며 실제 업무에 필요한 기능을<br className="br-d" /> 함께 고민하고 개선</>],
+  ["Organizational Contribution", "조직의 업무개선에 기여", <>담당 유전의 생산일보 자동화 프로그램이 팀 차원의 AI 활용 업무개선<br className="br-d" /> 사례 중 하나로 2026년 경영실적보고서에 반영될 예정</>],
 ];
 
 export function ProductionReport() {
@@ -112,8 +112,8 @@ export function ProductionReport() {
     <RevealScope className={p.motion}>
       <section id="problem" className={cx(p.sec, p.white)} data-section="problem">
         <div className={p.inner}>
-          <Head num="01" label="The Problem" title="Every Field. Every Day.">반복적인 ODR 수기 집계 업무에서 발견한 문제</Head>
-          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 유전의 생산·주입·운영 데이터를 기록한 문서입니다. 기존에는 이 보고서의 데이터를 매일 Excel 집계표에 직접 입력해야 했습니다.</p>
+          <Head num="01" label="The Problem" title="Every Field. Every Day." />
+          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 해외 유전 현장에서 생산·주입·운영 현황을 기록하는 보고서</p>
           <ProblemGraphic />
           <p className={p.maskNote}>실제 문서 양식 · 수치와 날짜는 실제 데이터와 무관한 예시 데이터(Illustrative Data)</p>
           <ol className={p.pains}>
@@ -146,7 +146,7 @@ export function ProductionReport() {
               <OpenDashboard style={{ "--i": 3 } as CSSProperties} />
             </div>
           </div>
-          <p className={p.facts} data-reveal="up">기존 Excel 양식 유지 · 체크한 날짜만 저장 · 저장 전 자동 백업 · Python 설치 없이 실행되는 Windows EXE</p>
+          <p className={p.facts} data-reveal="up">Python 설치 없이 실행되는 Windows EXE</p>
         </div>
       </section>
 

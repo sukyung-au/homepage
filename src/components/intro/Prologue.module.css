@@ -52,10 +52,6 @@
 
 /* Foot: why + begin */
 .foot{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 48px;align-items:end;padding-top:clamp(14px,2.4vh,24px);border-top:1px solid var(--ex-line)}
-.why{display:flex;flex-direction:column;gap:6px;opacity:0;transform:translateY(10px);transition:opacity .8s var(--ease) .45s,transform .8s var(--ease) .45s}
-.why[data-shown]{opacity:1;transform:translateY(-28px)}
-.whyTitle{margin:0;font-size:clamp(20px,3.4vh,34px);font-weight:300;letter-spacing:-0.015em;line-height:1.15;color:var(--ex-navy)}
-.whyBody{margin:0;max-width:900px;font-family:var(--font-kr);font-size:clamp(13px,1.8vh,15px);line-height:1.6;color:var(--ex-muted)}
 .actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
 .begin{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 24px;border-radius:999px;background:var(--ex-blue);color:#fff;font-size:13px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;box-shadow:0 8px 24px rgba(10,92,219,0.25);animation:beginIn .6s var(--ease) .9s both}
 .begin:hover{background:var(--ex-blue-deep)}
@@ -85,5 +81,5 @@
   .keys{white-space:normal}
 }
 @media (prefers-reduced-motion:reduce){
-  .prologue,.stage,.link,.why,.begin{transition:none;animation:none}
+  .prologue,.stage,.link,.begin{transition:none;animation:none}
 }

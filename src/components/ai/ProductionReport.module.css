@@ -10,7 +10,7 @@
 .sub{margin:0;font-family:var(--font-kr);font-size:16px;line-height:1.6;color:var(--ex-muted)}
 
 /* ── 01 Problem: masked ODR and Excel captures joined by the manual-input lane ── */
-.odrNote{margin:-12px 0 36px;max-width:760px;font-family:var(--font-kr);font-size:15px;line-height:1.75;color:var(--ex-muted)}
+.odrNote{margin:-12px 0 36px;max-width:820px;font-family:var(--font-kr);font-size:17px;line-height:1.75;color:var(--ex-muted)}
 .odrNote b{font-family:var(--font-editorial);font-weight:600;color:var(--ex-navy)}
 .flow{display:grid;grid-template-columns:minmax(0,5fr) minmax(120px,1.4fr) minmax(0,5fr);align-items:center;gap:28px}
 .docFig{margin:0}

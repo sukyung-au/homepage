@@ -41,7 +41,7 @@ async function resolve(params: PageProps<"/ai-technology/[topic]">["params"]) {
 
 export async function generateMetadata({ params }: PageProps<"/ai-technology/[topic]">): Promise<Metadata> {
   const { topic } = await resolve(params);
-  return { title: `${topic.title} — AI Technology — Oil & Gas Development`, description: topic.summary };
+  return { title: `${topic.title} — AI Technology — Oil & Gas Development`, description: topic.summary.replace(/\n/g, " ") };
 }
 
 export default async function AiTopicPage({ params }: PageProps<"/ai-technology/[topic]">) {
@@ -57,7 +57,7 @@ export default async function AiTopicPage({ params }: PageProps<"/ai-technology/
             num={pad(i)} label={topic.ko} title={topic.title} sub={topic.sub}
             meta={<><span>Topic {pad(i)} of {String(AI_TOPICS.length).padStart(2, "0")}</span>{!Body && <span className={a.draftTag}>Draft · structure only</span>}</>}
           />
-          <p className={`${ss.body} ${a.lede}`}>{topic.summary}</p>
+          <p className={`${ss.body} ${a.lede}`}>{topic.summary.split("\n").map((line, k) => <span key={k}>{k > 0 && <br className="br-d" />}{line}</span>)}</p>
           <ol className={a.toc} aria-label="Topic outline">
             {topic.sections.map((sec, j) => <li key={sec.id}><a href={`#${sec.id}`}><span>{pad(j)}</span>{sec.title}</a></li>)}
           </ol>

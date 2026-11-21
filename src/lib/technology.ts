@@ -38,7 +38,7 @@ const TECH_DATA: CategoryInput[] = [
   {
     id: "geophysics", label: "Geophysics", ko: "지구물리", landing: "gp-fdp-role",
     topics: [
-      { id: "gp-fdp-role", title: "Role of Reservoir Geophysics", sub: "Imaging the Reservoir Between the Wells", ko: "FDP에서 지구물리의 역할", hasPage: true },
+      { id: "gp-fdp-role", title: "Role of Geophysics", sub: "Imaging the Reservoir Between the Wells", ko: "FDP에서 지구물리의 역할", hasPage: true },
       { id: "gp-fundamentals", title: "Fundamentals of Geophysics", sub: "How Waves Reveal the Subsurface", ko: "지구물리의 기초", hasPage: true },
       { id: "gp-resistivity", title: "Deepwater Resistivity Methods", sub: "CSEM and Resistivity Logging", ko: "심해 비저항 탐사기법", hasPage: true },
     ],

@@ -44,7 +44,7 @@ export function OpenDashboard({ style }: { style?: CSSProperties }) {
       </div>
       <figcaption className={s.text}>
         <span className={s.kicker}>프로그램의 대시보드 탭</span>
-        <span className={s.lead}>버튼 하나로 집계한 데이터를 대시보드에서 바로 확인합니다.</span>
+        <span className={s.lead}>버튼 하나로 집계한 데이터를 대시보드에서 바로 확인 가능</span>
         <span className={s.hint}>‘대시보드 열기’를 눌러 보세요 ↓</span>
       </figcaption>
     </figure>

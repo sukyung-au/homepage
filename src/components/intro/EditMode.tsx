@@ -17,7 +17,7 @@ import s from "./EditMode.module.css";
 interface Override { html?: string; size?: number; x?: number; y?: number; w?: number; h?: number; original: string }
 type Overrides = Record<string, Override>;
 /** One store per page; /presentation keeps its original key so earlier edits still apply */
-const storeKey = (path: string) => (path === "/presentation" ? "presentation-edits-v1" : `site-edits-v1:${path}`);
+const storeKey = (path: string) => (path === "/presentation" ? "presentation-edits-v2" : `site-edits-v2:${path}`);
 
 /** Saved paths start at <main>: elements injected into <body> (e.g. the Vercel preview toolbar) shift body's
  *  children, so older "body > main:nth-child(n)" paths are rewritten on load. */

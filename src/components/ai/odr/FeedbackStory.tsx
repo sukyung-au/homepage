@@ -50,13 +50,12 @@ function SceneA() {
     <div className={f.sceneA}>
       <div className={f.textCol}>
         <p className={f.label}>피드백 요지</p>
-        <p className={f.voice}>여러 지표를 한꺼번에 보기보다, 필요한 지표를 골라 크게 보고 싶다.</p>
+        <p className={f.voice}>여러 지표를 한꺼번에 보기보다<br className="br-d" /> 필요한 지표를 골라 크게 보고 싶다.</p>
         <p className={f.label}>바뀐 점</p>
         <ul className={f.points}>
           <li>선택한 지표 하나를 큰 그래프로</li>
           <li>기간 선택 (7일 ~ 전체)</li>
           <li>툴팁으로 날짜별 수치 확인</li>
-          <li>한 화면에 담는 정보의 양을 줄임</li>
         </ul>
       </div>
       <div className={f.ba}>
@@ -86,7 +85,7 @@ function SceneB() {
   const overlay = B_LINES, total = B_TOTAL;
   return (
     <div className={f.sceneB}>
-      <p className={f.question}>여러 Well의 추세를, 목적에 맞게 비교할 수 있을까?</p>
+      <p className={f.question}>여러 Well의 추세를 목적에 맞게 비교할 수 있을까?</p>
       <div className={f.modes}>
         <figure>
           <figcaption><b>Split</b><span>Well별 개별 그래프</span></figcaption>
@@ -229,7 +228,6 @@ export function FeedbackStory({ head }: { head: ReactNode }) {
                   <span className={f.navSub}>{st.kicker}</span>
                 </button>
               ))}
-              <p className={f.legend}><span className={f.status}>구현</span> 현재 프로그램 코드에 반영된 기능입니다. 사업부서 검증 완료를 뜻하지는 않습니다.</p>
             </nav>
             <div className={f.scenes}>
               {SCENES.map((Scene, k) => (

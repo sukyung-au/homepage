@@ -6,7 +6,7 @@ import s from "./Prologue.module.css";
 /**
  * Presenter-driven self-introduction shown after the v2 intro reel on /presentation, before the Hero.
  * Cards follow the opening script: 01 major → 02 motivation → 03 internship growth. Step 0 shows the title and presenter; each Space / → reveals the next card (← steps back). After the third
- * card the "My Internship Journey" message and EXPLORE MY JOURNEY appear — the Hero opens only from that button,
+ * card EXPLORE MY JOURNEY appears — the Hero opens only from that button,
  * never from another key press. Rendered as ShowReelV2's "prologue" phase (page scroll stays locked).
  */
 
@@ -17,11 +17,11 @@ const STAGES = [
   },
   {
     num: "02", key: "Motivation", ko: "지원동기", en: "From Theory to Practice", sub: "Academic Knowledge → Industry Field",
-    body: "전공 지식이 실제 산업 현장에서 어떻게 활용되는지 직접 경험하고자 한국석유공사에 지원",
+    body: <>전공 지식이 실제 산업 현장에서 어떻게 활용되는지<br className="br-d" /> 직접 경험하고자 한국석유공사 인턴 지원</>,
   },
   {
     num: "03", key: "Growth", ko: "인턴십 경험", en: "Learning & Growth", sub: "KNOC Internship",
-    body: "다양한 교육과 경험을 통해 석유개발에 대한 이해를 넓히고 한 단계 성장",
+    body: <>다양한 교육과 경험을 통해 석유개발에 대한 이해를 넓히고<br className="br-d" /> 한 단계 성장</>,
   },
 ];
 const LAST = STAGES.length;
@@ -141,11 +141,7 @@ export function Prologue({ onBegin }: { onBegin: () => void }) {
         </ol>
 
         <footer className={s.foot}>
-          <div className={s.why} data-shown={done || undefined} aria-hidden={!done}>
-            <span className={s.kickerBlue}>My Internship Journey</span>
-            <p className={s.whyTitle}>From Learning to Experience.</p>
-            <p className={s.whyBody}>전공에서 시작해 석유개발 현장에서 배우고 경험한 과정을 소개합니다.</p>
-          </div>
+          <div />
           <div className={s.actions}>
             {done ? (
               <button type="button" className={s.begin} onClick={begin}>

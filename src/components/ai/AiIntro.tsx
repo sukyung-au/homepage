@@ -20,15 +20,15 @@ import s from "./AiIntro.module.css";
 
 type Key = "ppt" | "web" | "odr";
 
-const APPS: { key: Key; num: string; title: string; node: string; nodeDesc: string; desc: string; img: string; imgAlt: string; topic?: string; Icon: typeof Presentation }[] = [
+const APPS: { key: Key; num: string; title: string; node: string; nodeDesc: string; desc: ReactNode; img: string; imgAlt: string; topic?: string; Icon: typeof Presentation }[] = [
   { key: "ppt", num: "01", title: "AI-Powered Presentation", node: "Presentation", nodeDesc: "업무 자료 제작 및 팀 발표", Icon: Presentation,
-    desc: "2027년도 작업계획 및 예산 검토 과정에서 Dana Claymore 유전의 일반현황을 정리하고, Claude를 활용해 HTML 기반 발표자료를 제작하여 팀 내 발표 진행",
+    desc: <>2027년도 작업계획 및 예산 검토 과정에서<br className="br-d" /> Dana Claymore 유전의 일반현황을 정리하여<br className="br-d" /> HTML 기반 발표자료를 제작</>,
     img: "/images/ai/intro/presentation.webp", imgAlt: "Claymore 유전 일반현황 HTML 발표자료 표지", topic: "ai-presentation" },
   { key: "web", num: "02", title: "Digital Knowledge Portal", node: "Website", nodeDesc: "기술 지식 포털 구축", Icon: Laptop,
-    desc: "인턴십에서 교육받은 석유개발 기술을 체계적으로 정리하고 공유할 수 있도록 AI 기반 바이브 코딩으로 홈페이지 구축",
+    desc: "인턴십에서 교육받은 석유개발 기술을 체계적으로 정리하여 홈페이지 구축",
     img: "/images/ai/intro/website.webp", imgAlt: "이 홈페이지의 Petroleum Technology 첫 화면", topic: "vibe-coding" },
   { key: "odr", num: "03", title: "ODR Automation", node: "ODR Automation", nodeDesc: "생산일보 자동화 및 대시보드 구축", Icon: ChartColumn,
-    desc: "Oil Daily Report의 데이터 집계 과정을 자동화하고, 생산 현황을 시각적으로 확인할 수 있는 대시보드 구축",
+    desc: "Oil Daily Report의 데이터 집계 과정을 자동화하고 생산 현황을 시각적으로 확인할 수 있는 대시보드 구축",
     img: "/images/ai/intro/odr-dashboard.webp", imgAlt: "ODR 대시보드 데모 화면 (가상 데이터)", topic: "production-report" },
 ];
 
@@ -105,7 +105,7 @@ export function AiIntro() {
           <div className={s.left}>
             <header className={s.head}>
               <h2 id="ai-intro-title" className={s.title}><span>Applying AI</span><span>Across the <em>Work Process.</em></span></h2>
-              <p className={s.sub}>생성형 AI를 활용해 업무를 더 효과적으로, 더 체계적으로, 더 효율적으로 수행한 경험</p>
+              <p className={s.sub}>생성형 AI를 활용해 업무를 효율적으로 수행한 경험</p>
             </header>
 
             <div className={s.diagram} role="group" aria-label="AI를 중심으로 연결된 세 가지 활용 분야: Presentation, Website, ODR Automation">

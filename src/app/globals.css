@@ -22,3 +22,5 @@ button{font:inherit}
 :focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* A line break kept on wide screens only (phones wrap the text naturally) */
+@media (max-width:899px){br.br-d{display:none}}
