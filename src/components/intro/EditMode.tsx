@@ -118,8 +118,10 @@ export function EditMode() {
         if (tr && el.style.translate !== tr) el.style.translate = tr;
         if (o.w && el.style.width !== `${o.w}px`) sizeBox(el, o.w, o.h);
       }
+      // keep the saved-edit count in step: a mutation can replace the first frame before it runs
+      setCount(Object.keys(edits.current).length);
     };
-    raf = requestAnimationFrame(() => { apply(); setCount(Object.keys(edits.current).length); });
+    raf = requestAnimationFrame(apply);
     const mo = new MutationObserver(() => { cancelAnimationFrame(raf); raf = requestAnimationFrame(apply); });
     mo.observe(document.body, { childList: true, subtree: true });
     return () => { mo.disconnect(); cancelAnimationFrame(raf); };
