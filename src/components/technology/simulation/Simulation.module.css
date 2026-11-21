@@ -36,6 +36,8 @@
 .heroShot{display:block;width:100%;height:auto;border-radius:6px;box-shadow:var(--shadow-float)}
 /* Hero capture: on wide screens it extends into the right page margin, up to the header's right edge (the text column keeps its place) */
 @media (min-width:900px){.heroShotWrap{margin-right:min(0px,calc((1360px - 100vw) / 2 + var(--gutter-page) / 2))}}
+/* Side-by-side hero (presenter edit): both columns sit slightly left of the page grid */
+@media (min-width:1100px){.heroText{translate:-23px 0}.heroShotWrap{translate:-18px 0}}
 
 /* Steps — text left, figure right */
 .stepSection{scroll-margin-top:16px}
