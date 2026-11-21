@@ -4,16 +4,31 @@
 .hero{max-width:1360px;margin:40px auto 0;display:grid;grid-template-columns:minmax(0,4.7fr) minmax(0,7.3fr);gap:48px;align-items:center}
 .heroText{display:flex;flex-direction:column;padding-top:24px}
 .h1{margin:28px 0 0;font-family:var(--font-editorial);font-size:var(--type-editorial-lg);font-weight:300;line-height:0.98;letter-spacing:-0.02em;color:var(--ex-navy);text-wrap:balance}
-.sub{margin:24px 0 0;font-family:var(--font-editorial);font-size:clamp(18px,1.6vw,22px);font-weight:400;line-height:1.35;letter-spacing:-0.01em;color:var(--ex-blue)}
-.lede{max-width:500px}
-/* Hero: hands-on Petrel work — text and spacing only */
-.handsOn{margin-top:32px}
-.handsOnLabel{margin:0;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
-.handsOnTitle{margin:6px 0 0;font-family:var(--font-kr);font-size:17px;font-weight:600;color:var(--ex-navy)}
-.handsOnItems{margin:4px 0 0;font-family:var(--font-editorial);font-size:14px;color:var(--ex-muted)}
-.handsOnItems i{font-style:normal;margin:0 6px;color:var(--ex-line-strong)}
-.stepsLabel{margin:32px 0 0;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
-.steps{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:10px 22px;font-family:var(--font-editorial);font-size:14px}
+.titleRule{display:block;width:40px;height:3px;margin-top:22px;border-radius:2px;background:var(--ex-blue)}
+/* Hero concept: three equal line drawings joined by thin arrows, a Korean label under each */
+.concept{list-style:none;margin:32px 0 0;padding:0 0 28px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 36px;border-bottom:1px solid var(--ex-line)}
+.conceptItem{position:relative;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.conceptArt{display:block;width:100%;max-width:132px;height:auto;overflow:visible}
+.conceptArt *{stroke-linecap:round;stroke-linejoin:round}
+.conceptKo{font-family:var(--font-kr);font-size:15px;font-weight:600;color:var(--ex-navy);word-break:keep-all}
+.conceptArrow{position:absolute;left:-30px;top:calc(50% - 22px);width:24px;height:1px;background:var(--ex-blue)}
+.conceptArrow::after{content:"";position:absolute;right:0;top:-3px;width:6px;height:6px;border-top:1px solid var(--ex-blue);border-right:1px solid var(--ex-blue);transform:rotate(45deg)}
+.cSand{fill:#E9DFC6;stroke:none}
+.cRes{fill:#D6E4F7;stroke:none}
+.cBase{fill:#B9C7D8;stroke:none}
+.cFlow{fill:none;stroke:var(--ex-blue);stroke-width:1.6}
+.cWell{fill:none;stroke:var(--ex-navy);stroke-width:1.6}
+.cDot{fill:var(--ex-blue)}
+.cAxis{fill:none;stroke:var(--ex-line-strong);stroke-width:1.2}
+.cArea{fill:var(--ex-tint);stroke:none}
+.cCurve{fill:none;stroke:var(--ex-blue);stroke-width:1.8}
+.cNow{fill:none;stroke:var(--ex-line-strong);stroke-width:1;stroke-dasharray:3 3}
+.cHist{fill:none;stroke:var(--ex-navy);stroke-width:1.8}
+.cCase{fill:none;stroke:var(--ex-blue);stroke-width:1.6;stroke-dasharray:4 3}
+.cCaseSoft{fill:none;stroke:#8FB2E8;stroke-width:1.6}
+/* Learning contents: quieter than the concept row */
+.stepsLabel{margin:24px 0 0;font-family:var(--font-editorial);font-size:11px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:var(--ex-blue)}
+.steps{list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,max-content);gap:9px 24px;font-family:var(--font-editorial);font-size:13px}
 .steps a{display:inline-flex;gap:6px;color:var(--ex-navy);text-decoration:none}
 .steps a:hover{color:var(--ex-blue)}
 .steps span{font-variant-numeric:tabular-nums;color:var(--ex-faint)}
@@ -173,6 +188,10 @@
   .hero,.step{grid-template-columns:1fr}
 }
 @media (max-width:640px){
+  .steps{display:flex;flex-wrap:wrap}
+  .concept{gap:0 24px}
+  .conceptArrow{left:-20px;width:16px}
+  .conceptKo{font-size:13px}
   .layers,.trio,.explain{grid-template-columns:1fr}
   .layers,.trio{max-width:320px}
   .controls{flex-wrap:wrap}

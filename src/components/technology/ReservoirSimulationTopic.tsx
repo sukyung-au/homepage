@@ -95,11 +95,58 @@ const STEPS: Step[] = [
 
 const pad = (i: number) => String(i + 1).padStart(2, "0");
 
+/** Hero concept: fluid flow & pressure → production forecast → scenario review (three line drawings, one style) */
+const CONCEPT: [string, ReactNode][] = [
+  ["유체 흐름·압력 변화", (
+    <g key="flow">
+      <path d="M6 22C34 16 70 18 114 24V36C70 30 34 30 6 36Z" className={s.cSand} />
+      <path d="M6 36C34 30 70 30 114 36V56C70 50 34 50 6 56Z" className={s.cRes} />
+      <path d="M6 56C34 50 70 50 114 56V74H6Z" className={s.cBase} />
+      <path d="M18 46C30 41 42 49 54 44M64 45C76 40 86 47 96 43" className={s.cFlow} />
+      <path d="M50 41.5l4 2.5-3.5 3M92 40.5l4 2.5-3.5 3" className={s.cFlow} />
+      <path d="M104 6V47" className={s.cWell} />
+      <circle cx="104" cy="47" r="2.6" className={s.cDot} />
+    </g>
+  )],
+  ["생산량 예측", (
+    <g key="rate">
+      <path d="M14 8V70H114" className={s.cAxis} />
+      <path d="M18 14C26 34 40 50 62 57S100 64 112 65V70H18Z" className={s.cArea} />
+      <path d="M18 14C26 34 40 50 62 57S100 64 112 65" className={s.cCurve} />
+      <path d="M62 10V70" className={s.cNow} />
+    </g>
+  )],
+  ["개발 시나리오 검토", (
+    <g key="cases">
+      <path d="M14 8V70H114" className={s.cAxis} />
+      <path d="M18 52C28 44 38 40 50 40" className={s.cHist} />
+      <path d="M50 40C70 36 92 22 112 16" className={s.cCurve} />
+      <path d="M50 40C72 38 92 34 112 32" className={s.cCase} />
+      <path d="M50 40C72 42 92 50 112 54" className={s.cCaseSoft} />
+      <circle cx="50" cy="40" r="2.6" className={s.cDot} />
+    </g>
+  )],
+];
+
+function ConceptFlow() {
+  return (
+    <ol className={s.concept} aria-label="저류층 시뮬레이션: 유체 흐름·압력 변화, 생산량 예측, 개발 시나리오 검토">
+      {CONCEPT.map(([ko, art], i) => (
+        <li key={ko} className={s.conceptItem}>
+          {i > 0 && <span className={s.conceptArrow} aria-hidden />}
+          <svg viewBox="0 0 120 80" className={s.conceptArt} aria-hidden>{art}</svg>
+          <span className={s.conceptKo}>{ko}</span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTopic; prev?: FlatTopic; next?: FlatTopic }) {
   const cat = topic.category;
   return (
     <>
-      {/* Hero — text left (purpose + hands-on Petrel work), a Petrel simulation capture right */}
+      {/* Hero — title, the concept in three pictures and the contents left; the Petrel simulation capture right */}
       <section className={t.intro} data-category={cat.id} data-topic={topic.id} data-section="opening">
         <Crumb topic={topic} />
         <div className={s.hero}>
@@ -109,14 +156,8 @@ export function ReservoirSimulationTopic({ topic, prev, next }: { topic: FlatTop
               <span className={ss.eyebrowNum}>· {topic.num}</span>
             </div>
             <h1 className={s.h1}>{topic.title}</h1>
-            <p className={`${ss.body} ${s.lede}`}>
-              저류층 시뮬레이션은 지하 유체의 흐름과 압력 변화를 모사하여<br className="br-d" /> 향후 생산량을 예측하고 다양한 개발 시나리오를 검토하는 데 활용
-            </p>
-            <div className={s.handsOn}>
-              <p className={s.handsOnLabel}>Hands-on Experience</p>
-              <p className={s.handsOnTitle}>Petrel을 활용한 민감도 분석 및 생산 예측</p>
-              <p className={s.handsOnItems}>History-Matched Model <i>·</i> Sensitivity Analysis <i>·</i> Production Forecast</p>
-            </div>
+            <span className={s.titleRule} aria-hidden />
+            <ConceptFlow />
             <p className={s.stepsLabel} id="sim-contents">Learning Contents</p>
             <ol className={s.steps} aria-labelledby="sim-contents">
               {STEPS.map((st, i) => (
