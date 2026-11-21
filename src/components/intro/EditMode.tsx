@@ -76,6 +76,9 @@ function sizeBox(el: HTMLElement, w?: number, h?: number) {
 /** Keys that still reach the page in edit mode (step the prologue, scroll) */
 const NAV_KEYS = new Set(["Space", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", "Tab"]);
 
+/** While the intro reel runs (before the self-introduction), its own keys and clicks pass through so it can be started or skipped (Esc) */
+const reelActive = () => /^(waiting|playing|poster|handoff)$/.test(document.documentElement.dataset.reel ?? "");
+
 const isEditable = (t: EventTarget | null) => t instanceof HTMLElement && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
 
 export function EditMode() {
@@ -184,7 +187,7 @@ export function EditMode() {
       }
       if (onRef.current) {
         if (e.code === "Escape") deselect();
-        if (!NAV_KEYS.has(e.code)) e.stopPropagation();
+        if (!NAV_KEYS.has(e.code) && !reelActive()) e.stopPropagation();
         return;
       }
       const plainE = e.code === "KeyE" && !e.metaKey && !e.ctrlKey && !e.altKey && !e.shiftKey && !e.isComposing && location.pathname === "/presentation";
@@ -194,7 +197,7 @@ export function EditMode() {
         toggle(true);
       }
     };
-    const onUp = (e: KeyboardEvent) => { if (isEditable(e.target) || (onRef.current && !NAV_KEYS.has(e.code))) e.stopPropagation(); };
+    const onUp = (e: KeyboardEvent) => { if (isEditable(e.target) || (onRef.current && !NAV_KEYS.has(e.code) && !reelActive())) e.stopPropagation(); };
     window.addEventListener("keydown", onKey, true);
     window.addEventListener("keyup", onUp, true);
     return () => { window.removeEventListener("keydown", onKey, true); window.removeEventListener("keyup", onUp, true); };
@@ -204,7 +207,7 @@ export function EditMode() {
   useEffect(() => {
     if (!on) return;
     const onClick = (e: MouseEvent) => {
-      if ((e.target as Element).closest?.("[data-edit-ui]")) return;
+      if ((e.target as Element).closest?.("[data-edit-ui]") || reelActive()) return;
       e.preventDefault();
       e.stopPropagation();
       const img = imageTarget(e.target);
