@@ -65,10 +65,13 @@ function ProblemGraphic() {
 }
 
 /* ── 02 Solution ── */
+/* Steps 01–03 match the numbered markers on the program capture; 04 is the dashboard tab capture below them.
+   "DB화" means building up dated records in the existing Excel workbook — there is no separate database server. */
 const STEPS: [string, string, string][] = [
-  ["01", "PDF 확인", "ODR 폴더를 지정하면 날짜별 PDF를 읽고 저장할 날짜와 확인이 필요한 날짜를 나눠 보여 줍니다."],
-  ["02", "Data Validation", "항목마다 PDF 원문과 입력값을 나란히 놓고 미추출 · 수동 입력 · 수정한 값을 색으로 구분합니다."],
-  ["03", "Excel Update", "기존 Excel 양식에 새 날짜만 추가합니다."],
+  ["01", "PDF Data Extraction", "ODR에서 생산·주입 데이터를 자동 추출"],
+  ["02", "Data Validation", "원본과 비교하여 오류·누락 여부 검토"],
+  ["03", "Data Structuring · DB화", "기존 Excel 양식에 날짜별 데이터를 축적하고 체계적으로 관리"],
+  ["04", "Visualization · Dashboard", "축적된 데이터를 시각화하여 생산 추세와 목표 대비 실적 비교"],
 ];
 
 /* ── 05 Outcome: repetitive work improved → built together with the people who use it → a team-level contribution ── */
@@ -126,7 +129,7 @@ export function ProductionReport() {
 
       <section id="solution" className={p.sec} data-section="solution">
         <div className={p.inner}>
-          <Head num="02" label="The Solution" title="One Tool. From PDF to Excel.">PDF 추출부터 검증과 Excel 저장까지 하나의 프로그램으로</Head>
+          <Head num="02" label="The Solution" title="One Tool. From PDF to Insight.">생산자료 자동 추출부터 DB화, 시각화 및 실적 분석까지</Head>
           <div className={p.solution}>
             <figure className={p.shot} data-reveal="up">
               <div className={p.shotFrame} style={{ aspectRatio: "1681 / 905" }}>
@@ -135,7 +138,7 @@ export function ProductionReport() {
                 <span className={p.marker} style={{ left: "67.2%", top: "47%" }}>02</span>
                 <span className={p.marker} style={{ left: "77%", top: "94.3%" }}>03</span>
               </div>
-              <figcaption className={p.shotCap}>실제 프로그램 화면 · 사내 경로, 유전명, ODR 수치는 가림 처리</figcaption>
+              <figcaption className={p.shotCap}>실제 프로그램 화면 · 번호는 오른쪽 단계와 같음 · 사내 경로, 유전명, ODR 수치는 가림 처리</figcaption>
             </figure>
             <div className={p.solutionSide}>
               <ol className={p.steps}>
@@ -143,7 +146,7 @@ export function ProductionReport() {
                   <li key={n} data-reveal="up" style={{ "--i": i } as CSSProperties}><span className={p.stepNum}>{n}</span><b>{t}</b><span>{d}</span></li>
                 ))}
               </ol>
-              <OpenDashboard style={{ "--i": 3 } as CSSProperties} />
+              <OpenDashboard style={{ "--i": 4 } as CSSProperties} />
             </div>
           </div>
           <p className={p.facts} data-reveal="up">Python 설치 없이 실행되는 Windows EXE</p>

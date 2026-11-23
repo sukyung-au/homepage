@@ -2,6 +2,8 @@
 .bridge{margin:24px 0 0;display:flex;flex-direction:column;gap:14px}
 .frame{position:relative;border-radius:6px;overflow:hidden;box-shadow:var(--shadow-float)}
 .frame img{display:block;width:100%;height:auto}
+/* Same numbered marker as the steps / the program capture above (step 04) */
+.marker{position:absolute;z-index:2;right:10px;top:10px;display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--ex-blue);color:#fff;font-family:var(--font-editorial);font-size:11px;font-weight:600;box-shadow:0 0 0 4px rgba(10,92,219,0.18);pointer-events:none}
 .hit{all:unset;position:absolute;cursor:pointer;border-radius:6px;box-shadow:0 0 0 2px rgba(10,92,219,0.55);transition:box-shadow .2s,background-color .15s}
 .hit:hover{box-shadow:0 0 0 3px var(--ex-blue);background:rgba(10,92,219,0.05)}
 .hit:focus-visible{box-shadow:0 0 0 3px var(--focus-ring)}

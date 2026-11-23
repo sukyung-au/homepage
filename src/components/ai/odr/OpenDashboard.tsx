@@ -40,10 +40,11 @@ export function OpenDashboard({ style }: { style?: CSSProperties }) {
     <figure className={s.bridge} data-reveal="up" style={style}>
       <div className={s.frame}>
         <Image src="/images/ai/production-report/odr-gui-dashboard-open.webp" alt="ODR 자동 집계 프로그램의 대시보드 탭과 ‘대시보드 열기 (브라우저)’ 버튼" width={560} height={266} sizes="(max-width: 899px) 100vw, 440px" />
+        <span className={s.marker} aria-hidden>04</span>
         <button type="button" className={pressed ? `${s.hit} ${s.pressed}` : s.hit} style={BTN} onClick={open} aria-label="대시보드 열기 — 03 The Dashboard로 이동" />
       </div>
       <figcaption className={s.text}>
-        <span className={s.kicker}>프로그램의 대시보드 탭</span>
+        <span className={s.kicker}>04 · 프로그램의 대시보드 탭</span>
         <span className={s.lead}>버튼 하나로 집계한 데이터를 대시보드에서 바로 확인하여 분석 가능</span>
         <span className={s.hint}>‘대시보드 열기’를 눌러 보세요 ↓</span>
       </figcaption>
