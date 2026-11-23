@@ -11,9 +11,9 @@
 .kicker span{color:var(--ex-line-strong);margin:0 4px}
 .kickerBlue{color:var(--ex-blue)}
 .title{grid-area:title;margin:0;font-size:clamp(34px,min(4.3vw,7vh),80px);font-weight:300;line-height:1;letter-spacing:-0.025em;color:var(--ex-navy);white-space:nowrap}
-.presenter{grid-area:presenter;margin:0;padding-left:20px;border-left:2px solid var(--ex-blue);display:flex;flex-direction:column;gap:6px;font-family:var(--font-kr);white-space:nowrap}
-.presenter b{font-size:clamp(24px,3.6vh,34px);font-weight:600;color:var(--ex-navy)}
-.presenter span{font-size:clamp(13px,1.8vh,16px);color:var(--ex-muted)}
+.presenter{grid-area:presenter;margin:0;padding-left:26px;border-left:3px solid var(--ex-blue);display:flex;flex-direction:column;gap:10px;font-family:var(--font-kr);white-space:nowrap}
+.presenter b{font-size:clamp(28px,4.2vh,40px);font-weight:600;color:var(--ex-navy)}
+.presenter span{font-size:clamp(16px,2.3vh,21px);color:var(--ex-muted)}
 
 /* Three stages, left → right, joined by thin arrows */
 .stages{list-style:none;margin:auto 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(28px,3.6vw,64px);align-items:stretch;min-height:0}
