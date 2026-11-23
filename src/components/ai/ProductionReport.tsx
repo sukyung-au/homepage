@@ -116,7 +116,7 @@ export function ProductionReport() {
       <section id="problem" className={cx(p.sec, p.white)} data-section="problem">
         <div className={p.inner}>
           <Head num="01" label="The Problem" title="Every Field. Every Day." />
-          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 해외 유전 현장에서 매일 생산·주입·운영 현황을 기록하는 보고서</p>
+          <p className={p.odrNote} data-reveal="up"><b>ODR</b>(Oil Daily Report, 일일 생산보고서)은 생산 현장에서 생산·주입·운영 현황을 매일 기록하는 보고서로, 생산 실적 관리와 운영 현황 분석의 기초가 되는 중요한 자료입니다.</p>
           <ProblemGraphic />
           <p className={p.maskNote}>실제 문서 양식 · 수치와 날짜는 실제 데이터와 무관한 예시 데이터(Illustrative Data)</p>
           <ol className={p.pains}>
