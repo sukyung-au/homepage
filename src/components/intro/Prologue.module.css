@@ -12,7 +12,7 @@
 .kickerBlue{color:var(--ex-blue)}
 .title{grid-area:title;margin:0;font-size:clamp(34px,min(4.3vw,7vh),80px);font-weight:300;line-height:1;letter-spacing:-0.025em;color:var(--ex-navy);white-space:nowrap}
 .presenter{grid-area:presenter;margin:0;padding-left:20px;border-left:2px solid var(--ex-blue);display:flex;flex-direction:column;gap:6px;font-family:var(--font-kr);white-space:nowrap}
-.presenter b{font-size:clamp(18px,2.6vh,24px);font-weight:600;color:var(--ex-navy)}
+.presenter b{font-size:clamp(24px,3.6vh,34px);font-weight:600;color:var(--ex-navy)}
 .presenter span{font-size:clamp(13px,1.8vh,16px);color:var(--ex-muted)}
 
 /* Three stages, left → right, joined by thin arrows */
