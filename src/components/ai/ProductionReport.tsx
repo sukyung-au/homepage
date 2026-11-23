@@ -153,10 +153,10 @@ export function ProductionReport() {
       <section id="dashboard" className={cx(p.sec, p.white, p.secDash)} data-section="dashboard">
         <div className={p.inner}>
           <Head num="03" label="The Dashboard" title="From Data Entry to Data Insight." aside={<span className={p.demo}>Demo · Synthetic Data</span>}>
-            집계된 데이터를 확인하는 것을 넘어 비교하고 분석할 수 있도록
+            축적된 생산 데이터를 시각화하고, 생산 목표 대비 실적을 비교하여 운영 현황을 분석할 수 있도록
           </Head>
           <OdrDashboard />
-          <p className={p.demoNote}>실제 프로그램의 지표 정의와 계산 규칙을 그대로 쓰고, 값은 모두 가상 데이터입니다.</p>
+          <p className={p.demoNote}>실제 프로그램의 지표 정의와 계산 규칙을 그대로 쓰고, 값은 모두 가상 데이터입니다. Bitumen 그래프의 생산 목표선(10,000 bbl/d)도 시연을 위한 예시 값입니다.</p>
         </div>
       </section>
 

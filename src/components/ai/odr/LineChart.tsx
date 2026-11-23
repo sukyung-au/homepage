@@ -40,6 +40,8 @@ interface Props {
   onRange?: (r: [number, number] | null) => void;
   /** Popup shown above a selected range (replaces the hover tooltip while a range is set) */
   rangeTip?: ReactNode;
+  /** Horizontal reference line on the left axis (e.g. a production target); kept inside the y range */
+  refLine?: { value: number; label: string; note?: string };
 }
 
 const DAY = 86400000;
@@ -71,7 +73,7 @@ const tickLabel = (t: number, step: number) => {
   return t.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 };
 
-export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick, range, onRange, rangeTip }: Props) {
+export function LineChart({ days, idx, lines, axes, digits, height, compact, bare, label, onPick, range, onRange, rangeTip, refLine }: Props) {
   const host = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [hi, setHi] = useState<number | null>(null);
@@ -96,6 +98,7 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
     const scales = axes.map((_, a) => {
       const vals: number[] = [];
       for (const l of lines) if ((l.axis ?? 0) === a) for (const i of idx) { const v = l.values[i]; if (v !== null && v !== undefined) vals.push(v); }
+      if (a === 0 && refLine && vals.length) vals.push(refLine.value);
       return yScale(vals, compact ? 3 : 5);
     });
     const Y = (a: number, v: number) => { const sc = scales[a]; return m.t + ph - ((v - sc.lo) / (sc.hi - sc.lo || 1)) * ph; };
@@ -121,7 +124,7 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
     const xticks: number[] = [];
     for (let t = t0; t <= t1; t += step * DAY) xticks.push(t);
     return { t0, span, X, Y, scales, paths, xticks };
-  }, [days, idx, lines, axes, compact, pw, ph, m.l, m.t]);
+  }, [days, idx, lines, axes, compact, pw, ph, m.l, m.t, refLine]);
 
   const nearest = (clientX: number) => {
     if (!geo || !host.current) return null;
@@ -205,6 +208,15 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
                 <rect x={xa} y={m.t} width={Math.max(1, xb - xa)} height={ph} />
                 <line x1={xa} x2={xa} y1={m.t} y2={m.t + ph} />
                 <line x1={xb} x2={xb} y1={m.t} y2={m.t + ph} />
+              </g>
+            );
+          })()}
+          {refLine && (() => {
+            const y = geo.Y(0, refLine.value);
+            return (
+              <g className={s.ref}>
+                <line x1={m.l} x2={m.l + pw} y1={y} y2={y} />
+                <text x={m.l + pw - 4} y={y - 7} textAnchor="end">{refLine.label}{refLine.note && <tspan className={s.refNote} dx={8}>{refLine.note}</tspan>}</text>
               </g>
             );
           })()}

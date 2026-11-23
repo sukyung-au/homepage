@@ -57,6 +57,10 @@
 .chart:focus-visible{box-shadow:0 0 0 2px var(--focus-ring);border-radius:4px}
 .chart svg{display:block;overflow:visible}
 .grid{stroke:var(--ex-line);stroke-width:1}
+/* Reference line (production target, demo value): thin amber dashes, label at the right end */
+.ref line{stroke:#E0861A;stroke-width:1.2;stroke-dasharray:5 4}
+.ref text{font-size:10.5px;font-weight:600;letter-spacing:0.06em;fill:#C46F0C;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
+.ref .refNote{font-weight:400;letter-spacing:0;fill:var(--ex-faint)}
 .ytick,.xtick{font-size:11px;fill:var(--ex-faint);font-variant-numeric:tabular-nums}
 .line{fill:none;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .series{animation:fadeIn .28s var(--ease-standard)}
