@@ -59,8 +59,18 @@
 .grid{stroke:var(--ex-line);stroke-width:1}
 /* Reference line (production target, demo value): thin amber dashes, label at the right end */
 .ref line{stroke:#E0861A;stroke-width:1.2;stroke-dasharray:5 4}
-.ref text{font-size:10.5px;font-weight:600;letter-spacing:0.06em;fill:#C46F0C;paint-order:stroke;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
-.ref .refNote{font-weight:400;letter-spacing:0;fill:var(--ex-faint)}
+/* Label above the line's right end, on a light backing so the data line never runs through the text */
+.refTag{position:absolute;z-index:3;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,0.9);font-family:var(--font-editorial);font-size:10.5px;font-weight:600;letter-spacing:0.06em;color:#C46F0C;white-space:nowrap;pointer-events:none}
+.refTag span{margin-left:8px;font-weight:400;letter-spacing:0;color:var(--ex-faint)}
+/* Target zones: very light vertical bands behind the grid and the (blue) line */
+.zoneMet{fill:rgba(46,160,90,0.09)}
+.zoneMiss{fill:rgba(220,70,70,0.08)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 20px;margin:-2px 0 0;padding:0;list-style:none;font-family:var(--font-kr);font-size:12px;color:var(--ex-muted)}
+.legend li{display:inline-flex;align-items:center;gap:7px}
+.swMet,.swMiss{width:14px;height:10px;border-radius:2px}
+.swMet{background:rgba(46,160,90,0.22)}
+.swMiss{background:rgba(220,70,70,0.2)}
+.swTarget{width:18px;border-top:1.5px dashed #E0861A}
 .ytick,.xtick{font-size:11px;fill:var(--ex-faint);font-variant-numeric:tabular-nums}
 .line{fill:none;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}
 .series{animation:fadeIn .28s var(--ease-standard)}

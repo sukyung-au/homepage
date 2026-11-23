@@ -41,7 +41,8 @@ interface Props {
   /** Popup shown above a selected range (replaces the hover tooltip while a range is set) */
   rangeTip?: ReactNode;
   /** Horizontal reference line on the left axis (e.g. a production target); kept inside the y range */
-  refLine?: { value: number; label: string; note?: string };
+  /** `zones`: tint the chart background per date span, by whether the first line is at/above (met) or below the value */
+  refLine?: { value: number; label: string; note?: string; zones?: boolean };
 }
 
 const DAY = 86400000;
@@ -123,7 +124,29 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
     const step = [1, 2, 3, 7, 14, 21, 28, 42, 56, 84].find((s) => spanDays / s <= want) ?? 84;
     const xticks: number[] = [];
     for (let t = t0; t <= t1; t += step * DAY) xticks.push(t);
-    return { t0, span, X, Y, scales, paths, xticks };
+    // Target zones: vertical bands between consecutive connected points of the first line, split where the line
+    // crosses the reference value (crossing x by linear interpolation); gaps in the data stay untinted
+    const zones: { x0: number; x1: number; met: boolean }[] = [];
+    if (refLine?.zones && lines[0]) {
+      const vs = lines[0].values, T = refLine.value;
+      const push = (x0: number, x1: number, met: boolean) => {
+        const last = zones[zones.length - 1];
+        if (last && last.met === met && Math.abs(last.x1 - x0) < 0.5) last.x1 = x1; else if (x1 > x0) zones.push({ x0, x1, met });
+      };
+      let prev: number | null = null;
+      for (const i of idx) {
+        const v = vs[i];
+        if (v === null || v === undefined) { prev = null; continue; }
+        if (prev !== null && ms(days[i]) - ms(days[prev]) <= DAY) {
+          const a = vs[prev] as number, xa = X(prev), xb = X(i);
+          const ma = a >= T, mb = v >= T;
+          if (ma === mb) push(xa, xb, ma);
+          else { const xc = xa + ((T - a) / (v - a)) * (xb - xa); push(xa, xc, ma); push(xc, xb, mb); }
+        }
+        prev = i;
+      }
+    }
+    return { t0, span, X, Y, scales, paths, xticks, zones };
   }, [days, idx, lines, axes, compact, pw, ph, m.l, m.t, refLine]);
 
   const nearest = (clientX: number) => {
@@ -188,6 +211,7 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
     >
       {width > 0 && geo && (
         <svg width={width} height={height} aria-hidden>
+          {geo.zones.map((z, k) => <rect key={`z${k}`} x={z.x0} y={m.t} width={z.x1 - z.x0} height={ph} className={z.met ? s.zoneMet : s.zoneMiss} />)}
           {!bare && geo.scales[0].ticks.map((t) => (
             <g key={t}>
               <line x1={m.l} x2={m.l + pw} y1={geo.Y(0, t)} y2={geo.Y(0, t)} className={s.grid} />
@@ -216,7 +240,6 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
             return (
               <g className={s.ref}>
                 <line x1={m.l} x2={m.l + pw} y1={y} y2={y} />
-                <text x={m.l + pw - 4} y={y - 7} textAnchor="end">{refLine.label}{refLine.note && <tspan className={s.refNote} dx={8}>{refLine.note}</tspan>}</text>
               </g>
             );
           })()}
@@ -239,6 +262,11 @@ export function LineChart({ days, idx, lines, axes, digits, height, compact, bar
             </g>
           )}
         </svg>
+      )}
+      {refLine && geo && (
+        <div className={s.refTag} style={{ right: m.r + 2, top: geo.Y(0, refLine.value) - 24 }} aria-hidden>
+          {refLine.label}{refLine.note && <span>{refLine.note}</span>}
+        </div>
       )}
       {range && rangeTip && geo && (() => {
         const [a, b] = range[0] <= range[1] ? range : [range[1], range[0]];

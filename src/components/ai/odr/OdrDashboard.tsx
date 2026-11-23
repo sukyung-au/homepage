@@ -62,7 +62,7 @@ function PeriodBar({ n, set }: { n: number; set: (n: number) => void }) {
 /* ───────── 1 · Production & Quality ───────── */
 
 /** Production target line on the Bitumen chart — an example value for the demo, not a field's official target */
-const BITUMEN_TARGET = { value: 10000, label: "PRODUCTION TARGET · 10,000 bbl/d", note: "예시 목표값" };
+const BITUMEN_TARGET = { value: 9500, label: "PRODUCTION TARGET · 9,500 bbl/d", note: "예시 목표값", zones: true };
 
 function ProductionPanel({ onPick }: { onPick: (i: number) => void }) {
   const [key, setKey] = useState<PlantKey>("bitumen");
@@ -103,8 +103,15 @@ function ProductionPanel({ onPick }: { onPick: (i: number) => void }) {
         )}
       </div>
       <LineChart days={DAYS} idx={w.idx} lines={lines} axes={[m.unit]} digits={m.digits} height={300}
-        label={`${m.label} 일별 추세 (가상 데이터)${key === "bitumen" ? " · 예시 생산 목표 10,000 bbl/d" : ""}`} onPick={onPick}
+        label={`${m.label} 일별 추세 (가상 데이터)${key === "bitumen" ? " · 예시 생산 목표 9,500 bbl/d, 달성 구간은 초록 · 미달 구간은 빨강 배경" : ""}`} onPick={onPick}
         refLine={key === "bitumen" ? BITUMEN_TARGET : undefined} />
+      {key === "bitumen" && (
+        <ul className={s.legend} aria-label="범례">
+          <li><span className={s.swMet} aria-hidden />목표 달성 구간</li>
+          <li><span className={s.swMiss} aria-hidden />목표 미달 구간</li>
+          <li><span className={s.swTarget} aria-hidden />Production Target</li>
+        </ul>
+      )}
       <p className={s.def}><span>정의</span>{m.def}</p>
     </div>
   );
